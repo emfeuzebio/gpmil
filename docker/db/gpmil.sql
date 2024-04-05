@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 04/04/2024 às 02:04
+-- Tempo de geração: 05/04/2024 às 14:41
 -- Versão do servidor: 8.1.0
 -- Versão do PHP: 8.2.11
 
@@ -46,10 +46,26 @@ INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 (3, 'Oficial Intermediário', 'Of Intr', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (4, 'Oficial Subalterno', 'Of Subt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (6, 'Subtenente e Sargento', 'ST/Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(7, 'Cabo e Soldado', 'Cb/Sd', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(7, 'Cabo e Soldado', 'Cb/Sd', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(8, 'Servidor Civil', 'SC', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
+--
+-- Estrutura para tabela `failed_jobs`
+--
+
+CREATE TABLE `failed_jobs` (
+  `id` bigint UNSIGNED NOT NULL,
+  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `funcoes`
@@ -152,7 +168,7 @@ INSERT INTO `nivelacessos` (`id`, `descricao`, `sigla`, `ativo`) VALUES
 
 CREATE TABLE `organizacao` (
   `id` int UNSIGNED NOT NULL,
-  `codom` varchar(6) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `codom` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sigla` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SIM'
@@ -277,7 +293,7 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 (21, 6, 'Subtenente', 'S Ten', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (22, 6, 'Primeiro-Sargento', '1º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (23, 6, 'Segundo-Sargento', '2º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(24, 6, 'Terceiro-Sargento', '3º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(24, 6, 'Terceiro-Sargento', '3º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-04-04 13:22:24'),
 (42, 7, 'Cabo', 'Cb', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (44, 7, 'Soldado', 'Sd', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (49, 7, 'Soldado-Recruta', 'Sd Rcr', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
@@ -306,12 +322,114 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 CREATE TABLE `qualificacoes` (
   `id` int UNSIGNED NOT NULL,
   `codigo` char(4) DEFAULT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `sigla` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `qualificacoes`
+--
+
+INSERT INTO `qualificacoes` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, NULL, 'Manutenção de Comunicações', 'Mnt Com', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, NULL, 'Cavalaria', 'Cav', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, NULL, 'Quadro de Engenheiros Militares', 'QEM', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, NULL, 'Quadro Complementar de Oficiais', 'QCO', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, NULL, 'Engenharia', 'Eng', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, NULL, 'Artilharia', 'Art', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(7, NULL, 'Infantaria', 'Inf', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(8, NULL, 'Saúde', 'Sau', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(9, NULL, 'Material Bélico', 'Mat Bel', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(10, NULL, 'Intendência', 'Int', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(11, NULL, 'Comunicações', 'Com', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(12, NULL, 'Músico', 'Mus', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(13, NULL, 'Corneteiro / Clarim', 'Corn/Clar', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(14, NULL, 'Quadro Auxiliar de Oficiais', 'QAO', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(15, NULL, 'Topógrafo', 'Topo', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(16, NULL, 'Quadro Especial', 'QE', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(17, NULL, 'Singular', 'Sing', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(18, NULL, 'Quadro de Capelães Militares', 'QCM', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(19, NULL, 'Veterinária', 'Vet', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(21, NULL, 'Suprimento de Engenharia', 'Sup Eng', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(22, NULL, 'Suprimento de Material Bélico', 'Sup Mat Bel', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(23, NULL, 'Suprimento de Intendência', 'Sup Int', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(24, NULL, 'Suprimento de Comunicações', 'Sup Com', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(25, NULL, 'Auxiliar de Administração', 'Aux Adm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(26, NULL, 'Magistério', 'Mag', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(28, NULL, 'Atirador de Tiro de Guerra', 'At TG', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(31, NULL, 'Não Qualificado', 'NQ R2C', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(32, NULL, 'Combatente', 'Cmb ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(33, NULL, 'Engenheiro Militar', 'Eng Mil', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(36, NULL, 'Aviação / Manutenção', 'Av/Mnt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(39, NULL, 'Aviação / Apoio', 'Av/Ap', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(40, NULL, 'Médico', 'Med', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(41, NULL, 'Dentista', 'Dent', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(42, NULL, 'Farmaceutico', 'Farm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(43, NULL, 'Auxiliar de Enfermagem', 'Aux Enf', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(44, NULL, 'Apoio', 'Ap', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(45, NULL, 'Material Bélico - Manutenção de Armamento', 'MB/Mnt Armt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(46, NULL, 'Material Bélico - Manutenção de Viatura Auto', 'MB/Mnt VtrA', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(47, NULL, 'Material Bélico - Mecânico Operador', 'MB/Mec Op', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(48, NULL, 'Técnico', 'Tec', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(49, NULL, 'Quadro Complementar de Oficiais de Enfermagem', 'QCO Enf', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(50, NULL, 'Quadro Complementar de Oficiais de Veterinária', 'QCO Vet', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(51, NULL, 'Quadro de estado-maior da ativa', 'QEMA', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(52, NULL, 'Armas/QMB/Sv Int', 'A/QMB/S Int', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(53, NULL, 'Qualquer QMS', 'Qualquer QMS', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(54, NULL, 'QAO de Qualquer Categoria', 'QAO ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(60, NULL, 'Aprov no CA', 'Aprov no CA', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(61, NULL, 'Quadro Auxiliar de Oficiais - Administração Geral', 'QAO-Adm G', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(62, NULL, 'Quadro Auxiliar de Oficiais - Saúde', 'QAO-Sau', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(63, NULL, 'Quadro Auxiliar de Oficiais - Material Bélico', 'QAO-Mat Bel', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(64, NULL, 'Quadro Auxiliar de Oficiais - Topógrafo', 'QAO-Topo', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(65, NULL, 'Quadro Auxiliar de Oficiais - Músico', 'QAO-Mus', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(70, NULL, 'Qualquer QMS Exceto Singular', 'QMS Ex Sing', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(71, NULL, 'Qualquer Arma, Quadro ou Serviço', 'Qq A/Qd/Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(72, NULL, 'Aviação', 'Av', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(73, NULL, 'Quadro Auxiliar de Oficiais - Manutenção de Com', 'QAO-Mnt Com', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(77, NULL, 'Estágio Básico de Cabo Temporário', 'EBCT', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(78, NULL, 'Quadro de Oficiais Temporários', 'Of Tmpr', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(79, NULL, 'Serviço Técnico Temporário', 'SvTT', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(80, NULL, 'Piloto', 'Piloto', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(86, NULL, 'Serviço de Assistência Religiosa do Exército', 'SAREx', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(90, NULL, 'Quadro Complementar de Oficiais de Psicologia', 'QCO Psico', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(91, NULL, 'Quadro Complementar de Oficiais de Pedagogia', 'QCO Ped', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(92, NULL, 'Quadro Complementar de Oficiais de Magistério', 'QCO Mag', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(93, NULL, 'Quadro Complementar de Oficiais de Comunicação Social', 'QCO Com S', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(94, NULL, 'General Intendente', 'Int ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(95, NULL, 'General Veterinário', 'Vet ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(96, NULL, 'General Combatente', 'Cmb', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(97, NULL, 'General Engenheiro Militar', 'Eng Mil ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(98, NULL, 'General Médico', 'Med ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(99, NULL, 'General do Quadro Especial (STM)', 'QE ', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(100, NULL, 'Oficial Técnico Temporário', 'OTT', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(101, NULL, 'Oficial Técnico Temporário - Administração', 'OTT Adm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(102, NULL, 'Oficial Técnico Temporário - Direito', 'OTT Dir', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(103, NULL, 'Oficial Técnico Temporário - Informática', 'OTT Infor', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(104, NULL, 'Oficial Técnico Temporário - Contabilidade', 'OTT Cont', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(108, NULL, 'Estágio de Adaptação ao Serviço', 'EAS', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(109, NULL, 'Estágio de Instrução e Serviço', 'EIS', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(110, NULL, 'Estágio de Adaptação ao Serviço - Médico', 'EAS Med', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(111, NULL, 'Estágio de Instrução e Serviço - Médico', 'EIS Med', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(112, NULL, 'Estágio de Adaptação ao Serviço - Dentista', 'EAS Dent', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(113, NULL, 'Estágio de Instrução e Serviço - Dentista', 'EIS Dent', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(114, NULL, 'Estágio de Adaptação ao Serviço - Farmaceútico', 'EAS Farm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(115, NULL, 'Estágio de Instrução e Serviço - Farmaceútico', 'EIS Farm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(116, NULL, 'Estágio de Adaptação ao Serviço - Veterinário', 'EAS Vet', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(117, NULL, 'Estágio de Instrução e Serviço - Veterinário', 'EIS Vet', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(118, NULL, 'Estágio de Serviço Técnico', 'EST', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(119, NULL, 'Estágio de Serviço Técnico - Magistério', 'EST Mag', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(120, NULL, 'Sargento Técnico Temporário', 'STT', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(121, NULL, 'Sargento Técnico Temporário - Administração', 'STT Adm', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(122, NULL, 'Sargento Técnico Temporário - Saúde', 'STT Sau', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(123, NULL, 'Sargento Técnico Temporário - Informática', 'STT Infor', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(124, NULL, 'Sargento Técnico Temporário - Contabilidade', 'STT Cont', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(125, NULL, 'Cabo Especialista Temporário', 'CET', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(126, NULL, 'Cabo Especialista Temporário - Motorista', 'CET Mot', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(127, NULL, 'Cabo Especialista Temporário - Mecânico', 'CET Mec', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -600,7 +718,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `circulos`
 --
 ALTER TABLE `circulos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
@@ -649,24 +767,6 @@ ALTER TABLE `personal_access_tokens`
 --
 ALTER TABLE `pessoas`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `pgrads`
---
-ALTER TABLE `pgrads`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=75;
-
---
--- AUTO_INCREMENT de tabela `qualificacoes`
---
-ALTER TABLE `qualificacoes`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
---
--- AUTO_INCREMENT de tabela `secoes`
---
-ALTER TABLE `secoes`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `users`
