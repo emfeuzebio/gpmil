@@ -1,0 +1,78 @@
+version: "3.8"
+
+services:
+  app:
+    build:
+      context: ./
+      dockerfile: docker/php/DockerFile
+    container_name: euz-app
+    restart: always
+    working_dir: /var/www/
+    volumes:
+      - ./:/var/www
+      - ./application:/var/www/application
+    environment:
+      - COMPOSER_HOME=/composer
+      - COMPOSER_ALLOW_SUPERUSER=1
+      - APP_ENV=local
+      - APP_KEY=base64:VVjwu5Zj/sYnKzmx8NQWNtqnfW7cvmuzNZzkNrJTzx4=
+    depends_on:
+      - db
+      - redis
+
+  nginx:
+    image: nginx:1.25.1-alpine-slim
+    container_name: euz-nginx
+    restart: always
+    ports:
+      - "8000:80"
+    volumes:
+      - ./:/var/www
+      - ./application:/var/www/application
+      - ./docker/nginx:/etc/nginx/conf.d      
+
+  redis:
+    build:
+      context: ./
+      dockerfile: docker/redis/DockerFile
+    container_name: euz-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis:/data      
+
+  db:
+    build:
+      context: ./
+      dockerfile: docker/db/DockerFile
+      # image: mysql:latest
+    container_name: euz-db
+    restart: always
+      # command: "mysqld --init-file docker/db/init.sql"
+    environment:
+      MYSQL_ROOT_HOST: "%"
+      MYSQL_ROOT_PASSWORD: "root"
+      # MYSQL_DATABASE: "gpmil"
+      # MYSQL_USER: "gpmil"
+      # MYSQL_PASSWORD: "gpmil"
+    ports:
+      - "3306:3306"
+
+  pma:
+      image: phpmyadmin:latest
+      container_name: euz-pma
+      environment:
+        PMA_HOST: db
+        PMA_PORT: 3306
+        MYSQL_ROOT_PASSWORD: "root"
+        UPLOAD_LIMIT: 128M
+        PMA_ARBITRARY: 1
+      ports:
+        - 8001:80
+      links:
+        - db:db      
+
+volumes:
+  redis:
+  db:
