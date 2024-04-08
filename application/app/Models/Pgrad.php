@@ -14,7 +14,7 @@ class Pgrad extends Model
     protected $fillable = ['circulo_id','sigla','descricao','ativo'];       //colunas
 
     //Quarquer Pgrad pertence a um Circulo
-    public function circuloFk() {
+    public function circulo() {
         return $this->belongsTo(Circulo::class);
     }    
 

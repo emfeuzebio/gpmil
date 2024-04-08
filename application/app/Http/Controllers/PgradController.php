@@ -18,16 +18,17 @@ class PgradController extends Controller
     protected $Circulo = null;
 
     public function __construct() {
-        //carrega lista de Circulos
+        //carrega a Circulo
         $this->Circulo = new Circulo();
     }
 
-    // public function indexRender(PgradDataTable $dataTable)
-    // {
-    //     return $dataTable->render('users.pgrads');
-    // }    
+    public function indexRender(PgradsDataTable $dataTable)
+    {
+        return $dataTable->render('users.pgrads');
+    }    
     
     public function index() {
+
 
         // if(request()->ajax()) {
             
@@ -58,17 +59,18 @@ class PgradController extends Controller
         if(request()->ajax()) {
             // return 
             //     datatables()->of(Pgrad::select('*'))
-            return DataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circuloFk'))
-                // ->addColumn('aaaa', function($param) { return $param->circuloFk->sigla; })
+            return DataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circulo'))
+                ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
                 ->make(true);        
         }
 
         //busca lista de Circulos para usar nos combos da view
-        $circulos = $this->Circulo->all()->sortBy('descricao');
+        // $circulos = $this->Circulo->all()->sortBy('descricao');
+        $circulos = $this->Circulo->all()->sortBy('id');
 
-        return view('admin/PgradsDatatable',['circulos'=> $circulos]);
+        return view('PgradsDatatable',['circulos'=> $circulos]);
     }
 
 
@@ -111,6 +113,18 @@ class PgradController extends Controller
 
     public function store(PgradRequest $request)
     {
+
+        $pgrad = Pgrad::where(['id'=>$request->id]);
+        //  dd($pgrad);
+        //  die();
+
+        // if(! $this->authorize('store', $pgrad)) {
+        //     return response([], 403);
+        //     // {"message":"Não autorizado.","errors":{"store":["Não autorizado."]}
+        //     $message = ["message" => "Não autorizado!"];
+        //     return Response()->json($message);
+        // }        
+
         $Pgrad = Pgrad::updateOrCreate(
             [
                 'id' => $request->id,

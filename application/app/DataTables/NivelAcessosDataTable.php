@@ -3,8 +3,8 @@
 namespace App\DataTables;
 
 // use App\Models\User;
-use App\Models\Circulo;
-use Illuminate\Database\Eloquent\Builder as QueryBuilder; 
+use App\Models\NivelAcesso;
+use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
 use Yajra\DataTables\Html\Button;
@@ -13,44 +13,27 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class CirculosDataTable extends DataTable
+class NivelAcessosDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'circulos.action')
-            // ->addColumn('action', 'buttons')  
-            ->addColumn('created_at', function ($circulo) {
-                return $circulo->created_at->format('d/m/Y');
-            })            
             ->addColumn('ativo', function ($circulo) {
                 return '<span style="color:' . ( $circulo->ativo == 'SIM' ? 'blue' : 'red' ) . '">' . $circulo->ativo . '</span>';
             })            
             ->rawColumns(['ativo'])
-            ->setRowId('id');
-    }
+            ->setRowId('id');    }
 
-    /**
-     * Get the query source of dataTable.
-     */
-    public function query(Circulo $model): QueryBuilder
+    public function query(NivelAcesso $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
     public function html(): HtmlBuilder
     {
         // https://stackoverflow.com/questions/76383452/ordering-a-yajra-datatable-by-created-at-column-in-laravel
         return $this->builder()
-                    ->setTableId('circulos-table')
+                    ->setTableId('nivel-acesso-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')     
@@ -88,21 +71,10 @@ class CirculosDataTable extends DataTable
             //       ->width(100)
             //       ->addClass('text-center'),
             Column::make('id')->addClass('text-center'),
+            Column::make('nome')->addClass('text-bold'),
             Column::make('sigla'),
-            Column::make('descricao')->addClass('text-bold'),
+            Column::make('descricao'),
             Column::make('ativo')->addClass('text-center'),
-            // Column::make('created_at')->addClass('text-center')->title('Criando em'),
-            // Column::make('ativo')->addClass('text-center')->render(function () {}),  //não sei como usa
-            // Column::make('created_at'),
-            // Column::make('updated_at'),
         ];
-    }
-
-    /**
-     * Get the filename for export.
-     */
-    protected function filename(): string
-    {
-        return 'Circulos_' . date('YmdHis');
     }
 }

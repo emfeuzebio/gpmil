@@ -22,7 +22,7 @@ class PgradRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'sigla' => 'required||min:3',
+            'sigla' => 'required||min:2',
             'descricao' => 'required|min:3',            //|unique
             'ativo' => ['required','in:"SIM","NÃO"'],
         ];
