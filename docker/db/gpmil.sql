@@ -3,12 +3,12 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 05/04/2024 às 14:41
+-- Tempo de geração: 07/04/2024 às 19:01
 -- Versão do servidor: 8.1.0
 -- Versão do PHP: 8.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
-START TRANSACTION;  
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -57,11 +57,11 @@ INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext COLLATE utf8mb4_unicode_ci NOT NULL,
+  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -123,7 +123,7 @@ INSERT INTO `menus` (`id`, `menu_id`, `descricao`, `ordem`, `ativo`) VALUES
 
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `batch` int NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -140,25 +140,29 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `nivelacessos`
+-- Estrutura para tabela `nivel_acessos`
 --
 
-CREATE TABLE `nivelacessos` (
+CREATE TABLE `nivel_acessos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` char(10) DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM'
+  `nome` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `sigla` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Despejando dados para a tabela `nivelacessos`
+-- Despejando dados para a tabela `nivel_acessos`
 --
 
-INSERT INTO `nivelacessos` (`id`, `descricao`, `sigla`, `ativo`) VALUES
-(1, 'Administrador', 'Admin', 'SIM'),
-(2, 'Chefe de Seção', 'Ch Seç', 'SIM'),
-(3, 'Sargenteante', 'Sgtte', 'SIM'),
-(4, 'Usuário', 'User', 'SIM');
+INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Administrador', 'Admin', 'Tem acesso irrestrito a todos sistema.', 'SIM', NULL, NULL),
+(2, 'Supervisor', 'Supv', 'Tem acesso de Supervisão Geral. Adequado ao Comandante/Chefe/Diretor/Encarregado de Pessoal.\r\nPode apenas visualizar os dados de todo efetivo da Organização.', 'SIM', NULL, NULL),
+(3, 'Coordenador', 'Coord', 'Tem acesso de Supervisão. Adequado ao Comandante/Chefe de Divisão/Companhia/Seção.\r\nPode apenas visualizar os dados de todo efetivo de sua Div/Cia/Seç.', 'SIM', NULL, NULL),
+(4, 'Gerente', 'Ger', 'Tem acesso de Gerência. Adequado ao Sargenteante da Divisão/Companhia/Seção.\r\nPode visualizar e manter os dados de todo efetivo de sua Div/Cia/Seç.\r\n', 'SIM', NULL, NULL),
+(5, 'Usuário', 'User', 'Tem acesso de Usuário. Adequado ao Usuário da Divisão/Companhia/Seção. Visualiza e mantém apenas seus próprios dados.', 'SIM', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -171,15 +175,17 @@ CREATE TABLE `organizacao` (
   `codom` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `sigla` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `nome` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SIM'
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `organizacao`
 --
 
-INSERT INTO `organizacao` (`id`, `codom`, `sigla`, `nome`, `ativo`) VALUES
-(1, '000000', 'DCEM', 'Diretoria de Controle de Efetivos e Movimentações', 'SIM');
+INSERT INTO `organizacao` (`id`, `codom`, `sigla`, `nome`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, '000000', 'SIGla', 'Nome completo da Organização Militar', 'SIM', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -188,8 +194,8 @@ INSERT INTO `organizacao` (`id`, `codom`, `sigla`, `nome`, `ativo`) VALUES
 --
 
 CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
@@ -201,11 +207,11 @@ CREATE TABLE `password_reset_tokens` (
 
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text COLLATE utf8mb4_unicode_ci,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `last_used_at` timestamp NULL DEFAULT NULL,
   `expires_at` timestamp NULL DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
@@ -279,39 +285,39 @@ CREATE TABLE `pgrads` (
 --
 
 INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Marechal', 'Mar', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 1, 'General-de-Divisão', 'Gen Div', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 1, 'General-de-Brigada', 'Gen Bda', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(1, 1, 'Marechal', 'Mar', 'SIM', '2024-01-01 00:00:00', '2024-04-05 21:08:11'),
+(2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 00:00:00', '2024-04-05 21:08:17'),
+(3, 1, 'General-de-Divisão', 'Gen Div', 'SIM', '2024-01-01 00:00:00', '2024-04-05 21:08:25'),
+(4, 1, 'General-de-Brigada', 'Gen Bda', 'SIM', '2024-01-01 00:00:00', '2024-04-05 21:08:30'),
 (11, 2, 'Coronel', 'Cel', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (12, 2, 'Tenente-Coronel', 'Ten Cel', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (13, 2, 'Major', 'Maj', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(15, 3, 'Capitão', 'Cap', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(16, 4, 'Primeiro-Tenente', '1º Ten', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(17, 4, 'Segundo-Tenente', '2º Ten', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(18, 18, 'Aspirante-a-Oficial', 'Asp', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(21, 6, 'Subtenente', 'S Ten', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(22, 6, 'Primeiro-Sargento', '1º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(23, 6, 'Segundo-Sargento', '2º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(24, 6, 'Terceiro-Sargento', '3º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-04-04 13:22:24'),
-(42, 7, 'Cabo', 'Cb', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(44, 7, 'Soldado', 'Sd', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(49, 7, 'Soldado-Recruta', 'Sd Rcr', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(51, 7, 'Taifeiro-Mor', 'T M', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(52, 7, 'Taifeiro de Primeira Classe', 'T1', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(53, 7, 'Taifeiro de Segunda Classe', 'T2', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(54, 19, 'Cadete de 1º ano', 'Cad 1º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(55, 19, 'Cadete de 2º ano', 'Cad 2º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(56, 19, 'Cadete de 3º ano', 'Cad 3º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(57, 19, 'Cadete de 4º ano', 'Cad 4º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(58, 20, 'Aluno CPOR/NPOR', 'Al', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(59, 20, 'Aluno IME 1º Ano', 'Al IME 1º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(60, 19, 'Aluno EsPCEx', 'Al EPC', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(61, 20, 'Aluno IME 2º Ano', 'Al IME 2º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(62, 20, 'Aluno IME 3º Ano', 'Al IME 3º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(63, 20, 'Aluno IME 4º Ano', 'Al IME 4º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(64, 20, 'Aluno Esc Formação de Sargento', 'AlEsSgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(65, 20, 'Al Órgão Form Praças Reserva', 'AlFPrRe', 'SIM', '2024-01-01 00:00:00', '2024-03-29 19:40:34');
+(15, 4, 'Capitão', 'Cap', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:03'),
+(16, 4, 'Primeiro-Tenente', '1º Ten', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:14'),
+(17, 4, 'Segundo-Tenente', '2º Ten', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:20'),
+(18, 3, 'Aspirante-a-Oficial', 'Asp', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:34'),
+(21, 6, 'Subtenente', 'S Ten', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:44'),
+(22, 6, 'Primeiro-Sargento', '1º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:02:49'),
+(23, 6, 'Segundo-Sargento', '2º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:04:21'),
+(24, 6, 'Terceiro-Sargento', '3º Sgt', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:04:03'),
+(42, 7, 'Cabo', 'Cb', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:05:04'),
+(44, 7, 'Soldado', 'Sd', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:05:12'),
+(49, 7, 'Soldado-Recruta', 'Sd Rcr', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:05:18'),
+(51, 7, 'Taifeiro-Mor', 'T M', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:05:26'),
+(52, 7, 'Taifeiro de Primeira Classe', 'T1', 'SIM', '2024-01-01 00:00:00', '2024-04-05 23:05:32'),
+(53, 2, 'Taifeiro de Segunda Classe', 'T2', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(54, 2, 'Cadete de 1º ano', 'Cad 1º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(55, 2, 'Cadete de 2º ano', 'Cad 2º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(56, 2, 'Cadete de 3º ano', 'Cad 3º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(57, 2, 'Cadete de 4º ano', 'Cad 4º A', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(58, 2, 'Aluno CPOR/NPOR', 'Al', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(59, 3, 'Aluno IME 1º Ano', 'Al IME 1º', 'SIM', '2024-01-01 00:00:00', '2024-04-07 14:53:55'),
+(60, 2, 'Aluno EsPCEx', 'Al EPC', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(61, 2, 'Aluno IME 2º Ano', 'Al IME 2º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(62, 2, 'Aluno IME 3º Ano', 'Al IME 3º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(63, 2, 'Aluno IME 4º Ano', 'Al IME 4º', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(64, 2, 'Aluno Esc Formação de Sargento', 'AlEsSgt', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(65, 2, 'Al Órgão Form Praças Reserva', 'AlFPrRe', 'SIM', '2024-01-01 00:00:00', '2024-03-29 19:40:34');
 
 -- --------------------------------------------------------
 
@@ -474,11 +480,11 @@ INSERT INTO `secoes` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
@@ -631,11 +637,11 @@ ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `nivelacessos`
+-- Índices de tabela `nivel_acessos`
 --
-ALTER TABLE `nivelacessos`
+ALTER TABLE `nivel_acessos`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `nivelacessos_descricao_ukey` (`descricao`) USING BTREE,
+  ADD UNIQUE KEY `nivelacessos_nome_ukey` (`nome`) USING BTREE,
   ADD UNIQUE KEY `nivelacessos_sigla_ukey` (`sigla`);
 
 --
@@ -745,10 +751,10 @@ ALTER TABLE `migrations`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
--- AUTO_INCREMENT de tabela `nivelacessos`
+-- AUTO_INCREMENT de tabela `nivel_acessos`
 --
-ALTER TABLE `nivelacessos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+ALTER TABLE `nivel_acessos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `organizacao`
