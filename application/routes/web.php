@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
+use Illuminate\Support\Facades\Auth;
 
 /*
 |--------------------------------------------------------------------------

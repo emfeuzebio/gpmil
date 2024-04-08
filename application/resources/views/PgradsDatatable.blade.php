@@ -8,36 +8,6 @@
 
 @section('content')
 
-        <!-- estilos gerais e específicos da aplicação -->
-        <style type="text/css">
-
-            /* loading pano de fundo */
-            .loading {
-                width: 100%;
-                height: 100%;
-                top: 0;
-                left: 0;
-                display: block;
-                position: fixed;
-                background: rgba(0, 0, 0, 0.3);
-                z-index: 3000;
-            }
-
-            /* loading gif animado */
-            .loading-image {
-                position: absolute;
-                top: 35%;
-                left: 50%;
-                z-index: 2000; 
-            }
-
-        </style>   
-
-    <div id="alert" class="alert alert-success" style="display: none;">
-        <a class="close" onClick="$('.alert').hide()">&times;</a>  
-        <div class="alert-content">Mensagem</div>
-    </div>
-
     @foreach( $circulos as $user )
             <!-- <p> {{$user->id}}" = {{$user->sigla}}</p> -->
     @endforeach
@@ -50,8 +20,8 @@
                     <div class="row">
                         <div class="col-md-8 text-left"><b>Gestão de Postos e Graduações</b></div>
                         <div class="col-md-4 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm">Refresh</button>
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm">Inserir Novo</button>
+                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                         </div>
                     </div>
                 </div>
@@ -74,7 +44,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc)" onClick="$('#editarModal').modal('hide');"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
             </div>
             <div class="modal-body">
 
@@ -118,7 +88,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
                 <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
             </div>
             </div>
@@ -131,57 +101,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
                 </div>
                 <div class="modal-body">
                     <p></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Confirmar a Exclusão" id="confirm">Excluir</button>
                 </div>
             </div>
         </div>
     </div>   
-
-        <div id="loading" class="loading">
-            <img id="loading-image" class="loading-image" src="{{ asset('loadingBlocos.gif') }}" alt=""/>
-        </div>     
-
-    <!-- javascript com configurações iniciais -->
-    <script type="text/javascript" language="javascript" class="init">
-
-        $(document).ready(function () {
-
-            //controla a exibição do Loading da Página
-            $("#loading").hide();
-
-            // configura os Modais para terem seu conteúdo limpo ao serem fechados (hide)
-            $('body').on('hidden.bs.modal', '.modal', function () {
-                $(this).removeData('bs.modal');
-            });
-
-            //ativa o tooltip nas páginas
-            $('body').tooltip({selector: '[data-toggle="tooltip"]'});
-
-            // ativa autofocus automático sempre no primeiro input dentro do modal
-            $(document).on('shown.bs.modal', function (e) {
-                $('select:input:visible:not([readonly]):first', e.target).focus();
-            });
-
-            //controla a exibição do Loading dos Ajax
-            $(document).on({
-                ajaxStart: function () {
-                    $("#loading").show();
-                },
-                ajaxStop: function () {
-                    $("#loading").hide();
-                }
-            });
-
-        });
-
-    </script>
 
     <script type="text/javascript">
 
@@ -228,7 +159,7 @@
                     // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" href="">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" href="">Excluir</button>'; 
+                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
                         }
                     },
                 ]
