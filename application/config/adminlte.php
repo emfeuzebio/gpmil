@@ -323,12 +323,16 @@ return [
             'label_color' => 'success',
         ],
         [
-            'text' => 'Postos de Graduações',
-            'url' => 'pgrad',
+            'text' => 'Circulos',
+            'url' => 'circulos',
         ],
         [
-            'text' => 'Cículos Militares',
-            'url' => 'circulo',
+            'text' => 'Níveis de Acesso',
+            'url' => 'nivelacessos',
+        ],
+        [
+            'text' => 'P/Graduações',
+            'url' => 'pgrads',
         ],
         ['header' => 'account_settings'],
         [
