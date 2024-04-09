@@ -9,9 +9,9 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Gestão de Circulos Militares</b> - Render</div>
+            <div class="card-header"><b>Gestão de Circulos Militares</b></div>
             <div class="card-body">
-                {{ $dataTable->table() }}
+                {{ $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-sm compact']) }}
             </div>
         </div>
     </div>
@@ -22,7 +22,5 @@
         // alert('Estou na Blade' );
 
     </script>    
-    
 @endsection
  
-

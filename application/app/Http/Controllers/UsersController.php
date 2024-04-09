@@ -9,7 +9,8 @@ class UsersController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
-        return $dataTable->render('users.index');
+        // return $dataTable->render('users.index');
+        return $dataTable->render('admin/UsersDatatable');
     }
 }
 

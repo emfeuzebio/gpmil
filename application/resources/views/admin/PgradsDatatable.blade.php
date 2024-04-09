@@ -21,7 +21,9 @@
                         <div class="col-md-8 text-left"><b>Gestão de Postos e Graduações</b></div>
                         <div class="col-md-4 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                            @can('is_admin')
                             <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
                         </div>
                     </div>
                 </div>

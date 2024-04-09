@@ -316,23 +316,19 @@ return [
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'pages',
+            'text' => 'Opção 1',
             'url' => 'admin/pages',
             'icon' => 'far fa-fw fa-file',
             'label' => 4,
             'label_color' => 'success',
         ],
         [
-            'text' => 'Circulos',
-            'url' => 'circulos',
+            'text' => 'Opção 2',
+            'url' => '',
         ],
         [
-            'text' => 'Níveis de Acesso',
-            'url' => 'nivelacessos',
-        ],
-        [
-            'text' => 'P/Graduações',
-            'url' => 'pgrads',
+            'text' => 'Opção 3',
+            'url' => '',
         ],
         ['header' => 'account_settings'],
         [
@@ -346,59 +342,81 @@ return [
             'icon' => 'fas fa-fw fa-lock',
         ],
         [
-            'text' => 'multilevel',
-            'icon' => 'fas fa-fw fa-share',
+            'text' => 'Administração',
+            'icon' => 'fas fa-fw fa-cog',
+            'can' => 'is_admin',
             'submenu' => [
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
+                    'text' => 'P/Graduações',
+                    'url' => 'pgrads',
+                    'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'level_one',
-                    'url' => '#',
-                    'submenu' => [
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                        ],
-                        [
-                            'text' => 'level_two',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                                [
-                                    'text' => 'level_three',
-                                    'url' => '#',
-                                ],
-                            ],
-                        ],
-                    ],
+                    'text' => 'Círculos',
+                    'url' => 'circulos',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Níveis de Acesso',
+                    'url' => 'nivelacessos',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Usuários',
+                    'url' => 'users',
+                    'can' => 'is_admin',
                 ],
                 [
                     'text' => 'level_one',
                     'url' => '#',
                 ],
+                // [
+                //     'text' => 'level_one',
+                //     'url' => '#',
+                //     'submenu' => [
+                //         [
+                //             'text' => 'level_two',
+                //             'url' => '#',
+                //         ],
+                //         [
+                //             'text' => 'level_two',
+                //             'url' => '#',
+                //             'submenu' => [
+                //                 [
+                //                     'text' => 'level_three',
+                //                     'url' => '#',
+                //                 ],
+                //                 [
+                //                     'text' => 'level_three',
+                //                     'url' => '#',
+                //                 ],
+                //             ],
+                //         ],
+                //     ],
+                // ],
+                // [
+                //     'text' => 'level_one',
+                //     'url' => '#',
+                // ],
             ],
         ],
-        ['header' => 'labels'],
-        [
-            'text' => 'important',
-            'icon_color' => 'red',
-            'url' => '#',
-        ],
-        [
-            'text' => 'warning',
-            'icon_color' => 'yellow',
-            'url' => '#',
-        ],
-        [
-            'text' => 'information',
-            'icon_color' => 'cyan',
-            'url' => '#',
-        ],
+
+        // ['header' => 'labels'],
+        // [
+        //     'text' => 'important',
+        //     'icon_color' => 'red',
+        //     'url' => '#',
+        // ],
+        // [
+        //     'text' => 'warning',
+        //     'icon_color' => 'yellow',
+        //     'url' => '#',
+        // ],
+        // [
+        //     'text' => 'information',
+        //     'icon_color' => 'cyan',
+        //     'url' => '#',
+        // ],
     ],
 
     /*

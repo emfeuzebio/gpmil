@@ -8,7 +8,10 @@ class CirculoController extends Controller
 {
     public function index(CirculosDataTable $dataTable)
     {
-        return $dataTable->render('circulos');
+        //somente Admin têm permissão
+        $this->authorize('is_admin');
+
+        return $dataTable->render('admin/CirculosDatatable');
     }
 }
 

@@ -230,10 +230,11 @@ CREATE TABLE `personal_access_tokens` (
 
 CREATE TABLE `pessoas` (
   `id` int UNSIGNED NOT NULL,
+  `user_id` int UNSIGNED NOT NULL,
   `pgrad_id` int UNSIGNED NOT NULL,
   `qualificacao_id` int UNSIGNED NOT NULL,
   `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `secao_id` int UNSIGNED DEFAULT NULL,
+  `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
   `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
   `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Ativa',
   `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
@@ -258,7 +259,7 @@ CREATE TABLE `pessoas` (
   `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Bélica',
   `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `funcao_id` int UNSIGNED DEFAULT NULL,
-  `nivelacesso_id` int UNSIGNED NOT NULL DEFAULT '4',
+  `nivelacesso_id` int UNSIGNED NOT NULL DEFAULT '5',
   `dt_praca` date DEFAULT NULL,
   `dt_apres_gu` date DEFAULT NULL,
   `dt_apres_om` date DEFAULT NULL,
@@ -267,6 +268,10 @@ CREATE TABLE `pessoas` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+
+INSERT INTO `pessoas` (`id`, `user_id`, `pgrad_id`, `qualificacao_id`, `organizacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `nivelacesso_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) 
+VALUES (NULL, '1', '15', '1', '1', '1', 'SIM', 'Ativa', 'SIM', 'Nome Completo', 'Nome Guerra', '000.000.000-00', '0000000000', '000000000', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '00000-000', '0000-000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL); 
 
 -- --------------------------------------------------------
 
@@ -684,7 +689,8 @@ ALTER TABLE `pessoas`
   ADD KEY `pessoa_secao_id_key` (`secao_id`),
   ADD KEY `pessoa_funcao_id_key` (`funcao_id`),
   ADD KEY `pessoa_municipio_id_key` (`municipio_id`),
-  ADD KEY `pessoa_nivelacesso_id_key` (`nivelacesso_id`);
+  ADD KEY `pessoa_nivelacesso_id_key` (`nivelacesso_id`),
+  ADD KEY `pessoa_user_id_key` (`user_id`);
 
 --
 -- Índices de tabela `pgrads`
@@ -776,7 +782,8 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+COMMIT;
 
 --
 -- AUTO_INCREMENT de tabela `users`

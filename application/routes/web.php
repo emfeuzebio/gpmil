@@ -26,7 +26,6 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [HomeController::class, 'index'])->name('home');
-// Route::get('/users', [App\Http\Controllers\HomeController::class, 'index'])->name('users.index');
  
 Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 
@@ -42,15 +41,15 @@ Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home')
 
 
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-Auth::routes();
+// Auth::routes();
 
-Route::get('/home', function() {
-    return view('home');
-})->name('home')->middleware('auth');
+// Route::get('/home', function() {
+//     return view('home');
+// })->name('home')->middleware('auth');
 
 
 // Route::get('/pgrads', [PgradController::class, 'index'])->name('users.pgrads');

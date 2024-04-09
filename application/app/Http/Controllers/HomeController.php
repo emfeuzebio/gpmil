@@ -3,6 +3,11 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Models\Pessoa;
+use App\Models\User;
+// use Illuminate\Contracts\Session\Session;
+use Illuminate\Support\Facades\Auth;
+
 
 class HomeController extends Controller
 {

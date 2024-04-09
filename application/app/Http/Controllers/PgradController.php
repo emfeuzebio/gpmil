@@ -18,13 +18,17 @@ class PgradController extends Controller
     protected $Circulo = null;
 
     public function __construct() {
+
+        //somente Admin têm permissão
+        // $this->authorize('is_admin');
+
         //carrega a Circulo
         $this->Circulo = new Circulo();
     }
 
     public function indexRender(PgradsDataTable $dataTable)
     {
-        return $dataTable->render('users.pgrads');
+        // return $dataTable->render('users.pgrads');
     }    
     
     public function index() {
@@ -70,7 +74,7 @@ class PgradController extends Controller
         // $circulos = $this->Circulo->all()->sortBy('descricao');
         $circulos = $this->Circulo->all()->sortBy('id');
 
-        return view('PgradsDatatable',['circulos'=> $circulos]);
+        return view('admin/PgradsDatatable',['circulos'=> $circulos]);
     }
 
 
