@@ -44,15 +44,15 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(2, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Button::make('reset'),
+                        // Button::make('reload')
                     ])
                     ->parameters([
                         'paging' => true,

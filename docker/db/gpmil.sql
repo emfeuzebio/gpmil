@@ -449,25 +449,10 @@ INSERT INTO `qualificacoes` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `secoes`
+-- Despejando dados para a tabela `secaos`
 --
 
-CREATE TABLE `secoes` (
-  `id` int UNSIGNED NOT NULL,
-  `secao_id` int UNSIGNED DEFAULT NULL,
-  `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `secoes`
---
-
-INSERT INTO `secoes` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
 (1, NULL, 1, 'Gabinete do Comandante/Chefe/Diretor', 'Gab Cmt/Ch/Dir', 'SIM', NULL, NULL),
 (2, 1, 1, 'Gabinete do Subcomandante/Subchefe/Subdiretor', 'Gab SCmt/SCh/SDir', 'SIM', NULL, NULL),
 (3, 1, 1, 'Assessoria 1', 'Asse1', 'SIM', NULL, NULL),
@@ -711,9 +696,9 @@ ALTER TABLE `qualificacoes`
   ADD UNIQUE KEY `qualificacoes_codigo_ukey` (`codigo`);
 
 --
--- Índices de tabela `secoes`
+-- Índices de tabela `secaos`
 --
-ALTER TABLE `secoes`
+ALTER TABLE `secaos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `secao_descricao_ukey` (`descricao`),
   ADD UNIQUE KEY `secao_sigla_ukey` (`sigla`),
