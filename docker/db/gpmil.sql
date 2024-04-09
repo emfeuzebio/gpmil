@@ -270,8 +270,8 @@ CREATE TABLE `pessoas` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 
-INSERT INTO `pessoas` (`id`, `user_id`, `pgrad_id`, `qualificacao_id`, `organizacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `nivelacesso_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) 
-VALUES (NULL, '1', '15', '1', '1', '1', 'SIM', 'Ativa', 'SIM', 'Nome Completo', 'Nome Guerra', '000.000.000-00', '0000000000', '000000000', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '00000-000', '0000-000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL); 
+INSERT INTO `pessoas` (`user_id`, `pgrad_id`, `qualificacao_id`, `organizacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `nivelacesso_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) 
+VALUES ('1', '15', '1', '1', '1', 'SIM', 'Ativa', 'SIM', 'Nome Completo', 'Nome Guerra', '000.000.000-00', '0000000000', '000000000', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '00000-000', '0000-000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', '1', '1', NULL, NULL, NULL, NULL, NULL, NULL, NULL); 
 
 -- --------------------------------------------------------
 
