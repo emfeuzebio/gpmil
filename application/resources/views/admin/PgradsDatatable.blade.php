@@ -152,6 +152,7 @@
                     *                       no Controller deve estar o mesmo nome de coluna
                     */
                     {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
+                    {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
                     {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},

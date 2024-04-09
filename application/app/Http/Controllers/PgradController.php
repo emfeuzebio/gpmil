@@ -65,6 +65,7 @@ class PgradController extends Controller
             //     datatables()->of(Pgrad::select('*'))
             return DataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circulo'))
                 ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
+                ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
                 ->make(true);        
