@@ -367,6 +367,11 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
+                    'text' => 'Seções',
+                    'url' => 'secaos',
+                    'can' => 'is_admin',
+                ],                
+                [
                     'text' => 'level_one',
                     'url' => '#',
                 ],

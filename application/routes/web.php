@@ -6,6 +6,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
+use App\Http\Controllers\SecaoController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -38,6 +39,19 @@ Route::get('/pgrads', [PgradController::class, 'index'])->name('home');
 Route::post('pgrads/store', [PgradController::class, 'store'])->name('home');
 Route::post('pgrads/edit', [PgradController::class, 'edit'])->name('home');
 Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home');
+
+
+//Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
+Route::get('/secaos', [SecaoController::class, 'index'])->name('home');
+Route::post('secaos/store', [SecaoController::class, 'store'])->name('home');
+Route::post('secaos/edit', [SecaoController::class, 'edit'])->name('home');
+Route::post('secaos/destroy', [SecaoController::class, 'destroy'])->name('home');
+
+Route::get('/funcaos', [SecaoController::class, 'index'])->name('home');
+Route::post('funcaos/store', [SecaoController::class, 'store'])->name('home');
+Route::post('funcaos/edit', [SecaoController::class, 'edit'])->name('home');
+Route::post('funcaos/destroy', [SecaoController::class, 'destroy'])->name('home');
+
 
 
 

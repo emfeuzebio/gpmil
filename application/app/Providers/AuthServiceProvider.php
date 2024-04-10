@@ -46,9 +46,9 @@ class AuthServiceProvider extends ServiceProvider
             *   Aqui, antes de voltar, há que carregar os dados do usuário logado e outras informações em Session
             */
 
-            return $user->pessoa->nivelacesso_id == 1;
+            // return $user->pessoa->nivelacesso_id == 1;
             // return false;
-            // return true;
+            return true;
 
         });        
 
