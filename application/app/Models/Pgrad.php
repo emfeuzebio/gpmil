@@ -16,6 +16,6 @@ class Pgrad extends Model
     //Quarquer Pgrad pertence a um Circulo
     public function circulo() {
         return $this->belongsTo(Circulo::class);
-    }    
+    }
 
 }
