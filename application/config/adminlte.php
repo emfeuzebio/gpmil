@@ -347,6 +347,11 @@ return [
             'can' => 'is_admin',
             'submenu' => [
                 [
+                    'text' => 'Pessoal',
+                    'url' => 'pessoas',
+                    'can' => 'is_admin',
+                ],
+                [
                     'text' => 'P/Graduações',
                     'url' => 'pgrads',
                     'can' => 'is_admin',
