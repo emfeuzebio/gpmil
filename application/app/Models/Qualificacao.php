@@ -10,10 +10,9 @@ class Qualificacao extends Model
     use HasFactory;
 
     protected $fillable = [
-        'nome',
+        'codigo',
         'descricao',
         'sigla',
-        'codigo',
         'ativo',
     ];
 
