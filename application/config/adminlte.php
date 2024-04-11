@@ -372,8 +372,13 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'Círculos',
-                    'url' => 'circulos',
+                    'text' => 'Motivos',
+                    'url' => 'funcaos',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Destinos',
+                    'url' => 'destinos',
                     'can' => 'is_admin',
                 ],
                 [

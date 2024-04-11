@@ -27,7 +27,11 @@ USE `gpmil`;
 -- Estrutura para tabela `motivos`
 --
 
-CREATE TABLE `motivos` (
+--
+-- Estrutura para tabela `destinos`
+--
+
+CREATE TABLE `destinos` (
   `id` int UNSIGNED NOT NULL,
   `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -37,25 +41,33 @@ CREATE TABLE `motivos` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
+-- Despejando dados para a tabela `destinos`
+--
+
+INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+
+--
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `motivos`
+-- Índices de tabela `destinos`
 --
-ALTER TABLE `motivos`
-  ADD PRIMARY KEY (`id`);
+ALTER TABLE `destinos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `destinos_sigla_ukey` (`sigla`),
+  ADD UNIQUE KEY `destinos_descricao_ukey` (`descricao`);
 
 --
 -- AUTO_INCREMENT para tabelas despejadas
 --
 
 --
--- AUTO_INCREMENT de tabela `motivos`
+-- AUTO_INCREMENT de tabela `destinos`
 --
-ALTER TABLE `motivos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
--- --------------------------------------------------------
+ALTER TABLE `destinos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- Estrutura para tabela `circulos`
