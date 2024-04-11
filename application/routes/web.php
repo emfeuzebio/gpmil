@@ -7,6 +7,7 @@ use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
+use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\QualificacaoController;
 use Illuminate\Support\Facades\Auth;
@@ -63,6 +64,11 @@ Route::get('/qualificacaos', [QualificacaoController::class, 'index'])->name('ho
 Route::post('qualificacaos/store', [QualificacaoController::class, 'store'])->name('home');
 Route::post('qualificacaos/edit', [QualificacaoController::class, 'edit'])->name('home');
 Route::post('qualificacaos/destroy', [QualificacaoController::class, 'destroy'])->name('home');
+
+Route::get('/destinos', [DestinoController::class, 'index'])->name('home');
+Route::post('destinos/store', [DestinoController::class, 'store'])->name('home');
+Route::post('destinos/edit', [DestinoController::class, 'edit'])->name('home');
+Route::post('destinos/destroy', [DestinoController::class, 'destroy'])->name('home');
 
 // Auth::routes();
 
