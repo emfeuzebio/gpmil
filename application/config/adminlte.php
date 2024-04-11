@@ -330,17 +330,17 @@ return [
             'text' => 'Opção 3',
             'url' => '',
         ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+        // ['header' => 'account_settings'],
+        // [
+        //     'text' => 'profile',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'change_password',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
         [
             'text' => 'Administração',
             'icon' => 'fas fa-fw fa-cog',
@@ -376,10 +376,10 @@ return [
                     'url' => 'users',
                     'can' => 'is_admin',
                 ],
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
-                ],
+                // [
+                //     'text' => 'level_one',
+                //     'url' => '#',
+                // ],
                 // [
                 //     'text' => 'level_one',
                 //     'url' => '#',
