@@ -316,36 +316,41 @@ return [
             'can' => 'manage-blog',
         ],
         [
-            'text' => 'Opção 1',
-            'url' => 'admin/pages',
-            'icon' => 'far fa-fw fa-file',
-            'label' => 4,
-            'label_color' => 'success',
+            'text' => 'Apresentações',
+            'url' => 'apresentacaos',
+            // 'icon' => 'far fa-fw fa-file',
+            // 'label' => 4,
+            // 'label_color' => 'success',
         ],
         [
-            'text' => 'Opção 2',
-            'url' => '',
+            'text' => 'Plano de Chamada',
+            'url' => 'planochamada',
         ],
         [
-            'text' => 'Opção 3',
-            'url' => '',
+            'text' => 'Mapa da Força',
+            'url' => 'mapa_forca',
         ],
-        ['header' => 'account_settings'],
-        [
-            'text' => 'profile',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-user',
-        ],
-        [
-            'text' => 'change_password',
-            'url' => 'admin/settings',
-            'icon' => 'fas fa-fw fa-lock',
-        ],
+        // ['header' => 'account_settings'],
+        // [
+        //     'text' => 'profile',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-user',
+        // ],
+        // [
+        //     'text' => 'change_password',
+        //     'url' => 'admin/settings',
+        //     'icon' => 'fas fa-fw fa-lock',
+        // ],
         [
             'text' => 'Administração',
             'icon' => 'fas fa-fw fa-cog',
             'can' => 'is_admin',
             'submenu' => [
+                [
+                    'text' => 'Pessoal',
+                    'url' => 'pessoas',
+                    'can' => 'is_admin',
+                ],
                 [
                     'text' => 'P/Graduações',
                     'url' => 'pgrads',
@@ -357,6 +362,11 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
+                    'text' => 'Qualificações',
+                    'url' => 'qualificacaos',
+                    'can' => 'is_admin',
+                ],
+                [
                     'text' => 'Níveis de Acesso',
                     'url' => 'nivelacessos',
                     'can' => 'is_admin',
@@ -365,15 +375,6 @@ return [
                     'text' => 'Usuários',
                     'url' => 'users',
                     'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Seções',
-                    'url' => 'secaos',
-                    'can' => 'is_admin',
-                ],                
-                [
-                    'text' => 'level_one',
-                    'url' => '#',
                 ],
                 // [
                 //     'text' => 'level_one',

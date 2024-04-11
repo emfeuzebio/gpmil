@@ -7,6 +7,8 @@ use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
+use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\QualificacaoController;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -40,6 +42,11 @@ Route::post('pgrads/store', [PgradController::class, 'store'])->name('home');
 Route::post('pgrads/edit', [PgradController::class, 'edit'])->name('home');
 Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home');
 
+//Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
+Route::get('/pessoas', [PessoaController::class, 'index'])->name('home');
+Route::post('pessoas/store', [PessoaController::class, 'store'])->name('home');
+Route::post('pessoas/edit', [PessoaController::class, 'edit'])->name('home');
+Route::post('pessoas/destroy', [PessoaController::class, 'destroy'])->name('home');
 
 //Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/secaos', [SecaoController::class, 'index'])->name('home');
@@ -52,8 +59,10 @@ Route::post('funcaos/store', [SecaoController::class, 'store'])->name('home');
 Route::post('funcaos/edit', [SecaoController::class, 'edit'])->name('home');
 Route::post('funcaos/destroy', [SecaoController::class, 'destroy'])->name('home');
 
-
-
+Route::get('/qualificacaos', [QualificacaoController::class, 'index'])->name('home');
+Route::post('qualificacaos/store', [QualificacaoController::class, 'store'])->name('home');
+Route::post('qualificacaos/edit', [QualificacaoController::class, 'edit'])->name('home');
+Route::post('qualificacaos/destroy', [QualificacaoController::class, 'destroy'])->name('home');
 
 // Auth::routes();
 
