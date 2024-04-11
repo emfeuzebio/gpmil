@@ -379,10 +379,6 @@ return [
                 // [
                 //     'text' => 'level_one',
                 //     'url' => '#',
-                // ],
-                // [
-                //     'text' => 'level_one',
-                //     'url' => '#',
                 //     'submenu' => [
                 //         [
                 //             'text' => 'level_two',

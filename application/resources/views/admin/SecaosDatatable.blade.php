@@ -8,9 +8,6 @@
 
 @section('content')
 
-    @foreach( $circulos as $user )
-            <!-- <p> {{$user->id}}" = {{$user->sigla}}</p> -->
-    @endforeach
 
     <!-- DataTables de Dados -->
     <div class="row">
@@ -18,11 +15,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Postos e Graduações</b></div>
+                        <div class="col-md-8 text-left"><b>Gestão de Assessorias, Divisões, Subunidades e Seções</b></div>
                         <div class="col-md-4 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -40,7 +37,7 @@
         </div>
     </div>
 
-    <!-- Modal Editiar Registro -->
+    <!-- Modal Editar Registro -->
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
@@ -56,28 +53,17 @@
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
                             <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                        </div>
-
-                        <div class="form-group">
-                            <label class="form-label">Círculo</label>
-                            <select name="circulo_id" id="circulo_id" class="form-control">
-                                <option value=""> Selecione o Círculo </option>
-                                @foreach( $circulos as $circulo )
-                                <option value="{{$circulo->id}}">{{$circulo->sigla}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-circulo_id" class="error invalid-feedback" style="display: none;"></div>
-                        </div>                          
+                        </div>                         
 
                         <div class="form-group">
                             <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="EX.:Al EPC" data-toggle="tooltip" data-placement="top" title="Digite a Sigla da Instituição" >
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="S1" data-toggle="tooltip" title="Digite a sigla da Seção" >
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.:Aluno EsPCEx" data-toggle="tooltip" title="Digite a Descrição" >
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: 1ª Seção" data-toggle="tooltip" title="Digite o nome da Seção" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
@@ -141,25 +127,16 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("pgrads")}}",
+                ajax: "{{url("secaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    // { data: 'DT_RowIndex', name: 'DT_RowIndex' }, 
-                    {"data": "id", "name": "pgrads.descricao", "class": "dt-right", "title": "#"},
-                    /*
-                    *   o parâmetro "name": "xxx" deve conter o nome do método Model->'belongsTo' que criou o relacionamento 
-                    *                       seguido da coluna a que se deseja fazer a pesquisa
-                    *                       no Controller deve estar o mesmo nome de coluna
-                    */
-                    {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
-                    {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
-                    {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "secaos.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "secaos.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "pgrads.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "sigla", "name": "secaos.sigla", "class": "dt-left", "title": "Sigla"},
+                    {"data": "ativo", "name": "secaos.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
                             return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
@@ -188,7 +165,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("pgrads/destroy")}}",
+                        url: "{{url("secaos/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -213,19 +190,18 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/edit")}}",
+                    url: "{{url("secaos/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Posto e Graduação');
+                        $('#modalLabel').html('Editar Seção');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#circulo_id').val(data.circulo_id);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
                         $('#ativo').val(data.ativo);
@@ -248,7 +224,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/store")}}",
+                    url: "{{url("secaos/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -278,7 +254,7 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Posto ou Graduação');  //
+                $('#modalLabel').html('Nova Seção');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
