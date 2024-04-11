@@ -109,6 +109,48 @@ ALTER TABLE `situacaos`
 
 
 --
+-- Estrutura para tabela `boletins`
+--
+
+CREATE TABLE `boletins` (
+  `id` int UNSIGNED NOT NULL,
+  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `data` date DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `boletins`
+--
+
+INSERT INTO `boletins` (`id`, `descricao`, `data`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Adt Bol nº 001-Cmdo 1ª Bda Inf', '2024-01-01', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `boletins`
+--
+ALTER TABLE `boletins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `boletins_descricao_ukey` (`descricao`),
+  ADD UNIQUE KEY `boletins_data_ukey` (`data`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `boletins`
+--
+ALTER TABLE `boletins`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  
+--
 -- Estrutura para tabela `destinos`
 --
 
