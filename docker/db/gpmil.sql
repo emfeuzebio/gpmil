@@ -24,8 +24,89 @@ CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8
 USE `gpmil`;
 
 --
--- Estrutura para tabela `motivos`
+-- Estrutura para tabela `apresentacaos`
 --
+
+CREATE TABLE `apresentacaos` (
+  `id` int UNSIGNED NOT NULL,
+  `pessoa_id` int UNSIGNED DEFAULT NULL,
+  `destino_id` int UNSIGNED DEFAULT NULL,
+  `status_id` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `dt_apres` date DEFAULT NULL,
+  `dt_inicial` date DEFAULT NULL,
+  `dt_final` date DEFAULT NULL,
+  `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `observacao` text,
+  `prtsv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'NÃO',
+  `publicado` enum('SIM','NÃO') NOT NULL DEFAULT 'NÃO',
+  `boletim_id` int UNSIGNED DEFAULT NULL,
+  `created_at` timestamp NOT NULL,
+  `updated_at` timestamp NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Índices para tabelas despejadas
+--
+
+--
+-- Índices de tabela `apresentacaos`
+--
+ALTER TABLE `apresentacaos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
+  ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
+  ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`);
+
+--
+-- AUTO_INCREMENT para tabelas despejadas
+--
+
+--
+-- AUTO_INCREMENT de tabela `apresentacaos`
+--
+ALTER TABLE `apresentacaos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+
+
+--
+-- Estrutura para tabela `situacaos`
+--
+
+CREATE TABLE `situacaos` (
+  `id` int UNSIGNED NOT NULL,
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `situacaos`
+--
+
+INSERT INTO `situacaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Férias', 'Fer', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Dispensado', 'Disp', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Trânsito', 'Trsto', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Não Apresentado', 'N Apres', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+
+--
+-- Índices de tabela `situacaos`
+--
+ALTER TABLE `situacaos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `situacaos_descricao_ukey` (`descricao`),
+  ADD UNIQUE KEY `situacaos_sigla_ukey` (`sigla`);
+
+--
+-- AUTO_INCREMENT de tabela `situacaos`
+--
+ALTER TABLE `situacaos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+
 
 --
 -- Estrutura para tabela `destinos`
