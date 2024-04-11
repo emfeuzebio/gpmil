@@ -2,8 +2,6 @@
 
 namespace App\DataTables;
 
-// use App\Models\User;
-use App\Models\Circulo;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder; 
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,6 +10,8 @@ use Yajra\DataTables\Html\Column;
 use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
+use App\Models\Circulo;
+// use App\Models\User;
 
 class CirculosDataTable extends DataTable
 {
@@ -69,9 +69,9 @@ class CirculosDataTable extends DataTable
                         'searching' => true,
                         'pageLength' => 10,
                         'lengthMenu' => [5, 10, 25, 50, 100],
-                        'language' => [
-                            'url' => url('vendor/datatables/DataTables.pt_BR.json')
-                        ],
+                        // 'language' => [
+                        //     'url' => url('vendor/datatables/DataTables.pt_BR.json')
+                        // ],
                     ]);
     }
 

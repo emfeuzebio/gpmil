@@ -60,7 +60,7 @@
                             <div id="error-codigo" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
-                        <div class="form-group">
+                        <div class="form-group">git 
                             <label class="form-label">Sigla</label>
                             <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Xxx Xx" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>

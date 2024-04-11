@@ -357,13 +357,23 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'Círculos',
-                    'url' => 'circulos',
+                    'text' => 'Qualificações',
+                    'url' => 'qualificacaos',
                     'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'Qualificações',
-                    'url' => 'qualificacaos',
+                    'text' => 'Seções',
+                    'url' => 'secaos',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Funções',
+                    'url' => 'funcaos',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Círculos',
+                    'url' => 'circulos',
                     'can' => 'is_admin',
                 ],
                 [
