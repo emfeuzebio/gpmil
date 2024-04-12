@@ -9,8 +9,10 @@ class Secao extends Model
 {
     use HasFactory;
 
-    // protected $table = 'pgrads';                            //tabela de uso
-    // public $timestamps = false;                             //desabilita colunas timestamps                    
-    protected $fillable = ['organizacao_id','sigla','descricao','ativo'];       //colunas  
+    protected $fillable = [
+        'descricao',
+        'sigla',
+        'ativo',
+    ];
 
 }

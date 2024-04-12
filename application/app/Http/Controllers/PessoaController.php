@@ -9,6 +9,7 @@ use App\Models\Circulo;
 use App\Models\Pgrad;
 use App\Models\Pessoa;
 use App\Models\Qualificacao;
+use App\Models\Secao;
 use Session;
 use DataTables;
 use DB;
@@ -20,6 +21,7 @@ class PessoaController extends Controller
     protected $Circulo = null;
     protected $Pgrad = null;
     protected $Qualificacao = null;
+    protected $Secao = null;
 
     public function __construct() {
 
@@ -30,6 +32,7 @@ class PessoaController extends Controller
         $this->Circulo = new Circulo();
         $this->Pgrad = new Pgrad();
         $this->Qualificacao = new Qualificacao();
+        $this->Secao = new Secao();
     }
 
     public function indexRender(PessoaDataTable $dataTable)
@@ -68,7 +71,7 @@ class PessoaController extends Controller
 
         if(request()->ajax()) {
 
-            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao'))
+            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao'))
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
@@ -125,7 +128,7 @@ class PessoaController extends Controller
     public function store(PessoaRequest $request)
     {
 
-        $pgrad = Pgrad::where(['id'=>$request->id]);
+        $pessoa = Pessoa::where(['id'=>$request->id]);
         //  dd($pgrad);
         //  die();
 
@@ -144,7 +147,36 @@ class PessoaController extends Controller
                 'pgrad_id' => $request->pgrad_id,
                 'nome_completo' => $request->nome_completo,
                 'nome_guerra' => $request->nome_guerra,
+                'cpf' => $request->cpf,
+                'idt' => $request->idt,
+                'status' => $request->status,
                 'ativo' => $request->ativo,
+                'qualificacao_id' => $request->qualificacao_id, 
+                'organizacao_id' => 1, // ??????????
+                'lem' => $request->lem, 
+                'email' => $request->email, 
+                'segmento' => $request->segmento, 
+                'preccp' => $request->preccp,
+                'dt_nascimento' => $request->dt_nascimento,
+                'dt_praca' => $request->dt_praca,
+                'dt_apres_gu' => $request->dt_apres_gu, 
+                'dt_apres_om' => $request->dt_apres_om, 
+                'dt_ult_promocao' => $request->dt_ult_promocao,
+                'pronto_sv' => $request->pronto_sv, 
+                // 'user_id',
+                'antiguidade' => $request->antiguidade, 
+                'secao_id' => $request->secao_id, 
+                'endereco' => $request->endereco,
+                'cidade' => $request->cidade, 
+                'municipio_id' => $request->municipio_id, // ??????????
+                'uf' => $request->uf, 
+                'cep' => $request->cep, 
+                'fone_ramal' => $request->fone_ramal, 
+                'fone_celular' => $request->fone_celular, 
+                'fone_emergencia' => $request->fone_emergencia, 
+                'foto' => $request->foto,
+                'funcao_id' => $request->funcao_id,
+                'nivelacesso_id' => $request->nivelacesso_id
             ]
         );  
         return Response()->json($Pessoa);
