@@ -36,9 +36,9 @@ class ApresentacaoController extends Controller
 
             // return DataTable::eloquent(Apresentacao::select(['apresentacaos.*']))
             return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('pessoa','destino','boletim'))
-                ->addColumn('pessoa', function($param) { return $param->pessoa->nome_guerra; })
-                ->addColumn('destino', function($param) { return $param->destino->sigla; })
-                ->addColumn('boletim', function($param) { return $param->boletim->descricao; })
+                ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
+                ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+                ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
                 // ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 // ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
@@ -50,8 +50,9 @@ class ApresentacaoController extends Controller
 
         $boletins = $this->Boletim->all()->sortBy('id');
         $destinos = $this->Destino->all()->sortBy('descricao');
+        $pessoas = $this->Pessoa->all()->sortBy('nome_guerra');
 
-        return view('negocio/ApresentacaosDatatable',['boletins' => $boletins, 'destinos' => $destinos]);
+        return view('negocio/ApresentacaosDatatable',['boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas]);
     }
 
     public function edit(Request $request)
@@ -69,18 +70,6 @@ class ApresentacaoController extends Controller
 
     public function store(ApresentacaoRequest $request)
     {
-
-        // $pgrad = Pgrad::where(['id'=>$request->id]);
-        //  dd($pgrad);
-        //  die();
-
-        // if(! $this->authorize('store', $pgrad)) {
-        //     return response([], 403);
-        //     // {"message":"Não autorizado.","errors":{"store":["Não autorizado."]}
-        //     $message = ["message" => "Não autorizado!"];
-        //     return Response()->json($message);
-        // }        
-
         $Apresentacao = Apresentacao::updateOrCreate(
             [
                 'id' => $request->id,
@@ -89,20 +78,20 @@ class ApresentacaoController extends Controller
                 'pessoa_id' => $request->pessoa_id,
                 'destino_id' => $request->destino_id,
                 'boletim_id' => $request->boletim_id,
-                'dt_apres' => $request->dt_apres,
+                // 'dt_apres' => $request->dt_apres,
                 'dt_inicial' => $request->dt_inicial,
                 'dt_final' => $request->dt_final,
                 'local_destino' => $request->local_destino,
                 'celular' => $request->celular,
                 'observacao ' => $request->observacao,
-                'prtsv' => $request->prtsv,
+                // 'prtsv' => $request->prtsv,
                 'publicado' => $request->publicado,
             ]
         );  
         return Response()->json($Apresentacao);
     }     
 
-    public function homologar(ApresentacaoRequest $request)
+    public function homologar(Request $request)
     {
         //usar outra forma de persistência para gravar apenas as duas colunas
         //senão será necessário gravar todos os dados após passar pelo Request
@@ -112,7 +101,7 @@ class ApresentacaoController extends Controller
             ],
             [
                 'boletim_id' => $request->boletim_id,
-                'publicado' => 'SIM',
+                'publicado' => ( $request->boletim_id ? 'SIM' : 'NÃO' ),
             ]
         );  
         return Response()->json($Apresentacao);

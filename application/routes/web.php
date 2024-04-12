@@ -79,10 +79,6 @@ Route::post('/apresentacaos/edit', [ApresentacaoController::class, 'edit'])->nam
 Route::post('/apresentacaos/destroy', [ApresentacaoController::class, 'destroy'])->name('home');
 Route::post('/apresentacaos/homologar', [ApresentacaoController::class, 'homologar'])->name('home');
 
-
-
-
-
 Route::get('/boletins', [BoletinsController::class, 'index'])->name('home');
 Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home');
 Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');

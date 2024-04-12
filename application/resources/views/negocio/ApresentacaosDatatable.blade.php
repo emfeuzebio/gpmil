@@ -46,34 +46,67 @@
             </div>
             <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                    class="form-horizontal" method="post">
+                <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
-                        <div class="form-group" id="form-group-id">
-                            <label class="form-label">ID</label>
-                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                        </div>
+                    <div class="form-group" id="form-group-id">
+                        <label class="form-label">ID</label>
+                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Nome Completo</label>
-                            <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
+                    <div class="form-group">
+                        <label class="form-label">Pessoa</label>
+                        <select name="pessoa_id" id="pessoa_id" class="form-control" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
+                            <option value=""> Selecione </option>
+                            @foreach( $pessoas as $pessoa )
+                            <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                            @endforeach
+                        </select>
+                        <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Nome de Guerra</label>
-                            <input class="form-control" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                        </div>                          
-                        
-                        <div class="form-group">    
-                            <label class="form-label">Ativo</label>                    
-                            <select class="form-control" id="ativo" name="ativo">
-                                <option value="SIM">SIM</option>
-                                <option value="NÃO">NÃO</option>
-                            </select>
-                            <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Motivo</label>
+                        <select name="destino_id" id="destino_id" class="form-control" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                            <option value=""> Selecione </option>
+                            @foreach( $destinos as $destino )
+                            <option value="{{$destino->id}}">{{$destino->descricao}}</option>
+                            @endforeach
+                        </select>
+                        <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Data Inicial</label>
+                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
+                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Data Final</label>
+                        <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
+                        <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Local de Destino</label>
+                        <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                        <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Fone para Contato</label>
+                        <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                        <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
+                    </div>                          
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observação</label>                    
+                        <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
+                        <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
+
                 </form>        
 
             </div>
@@ -100,7 +133,7 @@
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Selecione </option>
+                                <option value=""> Cancelar a Homologação </option>
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
                                 @endforeach
@@ -113,7 +146,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Homologar a Apresentação atual (Alt+S)">Homologar</button>
+                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Homologar a Apresentação atual (Alt+S)">Salvar</button>
                 </div>
             </div>
         </div>
@@ -162,7 +195,7 @@
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
                     // {"data": "pessoa_id", "name": "apresentacaos.pessoa_id", "class": "dt-left", "title": "Pessoa"},
-                    {"data": "pessoa", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Pessoa"},
+                    {"data": "pessoa", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
                     // {"data": "destino_id", "name": "apresentacaos.destino_id", "class": "dt-left", "title": "Motivo"},
                     {"data": "destino", "name": "destinos.sigla", "class": "dt-left", "title": "Motivo",
                         render: function (data) { return '<b>' + data + '</b>';}},
@@ -183,7 +216,7 @@
                     // },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button>';
+                            return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
                         }
                     },
                 ]
@@ -223,13 +256,14 @@
 
             });           
 
-            /*
+/*
             * Homologar button action
             */
             $("#datatables tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
                 const id = $(this).data("id")
+                const boletim_id = null;
                 // alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
@@ -240,11 +274,12 @@
                 $('#confirmahomologarModal').find('.modal-footer #btnHomologar').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
+                    let boletim_id = $("#boletim_id").val();
+
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/homologar")}}",
-                        data: {"id": id},
+                        data: {"id":id, "boletim_id":boletim_id},
                         dataType: 'json',
                         success: function (data) {
                             $("#alert .alert-content").text('Homologar a Apresentação ID ' + id + ' com sucesso.');
@@ -252,11 +287,10 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');      
+                    $('#confirmahomologarModal').modal('hide');      
                 });                     
                 
-            });           
-
+            });
             /*
             * Edit button action
             */
@@ -273,18 +307,22 @@
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Posto e Graduação');
+                        $('#modalLabel').html('Editar Apresentação');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#pgrad_id').val(data.pgrad_id);
-                        $('#qualificacao_id').val(data.qualificacao_id);
-                        $('#nome_completo').val(data.nome_completo);
-                        $('#nome_guerra').val(data.nome_guerra);
-                        $('#ativo').val(data.ativo);
+                        $('#pessoa_id').val(data.pessoa_id);
+                        $('#destino_id').val(data.destino_id);
+                        $('#boletim_id').val(data.boletim_id);
+                        $('#dt_inicial').val(data.dt_inicial);
+                        $('#dt_final').val(data.dt_final);
+                        $('#local_destino').val(data.local_destino);
+                        $('#celular').val(data.celular);
+                        $('#observacao').val(data.observacao);
+                        $('#publicado').val(data.publicado);
 
                     }
                 }); 
@@ -335,14 +373,14 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Posto ou Graduação');  //
+                $('#modalLabel').html('Nova Apresentação');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#pessoa_id').focus();
             })
 
         });
