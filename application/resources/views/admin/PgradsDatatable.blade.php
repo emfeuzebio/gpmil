@@ -83,7 +83,7 @@
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -144,15 +144,9 @@
                 ajax: "{{url("pgrads")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    // { data: 'DT_RowIndex', name: 'DT_RowIndex' }, 
                     {"data": "id", "name": "pgrads.descricao", "class": "dt-right", "title": "#"},
-                    /*
-                    *   o parâmetro "name": "xxx" deve conter o nome do método Model->'belongsTo' que criou o relacionamento 
-                    *                       seguido da coluna a que se deseja fazer a pesquisa
-                    *                       no Controller deve estar o mesmo nome de coluna
-                    */
                     {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
-                    {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
+                    // {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
                     {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},

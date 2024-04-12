@@ -14,15 +14,15 @@ class Apresentacao extends Model
     protected $fillable = [
         'pessoa_id',
         'destino_id',
-        // 'dt_apres',
         'dt_inicial',
         'dt_final',
         'local_destino',
         'celular',
         'observacao',
-        // 'prtsv',
         'publicado',
         'boletim_id',
+        // 'dt_apres',
+        // 'prtsv',
     ];
     
     public function pessoa() {

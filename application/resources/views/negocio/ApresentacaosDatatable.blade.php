@@ -175,6 +175,9 @@
 
         $(document).ready(function () {
 
+            //máscaras necessárias em campos
+            $('#celular').inputmask('(99) 99999-9999');
+
             var id = '';
 
             $.ajaxSetup({

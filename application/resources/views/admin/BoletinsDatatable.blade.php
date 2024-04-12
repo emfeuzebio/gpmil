@@ -133,7 +133,7 @@
                     {"data": "id", "name": "boletins.id", "class": "dt-right", "title": "#"},
                     {"data": "descricao", "name": "boletins.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "data", "name": "boletins.data", "class": "dt-left", "title": "data"},
+                    {"data": "data", "name": "boletins.data", "class": "dt-center", "title": "data"},
                     {"data": "ativo", "name": "boletins.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
