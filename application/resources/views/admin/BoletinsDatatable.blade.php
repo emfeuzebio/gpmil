@@ -8,9 +8,6 @@
 
 @section('content')
 
-    @foreach( $circulos as $user )
-            <!-- <p> {{$user->id}}" = {{$user->sigla}}</p> -->
-    @endforeach
 
     <!-- DataTables de Dados -->
     <div class="row">
@@ -18,11 +15,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Postos e Graduações</b></div>
+                        <div class="col-md-8 text-left"><b>Gestão de Boletins</b></div>
                         <div class="col-md-4 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar boletim (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -40,13 +37,13 @@
         </div>
     </div>
 
-    <!-- Modal Editiar Registro -->
+    <!-- Modal Editar Registro -->
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
             </div>
             <div class="modal-body">
 
@@ -56,34 +53,23 @@
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
                             <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                        </div>
+                        </div>                         
 
                         <div class="form-group">
-                            <label class="form-label">Círculo</label>
-                            <select name="circulo_id" id="circulo_id" class="form-control">
-                                <option value=""> Selecione o Círculo </option>
-                                @foreach( $circulos as $circulo )
-                                <option value="{{$circulo->id}}">{{$circulo->sigla}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-circulo_id" class="error invalid-feedback" style="display: none;"></div>
-                        </div>                          
-
-                        <div class="form-group">
-                            <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="EX.:Al EPC" data-toggle="tooltip" data-placement="top" title="Digite a Sigla da Instituição" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                            <label class="form-label">Tipo nº-OM do Boletim</label>
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: BI 001-3º BPE" data-toggle="tooltip" title="Digite a descrição do boletim" >
+                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.:Aluno EsPCEx" data-toggle="tooltip" title="Digite a Descrição" >
-                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
+                            <label class="form-label">Data</label>
+                            <input class="form-control" value="" type="date" id="data" name="data" placeholder="Ex.: 01/01/2024" data-toggle="tooltip" title="Digite a data do boletim" >
+                            <div id="error-data" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o boletim está ativo" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -141,25 +127,16 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("pgrads")}}",
+                ajax: "{{url("boletins")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    // { data: 'DT_RowIndex', name: 'DT_RowIndex' }, 
-                    {"data": "id", "name": "pgrads.descricao", "class": "dt-right", "title": "#"},
-                    /*
-                    *   o parâmetro "name": "xxx" deve conter o nome do método Model->'belongsTo' que criou o relacionamento 
-                    *                       seguido da coluna a que se deseja fazer a pesquisa
-                    *                       no Controller deve estar o mesmo nome de coluna
-                    */
-                    {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
-                    {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
-                    {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "boletins.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "boletins.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "pgrads.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "data", "name": "boletins.data", "class": "dt-left", "title": "data"},
+                    {"data": "ativo", "name": "boletins.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
                             return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
@@ -188,7 +165,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("pgrads/destroy")}}",
+                        url: "{{url("boletins/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -213,20 +190,19 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/edit")}}",
+                    url: "{{url("boletins/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Posto e Graduação');
+                        $('#modalLabel').html('Editar boletins');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#circulo_id').val(data.circulo_id);
-                        $('#sigla').val(data.sigla);
+                        $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         $('#ativo').val(data.ativo);
                     }
@@ -248,7 +224,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/store")}}",
+                    url: "{{url("boletins/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -278,14 +254,14 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Posto ou Graduação');  //
+                $('#modalLabel').html('Novo Boletim');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#descricao').focus();
             })
 
         });

@@ -44,24 +44,24 @@ class UsersDataTable extends DataTable
                     ->columns($this->getColumns())
                     ->minifiedAjax()
                     // ->dom('Bfrtip')
-                    ->orderBy(1)
+                    ->orderBy(2, 'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
                         Button::make('csv'),
                         Button::make('pdf'),
                         Button::make('print'),
-                        Button::make('reset'),
-                        Button::make('reload')
+                        // Button::make('reset'),
+                        // Button::make('reload')
                     ])
                     ->parameters([
                         'paging' => true,
                         'searching' => true,
                         'pageLength' => 10,
                         'lengthMenu' => [5, 10, 25, 50, 100],
-                        'language' => [
-                            'url' => url('vendor/datatables/DataTables.pt_BR.json')
-                        ],
+                        // 'language' => [
+                        //     'url' => url('vendor/datatables/DataTables.pt_BR.json')
+                        // ],
                     ]);
 
                     ;

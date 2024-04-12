@@ -5,15 +5,9 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Qualificacao extends Model
+class PlanoChamada extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'codigo',
-        'descricao',
-        'sigla',
-        'ativo',
-    ];
-
+    protected $table = 'pessoas';
 }

@@ -8,10 +8,6 @@
 
 @section('content')
 
-    @foreach( $circulos as $user )
-            <!-- <p> {{$user->id}}" = {{$user->sigla}}</p> -->
-    @endforeach
-
     <!-- DataTables de Dados -->
     <div class="row">
         <div class="col-12">
@@ -46,7 +42,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
             </div>
             <div class="modal-body">
 
@@ -59,31 +55,26 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Círculo</label>
-                            <select name="circulo_id" id="circulo_id" class="form-control">
-                                <option value=""> Selecione o Círculo </option>
-                                @foreach( $circulos as $circulo )
-                                <option value="{{$circulo->id}}">{{$circulo->sigla}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-circulo_id" class="error invalid-feedback" style="display: none;"></div>
-                        </div>                          
-
-                        <div class="form-group">
+                            <label class="form-label">Código</label>
+                            <input class="form-control" value="" type="text" id="codigo" name="codigo" placeholder="9999" data-toggle="tooltip" title="Informe o Código da Qualificação Militar com 4 números">
+                            <div id="error-codigo" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="form-group">git 
                             <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="EX.:Al EPC" data-toggle="tooltip" data-placement="top" title="Digite a Sigla da Instituição" >
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Xxx Xx" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.:Aluno EsPCEx" data-toggle="tooltip" title="Digite a Descrição" >
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Infantaria" data-toggle="tooltip" title="Informe a descrição da Qualificação Militar" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
+                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se esta Qualificação Militar está ativa" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -141,25 +132,18 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("pgrads")}}",
+                ajax: "{{url("qualificacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     // { data: 'DT_RowIndex', name: 'DT_RowIndex' }, 
-                    {"data": "id", "name": "pgrads.descricao", "class": "dt-right", "title": "#"},
-                    /*
-                    *   o parâmetro "name": "xxx" deve conter o nome do método Model->'belongsTo' que criou o relacionamento 
-                    *                       seguido da coluna a que se deseja fazer a pesquisa
-                    *                       no Controller deve estar o mesmo nome de coluna
-                    */
-                    {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
-                    {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
-                    {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "qualificacaos.descricao", "class": "dt-right", "title": "#"},
+                    {"data": "codigo", "name": "qualificacaos.codigo", "class": "dt-center", "title": "Código"},
+                    {"data": "sigla", "name": "qualificacaos.sigla", "class": "dt-left", "title": "Sigla"},
+                    {"data": "descricao", "name": "qualificacaos.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "pgrads.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "ativo", "name": "qualificacaos.ativo", "class": "dt-center", "title": "Ativo",
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
                             return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
@@ -188,7 +172,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("pgrads/destroy")}}",
+                        url: "{{url("qualificacaos/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -213,19 +197,19 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/edit")}}",
+                    url: "{{url("qualificacaos/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Posto e Graduação');
+                        $('#modalLabel').html('Editar Qualificação Militar');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#circulo_id').val(data.circulo_id);
+                        $('#codigo').val(data.codigo);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
                         $('#ativo').val(data.ativo);
@@ -248,7 +232,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("pgrads/store")}}",
+                    url: "{{url("qualificacaos/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -278,14 +262,14 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Posto ou Graduação');  //
+                $('#modalLabel').html('Nova Qualificação Militar');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#codigo').focus();
             })
 
         });

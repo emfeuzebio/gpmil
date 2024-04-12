@@ -52,9 +52,9 @@ class NivelAcessosDataTable extends DataTable
                         'searching' => true,
                         'pageLength' => 10,
                         'lengthMenu' => [5, 10, 25, 50, 100],
-                        'language' => [
-                            'url' => url('vendor/datatables/DataTables.pt_BR.json')
-                        ],
+                        // 'language' => [
+                        //     'url' => url('vendor/datatables/DataTables.pt_BR.json')
+                        // ],
                     ]);
     }
 
