@@ -123,7 +123,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input class="form-control" value="" type="text" id="email" name="email" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
+                                <input class="form-control" value="" type="email" id="email" name="email" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
                                 <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -155,10 +155,16 @@
                         <div class="col-md-6">
                             <div class="form-group">    
                                 <label class="form-label">Segmento</label>
-                                <select class="form-control" id="segmento" name="segmento">
-                                    <option value="Masculino">Masculino</option>
-                                    <option value="Feminino">Feminino</option>
-                                </select>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="segmentoM">
+                                        <input class="form-check-input" type="radio" id="segmentoM" value="Masculino" name="segmento">Masculino
+                                    </label>
+                                </div>
+                                <div class="form-check">
+                                    <label class="form-check-label" for="segmentoM">
+                                        <input class="form-check-input" type="radio" id="segmentoM" value="Feminino" name="segmento">Feminino
+                                    </label>
+                                </div>
                                 <div id="error-segmento" class="invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -297,6 +303,13 @@
 
         $(document).ready(function () {
 
+            $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
+            $('#idt').inputmask('999999999-9'); //Mascara para IDT
+
+            $('#fone_ramal').inputmask('999 9999'); //Mascara para Ramal            
+            $('#fone_celular').inputmask('(99) 99999-9999'); //Mascara para Celular            
+            $('#fone_emergencia').inputmask('(99) 99999-9999'); //Mascara para Tel Emergência           
+
             var id = '';
 
             $.ajaxSetup({
@@ -346,6 +359,20 @@
                 ]
             });
 
+            function getSegmentoValue() {
+                const radios = document.querySelectorAll('input[name="segmento"]:checked');
+
+                // Check if any radio button is selected
+                if (radios.length === 0) {
+                    // Handle no selection case (optional: display error message)
+                    console.error("Nenhum segmento selecionado.");
+                    return; // Or set segmento to an empty string or default value
+                }
+
+                const segmento = radios[0].value; // Get the value of the first selected radio button
+                console.log("Segmento selecionado:", segmento); // Example usage
+            }
+
             /*
             * Delete button action
             */
@@ -385,7 +412,7 @@
             */
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
-
+                getSegmentoValue();
                 const id = $(this).data("id")
                 // alert('Editar ID: ' + id );
 
@@ -436,7 +463,7 @@
                     }
                 }); 
 
-            });           
+            });
 
             /*
             * Save button action
@@ -444,7 +471,7 @@
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
-
+                getSegmentoValue();
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
                 // console.log(formData);

@@ -122,12 +122,14 @@
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
 
     <!-- EUZ javascript com configurações iniciais -->
     <script type="text/javascript" language="javascript" class="init">
 
         $(document).ready(function () {
-
+            
             // configura os Modais para terem seu conteúdo limpo ao serem fechados (hide)
             $('body').on('hidden.bs.modal', '.modal', function () {
                 $(this).removeData('bs.modal');

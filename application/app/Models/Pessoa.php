@@ -65,5 +65,14 @@ class Pessoa extends Model
     // public function pessoa() {
     //     return $this->belongsTo(User::class, 'user_id','id');
     // }    
+    
+    public function setCpfAttribute($value)
+    {
+        $this->attributes['cpf'] = preg_replace('/[^0-9]/', '', $value);
+    }
 
+    public function setIdtAttribute($value)
+    {
+        $this->attributes['idt'] = preg_replace('/[^0-9]/', '', $value);
+    }
 }
