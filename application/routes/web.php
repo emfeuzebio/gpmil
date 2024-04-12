@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\BoletinsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -69,6 +70,11 @@ Route::get('/destinos', [DestinoController::class, 'index'])->name('home');
 Route::post('destinos/store', [DestinoController::class, 'store'])->name('home');
 Route::post('destinos/edit', [DestinoController::class, 'edit'])->name('home');
 Route::post('destinos/destroy', [DestinoController::class, 'destroy'])->name('home');
+
+Route::get('/boletins', [BoletinsController::class, 'index'])->name('home');
+Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home');
+Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');
+Route::post('boletins/destroy', [BoletinsController::class, 'destroy'])->name('home');
 
 // Auth::routes();
 

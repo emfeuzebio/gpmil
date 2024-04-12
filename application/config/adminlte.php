@@ -382,6 +382,11 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
+                    'text' => 'Boletins',
+                    'url' => 'boletins',
+                    'can' => 'is_admin',
+                ],
+                [
                     'text' => 'Situações',
                     'url' => 'situacaos',
                     'can' => 'is_admin',
