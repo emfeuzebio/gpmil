@@ -36,9 +36,9 @@ class ApresentacaoController extends Controller
 
             // return DataTable::eloquent(Apresentacao::select(['apresentacaos.*']))
             return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('pessoa','destino','boletim'))
-                ->addColumn('pessoa', function($param) { return $param->pessoa->nome_guerra; })
-                ->addColumn('destino', function($param) { return $param->destino->sigla; })
-                ->addColumn('boletim', function($param) { return $param->boletim->descricao; })
+                ->addColumn('pessoa', function($param) { return $param->pessoa?->nome_guerra; })
+                ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+                ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
                 // ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 // ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
@@ -50,8 +50,9 @@ class ApresentacaoController extends Controller
 
         $boletins = $this->Boletim->all()->sortBy('id');
         $destinos = $this->Destino->all()->sortBy('descricao');
+        $pessoas = $this->Pessoa->all()->sortBy('nome_guerra');
 
-        return view('negocio/ApresentacaosDatatable',['boletins' => $boletins, 'destinos' => $destinos]);
+        return view('negocio/ApresentacaosDatatable',['boletins' => $boletins, 'destinos' => $destinos , 'pessoas' => $pessoas]);
     }
 
     public function edit(Request $request)
@@ -102,7 +103,7 @@ class ApresentacaoController extends Controller
         return Response()->json($Apresentacao);
     }     
 
-    public function homologar(ApresentacaoRequest $request)
+    public function homologar(Request $request)
     {
         //usar outra forma de persistência para gravar apenas as duas colunas
         //senão será necessário gravar todos os dados após passar pelo Request
@@ -112,7 +113,8 @@ class ApresentacaoController extends Controller
             ],
             [
                 'boletim_id' => $request->boletim_id,
-                'publicado' => 'SIM',
+                'publicado' => ( $request->boletim_id ? 'SIM' : 'NÃO' ),
+                // 'publicado' => 'SIM',
             ]
         );  
         return Response()->json($Apresentacao);

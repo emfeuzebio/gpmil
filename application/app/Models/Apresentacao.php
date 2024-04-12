@@ -37,6 +37,14 @@ class Apresentacao extends Model
         return $this->hasOne(boletim::class, 'id', 'boletim_id');
     }   
 
+    // public function pgradPessoa() {
+    //     return $this->hasOneThrough(Pgrad::class, Pessoa::class);
+    // }    
+
+    // public function destino() {
+    //     return $this->belongsTo(Destino::class, 'destino_id','id');
+    // }    
+
     // public function pessoa() {
     //     return $this->belongsTo(User::class, 'user_id','id');
     // }    

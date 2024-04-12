@@ -51,13 +51,35 @@
 
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
-                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                            <input class="form-control" value="" type="hidde" id="id" name="id" placeholder="" readonly>
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Nome Completo</label>
-                            <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                            <label class="form-label">Selecione a Pessoa</label>
+                            <select name="boletim_id" id="boletim_id" class="form-control">
+                                <option value=""> Selecione </option>
+                                @foreach( $pessoas as $pessoa )
+                                <option value="{{$pessoa->id}}">{{$pessoa->nome_guerra}}</option>
+                                @endforeach
+                            </select>
+                            <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Selecione o Motivo</label>
+                            <select name="boletim_id" id="boletim_id" class="form-control">
+                                <option value=""> Selecione </option>
+                                @foreach( $destinos as $destino )
+                                <option value="{{$destino->id}}">{{$destino->descricao}}</option>
+                                @endforeach
+                            </select>
+                            <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Local de Destino</label>
+                            <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="" data-toggle="tooltip" title="Informe o Local de Destino" >
+                            <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
@@ -100,7 +122,7 @@
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Selecione </option>
+                                <option value=""> Não Homologar </option>
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
                                 @endforeach
@@ -230,6 +252,8 @@
                 e.stopImmediatePropagation();            
 
                 const id = $(this).data("id")
+                const boletim_id = null;
+                // alert('boletim ID: ' + boletim_id );
                 // alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
@@ -240,11 +264,12 @@
                 $('#confirmahomologarModal').find('.modal-footer #btnHomologar').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
+                    let boletim_id = $("#boletim_id").val();
+
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/homologar")}}",
-                        data: {"id": id},
+                        data: {"id":id, "boletim_id":boletim_id},
                         dataType: 'json',
                         success: function (data) {
                             $("#alert .alert-content").text('Homologar a Apresentação ID ' + id + ' com sucesso.');
@@ -252,7 +277,7 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');      
+                    $('#confirmahomologarModal').modal('hide');      
                 });                     
                 
             });           
