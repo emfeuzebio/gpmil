@@ -1,6 +1,8 @@
 <?php
 
+
 use App\Http\Controllers\BoletinsController;
+use App\Http\Controllers\ApresentacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
@@ -67,9 +69,19 @@ Route::post('qualificacaos/edit', [QualificacaoController::class, 'edit'])->name
 Route::post('qualificacaos/destroy', [QualificacaoController::class, 'destroy'])->name('home');
 
 Route::get('/destinos', [DestinoController::class, 'index'])->name('home');
-Route::post('destinos/store', [DestinoController::class, 'store'])->name('home');
-Route::post('destinos/edit', [DestinoController::class, 'edit'])->name('home');
-Route::post('destinos/destroy', [DestinoController::class, 'destroy'])->name('home');
+Route::post('/destinos/store', [DestinoController::class, 'store'])->name('home');
+Route::post('/destinos/edit', [DestinoController::class, 'edit'])->name('home');
+Route::post('/destinos/destroy', [DestinoController::class, 'destroy'])->name('home');
+
+Route::get('/apresentacaos', [ApresentacaoController::class, 'index'])->name('home');
+Route::post('/apresentacaos/store', [ApresentacaoController::class, 'store'])->name('home');
+Route::post('/apresentacaos/edit', [ApresentacaoController::class, 'edit'])->name('home');
+Route::post('/apresentacaos/destroy', [ApresentacaoController::class, 'destroy'])->name('home');
+Route::post('/apresentacaos/homologar', [ApresentacaoController::class, 'homologar'])->name('home');
+
+
+
+
 
 Route::get('/boletins', [BoletinsController::class, 'index'])->name('home');
 Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home');
