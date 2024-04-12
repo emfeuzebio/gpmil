@@ -56,20 +56,20 @@
                         </div>                         
 
                         <div class="form-group">
-                            <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Pr Sv" data-toggle="tooltip" title="Digite a descrição do boletim" >
+                            <label class="form-label">Tipo nº-OM do Boletim</label>
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: BI 001-3º BPE" data-toggle="tooltip" title="Digite a descrição do boletim" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Data</label>
-                            <input class="form-control" value="" type="text" id="data" name="data" placeholder="Ex.: 01/01/2024" data-toggle="tooltip" title="Digite a data do boletim" >
+                            <input class="form-control" value="" type="date" id="data" name="data" placeholder="Ex.: 01/01/2024" data-toggle="tooltip" title="Digite a data do boletim" >
                             <div id="error-data" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o boletim está ativo" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o boletim está ativo" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -202,7 +202,7 @@
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#sigla').val(data.sigla);
+                        $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         $('#ativo').val(data.ativo);
                     }
@@ -261,7 +261,7 @@
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#descricao').focus();
             })
 
         });
