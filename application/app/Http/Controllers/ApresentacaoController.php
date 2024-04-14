@@ -54,6 +54,10 @@ class ApresentacaoController extends Controller
         $destinos = $this->Destino->all()->sortBy('descricao');
         $pessoas = $this->Pessoa->all()->sortBy('nome_guerra');
 
+        $acoes = 'xxx';
+        $btnEditar = '<button class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar este registro">Editar</button>';
+    
+
         if($nivelAcesso == 1 || $nivelAcesso == 2) {
             $secoes = $this->Secao->all()->sortBy('descricao');
         } else {
@@ -62,6 +66,7 @@ class ApresentacaoController extends Controller
 
 
         if(request()->ajax()) {
+
 
             // https://www.itsolutionstuff.com/post/laravel-one-to-one-eloquent-relationship-tutorialexample.html
             // https://github.com/Tucker-Eric/EloquentFilter
@@ -79,6 +84,12 @@ class ApresentacaoController extends Controller
                     ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
                     ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
                     ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
+                    ->addColumn('acoes', function ($data) {return $this->getActionColumn($data); })
+                    // ->addColumn('acoes', function ($param) { 
+                    //             $btnEditar = '<button class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar este registro">Editar</button>';
+                    //     return  $btnEditar; })
+                    ->setRowId( function($param) { return $param->id; })
+                    ->rawColumns(['acoes'])
                     ->addIndexColumn()
                     ->make(true);        
             }
@@ -136,6 +147,15 @@ class ApresentacaoController extends Controller
         }
 
         return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $nivelAcesso, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes]);
+    }
+
+    protected function getActionColumn($data): string
+    {
+        // $showUrl = route('admin.brands.show', $data->id);
+        // $editUrl = route('admin.brands.edit', $data->id);
+        return "<a class='waves-effect btn btn-success' data-value='$data->id' href=''><i class='material-icons'>visibility</i>Details</a> 
+                <a class='waves-effect btn btn-primary' data-value='$data->id' href=''><i class='material-icons'>edit</i>Update</a>
+                <button class='waves-effect btn deepPink-bgcolor delete' data-value='$data->id' ><i class='material-icons'>delete</i>Delete</button>";
     }
 
     public function Select() {  

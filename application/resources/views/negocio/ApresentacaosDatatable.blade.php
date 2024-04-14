@@ -265,7 +265,8 @@
                     {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ",
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
+                    // {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
+                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
                             return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
@@ -369,8 +370,11 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                let id = $(this).data("id")
-                // alert('Editar ID: ' + id );
+                // let id = $(this).data("id")
+                // let id = this.row( this ).id();
+                // let id = $(this).id();
+                let id = $(this).parents('tr').attr("id");
+                //alert('Editar ID: ' + id );
 
                 $.ajax({
                     type: "POST",
