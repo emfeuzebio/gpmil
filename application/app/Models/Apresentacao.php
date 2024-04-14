@@ -28,17 +28,27 @@ class Apresentacao extends Model
     public function pessoa() {
         return $this->hasOne(Pessoa::class, 'id', 'pessoa_id');
     }    
+    // public function pessoa() {
+    //     return $this->belongsTo(Pessoa::class);
+    // }    
+    
+    public function boletim() {
+        return $this->hasOne(boletim::class, 'id', 'boletim_id');
+    }   
+    // public function boletim() {
+    //     return $this->belongsTo(Boletim::class);
+    // }   
 
     public function destino() {
         return $this->hasOne(Destino::class, 'id', 'destino_id');
     }   
+    // public function destino() {
+    //     return $this->belongsTo(Destino::class);
+    // }
 
-    public function boletim() {
-        return $this->hasOne(boletim::class, 'id', 'boletim_id');
+    public function secao() {
+        return $this->hasOne(Secao::class, 'id', 'secao_id');
     }   
 
-    // public function pessoa() {
-    //     return $this->belongsTo(User::class, 'user_id','id');
-    // }    
 
 }

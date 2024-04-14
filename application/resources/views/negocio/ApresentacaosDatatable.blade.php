@@ -14,8 +14,19 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Apresentações</b></div>
-                        <div class="col-md-4 text-right">
+                        <!--área de título da Entidade-->
+                        <div class="col-md-3 text-left h5"><b>Apresentações</b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
                             <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
@@ -24,9 +35,43 @@
                     </div>
                 </div>
 
+                <div class="card-header">
+                    <!--área de Filtros-->
+                    <div class="row">
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
+                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro pela Seção</label>
+                                <select id="filtro_secao" name="filtro_secao" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Todas Seções </option>
+                                    @foreach( $secoes as $secao )
+                                    <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro pelo Motivo</label>
+                                <select id="filtro_destino" name="filtro_destino" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <option value=""> Todos Motivos </option>
+                                    @foreach( $destinos as $destino )
+                                    <option value="{{$destino->id}}">{{$destino->sigla}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Publicado</label>
+                                <select id="filtro_publicado" name="destino" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Publicados ou não </option>
+                                    <option value="SIM">SIM</option>
+                                    <option value="NÃO">NÃO</option>
+                                </select>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
-                    <table id="datatables" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
+                    <table id="datatables-apresentacao" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
                         <thead></thead>
                         <tbody></tbody>
                         <tfoot></tfoot>                
@@ -173,12 +218,15 @@
 
     <script type="text/javascript">
 
+        var id = null;
+
+
         $(document).ready(function () {
 
             //máscaras necessárias em campos
             $('#celular').inputmask('(99) 99999-9999');
 
-            var id = '';
+            // var id = '';
 
             $.ajaxSetup({
                 headers: {
@@ -186,37 +234,39 @@
                 }
             });
 
-            $('#datatables').DataTable({
+            $('#datatables-apresentacao').DataTable({
                 processing: true,
                 serverSide: true,
+                ajax: {
+                    url: "{{url("apresentacaos")}}",
+                    data: {"paramFixo": "1" },
+                },
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
+                // dataType: "json",
+                // fnServerParams: function (aoData) {
+                //     aoData.push(
+                //         {"name": "zFiltro_0", "value": $("#filtro_secao").val() },
+                //     );
+                // },                 
+                order: [ [8, 'desc'],[4, 'asc'] ],  //não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("apresentacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
-                    // {"data": "pessoa_id", "name": "apresentacaos.pessoa_id", "class": "dt-left", "title": "Pessoa"},
-                    {"data": "pessoa", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
-                    // {"data": "destino_id", "name": "apresentacaos.destino_id", "class": "dt-left", "title": "Motivo"},
-                    {"data": "destino", "name": "destinos.sigla", "class": "dt-left", "title": "Motivo",
+                    // {"data": "secao", "name": "pessoa.secao_id", "class": "dt-left", "title": "Seção"}, //se a secao_id estiver na pessoa
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"}, //se a secao_id estiver na prórpria apresentacao
+                    {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
+                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "dt_inicial", "name": "apresentacaos.dt_inicial", "class": "dt-center", "title": "Dt Início"},
                     {"data": "dt_final", "name": "apresentacaos.dt_final", "class": "dt-center", "title": "Dt Fim"},
-                    // {"data": "prtsv", "name": "apresentacaos.prtsv", "class": "dt-left", "title": "Pronto Sv"},
                     {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local"},
                     {"data": "celular", "name": "apresentacaos.celular", "class": "dt-left", "title": "Contato"},
                     {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ",
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    {"data": "boletim_id", "name": "apresentacaos.boletim_id", "class": "dt-left", "title": "Bol Pub"},
-                    // {"data": "celular", "name": "apresentacaos.celular", "class": "dt-left", "title": "Nome",
-                    //     render: function (data) { return '<b>' + data + '</b>';}},
-                    // {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Nome de Guerra"},
-                    // {"data": "ativo", "name": "pessoas.ativo", "class": "dt-center", "title": "Ativo",  
-                    //     render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
-                    // },
+                    {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
                             return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
@@ -225,10 +275,29 @@
                 ]
             });
 
+            // Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
+            $('#filtro_secao').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-apresentacao').DataTable().column('1').search( $(this).val() ).draw();
+            });        
+            
+            // Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
+            $('#filtro_destino').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-apresentacao').DataTable().column('3').search( $(this).val() ).draw();
+            });        
+            
+            // Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
+            $('#filtro_publicado').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-apresentacao').DataTable().column('8').search( $(this).val() ).draw();
+            });        
+            
+
             /*
             * Delete button action
             */
-            $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
+            $("#datatables-apresentacao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
@@ -251,7 +320,7 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
-                            $('#datatables').DataTable().ajax.reload(null, false);
+                            $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         }
                     });
                     $('#confirmaExcluirModal').modal('hide');            
@@ -262,11 +331,10 @@
 /*
             * Homologar button action
             */
-            $("#datatables tbody").delegate('tr td .btnHomologar', 'click', function (e) {
+            $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
-                const boletim_id = null;
+                let id = $(this).data("id")
                 // alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
@@ -278,6 +346,7 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
+                    alert('id' + id + '; boletim_id: ' + boletim_id );
 
                     $.ajax({
                         type: "POST",
@@ -287,7 +356,7 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Homologar a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
-                            $('#datatables').DataTable().ajax.reload(null, false);
+                            $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         }
                     });
                     $('#confirmahomologarModal').modal('hide');      
@@ -297,10 +366,10 @@
             /*
             * Edit button action
             */
-            $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
+            $("#datatables-apresentacao tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
+                let id = $(this).data("id")
                 // alert('Editar ID: ' + id );
 
                 $.ajax({
@@ -356,7 +425,7 @@
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
-                        $('#datatables').DataTable().ajax.reload(null, false);
+                        $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador
@@ -393,7 +462,7 @@
         */
         $('#btnRefresh').on("click", function (e) {
             e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
+            $('#datatables-apresentacao').DataTable().ajax.reload(null, false);    
         });        
 
     </script>    
