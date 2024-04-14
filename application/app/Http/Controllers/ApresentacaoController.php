@@ -41,6 +41,25 @@ class ApresentacaoController extends Controller
     
     public function index() {
 
+        $nivelAcesso = 1;   //Administrador pode tudo
+        $nivelAcesso = 2;   //Supervisor pode apenas ver tudo
+        // $nivelAcesso = 3;   //Coordenador pode apenas ver seção
+        // $nivelAcesso = 4;   //Gerente pode tudo na seção
+        // $nivelAcesso = 5;   //Usuário pode tudo apenas para ele mesmo
+
+        $userID         = 1;    //1 - Super Usuário
+        $userSecaoID    = 13;   //13 - ATI
+
+        $boletins = $this->Boletim->all()->sortBy('id');
+        $destinos = $this->Destino->all()->sortBy('descricao');
+        $pessoas = $this->Pessoa->all()->sortBy('nome_guerra');
+
+        if($nivelAcesso == 1 || $nivelAcesso == 2) {
+            $secoes = $this->Secao->all()->sortBy('descricao');
+        } else {
+            $secoes = $this->Secao::where('id','=',$userSecaoID)->orderBy('descricao')->get();
+        }
+
 
         if(request()->ajax()) {
 
@@ -49,32 +68,74 @@ class ApresentacaoController extends Controller
             // https://www.itsolutionstuff.com/post/laravel-datatables-filter-with-dropdown-exampleexample.html
             // https://laravel.com/docs/10.x/eloquent-collections
 
+            if($nivelAcesso == 1 || $nivelAcesso == 2) {
+
+                return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('destino')->with('pessoa')->with('boletim')->with('secao')
+                        // ->where('apresentacaos.destino_id', '>=', '1')
+                    )
+                    ->addColumn('secao', function($param) { return $param->secao?->sigla; })            //se a secao.sigla estiver na própria apresentacao
+                    ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
+                    ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+                    ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+                    ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
+                    ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
+                    ->addIndexColumn()
+                    ->make(true);        
+            }
+
+            if($nivelAcesso == 3 || $nivelAcesso == 4) {
+
+                return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('destino')->with('pessoa')->with('boletim')->with('secao')
+                        ->where('apresentacaos.secao_id', '=', $userSecaoID)     //funciona se a secao_id estive na própria tabela apresentacoes
+                    )
+                    ->addColumn('secao', function($param) { return $param->secao?->sigla; })            //se a secao.sigla estiver na própria apresentacao
+                    ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
+                    ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+                    ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+                    ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
+                    ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
+                    ->addIndexColumn()
+                    ->make(true);        
+
+            }
+
+            if($nivelAcesso == 5) {
+
+                return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('destino')->with('pessoa')->with('boletim')->with('secao')
+                        ->where('apresentacaos.pessoa_id', '=', $userID)     //funciona se a secao_id estive na própria tabela apresentacoes
+                    )
+                    ->addColumn('secao', function($param) { return $param->secao?->sigla; })            //se a secao.sigla estiver na própria apresentacao
+                    ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
+                    ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+                    ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+                    ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
+                    ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
+                    ->addIndexColumn()
+                    ->make(true);  
+            }
+
+
             // return DataTable::eloquent(Apresentacao::select(['apresentacaos.*']))
             // return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('pessoa','destino','boletim','DestinoFk'))
-            return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('destino')->with('pessoa')->with('boletim')->with('secao')
-                    ->where('apresentacaos.destino_id', '>=', '1')  //funciona filtran somente pela tabela principal 'apresentacoes'
-                    // ->where('apresentacaos.secao_id', '=', '3')     //funciona se a secao_id estive na própria tabela apresentacoes
-                    // ->orderBy('apresentacaos.publicado','desc')
-                    // ->orderBy('apresentacaos.dt_inicial','asc')
-                )
-                // ->filter(function ($query) { $query->where('apresentacaos.secao_id', '=', '3');} , true) //funciona se a secao_id estive na própria tabela apresentacoes
-                // ->addColumn('secao', function($param) { return $param->pessoa?->secao->sigla; }) //se a secao.sigla estiver na pessoa
-                ->addColumn('secao', function($param) { return $param->secao?->sigla; })            //se a secao.sigla estiver na própria apresentacao
-                ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
-                ->addColumn('destino', function($param) { return $param->destino?->sigla; })
-                ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
-                ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
-                ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
-                ->addIndexColumn()
-                ->make(true);        
+            // return DataTables::eloquent(Apresentacao::select(['apresentacaos.*'])->with('destino')->with('pessoa')->with('boletim')->with('secao')
+            //         ->where('apresentacaos.destino_id', '>=', '1')  //funciona filtran somente pela tabela principal 'apresentacoes'
+            //         // ->where('apresentacaos.secao_id', '=', '3')     //funciona se a secao_id estive na própria tabela apresentacoes
+            //         // ->orderBy('apresentacaos.publicado','desc')
+            //         // ->orderBy('apresentacaos.dt_inicial','asc')
+            //     )
+            //     // ->filter(function ($query) { $query->where('apresentacaos.secao_id', '=', '3');} , true) //funciona se a secao_id estive na própria tabela apresentacoes
+            //     // ->addColumn('secao', function($param) { return $param->pessoa?->secao->sigla; }) //se a secao.sigla estiver na pessoa
+            //     ->addColumn('secao', function($param) { return $param->secao?->sigla; })            //se a secao.sigla estiver na própria apresentacao
+            //     ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
+            //     ->addColumn('destino', function($param) { return $param->destino?->sigla; })
+            //     ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+            //     ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
+            //     ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
+            //     ->addIndexColumn()
+            //     ->make(true);        
         }
 
-        $boletins = $this->Boletim->all()->sortBy('id');
-        $destinos = $this->Destino->all()->sortBy('descricao');
-        $pessoas = $this->Pessoa->all()->sortBy('nome_guerra');
-        $secoes = $this->Secao->all()->sortBy('descricao');
-
-        return view('negocio/ApresentacaosDatatable',['boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes]);
+        return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $nivelAcesso, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes]);
     }
 
     public function Select() {  

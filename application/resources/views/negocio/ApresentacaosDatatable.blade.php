@@ -220,20 +220,19 @@
 
         var id = null;
 
-
         $(document).ready(function () {
 
-            //máscaras necessárias em campos
+            // definitions of filds mask
             $('#celular').inputmask('(99) 99999-9999');
 
-            // var id = '';
-
+            // send token
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
+            /*
+            * Definitios of DataTables render
+            */
             $('#datatables-apresentacao').DataTable({
                 processing: true,
                 serverSide: true,
@@ -276,24 +275,23 @@
             });
 
             // https://www.youtube.com/watch?v=e-HA2YQUoi0
-            // Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
+            // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
             $('#filtro_secao').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-apresentacao').DataTable().column('1').search( $(this).val() ).draw();
             });        
             
-            // Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
+            // Filtro - Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
             $('#filtro_destino').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-apresentacao').DataTable().column('3').search( $(this).val() ).draw();
             });        
             
-            // Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
+            // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
             $('#filtro_publicado').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-apresentacao').DataTable().column('8').search( $(this).val() ).draw();
             });        
-            
 
             /*
             * Delete button action
@@ -329,7 +327,7 @@
 
             });           
 
-/*
+            /*
             * Homologar button action
             */
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
@@ -364,6 +362,7 @@
                 });                     
                 
             });
+
             /*
             * Edit button action
             */
@@ -439,6 +438,9 @@
                 });                
             });
 
+            /*
+            * New button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
                 //alert('Novo');
@@ -446,9 +448,9 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Nova Apresentação');  //
+                $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
-                $('#editarModal').modal('show');                 // show modal 
+                $('#editarModal').modal('show');                // show modal 
             });
 
             // put the focus on de name field
