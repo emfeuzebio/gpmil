@@ -151,11 +151,15 @@ class ApresentacaoController extends Controller
 
     protected function getActionColumn($data): string
     {
-        // $showUrl = route('admin.brands.show', $data->id);
-        // $editUrl = route('admin.brands.edit', $data->id);
-        return "<a class='waves-effect btn btn-success' data-value='$data->id' href=''><i class='material-icons'>visibility</i>Details</a> 
-                <a class='waves-effect btn btn-primary' data-value='$data->id' href=''><i class='material-icons'>edit</i>Update</a>
-                <button class='waves-effect btn deepPink-bgcolor delete' data-value='$data->id' ><i class='material-icons'>delete</i>Delete</button>";
+        $actions = '';
+        $btnEditar  = '<button class="btnEditar  btn btn-primary btn-xs" data-toggle="tooltip" title="Editar este registro">Editar</button> ';
+        $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
+        $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Homologar este registro">Homlg</button> ';
+
+        //implementar regras de controle de acesso aqui
+        $actions    = $btnHomolg . $btnEditar . $btnExcluir;
+
+        return $actions;
     }
 
     public function Select() {  

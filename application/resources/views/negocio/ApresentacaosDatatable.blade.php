@@ -172,7 +172,7 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
                 </div>
                 <div class="modal-body">
-
+                    <p></p>
                     <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                         <div class="form-group">
@@ -218,7 +218,10 @@
 
     <script type="text/javascript">
 
-        var id = null;
+        //variável global que recebe o ID do registro
+        window.id = '';
+        var id = '';
+        var descricao = '';        
 
         $(document).ready(function () {
 
@@ -265,13 +268,13 @@
                     {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ",
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações"},
-                    {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
-                        render: function (data, type) { 
-                            return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
-                        }
-                    },
+                    {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
+                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "150px", "sortable": false},
+                    // {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
+                    //     render: function (data, type) { 
+                    //         return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+                    //     }
+                    // },
                 ]
             });
 
@@ -300,7 +303,8 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
+                // id = $(this).data("id")
+                let id = $(this).parents('tr').attr("id");
                 //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
@@ -334,8 +338,9 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                let id = $(this).data("id")
-                // alert('Editar ID: ' + id );
+                // let id = $(this).data("id")
+                var id = $(this).parents('tr').attr("id");
+                // alert('btnHomologar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Homologar a Apresentação ID: ' + id + '?');
@@ -346,16 +351,19 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
-                    alert('id' + id + '; boletim_id: ' + boletim_id );
+                    // alert('id' + id + '; boletim_id: ' + boletim_id );
 
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/homologar")}}",
-                        data: {"id":id, "boletim_id":boletim_id},
+                        data: { "id":id, "boletim_id":boletim_id},
                         dataType: 'json',
+                        async: false,
+                        cache: false,                        
                         success: function (data) {
-                            $("#alert .alert-content").text('Homologar a Apresentação ID ' + id + ' com sucesso.');
+                            $("#alert .alert-content").text('Homologou a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $("#boletim_id").val('');
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         }
                     });
