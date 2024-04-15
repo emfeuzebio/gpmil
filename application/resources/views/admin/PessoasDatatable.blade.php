@@ -60,95 +60,96 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">P / G</label>
-                                <select name="pgrad_id" id="pgrad_id" class="form-control">
+                                <label class="form-label">P / G <span style="color: red">*</span></label>
+                                <select name="pgrad_id" id="pgrad_id" class="form-control"placeholder="" data-toggle="tooltip" data-placement="top" title="Posto / Graduação!">
                                     <option value=""> Selecione o P / G </option>
                                     @foreach( $pgrads as $pgrad )
                                     <option value="{{$pgrad->id}}">{{$pgrad->sigla}}</option>
                                     @endforeach
                                 </select>
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <div id="error-pgrad" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                             
                             <div class="form-group">
-                                <label class="form-label">QM</label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control">
+                                <label class="form-label">QM <span style="color: red">*</span></label>
+                                <select name="qualificacao_id" id="qualificacao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
+                                    <option value=""> Selecione a QM</option>
                                     @foreach( $qualificacaos as $qualificacao )
                                     <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
                                     @endforeach
                                 </select>
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Linha de Ensino Militar</label>
-                                <select class="form-control" name="lem" id="lem">
+                                <select class="form-control" name="lem" id="lem" placeholder="" data-toggle="tooltip" data-placement="top" title="Linha de Ensino Militar">
                                     <option value="">Selecione a Linha de Ensino</option>
                                     <option value="Bélica">Bélica</option>
                                     <option value="Técnica">Técnica</option>
                                     <option value="Civil">Civil</option>
                                 </select>
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <div id="error-lem" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Nome Completo</label>
-                                <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <label class="form-label">Nome Completo <span style="color: red">*</span></label>
+                                <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite seu nome" data-toggle="tooltip" data-placement="top" title="Nome Completo!" >
+                                <div id="error-nome_completo" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
-                                <label class="form-label">Nome de Guerra</label>
-                                <input class="form-control" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <label class="form-label">Nome de Guerra <span style="color: red">*</span></label>
+                                <input class="form-control" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite seu nome de guerra" data-toggle="tooltip" data-placement="top" title="Nome de Guerra!" >
+                                <div id="error-nome_guerra" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">CPF</label>
-                                <input class="form-control" value="" type="text" id="cpf" name="cpf" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <label class="form-label">CPF <span style="color: red">*</span></label>
+                                <input class="form-control" value="" type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" data-toggle="tooltip" data-placement="top" title="CPF!" >
+                                <div id="error-cpf" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Identidade</label>
-                                <input class="form-control" value="" type="text" id="idt" name="idt" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <label class="form-label">Identidade <span style="color: red">*</span></label>
+                                <input class="form-control" value="" type="text" id="idt" name="idt" placeholder="Digite sua Identidade" data-toggle="tooltip" data-placement="top" title="Identidade!" >
+                                <div id="error-idt" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Prec CP</label>
-                                <input class="form-control" value="" type="text" id="preccp" name="preccp" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="preccp" name="preccp" placeholder="Digite seu" data-toggle="tooltip" data-placement="top" title="Prec-CP!">
+                                <div id="error-preccp" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input class="form-control" value="" type="email" id="email" name="email" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="email" id="email" name="email" placeholder="Digite seu E-mail" data-toggle="tooltip" data-placement="top" title="E-mail!" >
+                                <div id="error-email" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data de Nascimento</label>
-                                <input class="form-control" value="" type="date" id="dt_nascimento" name="dt_nascimento" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="date" lang="pt-BR" id="dt_nascimento" name="dt_nascimento" placeholder="Digite sua data de nascimento" data-toggle="tooltip" data-placement="top" title="Data de Nascimento!" >
+                                <div id="error-dt_nascimento" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data de Apresentação na OM</label>
-                                <input class="form-control" value="" type="date" id="dt_apres_om" name="dt_apres_om" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="date" id="dt_apres_om" name="dt_apres_om" placeholder="Digite sua data de apresentação na OM" data-toggle="tooltip" data-placement="top" title="Apresentação na OM!" >
+                                <div id="error-dt_apres_om" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data de Apresentação na Guarnição</label>
-                                <input class="form-control" value="" type="date" id="dt_apres_gu" name="dt_apres_gu" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="date" id="dt_apres_gu" name="dt_apres_gu" placeholder="Digite sua data de apresentação na Guarnição" data-toggle="tooltip" data-placement="top" title="Apresentação na Guarnição!" >
+                                <div id="error-dt_apres_gu" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data da Última Promoção</label>
-                                <input class="form-control" value="" type="date" id="dt_ult_promocao" name="dt_ult_promocao" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="date" id="dt_ult_promocao" name="dt_ult_promocao" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="Última Promoção!" >
+                                <div id="error-dt_ult_promocao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                         </div>
 
@@ -161,16 +162,17 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <label class="form-check-label" for="segmentoM">
-                                        <input class="form-check-input" type="radio" id="segmentoM" value="Feminino" name="segmento">Feminino
+                                    <label class="form-check-label" for="segmentoF">
+                                        <input class="form-check-input" type="radio" id="segmentoF" value="Feminino" name="segmento">Feminino
                                     </label>
                                 </div>
                                 <div id="error-segmento" class="invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Status</label>
-                                <select class="form-control" name="status" id="status">
+                                <label class="form-label">Status <span style="color: red">*</span></label>
+                                <select class="form-control" name="status" id="status" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
+                                    <option value="">Selecione o Status</option>
                                     <option value="Ativa">Ativa</option>
                                     <option value="Reserva">Reserva</option>
                                     <option value="Civil">Civil</option>
@@ -178,43 +180,35 @@
                                 <div id="error-status" class="invalid-feedback" style="display: none;"></div>
                             </div>
                             
-                            <div class="form-group">    
-                                <label class="form-label">Ativo</label>                    
-                                <select class="form-control" id="ativo" name="ativo">
-                                    <option value="SIM">SIM</option>
-                                    <option value="NÃO">NÃO</option>
-                                </select>
-                                <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
-                            </div>
 
                             <div class="form-group" id="form-group-id">
                                 <label class="form-label">CEP</label>
-                                <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="">
+                                <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="Digite o CEP" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="CEP!">
                                 <div id="error-cep" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group" id="form-group-id">
                                 <label class="form-label">Estado UF</label>
-                                <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="">
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="Digite o Estado" data-toggle="tooltip" data-placement="top" title="Estado UF!">
+                                <div id="error-uf" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group" id="form-group-id">
                                 <label class="form-label">Endereço</label>
-                                <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="">
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="Digite o endereço" data-toggle="tooltip" data-placement="top" title="Endereço!">
+                                <div id="error-endereco" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Bairro</label>
-                                <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="">
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="Digite o bairro" data-toggle="tooltip" data-placement="top" title="Bairro!">
+                                <div id="error-bairro" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Cidade</label>
-                                <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="">
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Cidade!">
+                                <div id="error-cidade" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                             
                             {{-- <div class="form-group">
@@ -230,37 +224,53 @@
 
                             <div class="form-group">
                                 <label class="form-label">Ramal</label>
-                                <input class="form-control" value="" type="tel" id="fone_ramal" name="fone_ramal" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="tel" id="fone_ramal" name="fone_ramal" placeholder="Digite o ramal" data-toggle="tooltip" data-placement="top" title="Telefone Ramal!" >
+                                <div id="error-fone_ramal" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
                                 <label class="form-label">Telefone Celular</label>
-                                <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="Digite o telefone celular" data-toggle="tooltip" data-placement="top" title="Telefone Celular!" >
+                                <div id="error-fone_celular" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Telefone de Emergência</label>
-                                <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Telefone de Emergência!" >
+                                <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Seção</span></label>
+                                <select name="secao_id" id="secao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
+                                    <option value=""> Selecione a Seção</option>
+                                    @foreach( $secaos as $secao )
+                                    <option value="{{$secao->id}}">{{$secao->sigla}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Função</label>
-                                <input class="form-control" value="" type="text" id="funcao_id" name="funcao_id" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <input class="form-control" value="" type="text" id="funcao_id" name="funcao_id" placeholder="Digite a função" data-toggle="tooltip" data-placement="top" title="Função!" >
+                                <div id="error-funcao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Nivel de Acesso</label>
-                                <input class="form-control" value="" type="text" id="nivelacesso_id" name="nivelacesso_id" placeholder="" data-toggle="tooltip" data-placement="top" title="Hooray!" >
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                                <label class="form-label">Nível Acesso</span></label>
+                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
+                                    <option value=""> Selecione o nível</option>
+                                    @foreach( $nivel_acessos as $nivel_acesso )
+                                    <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                             
                             <div class="form-group">    
-                                <label class="form-label">Ativo</label>                    
-                                <select class="form-control" id="ativo" name="ativo">
+                                <label class="form-label">Ativo <span style="color: red">*</span></label>                    
+                                <select class="form-control" id="ativo" name="ativo" placeholder="" data-toggle="tooltip" data-placement="top" title="Ativo! Sim o Não?">
                                     <option value="SIM">SIM</option>
                                     <option value="NÃO">NÃO</option>
                                 </select>
@@ -305,6 +315,8 @@
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
             $('#idt').inputmask('999999999-9'); //Mascara para IDT
+            // $('#preccp').inputmask('99999999-9'); //Mascara para IDT
+            $('#cep').inputmask('99999-999'); //Mascara para IDT
 
             $('#fone_ramal').inputmask('999 9999'); //Mascara para Ramal            
             $('#fone_celular').inputmask('(99) 99999-9999'); //Mascara para Celular            
@@ -360,17 +372,7 @@
             });
 
             function getSegmentoValue() {
-                const radios = document.querySelectorAll('input[name="segmento"]:checked');
-
-                // Check if any radio button is selected
-                if (radios.length === 0) {
-                    // Handle no selection case (optional: display error message)
-                    console.error("Nenhum segmento selecionado.");
-                    return; // Or set segmento to an empty string or default value
-                }
-
-                const segmento = radios[0].value; // Get the value of the first selected radio button
-                console.log("Segmento selecionado:", segmento); // Example usage
+                return $('input[name="segmento"]:checked').val();
             }
 
             /*
@@ -412,7 +414,7 @@
             */
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
-                getSegmentoValue();
+                segmento = getSegmentoValue();
                 const id = $(this).data("id")
                 // alert('Editar ID: ' + id );
 
@@ -458,6 +460,7 @@
                         $('#fone_celular').val(data.fone_celular);
                         $('#fone_emergencia').val(data.fone_emergencia);
                         $('#foto').val(data.foto);
+                        $('#secao').val(data.secao);
                         $('#funcao_id').val(data.funcao);
                         $('#nivelacesso_id').val(data.nivelacesso_id);
                     }

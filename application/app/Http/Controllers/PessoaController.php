@@ -10,6 +10,7 @@ use App\Models\Pgrad;
 use App\Models\Pessoa;
 use App\Models\Qualificacao;
 use App\Models\Secao;
+use App\Models\NivelAcesso;
 use Session;
 use DataTables;
 use DB;
@@ -22,6 +23,7 @@ class PessoaController extends Controller
     protected $Pgrad = null;
     protected $Qualificacao = null;
     protected $Secao = null;
+    protected $NivelAcesso = null;
 
     public function __construct() {
 
@@ -33,6 +35,7 @@ class PessoaController extends Controller
         $this->Pgrad = new Pgrad();
         $this->Qualificacao = new Qualificacao();
         $this->Secao = new Secao();
+        $this->NivelAcesso = new NivelAcesso();
     }
 
     public function indexRender(PessoaDataTable $dataTable)
@@ -71,9 +74,11 @@ class PessoaController extends Controller
 
         if(request()->ajax()) {
 
-            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao'))
+            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao', 'nivel_acesso', 'secao'))
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
+                ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
+                ->addColumn('secao', function($param) { return $param->secao->sigla; })
                 ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
@@ -83,8 +88,15 @@ class PessoaController extends Controller
 
         $pgrads = $this->Pgrad->all()->sortBy('id');
         $qualificacaos = $this->Qualificacao->all()->sortBy('id');
+        $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
+        $secaos = $this->Secao->all()->sortBy('id');
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads], ['qualificacaos'=> $qualificacaos]);
+        // echo "<pre>";
+        // print_r($nivel_acessos);
+        // echo "</pre>";
+        // die();
+
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos] );
     }
 
 
@@ -92,7 +104,7 @@ class PessoaController extends Controller
 
         // Forma de buscar os dados
         // 1 - Direto via Model: já sabe a tabela
-        $generos = Pgrad::all()->sortBy('descricao');
+        $generos = Pessoa::all()->sortBy('nome_completo');
 
         // $generos = Pgrad::where('id_genero','<','5')->orderBy('descricao')->get();
         // $generos = Pgrad::where('id_genero','<','10')->orderBy('descricao')->get();
