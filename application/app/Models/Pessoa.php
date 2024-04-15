@@ -34,11 +34,11 @@ class Pessoa extends Model
         'ativo', 
         'antiguidade', 
         'secao_id', 
-        'endereco', 
-        'cidade', 
         // 'municipio_id', // ??????????
         'uf', 
         'cep', 
+        'endereco',
+        'cidade', 
         'fone_ramal', 
         'fone_celular', 
         'fone_emergencia', 
@@ -72,4 +72,6 @@ class Pessoa extends Model
     {
         $this->attributes['idt'] = preg_replace('/[^0-9]/', '', $value);
     }
+
+
 }
