@@ -3,7 +3,7 @@
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Administração</h1>
+    <h1 class="m-0 text-dark">Administração  @can('is_admin') ADMINISTRADOR @endcan  @can('is_gerente') GERENTE @endcan @can('is_usuario') USUÁRIO @endcan</h1>
 @stop
 
 @section('content')

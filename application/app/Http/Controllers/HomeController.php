@@ -11,6 +11,9 @@ use Illuminate\Support\Facades\Auth;
 
 class HomeController extends Controller
 {
+
+    protected $Pessoa = null;
+
     /**
      * Create a new controller instance.
      *
@@ -19,6 +22,7 @@ class HomeController extends Controller
     public function __construct()
     {
         $this->middleware('auth'); 
+        $this->Pessoa = new Pessoa();
     }
 
     /**
@@ -28,6 +32,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+
+        $qtdPessoasAtivas = $this->Pessoa->all()->count();
+        //dd($qtdPessoasAtivas);
+
+        return view('home', ['qtdPessoasAtivas' => $qtdPessoasAtivas]);
     }
 }

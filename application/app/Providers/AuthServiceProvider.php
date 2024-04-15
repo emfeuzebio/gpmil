@@ -39,18 +39,56 @@ class AuthServiceProvider extends ServiceProvider
             // dd($user->pessoa->nome_completo);
             // dd($user->pessoa->nivelacesso_id);
 
-            // $is_admin = $user->pessoa->nivelacesso_id == 1;
-            // dd("is_admin: $is_admin");
-
             /*
             *   Aqui, antes de voltar, há que carregar os dados do usuário logado e outras informações em Session
             */
 
             // return $user->pessoa->nivelacesso_id == 1;
             // return false;
-            return true;
+            return ( $user->pessoa->nivelacesso_id == 1 ? true : false );
 
         });        
+
+        Gate::define('is_supervisor', function (User $user) {
+
+            //carrega o usuário e a pessoa correspondente
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            // dd($user->pessoa->nivelacesso_id);
+            return ( $user->pessoa->nivelacesso_id == 2 ? true : false );
+
+        });        
+
+        Gate::define('is_coordenador', function (User $user) {
+
+            //carrega o usuário e a pessoa correspondente
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            // dd($user->pessoa->nivelacesso_id);
+            return ( $user->pessoa->nivelacesso_id == 3 ? true : false );
+
+        });                
+
+        Gate::define('is_gerente', function (User $user) {
+
+            //carrega o usuário e a pessoa correspondente
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            // dd($user);
+            $user->name = $user->pessoa->nome_guerra;
+            // dd($user);
+
+            // dd($user->pessoa->nivelacesso_id);
+            return ( $user->pessoa->nivelacesso_id == 4 ? true : false );
+
+        });                        
+
+        Gate::define('is_usuario', function (User $user) {
+
+            //carrega o usuário e a pessoa correspondente
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            // dd($user->pessoa->nivelacesso_id);
+            return ( $user->pessoa->nivelacesso_id == 5 ? true : false );
+
+        });                        
+
 
     }
 }
