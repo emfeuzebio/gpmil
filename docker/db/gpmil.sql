@@ -30,6 +30,7 @@ USE `gpmil`;
 CREATE TABLE `apresentacaos` (
   `id` int UNSIGNED NOT NULL,
   `pessoa_id` int UNSIGNED DEFAULT NULL,
+  `secao_id` int UNSIGNED DEFAULT NULL,
   `destino_id` int UNSIGNED DEFAULT NULL,
   `status_id` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `dt_apres` date DEFAULT NULL,
@@ -55,6 +56,7 @@ CREATE TABLE `apresentacaos` (
 ALTER TABLE `apresentacaos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
+  ADD KEY `apresentacaos_secao_id_key` (`secao_id`),
   ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
   ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`);
 

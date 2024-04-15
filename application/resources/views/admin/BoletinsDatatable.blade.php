@@ -15,11 +15,11 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Assessorias, Divisões, Subunidades e Seções</b></div>
+                        <div class="col-md-8 text-left"><b>Gestão de Boletins</b></div>
                         <div class="col-md-4 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar boletim (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -56,20 +56,20 @@
                         </div>                         
 
                         <div class="form-group">
-                            <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="S1" data-toggle="tooltip" title="Digite a sigla da Seção" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                            <label class="form-label">Tipo nº-OM do Boletim</label>
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: BI 001-3º BPE" data-toggle="tooltip" title="Digite a descrição do boletim" >
+                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
-                            <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: 1ª Seção" data-toggle="tooltip" title="Digite o nome da Seção" >
-                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
+                            <label class="form-label">Data</label>
+                            <input class="form-control" value="" type="date" id="data" name="data" placeholder="Ex.: 01/01/2024" data-toggle="tooltip" title="Digite a data do boletim" >
+                            <div id="error-data" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o boletim está ativo" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -127,14 +127,14 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("secaos")}}",
+                ajax: "{{url("boletins")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    {"data": "id", "name": "secaos.id", "class": "dt-right", "title": "#"},
-                    {"data": "descricao", "name": "secaos.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "boletins.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "boletins.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "secaos.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "secaos.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "data", "name": "boletins.data", "class": "dt-center", "title": "data"},
+                    {"data": "ativo", "name": "boletins.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
@@ -165,7 +165,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("secaos/destroy")}}",
+                        url: "{{url("boletins/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -190,19 +190,19 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/edit")}}",
+                    url: "{{url("boletins/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Seção');
+                        $('#modalLabel').html('Editar boletins');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#sigla').val(data.sigla);
+                        $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         $('#ativo').val(data.ativo);
                     }
@@ -224,7 +224,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/store")}}",
+                    url: "{{url("boletins/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -254,14 +254,14 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Nova Seção');  //
+                $('#modalLabel').html('Novo Boletim');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#descricao').focus();
             })
 
         });

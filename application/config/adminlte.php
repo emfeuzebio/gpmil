@@ -372,13 +372,13 @@ return [
                     'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'Motivos',
-                    'url' => 'funcaos',
+                    'text' => 'Destinos',
+                    'url' => 'destinos',
                     'can' => 'is_admin',
                 ],
                 [
-                    'text' => 'Destinos',
-                    'url' => 'destinos',
+                    'text' => 'Boletins',
+                    'url' => 'boletins',
                     'can' => 'is_admin',
                 ],
                 [

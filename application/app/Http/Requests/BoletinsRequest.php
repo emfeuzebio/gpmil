@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PessoaRequest extends FormRequest
+class BoletinsRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -22,13 +22,8 @@ class PessoaRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'pgrad_id' => 'required',
-            'nome_completo' => 'required',
-            'nome_guerra' => 'required',
-            // 'qualificacao_id' => 'required',
-            'cpf' => 'required',            //|unique
-            'idt' => 'required',            //|unique
-            'status' => ['required','in:"Ativa","Reserva","Civil"'],
+            'descricao' => 'required|min:2',
+            'data' => 'required|date',            //|unique
             'ativo' => ['required','in:"SIM","NÃO"'],
         ];
     }

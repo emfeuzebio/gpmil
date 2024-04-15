@@ -32,6 +32,8 @@
         <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
 
         <!-- <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" > -->
+             <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" >
+
 
         <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
         <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
@@ -107,6 +109,9 @@
         <!-- EUZ terminar, colocar no vendor como os outros -->
         <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
 
+        <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>      
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
+
         <!-- EUZ DataTables Buttons  -->
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
         <!-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script> -->
@@ -122,12 +127,14 @@
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.colVis.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+
 
     <!-- EUZ javascript com configurações iniciais -->
     <script type="text/javascript" language="javascript" class="init">
 
         $(document).ready(function () {
-
+            
             // configura os Modais para terem seu conteúdo limpo ao serem fechados (hide)
             $('body').on('hidden.bs.modal', '.modal', function () {
                 $(this).removeData('bs.modal');
