@@ -33,12 +33,12 @@ class Pessoa extends Model
         // 'user_id', 
         'ativo', 
         'antiguidade', 
-        // 'secao_id', 
-        'endereco', 
-        'cidade', 
+        'secao_id', 
         // 'municipio_id', // ??????????
         'uf', 
         'cep', 
+        'endereco',
+        'cidade', 
         'fone_ramal', 
         'fone_celular', 
         'fone_emergencia', 
@@ -59,12 +59,9 @@ class Pessoa extends Model
         return $this->hasOne(Secao::class, 'id', 'secao_id');
     }
 
-    public function nivelacesso() {
+    public function nivel_acesso() {
         return $this->hasOne(NivelAcesso::class, 'id', 'nivelacesso_id');
     }
-    // public function pessoa() {
-    //     return $this->belongsTo(User::class, 'user_id','id');
-    // }    
     
     public function setCpfAttribute($value)
     {
@@ -75,4 +72,6 @@ class Pessoa extends Model
     {
         $this->attributes['idt'] = preg_replace('/[^0-9]/', '', $value);
     }
+
+
 }
