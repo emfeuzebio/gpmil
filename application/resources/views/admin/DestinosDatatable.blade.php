@@ -43,7 +43,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
             </div>
             <div class="modal-body">
 

@@ -21,7 +21,7 @@ class ApresentacaoRequest extends FormRequest
             'dt_inicial' => 'required|date',
             'dt_final' => 'required|date',          
             'local_destino' => 'required|min:3',
-            'celular' => 'required|min:15',
+            'celular' => 'required|min:10',
             'observacao' => '',  
             // 'prtsv' => '',            
             'publicado' => ['required','in:"SIM","NÃO"'],

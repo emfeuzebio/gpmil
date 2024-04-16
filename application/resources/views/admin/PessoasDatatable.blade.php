@@ -241,7 +241,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Seção</span></label>
+                                <label class="form-label">Seção <span style="color: red">*</span></label>
                                 <select name="secao_id" id="secao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
                                     <option value=""> Selecione a Seção</option>
                                     @foreach( $secaos as $secao )
@@ -412,7 +412,7 @@
             */
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
-                segmento = getSegmentoValue();
+
                 const id = $(this).data("id")
                 // alert('Editar ID: ' + id );
 
@@ -440,7 +440,15 @@
                         $('#ativo').val(data.ativo);
                         $('#lem').val(data.lem);
                         $('#email').val(data.email);
-                        $('#segmento').val(data.segmento);
+                        // $('#segmento').val(data.segmento);
+                        if (data.segmento === "Masculino") {
+                            $('#segmentoM').prop('checked', true);
+                        } else if (data.segmento === "Feminino") {
+                            $('#segmentoF').prop('checked', true);
+                        } else {
+                            $('#segmentoM').prop('checked', false);
+                            $('#segmentoF').prop('checked', false);
+                        }
                         $('#preccp').val(data.preccp);
                         $('#dt_nascimento').val(data.dt_nascimento);
                         $('#dt_praca').val(data.dt_praca);
@@ -458,7 +466,7 @@
                         $('#fone_celular').val(data.fone_celular);
                         $('#fone_emergencia').val(data.fone_emergencia);
                         $('#foto').val(data.foto);
-                        $('#secao').val(data.secao);
+                        $('#secao_id').val(data.secao_id);
                         $('#funcao_id').val(data.funcao);
                         $('#nivelacesso_id').val(data.nivelacesso_id);
                     }
