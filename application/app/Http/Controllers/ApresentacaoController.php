@@ -121,8 +121,8 @@ class ApresentacaoController extends Controller
         $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
         $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Homologar este registro">Homlg</button> ';
 
-        // btn Homologar disponível apenas ao Enc Pes
-        if($this->userNivelAcessoID == 3) {
+        // btn Homologar disponível apenas ao Admin ou Enc Pes
+        if(in_array($this->userNivelAcessoID,[1,3,])) {
             $actions = $btnHomolg;
         }
 

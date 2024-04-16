@@ -51,19 +51,4 @@ class Apresentacao extends Model
         return $this->hasOne(Secao::class, 'id', 'secao_id');
     }   
 
-<<<<<<< HEAD
-    // public function pgradPessoa() {
-    //     return $this->hasOneThrough(Pgrad::class, Pessoa::class);
-    // }    
-
-    // public function destino() {
-    //     return $this->belongsTo(Destino::class, 'destino_id','id');
-    // }    
-
-    // public function pessoa() {
-    //     return $this->belongsTo(User::class, 'user_id','id');
-    // }    
-=======
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
-
 }

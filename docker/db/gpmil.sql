@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 16/04/2024 às 02:13
+-- Tempo de geração: 16/04/2024 às 03:35
 -- Versão do servidor: 8.3.0
 -- Versão do PHP: 8.2.17
 
@@ -624,11 +624,11 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'G6Z0a0pjMfuzl30eGEw4CDGrjBBJeon5rO5a9RSEC6QYIaWSuuMW6nheEK1V', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'CnY2vzHzr344f3JypvbSgNmHj9FW31zDX06FSDjYx9Jbnce0OfhAivZYzcD9', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'OhKZxmbhERqMI1q9uM54v6CtDUkgDgHhQffuR7AyeHNupKS3sQNA48Sdmt8D', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', '7SmCwZUyzyaSulIAE1O3lxvNbnpOjw8UafcdJsOEVMzkOJ4MJfz0O5KKCmoy', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Vbu10LhoafrNKrc0egUM0RnbgQT7yUHOlJTw0vHsWx8EL46OdsjFOxYaFRlm', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'vXoBrkBXA6oo9LNKkwCQNCidtRvRsRsARav0QhjNK3ENn6H7g2cY5pTigMFL', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Zm2OjSwk5SKSkYMuAvBGLGnLUAkHXC9OnAefdnOX5SEt72JA5qsjS9adALFt', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'lzp7uewgESWFuLbC3038S2DGmhTbMacTIWbaiKkCatmc2t8Cej1KlD1D4JaO', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Q9uFeiID0vn1h3zTyHVpSc9xjLTvbj6keUUezExkp3itedXogk6rkhB28jzW', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 --

@@ -99,7 +99,6 @@
 
                 <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
-<<<<<<< HEAD
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
                             <input class="form-control" value="" type="hidde" id="id" name="id" placeholder="" readonly>
@@ -132,66 +131,6 @@
                             <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="" data-toggle="tooltip" title="Informe o Local de Destino" >
                             <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
-=======
-                    <div class="form-group" id="form-group-id">
-                        <label class="form-label">ID</label>
-                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Pessoa</label>
-                        <select name="pessoa_id" id="pessoa_id" class="form-control" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
-                            <option value=""> Selecione </option>
-                            @foreach( $pessoas as $pessoa )
-                            <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
-                            @endforeach
-                        </select>
-                        <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Motivo</label>
-                        <select name="destino_id" id="destino_id" class="form-control" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
-                            <option value=""> Selecione </option>
-                            @foreach( $destinos as $destino )
-                            <option value="{{$destino->id}}">{{$destino->descricao}}</option>
-                            @endforeach
-                        </select>
-                        <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Data Inicial</label>
-                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
-                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Data Final</label>
-                        <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
-                        <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Local de Destino</label>
-                        <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
-                        <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Fone para Contato</label>
-                        <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
-                        <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
-                    </div>                          
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observação</label>                    
-                        <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
-                        <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
 
                 </form>        
 
@@ -219,11 +158,7 @@
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control">
-<<<<<<< HEAD
                                 <option value=""> Não Homologar </option>
-=======
-                                <option value=""> Cancelar a Homologação </option>
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
                                 @endforeach
@@ -378,16 +313,10 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-<<<<<<< HEAD
                 const id = $(this).data("id")
                 const boletim_id = null;
                 // alert('boletim ID: ' + boletim_id );
                 // alert('Editar ID: ' + id );
-=======
-                // let id = $(this).data("id")
-                var id = $(this).parents('tr').attr("id");
-                // alert('btnHomologar ID: ' + id );
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Homologar a Apresentação ID: ' + id + '?');
@@ -398,19 +327,11 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
-<<<<<<< HEAD
-=======
-                    // alert('id' + id + '; boletim_id: ' + boletim_id );
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
 
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/homologar")}}",
-<<<<<<< HEAD
                         data: {"id":id, "boletim_id":boletim_id},
-=======
-                        data: { "id":id, "boletim_id":boletim_id},
->>>>>>> 05d5146958fc9eb9c1ef4e1a698e1380ae9ef9bf
                         dataType: 'json',
                         async: false,
                         cache: false,                        
