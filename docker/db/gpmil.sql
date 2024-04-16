@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 10/04/2024 às 17:24
--- Versão do servidor: 8.1.0
--- Versão do PHP: 8.2.11
+-- Tempo de geração: 16/04/2024 às 02:13
+-- Versão do servidor: 8.3.0
+-- Versão do PHP: 8.2.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -23,6 +23,8 @@ SET time_zone = "+00:00";
 CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
 USE `gpmil`;
 
+-- --------------------------------------------------------
+
 --
 -- Estrutura para tabela `apresentacaos`
 --
@@ -32,83 +34,31 @@ CREATE TABLE `apresentacaos` (
   `pessoa_id` int UNSIGNED DEFAULT NULL,
   `secao_id` int UNSIGNED DEFAULT NULL,
   `destino_id` int UNSIGNED DEFAULT NULL,
-  `status_id` char(1) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `observacao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `publicado` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'NÃO',
+  `boletim_id` int UNSIGNED DEFAULT NULL,
   `dt_apres` date DEFAULT NULL,
   `dt_inicial` date DEFAULT NULL,
   `dt_final` date DEFAULT NULL,
   `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `observacao` text,
-  `prtsv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'NÃO',
-  `publicado` enum('SIM','NÃO') NOT NULL DEFAULT 'NÃO',
-  `boletim_id` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
 --
--- Índices para tabelas despejadas
+-- Despejando dados para a tabela `apresentacaos`
 --
 
---
--- Índices de tabela `apresentacaos`
---
-ALTER TABLE `apresentacaos`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
-  ADD KEY `apresentacaos_secao_id_key` (`secao_id`),
-  ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
-  ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`);
+INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `boletim_id`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', 3, '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', '2024-04-14 20:06:14', '2024-04-15 20:06:12'),
+(2, 1, 3, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', '2024-04-14 01:22:54', '2024-04-14 23:01:32'),
+(3, 2, 13, 2, '(61) 98656-5656', NULL, 'SIM', 2, NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', '2024-04-14 20:13:22', '2024-04-14 22:57:31'),
+(6, 2, 13, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, NULL, '2024-04-13', '2024-04-20', 'hhhhhh', '2024-04-12 16:39:30', '2024-04-14 23:05:10'),
+(10, 1, 3, 6, '(61) 98167-1586', NULL, 'SIM', 1, NULL, '2024-07-08', '2024-07-12', 'Natal-RN', '2024-04-14 16:22:34', '2024-04-14 23:03:25'),
+(12, 6, 12, 3, '(61) 00000-0000', NULL, 'NÃO', NULL, NULL, '2024-05-02', '2024-05-03', 'Nesta', '2024-04-15 22:25:24', '2024-04-15 22:33:29');
 
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `apresentacaos`
---
-ALTER TABLE `apresentacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
-
-
---
--- Estrutura para tabela `situacaos`
---
-
-CREATE TABLE `situacaos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `situacaos`
---
-
-INSERT INTO `situacaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Férias', 'Fer', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 'Dispensado', 'Disp', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 'Trânsito', 'Trsto', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 'Não Apresentado', 'N Apres', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
-
---
--- Índices de tabela `situacaos`
---
-ALTER TABLE `situacaos`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `situacaos_descricao_ukey` (`descricao`),
-  ADD UNIQUE KEY `situacaos_sigla_ukey` (`sigla`);
-
---
--- AUTO_INCREMENT de tabela `situacaos`
---
-ALTER TABLE `situacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
-
+-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `boletins`
@@ -128,77 +78,16 @@ CREATE TABLE `boletins` (
 --
 
 INSERT INTO `boletins` (`id`, `descricao`, `data`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Adt Bol nº 001-Cmdo 1ª Bda Inf', '2024-01-01', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, 'Adt Bol 001-DGP', '2024-01-01', 'SIM', '2024-01-01 00:00:00', '2024-04-12 16:14:22'),
+(2, 'Adt Bol 002-DGP', '2024-01-02', 'SIM', '2024-04-12 13:04:53', '2024-04-12 16:14:47'),
+(3, 'Adt Bol 003-DGP', '2024-05-03', 'NÃO', '2024-04-12 16:14:58', '2024-04-15 21:38:25');
 
---
--- Índices para tabelas despejadas
---
-
---
--- Índices de tabela `boletins`
---
-ALTER TABLE `boletins`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `boletins_descricao_ukey` (`descricao`),
-  ADD UNIQUE KEY `boletins_data_ukey` (`data`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `boletins`
---
-ALTER TABLE `boletins`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
-  
---
--- Estrutura para tabela `destinos`
---
-
-CREATE TABLE `destinos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
-
---
--- Despejando dados para a tabela `destinos`
---
-
-INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
-
---
--- Índices para tabelas despejadas
---
-
---
--- Índices de tabela `destinos`
---
-ALTER TABLE `destinos`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `destinos_sigla_ukey` (`sigla`),
-  ADD UNIQUE KEY `destinos_descricao_ukey` (`descricao`);
-
---
--- AUTO_INCREMENT para tabelas despejadas
---
-
---
--- AUTO_INCREMENT de tabela `destinos`
---
-ALTER TABLE `destinos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+-- --------------------------------------------------------
 
 --
 -- Estrutura para tabela `circulos`
 --
 
-DROP TABLE IF EXISTS `circulos`;
 CREATE TABLE `circulos` (
   `id` int UNSIGNED NOT NULL,
   `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -224,10 +113,36 @@ INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `destinos`
+--
+
+CREATE TABLE `destinos` (
+  `id` int UNSIGNED NOT NULL,
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `destinos`
+--
+
+INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Férias 30 dias', 'Fer 30', 'SIM', '2024-04-11 20:24:39', '2024-04-14 15:22:46'),
+(3, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21'),
+(4, 'Férias 15 dias', 'Fer 15', 'SIM', '2024-04-14 15:23:07', '2024-04-14 15:23:07'),
+(5, 'Férias 20 dias', 'Fer 20', 'SIM', '2024-04-14 15:23:16', '2024-04-14 15:23:16'),
+(6, 'Férias 10 dias', 'Férias 10 dias', 'SIM', '2024-04-14 15:24:04', '2024-04-14 15:24:04');
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `failed_jobs`
 --
 
-DROP TABLE IF EXISTS `failed_jobs`;
 CREATE TABLE `failed_jobs` (
   `id` bigint UNSIGNED NOT NULL,
   `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -244,7 +159,6 @@ CREATE TABLE `failed_jobs` (
 -- Estrutura para tabela `funcaos`
 --
 
-DROP TABLE IF EXISTS `funcaos`;
 CREATE TABLE `funcaos` (
   `id` int UNSIGNED NOT NULL,
   `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -260,7 +174,6 @@ CREATE TABLE `funcaos` (
 -- Estrutura para tabela `menus`
 --
 
-DROP TABLE IF EXISTS `menus`;
 CREATE TABLE `menus` (
   `id` int UNSIGNED NOT NULL,
   `menu_id` int UNSIGNED DEFAULT NULL,
@@ -296,7 +209,6 @@ INSERT INTO `menus` (`id`, `menu_id`, `descricao`, `ordem`, `ativo`) VALUES
 -- Estrutura para tabela `migrations`
 --
 
-DROP TABLE IF EXISTS `migrations`;
 CREATE TABLE `migrations` (
   `id` int UNSIGNED NOT NULL,
   `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -319,7 +231,6 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 -- Estrutura para tabela `nivel_acessos`
 --
 
-DROP TABLE IF EXISTS `nivel_acessos`;
 CREATE TABLE `nivel_acessos` (
   `id` int UNSIGNED NOT NULL,
   `nome` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
@@ -336,10 +247,11 @@ CREATE TABLE `nivel_acessos` (
 
 INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `created_at`, `updated_at`) VALUES
 (1, 'Administrador', 'Admin', 'Tem acesso irrestrito a todos sistema.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Supervisor', 'Supv', 'Tem acesso de Supervisão Geral. Adequado ao Comandante/Chefe/Diretor/Encarregado de Pessoal.\r\nPode apenas visualizar os dados de todo efetivo da Organização.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 'Coordenador', 'Coord', 'Tem acesso de Supervisão. Adequado ao Comandante/Chefe de Divisão/Companhia/Seção.\r\nPode apenas visualizar os dados de todo efetivo de sua Div/Cia/Seç.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 'Gerente', 'Ger', 'Tem acesso de Gerência. Adequado ao Sargenteante da Divisão/Companhia/Seção.\r\nPode visualizar e manter os dados de todo efetivo de sua Div/Cia/Seç.\r\n', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 'Usuário', 'User', 'Tem acesso de Usuário. Adequado ao Usuário da Divisão/Companhia/Seção. Visualiza e mantém apenas seus próprios dados.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(2, 'Comandante', 'Cmt/Ch/Dir', 'Tem acesso de Supervisão Geral. Adequado ao Cmt/Ch/Dir da OM.\r\nPode apenas visualizar os dados de todo efetivo da Organização.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Encarregado de Pessoal', 'Enc Pes', 'Tem acesso de Coordenação Geral. Adequado ao Encarregado de Pessoal da OM.\r\nPode visualizar e manter os dados de todo efetivo da Organização.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Chefe de Seção', 'Ch Seç', 'Tem acesso de Supervisão. Adequado ao Cmt/Ch Div/Seç/Cia.\r\nPode apenas visualizar os dados de todo efetivo de sua Div/Seç/Cia.', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Sargenteante', 'Sgtte', 'Tem acesso de Gerência. Adequado ao Sargenteante da Div/Seç/Cia\r\nPode visualizar e manter os dados de todo efetivo de sua Div/Seç/Cia.\r\n', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, 'Usuário', 'User', 'Tem acesso de Usuário. Adequado ao Usuário da Div/Seç/Cia. Visualiza e mantém apenas seus próprios dados.', 'SIM', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -347,7 +259,6 @@ INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `creat
 -- Estrutura para tabela `organizacao`
 --
 
-DROP TABLE IF EXISTS `organizacao`;
 CREATE TABLE `organizacao` (
   `id` int UNSIGNED NOT NULL,
   `codom` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
@@ -363,7 +274,7 @@ CREATE TABLE `organizacao` (
 --
 
 INSERT INTO `organizacao` (`id`, `codom`, `sigla`, `nome`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, '000000', 'SIGla', 'Nome completo da Organização Militar', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, '000000', 'Sigla', 'Nome completo da Organização Militar', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -371,7 +282,6 @@ INSERT INTO `organizacao` (`id`, `codom`, `sigla`, `nome`, `ativo`, `created_at`
 -- Estrutura para tabela `password_reset_tokens`
 --
 
-DROP TABLE IF EXISTS `password_reset_tokens`;
 CREATE TABLE `password_reset_tokens` (
   `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
   `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -384,7 +294,6 @@ CREATE TABLE `password_reset_tokens` (
 -- Estrutura para tabela `personal_access_tokens`
 --
 
-DROP TABLE IF EXISTS `personal_access_tokens`;
 CREATE TABLE `personal_access_tokens` (
   `id` bigint UNSIGNED NOT NULL,
   `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -404,11 +313,11 @@ CREATE TABLE `personal_access_tokens` (
 -- Estrutura para tabela `pessoas`
 --
 
-DROP TABLE IF EXISTS `pessoas`;
 CREATE TABLE `pessoas` (
   `id` int UNSIGNED NOT NULL,
   `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
   `user_id` int UNSIGNED NOT NULL,
+  `nivelacesso_id` int UNSIGNED NOT NULL DEFAULT '6',
   `pgrad_id` int UNSIGNED NOT NULL,
   `qualificacao_id` int UNSIGNED NOT NULL,
   `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
@@ -436,7 +345,6 @@ CREATE TABLE `pessoas` (
   `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Bélica',
   `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `funcao_id` int UNSIGNED DEFAULT NULL,
-  `nivelacesso_id` int UNSIGNED NOT NULL DEFAULT '5',
   `dt_praca` date DEFAULT NULL,
   `dt_apres_gu` date DEFAULT NULL,
   `dt_apres_om` date DEFAULT NULL,
@@ -450,8 +358,13 @@ CREATE TABLE `pessoas` (
 -- Despejando dados para a tabela `pessoas`
 --
 
-INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `nivelacesso_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 15, 1, 1, 'SIM', 'Ativa', 'SIM', 'Nome Completo', 'Nome Guerra', '000.000.000-00', '0000000000', '000000000', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '00000-000', '0000-000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 15, 11, 3, 'SIM', 'Ativa', NULL, 'Emerson Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '70754020', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '70754-020', '000 0000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, NULL, 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-15 21:02:27'),
+(2, 1, 2, 2, 12, 2, 4, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
+(3, 1, 3, 3, 13, 2, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:06:26'),
+(4, 1, 4, 4, 15, 1, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020', NULL, 'Rua Sem Nome, Quadra 1, Lote 1, Bloco 1, Apto 1', 'Nome do Bairro', 'Nome da Cidade', NULL, 'XX', '70754-020', '000 0000', '(00) 90000-0000', '(00) 90000-0000', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-15 21:05:57'),
+(5, 1, 5, 5, 22, 2, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:12:22'),
+(6, 1, 6, 6, 42, 7, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:12:07');
 
 -- --------------------------------------------------------
 
@@ -459,7 +372,6 @@ INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `pgrad_id`, `qualifica
 -- Estrutura para tabela `pgrads`
 --
 
-DROP TABLE IF EXISTS `pgrads`;
 CREATE TABLE `pgrads` (
   `id` int UNSIGNED NOT NULL,
   `circulo_id` int UNSIGNED DEFAULT NULL,
@@ -515,7 +427,6 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 -- Estrutura para tabela `qualificacaos`
 --
 
-DROP TABLE IF EXISTS `qualificacaos`;
 CREATE TABLE `qualificacaos` (
   `id` int UNSIGNED NOT NULL,
   `codigo` char(4) DEFAULT NULL,
@@ -574,10 +485,10 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (49, '7102', 'Quadro Complementar de Oficiais - Enfermagem', 'QCO Enf', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:07:37'),
 (50, '7107', 'Quadro Complementar de Oficiais - Veterinária', 'QCO Vet', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:09:03'),
 (51, NULL, 'Quadro de estado-maior da ativa', 'QEMA', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(52, NULL, 'Armas/QMB/Sv Int', 'A/QMB/S Int', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(52, '0011', 'Armas/QMB/Sv Int', 'A/QMB/S Int', 'NÃO', '2024-01-01 03:00:00', '2024-04-12 16:35:26'),
 (53, NULL, 'Qualquer QMS', 'Qualquer QMS', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (54, NULL, 'QAO de Qualquer Categoria', 'QAO ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(60, '0003', 'Aprov no CA', 'Aprov no CA', 'SIM', '2024-01-01 03:00:00', '2024-04-10 13:59:25'),
+(60, '0005', 'Aprov no CA', 'Aprov no CA', 'SIM', '2024-01-01 03:00:00', '2024-04-12 16:34:27'),
 (61, NULL, 'Quadro Auxiliar de Oficiais - Administração Geral', 'QAO-Adm G', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (62, NULL, 'Quadro Auxiliar de Oficiais - Saúde', 'QAO-Sau', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (63, NULL, 'Quadro Auxiliar de Oficiais - Material Bélico', 'QAO-Mat Bel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
@@ -635,7 +546,6 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 -- Estrutura para tabela `secaos`
 --
 
-DROP TABLE IF EXISTS `secaos`;
 CREATE TABLE `secaos` (
   `id` int UNSIGNED NOT NULL,
   `secao_id` int UNSIGNED DEFAULT NULL,
@@ -663,7 +573,34 @@ INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 (9, 1, 1, 'Seção 1', 'Seç 1', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (10, 1, 1, 'Seção 2', 'Seç 2', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (11, 1, 1, 'Seção 3', 'Seç 3', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(12, 1, 1, 'Seção 4', 'Seç 4', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00');
+(12, 1, 1, 'Seção 4', 'Seç 4', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(13, NULL, 1, 'Assessoria de Tecnologia da Informação', 'ATI', 'SIM', '2024-04-14 16:45:31', '2024-04-14 16:45:31');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `situacaos`
+--
+
+CREATE TABLE `situacaos` (
+  `id` int UNSIGNED NOT NULL,
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `situacaos`
+--
+
+INSERT INTO `situacaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Férias', 'Fer', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Dispensado', 'Disp', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Trânsito', 'Trsto', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Não Apresentado', 'N Apres', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -671,7 +608,6 @@ INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 -- Estrutura para tabela `users`
 --
 
-DROP TABLE IF EXISTS `users`;
 CREATE TABLE `users` (
   `id` bigint UNSIGNED NOT NULL,
   `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
@@ -688,111 +624,34 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Emerson Vite Euzébio', 'emfeuzebio@hotmail.com', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', NULL, '2024-03-29 01:39:55', '2024-03-29 01:39:55'),
-(2, 'Liana Bode', 'hertha.halvorson@example.org', '2024-03-29 02:13:44', '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'WtfG3vxRtNt8QkwfBWH1irWczsEHFGuvYDAhucHvvABZTWLEDV1yHIvVG0U6', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(3, 'Mrs. Zora Howe', 'rozella.gleason@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'LiZuJBgr0c', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(4, 'Veronica Littel Sr.', 'konopelski.lucinda@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'wzutY181XF', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(5, 'Vaughn Collier', 'fskiles@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'K4u57O9Zy5', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(6, 'Prof. Drake Rippin', 'kaia92@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'oBAgzkMnDJ', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(7, 'Kobe Steuber', 'walter.emilio@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'RBi1IJTE8M', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(8, 'Mrs. Aaliyah Brown', 'bjones@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Hii7ZYMap8', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(9, 'Art Gutkowski', 'breanna14@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '565SpvcEZs', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(10, 'Alfredo Nitzsche', 'deshawn74@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Tn5pJczYGv', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(11, 'Arlie Kshlerin Jr.', 'rogahn.domingo@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'O1cqiXPkom', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(12, 'Zora Block', 'aracely08@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'XTCBIgNZ2T', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(13, 'Ms. Idella Huels', 'wehner.jerod@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Rw0MS6lYte', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(14, 'Suzanne Gulgowski II', 'tillman.roma@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'QDgwcPnxif', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(15, 'Dr. Koby Casper', 'laltenwerth@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'gXeQZaxdT1', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(16, 'Candace Wuckert', 'herzog.luciano@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'WeBYxAoYzR', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(17, 'Kieran Huels', 'brooklyn70@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'oNuiOYryvw', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(18, 'Xavier Padberg III', 'lisette11@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'eKb93RTu7Z', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(19, 'Margarita Jacobi', 'peyton.donnelly@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'uOFCMTKzSM', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(20, 'Hilario Purdy', 'araceli.smitham@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Sl5OPY7HJr', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(21, 'Lina Towne', 'rvandervort@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'dKlf5WT5Qk', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(22, 'Meredith Sporer', 'gnitzsche@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '644bDayTIH', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(23, 'Prof. Juliet Frami', 'darrel28@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Ot0uJCm7fJ', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(24, 'Tiara McLaughlin', 'simone.green@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'jTNiQ4BiT5', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(25, 'Mr. Elijah Ebert', 'jweimann@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'n56jFkl64a', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(26, 'Prof. Gussie Padberg', 'layne.toy@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '56SHDXB7JT', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(27, 'Mr. Wilton O\'Keefe I', 'mclaughlin.van@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'up037LJ2Ou', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(28, 'Aubree Stroman IV', 'felix13@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'NXAHRkIJGr', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(29, 'Randall Veum', 'langosh.aurore@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'sgVJnyEx4I', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(30, 'Caleb Rath', 'angie.trantow@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'rf8Z4qPa7y', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(31, 'Prof. Alanis Schoen', 'wunsch.velda@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'nS3K2wVD3g', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(32, 'Aubree Cormier', 'rupert15@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '4rNCnij1vj', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(33, 'Angelica Braun', 'wiza.lola@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'AR9cX3U3kf', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(34, 'Reinhold Walsh', 'nienow.carissa@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'n5eViKRVFy', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(35, 'Mr. Nestor Ziemann', 'lang.vern@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Fs3Jq8Tbyb', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(36, 'Krystal Zulauf', 'hunter.mertz@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'oLAhosqQBa', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(37, 'Gabe Ruecker', 'kaia96@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'i4boTf7xec', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(38, 'Mrs. Katharina Bogan', 'claudia97@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'ulVS1XCwU9', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(39, 'Jaqueline Jones I', 'jasen.emard@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'AsBG7mGm4A', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(40, 'Magnus Abshire', 'michael.auer@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'wSnCITjzoD', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(41, 'Liliane Fritsch Sr.', 'ruecker.uriah@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'GoeisxvlD5', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(42, 'Alan Dickinson IV', 'alvera44@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'iNqRBBKUgu', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(43, 'Mr. Ian Dietrich II', 'gaston81@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '4i72mVWIF7', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(44, 'Ward O\'Reilly', 'jgrimes@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'Fau9zbwIje', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(45, 'Maya Schiller', 'dana.spinka@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'rxmbJgJ7Am', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(46, 'Linnea Streich', 'qokon@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'gZJFXHyWVG', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(47, 'Derick Emmerich PhD', 'eichmann.renee@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '1DqrZKwNqC', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(48, 'Dr. Garfield Stehr', 'mcglynn.junius@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'XRmC8gPRZ8', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(49, 'Burnice Schmeler', 'wisoky.timmothy@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'twWPb5TA1N', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(50, 'Jalyn Blick V', 'quinn95@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'YPp97duNfe', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(51, 'Nannie Reichel', 'tevin94@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'bgsl6qqZnv', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(52, 'Trudie Graham', 'bertrand.hudson@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'cnfAzTQkNQ', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(53, 'Dr. Coty Friesen', 'johnston.verda@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'j7ii0u6AAW', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(54, 'Thurman Thiel', 'kallie.fay@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'kWdiMyZogd', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(55, 'Coby Hoppe', 'samir.rosenbaum@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '0rouGbS5Sp', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(56, 'Ms. Leanne Zulauf', 'dschumm@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'FMqW34n3q8', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(57, 'Guiseppe Spinka', 'bauch.jo@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'wVGYQZW6CG', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(58, 'Evelyn Wilderman I', 'pgislason@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'u8AtkXzLE2', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(59, 'Prof. Emelie Watsica', 'rodriguez.katelyn@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'NvzqjcsYLE', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(60, 'Ms. Minerva Dach DDS', 'gerhold.shanie@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'J0SBFbD8r0', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(61, 'Mr. Vern Thompson', 'bzieme@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'RhnUdi3MEA', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(62, 'Miss Anne Roob', 'mariane83@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'hLMgS0C7uy', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(63, 'Parker Dooley IV', 'carmel71@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '2W4ayxrAip', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(64, 'Eryn Goldner', 'pgutkowski@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'ap77hA8Mxb', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(65, 'Mr. Anthony Schaden', 'skyla92@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'wXuoVBbNpL', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(66, 'Dr. Shane Kassulke', 'ondricka.enoch@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'fFuNLyBGQ0', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(67, 'Shanny Labadie V', 'atremblay@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'JgUWvbEu7s', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(68, 'Jackeline Dooley DDS', 'tia38@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'GIqH5YudgS', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(69, 'Ashly Kautzer', 'jerde.elenor@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'pBvKtlIOj8', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(70, 'Mr. Cary Schuster IV', 'jessika.goodwin@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'B0kFWxyqxz', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(71, 'Jalen Raynor', 'aurelie.fisher@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'LYY8QTWsEz', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(72, 'Orrin Abshire', 'ekiehn@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '9emQjAodmq', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(73, 'Raul Schultz', 'nprice@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'dS5yIvC3ao', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(74, 'Dr. Gerard Terry II', 'rolando.lebsack@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'nw229Pqs8N', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(75, 'Reyna Murray', 'percy.hermann@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'sUoPj6JWth', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(76, 'Dr. Macey Wehner', 'christop.moen@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'hOyvbakArT', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(77, 'Maggie Luettgen', 'srosenbaum@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'jKerU7kAiN', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(78, 'Mia Boehm', 'frieda47@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'KzvgB7nGB7', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(79, 'Cortney McGlynn', 'mratke@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'MxOrv5PSRS', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(80, 'Prof. Dana Daugherty', 'ondricka.genesis@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'hhtqKDixZ5', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(81, 'Mr. Brooks Hirthe V', 'mcollier@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'FEaO6eWrTI', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(82, 'Prof. Fannie Hyatt', 'joshuah.schuppe@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'mMWMvk8eTG', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(83, 'Prof. Ruth Kris IV', 'leannon.tomasa@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'L4r0ZKGFXB', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(84, 'Dr. Devyn Waters V', 'gschneider@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'kpCkXADfQG', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(85, 'Aleen Welch', 'gprice@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'LL9Xfgl0Gb', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(86, 'Gerald Dietrich', 'joana70@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'xHyX9IP6eo', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(87, 'Marjory Bode', 'casper.reed@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'eTYfSgHBHQ', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(88, 'Ms. Lois Breitenberg V', 'adrien32@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'qphQKguldF', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(89, 'Miracle Rohan', 'rice.emerald@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '9YY8R891sg', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(90, 'Mable Lind', 'emma.hodkiewicz@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'FwFJ949CDI', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(91, 'Kiarra Rosenbaum V', 'cletus82@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'gxGnJlTkOM', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(92, 'Mr. Tyson Kessler III', 'misael.hyatt@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'OVEaLsZPqa', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(93, 'Prof. Ari Lueilwitz MD', 'adam.gerhold@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'qy1n0XAgEQ', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(94, 'Adelbert Wisozk', 'bernhard63@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', '5WHCtga1Dt', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(95, 'Cary Leannon', 'ustamm@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'rfLwA0inF4', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(96, 'Claudia Kohler', 'hermann35@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'xtgiqDLrW0', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(97, 'Rae Spencer DDS', 'bartoletti.avery@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'GVcmN2sRcL', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(98, 'Jake Okuneva', 'nboehm@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'ozoVado13r', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(99, 'Marjolaine Howell', 'alysa96@example.net', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'LlHR8b1xpr', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(100, 'Jermey Wisoky', 'chanelle17@example.com', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'SPUwE6ERTR', '2024-03-29 02:13:44', '2024-03-29 02:13:44'),
-(101, 'Prof. Godfrey Kassulke V', 'imelda.bradtke@example.org', '2024-03-29 02:13:44', '$2y$12$GtOscH9yH7kIIW6S.ZTiSuAECOXeFyUYiqdGehrf8nFMSW9d4lCKm', 'LIho7RlCQ7', '2024-03-29 02:13:44', '2024-03-29 02:13:44');
+(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'G6Z0a0pjMfuzl30eGEw4CDGrjBBJeon5rO5a9RSEC6QYIaWSuuMW6nheEK1V', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'CnY2vzHzr344f3JypvbSgNmHj9FW31zDX06FSDjYx9Jbnce0OfhAivZYzcD9', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Vbu10LhoafrNKrc0egUM0RnbgQT7yUHOlJTw0vHsWx8EL46OdsjFOxYaFRlm', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'vXoBrkBXA6oo9LNKkwCQNCidtRvRsRsARav0QhjNK3ENn6H7g2cY5pTigMFL', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Zm2OjSwk5SKSkYMuAvBGLGnLUAkHXC9OnAefdnOX5SEt72JA5qsjS9adALFt', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Q9uFeiID0vn1h3zTyHVpSc9xjLTvbj6keUUezExkp3itedXogk6rkhB28jzW', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `apresentacaos`
+--
+ALTER TABLE `apresentacaos`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
+  ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
+  ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`),
+  ADD KEY `apresentacoes_secao_id_key` (`secao_id`);
+
+--
+-- Índices de tabela `boletins`
+--
+ALTER TABLE `boletins`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `boletins_descricao_ukey` (`descricao`),
+  ADD UNIQUE KEY `boletins_data_ukey` (`data`);
 
 --
 -- Índices de tabela `circulos`
@@ -801,6 +660,14 @@ ALTER TABLE `circulos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `circulos_descricao_ukey` (`descricao`),
   ADD UNIQUE KEY `circulos_sigla_ukey` (`sigla`);
+
+--
+-- Índices de tabela `destinos`
+--
+ALTER TABLE `destinos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `destinos_sigla_ukey` (`sigla`),
+  ADD UNIQUE KEY `destinos_descricao_ukey` (`descricao`);
 
 --
 -- Índices de tabela `failed_jobs`
@@ -905,6 +772,14 @@ ALTER TABLE `secaos`
   ADD KEY `secao_organizacao_id_key` (`organizacao_id`);
 
 --
+-- Índices de tabela `situacaos`
+--
+ALTER TABLE `situacaos`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `situacaos_descricao_ukey` (`descricao`),
+  ADD UNIQUE KEY `situacaos_sigla_ukey` (`sigla`);
+
+--
 -- Índices de tabela `users`
 --
 ALTER TABLE `users`
@@ -916,10 +791,28 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT de tabela `apresentacaos`
+--
+ALTER TABLE `apresentacaos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+
+--
+-- AUTO_INCREMENT de tabela `boletins`
+--
+ALTER TABLE `boletins`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+
+--
 -- AUTO_INCREMENT de tabela `circulos`
 --
 ALTER TABLE `circulos`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de tabela `destinos`
+--
+ALTER TABLE `destinos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
@@ -949,7 +842,7 @@ ALTER TABLE `migrations`
 -- AUTO_INCREMENT de tabela `nivel_acessos`
 --
 ALTER TABLE `nivel_acessos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
 
 --
 -- AUTO_INCREMENT de tabela `organizacao`
@@ -967,7 +860,7 @@ ALTER TABLE `personal_access_tokens`
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `pgrads`
@@ -985,13 +878,19 @@ ALTER TABLE `qualificacaos`
 -- AUTO_INCREMENT de tabela `secaos`
 --
 ALTER TABLE `secaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+
+--
+-- AUTO_INCREMENT de tabela `situacaos`
+--
+ALTER TABLE `situacaos`
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=102;
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

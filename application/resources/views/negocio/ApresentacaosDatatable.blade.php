@@ -27,8 +27,14 @@
                         </div>
                         <!--área de botões-->
                         <div class="col-md-3 text-right">
+                            {{$nivelAcesso}}
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
-                            @can('is_admin')
+                            
+                            @if (in_array($nivelAcesso,[3,5,6]))
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>                            
+                            @endif
+
+                            @can('is_admin','is_cmt')
                             <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
@@ -308,12 +314,7 @@
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "150px", "sortable": false},
-                    // {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
-                    //     render: function (data, type) { 
-                    //         return '\n<button data-id="' + data + '" class="btnHomologar btn btn-info btn-sm" data-toggle="tooltip" title="Homologar esta Apresentação">Homlg</button> <button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
-                    //     }
-                    // },
+                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "146px", "sortable": false},
                 ]
             });
 

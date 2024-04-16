@@ -21,6 +21,7 @@ class Apresentacao extends Model
         'observacao',
         'publicado',
         'boletim_id',
+        'secao_id',
         // 'dt_apres',
         // 'prtsv',
     ];
