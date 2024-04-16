@@ -1,14 +1,14 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'GPmil')
 
 @section('content_header')
     <!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
     <section class="content-header">
-      <h1>Dashboard <small>Version 2.0</small>
+      <h1>GPmil <small>Version 2.0</small>
       </h1>
       <ol class="breadcrumb">
-        <li class="active">Dashboard</li>
+        <li class="active">Gestão de Pessoal Militar</li>
       </ol>
     </section>
 
@@ -16,15 +16,15 @@
 
 @section('content')
 
-    <!-- <div class="row">
+    <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="mb-0">You are logged in!</p> 
+                    <p class="mb-0">Bem vindo <strong>{{$pessoa->pgrad->sigla}} {{$user->pessoa->nome_guerra}}</strong>!</p> 
                 </div>
             </div>
         </div>
-    </div> -->
+    </div>
 
     <section class="content">
       <!-- Info boxes -->

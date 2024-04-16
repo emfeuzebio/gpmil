@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Pessoa;
 use App\Models\User;
+use App\Models\Pgrad;
+use App\Models\Secao;
 // use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +15,8 @@ class HomeController extends Controller
 {
 
     protected $Pessoa = null;
+    protected $Pgrad = null;
+    protected $Secao = null;
 
     /**
      * Create a new controller instance.
@@ -23,6 +27,8 @@ class HomeController extends Controller
     {
         $this->middleware('auth'); 
         $this->Pessoa = new Pessoa();
+        $this->Pgrad = new Pgrad();
+        $this->Secao = new Secao();
     }
 
     /**
@@ -33,9 +39,11 @@ class HomeController extends Controller
     public function index()
     {
 
+        $user = User::with('pessoa')->find(Auth::user()->id);
+        $pessoa = Pessoa::with('pgrad')->find($user->id);
         $qtdPessoasAtivas = $this->Pessoa->all()->count();
         //dd($qtdPessoasAtivas);
 
-        return view('home', ['qtdPessoasAtivas' => $qtdPessoasAtivas]);
+        return view('home', ['qtdPessoasAtivas' => $qtdPessoasAtivas, 'user' => $user, 'pessoa' => $pessoa]);
     }
 }
