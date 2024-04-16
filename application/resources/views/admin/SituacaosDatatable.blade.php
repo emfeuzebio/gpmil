@@ -15,8 +15,8 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-3 text-left"><b>Gestão de Assessorias, Divisões, Subunidades e Seções</b></div>
-                        
+                        <div class="col-md-3 text-left"><b>Gestão de Situações</b></div>
+
                         <!--área de mensagens-->
                         <div class="col-md-6 text-left">
                             <div style="padding: 0px;  background-color: transparent;">
@@ -26,11 +26,11 @@
                                 </div>
                             </div>                         
                         </div>
-                                                
+                        
                         <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova situação (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -68,13 +68,13 @@
 
                         <div class="form-group">
                             <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="S1" data-toggle="tooltip" title="Digite a sigla da Seção" >
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Disp" data-toggle="tooltip" title="Digite a sigla da Situação" >
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: 1ª Seção" data-toggle="tooltip" title="Digite o nome da Seção" >
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Férias" data-toggle="tooltip" title="Digite a Situação" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
@@ -138,14 +138,14 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("secaos")}}",
+                ajax: "{{url("situacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    {"data": "id", "name": "secaos.id", "class": "dt-right", "title": "#"},
-                    {"data": "descricao", "name": "secaos.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "situacaos.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "situacaos.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "secaos.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "secaos.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "sigla", "name": "situacaos.sigla", "class": "dt-left", "title": "Sigla"},
+                    {"data": "ativo", "name": "situacaos.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
@@ -176,7 +176,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("secaos/destroy")}}",
+                        url: "{{url("situacaos/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -201,12 +201,12 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/edit")}}",
+                    url: "{{url("situacaos/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Seção');
+                        $('#modalLabel').html('Editar Situação');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
@@ -235,7 +235,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/store")}}",
+                    url: "{{url("situacaos/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -265,7 +265,7 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Nova Seção');  //
+                $('#modalLabel').html('Nova Situação');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });

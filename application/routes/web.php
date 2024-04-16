@@ -10,6 +10,7 @@ use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
+use App\Http\Controllers\SituacaoController;
 use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\QualificacaoController;
@@ -83,6 +84,13 @@ Route::get('/boletins', [BoletinsController::class, 'index'])->name('home');
 Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home');
 Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');
 Route::post('boletins/destroy', [BoletinsController::class, 'destroy'])->name('home');
+
+Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');
+Route::post('situacaos/store', [SituacaoController::class, 'store'])->name('home');
+Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home');
+Route::post('situacaos/destroy', [SituacaoController::class, 'destroy'])->name('home');
+
+
 
 // Auth::routes();
 
