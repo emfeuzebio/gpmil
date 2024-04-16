@@ -93,44 +93,70 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
             </div>
             <div class="modal-body">
 
                 <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
-                        <div class="form-group" id="form-group-id">
-                            <label class="form-label">ID</label>
-                            <input class="form-control" value="" type="hidde" id="id" name="id" placeholder="" readonly>
-                        </div>
+                    <div class="form-group" id="form-group-id">
+                        <label class="form-label">ID</label>
+                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Selecione a Pessoa</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Selecione </option>
-                                @foreach( $pessoas as $pessoa )
-                                <option value="{{$pessoa->id}}">{{$pessoa->nome_guerra}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Pessoa</label>
+                        <select name="pessoa_id" id="pessoa_id" class="form-control" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
+                            <option value=""> Selecione </option>
+                            @foreach( $pessoas as $pessoa )
+                            <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                            @endforeach
+                        </select>
+                        <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Selecione o Motivo</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Selecione </option>
-                                @foreach( $destinos as $destino )
-                                <option value="{{$destino->id}}">{{$destino->descricao}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
+                    <div class="form-group">
+                        <label class="form-label">Motivo</label>
+                        <select name="destino_id" id="destino_id" class="form-control" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                            <option value=""> Selecione </option>
+                            @foreach( $destinos as $destino )
+                            <option value="{{$destino->id}}">{{$destino->descricao}}</option>
+                            @endforeach
+                        </select>
+                        <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
 
-                        <div class="form-group">
-                            <label class="form-label">Local de Destino</label>
-                            <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="" data-toggle="tooltip" title="Informe o Local de Destino" >
-                            <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
+                    <div class="form-group">
+                        <label class="form-label">Data Inicial</label>
+                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
+                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Data Final</label>
+                        <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
+                        <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Local de Destino</label>
+                        <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                        <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
+                    </div>    
+
+                    <div class="form-group">
+                        <label class="form-label">Fone para Contato</label>
+                        <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                        <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
+                    </div>                          
+                    
+                    <div class="form-group">
+                        <label class="form-label">Observação</label>                    
+                        <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
+                        <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
 
                 </form>        
 
@@ -149,7 +175,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Homologar Apresentação</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -158,7 +184,7 @@
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Não Homologar </option>
+                                <option value=""> Cancelar a Homologação </option>
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
                                 @endforeach
@@ -183,7 +209,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -313,10 +339,9 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
-                const boletim_id = null;
-                // alert('boletim ID: ' + boletim_id );
-                // alert('Editar ID: ' + id );
+                // let id = $(this).data("id")
+                var id = $(this).parents('tr').attr("id");
+                // alert('btnHomologar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Homologar a Apresentação ID: ' + id + '?');
@@ -327,11 +352,12 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
+                    // alert('id' + id + '; boletim_id: ' + boletim_id );
 
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/homologar")}}",
-                        data: {"id":id, "boletim_id":boletim_id},
+                        data: { "id":id, "boletim_id":boletim_id},
                         dataType: 'json',
                         async: false,
                         cache: false,                        
@@ -458,5 +484,4 @@
     </script>    
 
 @stop
-
 
