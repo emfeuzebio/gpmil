@@ -27,16 +27,17 @@
                         </div>
                         <!--área de botões-->
                         <div class="col-md-3 text-right">
-                            {{$nivelAcesso}}
+                            <span class="badge badge-info">{{$nivelAcesso}}</span>
+
+                            @can('isAdmin','App\Models\Apresentacao')
+                            <label class="btn btn-default btn-sm">É Administrador</label>
+                            @endcan
+                            
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             
-                            @if (in_array($nivelAcesso,[3,5,6]))
+                            @can('PodeInserirApresentacao','App\Models\Apresentacao')
                             <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>                            
                             @endif
-
-                            @can('is_admin','is_cmt')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
-                            @endcan
                         </div>
                     </div>
                 </div>
@@ -157,7 +158,7 @@
                     </div>
 
                     <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
-
+                    isAdmin
                 </form>        
 
             </div>
