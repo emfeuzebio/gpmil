@@ -35,7 +35,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Pronto</span>
-              <span class="info-box-number">90<small>%</small></span>
+              <span class="info-box-number">{{ $qtdPessoasAtivas }} <small>pessoas</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>

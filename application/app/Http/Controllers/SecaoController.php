@@ -20,9 +20,36 @@ class SecaoController extends Controller
     public function index() {
 
         if(request()->ajax()) {
-            // return 
-            //     datatables()->of(Pgrad::select('*'))
+
+            // $data = Item::select('*') ->where('shp_no_for_it', $shp_no);
+
+            // return datatables()->of(Secao::select('secaos.*'))->where('id', 2)->toJson();       //Ok testado
+            // return datatables()->of(Secao::select('*'))->toJson();       //Ok testado
+            // return DataTables::eloquent(Secao::query())->toJson();       //Ok testado
+
+            // return DataTables::eloquent(Secao::query())
+            //         ->filter(function ($query) {
+            //             $query->where('id', '=', "1");
+            //             // $query->where('descricao', 'like', "%" . 'asse' . "%");
+            //         // if (request()->has('name')) {
+            //         //     $query->where('name', 'like', "%" . request('name') . "%");
+            //         // }
+            //         // if (request()->has('email')) {
+            //         //     $query->where('email', 'like', "%" . request('email') . "%");
+            //         // }
+            //     }, true)->toJson();            //Ok testado
+
+            // return DataTables::query(DB::table('secaos'))->toJson();        //Ok testado
+            // return DataTables::collection(Secao::all())->toJson();       //Ok testado
+
+            // return DataTables::make(Secao::query())->toJson();              //Ok testado
+            // return DataTables::make(DB::table('secaos'))->toJson();         //Ok testado
+            // return DataTables::make(Secao::all())->toJson();            //Ok testado
+            // return DataTables::make(Secao::where('id', 2))->toJson();            //Ok testado
+            // return DataTables::make(Secao::find('1'))->toJson();            //NÃO FUNCIONA
+
             return DataTables::eloquent(Secao::select(['secaos.*']))
+                ->filter(function ($query) { $query->where('id', '>', "1");}, true)        
                 // ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
                 // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
                 ->addIndexColumn()

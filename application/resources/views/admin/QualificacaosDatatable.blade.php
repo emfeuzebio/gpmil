@@ -74,7 +74,7 @@
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se esta Qualificação Militar está ativa" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se esta Qualificação Militar está ativa" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -110,6 +110,9 @@
     <script type="text/javascript">
 
         $(document).ready(function () {
+
+            //máscaras necessárias em campos
+            $('#codigo').inputmask('9999');
 
             var id = '';
 

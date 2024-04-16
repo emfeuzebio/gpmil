@@ -69,7 +69,7 @@
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        

@@ -315,9 +315,7 @@
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
             $('#idt').inputmask('999999999-9'); //Mascara para IDT
-            // $('#preccp').inputmask('99999999-9'); //Mascara para IDT
             $('#cep').inputmask('99999-999'); //Mascara para IDT
-
             $('#fone_ramal').inputmask('999 9999'); //Mascara para Ramal            
             $('#fone_celular').inputmask('(99) 99999-9999'); //Mascara para Celular            
             $('#fone_emergencia').inputmask('(99) 99999-9999'); //Mascara para Tel Emergência           
