@@ -458,7 +458,7 @@
                         $('#fone_celular').val(data.fone_celular);
                         $('#fone_emergencia').val(data.fone_emergencia);
                         $('#foto').val(data.foto);
-                        $('#secao').val(data.secao);
+                        $('#secao_id').val(data.secao_id);
                         $('#funcao_id').val(data.funcao);
                         $('#nivelacesso_id').val(data.nivelacesso_id);
                     }
