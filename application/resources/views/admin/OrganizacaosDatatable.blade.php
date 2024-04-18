@@ -15,8 +15,19 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Assessorias, Divisões, Subunidades e Seções</b></div>
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-3 text-left"><b>Organização Militar</b></div>
+                        
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                                                
+                        <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
                             <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
@@ -43,7 +54,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
             </div>
             <div class="modal-body">
 
@@ -89,7 +100,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -127,14 +138,14 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("secaos")}}",
+                ajax: "{{url("organizacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    {"data": "id", "name": "secaos.id", "class": "dt-right", "title": "#"},
-                    {"data": "descricao", "name": "secaos.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "organizacaos.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "organizacaos.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "secaos.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "secaos.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "sigla", "name": "organizacaos.sigla", "class": "dt-left", "title": "Sigla"},
+                    {"data": "ativo", "name": "organizacaos.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
@@ -165,7 +176,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("secaos/destroy")}}",
+                        url: "{{url("organizacaos/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -190,7 +201,7 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/edit")}}",
+                    url: "{{url("organizacaos/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
@@ -224,7 +235,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("secaos/store")}}",
+                    url: "{{url("organizacaos/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,

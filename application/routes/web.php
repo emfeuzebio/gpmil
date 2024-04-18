@@ -10,6 +10,8 @@ use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
+use App\Http\Controllers\FuncaoController;
+use App\Http\Controllers\OrganizacaoController;
 use App\Http\Controllers\SituacaoController;
 use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
@@ -59,10 +61,10 @@ Route::post('secaos/store', [SecaoController::class, 'store'])->name('home');
 Route::post('secaos/edit', [SecaoController::class, 'edit'])->name('home');
 Route::post('secaos/destroy', [SecaoController::class, 'destroy'])->name('home');
 
-Route::get('/funcaos', [SecaoController::class, 'index'])->name('home');
-Route::post('funcaos/store', [SecaoController::class, 'store'])->name('home');
-Route::post('funcaos/edit', [SecaoController::class, 'edit'])->name('home');
-Route::post('funcaos/destroy', [SecaoController::class, 'destroy'])->name('home');
+Route::get('/funcaos', [FuncaoController::class, 'index'])->name('home');
+Route::post('funcaos/store', [FuncaoController::class, 'store'])->name('home');
+Route::post('funcaos/edit', [FuncaoController::class, 'edit'])->name('home');
+Route::post('funcaos/destroy', [FuncaoController::class, 'destroy'])->name('home');
 
 Route::get('/qualificacaos', [QualificacaoController::class, 'index'])->name('home');
 Route::post('qualificacaos/store', [QualificacaoController::class, 'store'])->name('home');
@@ -89,6 +91,11 @@ Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');
 Route::post('situacaos/store', [SituacaoController::class, 'store'])->name('home');
 Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home');
 Route::post('situacaos/destroy', [SituacaoController::class, 'destroy'])->name('home');
+
+Route::get('/organizacaos', [OrganizacaoController::class, 'index'])->name('home');
+Route::post('organizacaos/store', [OrganizacaoController::class, 'store'])->name('home');
+Route::post('organizacaos/edit', [OrganizacaoController::class, 'edit'])->name('home');
+Route::post('organizacaos/destroy', [OrganizacaoController::class, 'destroy'])->name('home');
 
 
 
