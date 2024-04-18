@@ -15,11 +15,22 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Destinos</b></div>
-                        <div class="col-md-4 text-right">
+                        <div class="col-md-3 text-left"><b>Gestão de Funções</b></div>
+                        
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                                                
+                        <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar destino (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -57,19 +68,19 @@
 
                         <div class="form-group">
                             <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Pr Sv" data-toggle="tooltip" title="Digite a sigla do Destino" >
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="S1" data-toggle="tooltip" title="Digite a sigla da Seção" >
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Pronto para o Serviço" data-toggle="tooltip" title="Digite o nome do Destino" >
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: 1ª Seção" data-toggle="tooltip" title="Digite o nome da Seção" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
                         <div class="form-group">    
                         <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o destino está ativo" >
+                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se:" >
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
                 </form>        
@@ -89,7 +100,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -127,14 +138,14 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                ajax: "{{url("destinos")}}",
+                ajax: "{{url("funcaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    {"data": "id", "name": "destinos.id", "class": "dt-right", "title": "#"},
-                    {"data": "descricao", "name": "destinos.descricao", "class": "dt-left", "title": "Descrição",
+                    {"data": "id", "name": "funcaos.id", "class": "dt-right", "title": "#"},
+                    {"data": "descricao", "name": "funcaos.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "sigla", "name": "destinos.sigla", "class": "dt-left", "title": "Sigla"},
-                    {"data": "ativo", "name": "destinos.ativo", "class": "dt-center", "title": "Ativo",  
+                    {"data": "sigla", "name": "funcaos.sigla", "class": "dt-left", "title": "Sigla"},
+                    {"data": "ativo", "name": "funcaos.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
@@ -165,7 +176,7 @@
                     // alert($id);
                     $.ajax({
                         type: "POST",
-                        url: "{{url("destinos/destroy")}}",
+                        url: "{{url("funcaos/destroy")}}",
                         data: {"id": id},
                         dataType: 'json',
                         success: function (data) {
@@ -190,12 +201,12 @@
 
                 $.ajax({
                     type: "POST",
-                    url: "{{url("destinos/edit")}}",
+                    url: "{{url("funcaos/edit")}}",
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Destino');
+                        $('#modalLabel').html('Editar Seção');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
@@ -224,7 +235,7 @@
                 //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
-                    url: "{{url("destinos/store")}}",
+                    url: "{{url("funcaos/store")}}",
                     data: formData,
                     cache: false,
                     contentType: false,
@@ -254,7 +265,7 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Destino');  //
+                $('#modalLabel').html('Nova Seção');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });

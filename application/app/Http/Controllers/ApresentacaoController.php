@@ -10,6 +10,7 @@ use App\Models\Boletim;
 use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
+use App\Models\Organizacao;
 use App\Models\User;
 use DataTables;
 use Illuminate\Support\Facades\Auth;

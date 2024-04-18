@@ -317,6 +317,7 @@ return [
         ],
         [
             'text' => 'Apresentações',
+            'icon' => 'fas fa-id-card',
             'url' => 'apresentacaos',
             // 'icon' => 'far fa-fw fa-file',
             // 'label' => 4,
@@ -324,10 +325,12 @@ return [
         ],
         [
             'text' => 'Plano de Chamada',
+            'icon' => 'fa fa-clipboard',
             'url' => 'planochamada',
         ],
         [
             'text' => 'Mapa da Força',
+            'icon' => 'fas fa-map-marked-alt',
             'url' => 'mapa_forca',
         ],
         [
@@ -347,22 +350,24 @@ return [
         // ],
         [
             'text' => 'Administração',
-            'icon' => 'fas fa-fw fa-cog',
             'can' => 'is_admin',
             'submenu' => [
                 [
                     'text' => 'Pessoal',
+                    'icon' => 'fas fa-users',
                     'url' => 'pessoas',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'P/Graduações',
+                    'icon' => 'fas fa-user-graduate',
                     'url' => 'pgrads',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Qualificações',
                     'url' => 'qualificacaos',
+                    'icon' => 'fas fa-award',
                     'can' => 'is_admin',
                 ],
                 [
@@ -372,32 +377,44 @@ return [
                 ],
                 [
                     'text' => 'Funções',
+                    'icon' => 'fas fa-arrows-alt',
                     'url' => 'funcaos',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Destinos',
+                    'icon' => 'fas fa-map-signs',
                     'url' => 'destinos',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Boletins',
+                    'icon' => 'fas fa-edit',
                     'url' => 'boletins',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Situações',
+                    'icon' => 'fas fa-check-double',
                     'url' => 'situacaos',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Níveis de Acesso',
+                    'icon' => 'fas fa-key',
                     'url' => 'nivelacessos',
                     'can' => 'is_admin',
                 ],
                 [
                     'text' => 'Usuários',
+                    'icon' => 'fas fa-user-lock',
                     'url' => 'users',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Organizações',
+                    'icon' => 'fas fa-building',
+                    'url' => 'organizacaos',
                     'can' => 'is_admin',
                 ],
                 // [
