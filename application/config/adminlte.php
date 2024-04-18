@@ -346,7 +346,6 @@ return [
         // ],
         [
             'text' => 'Administração',
-            'icon' => 'fa fa-cog', //fa-spin
             'can' => 'is_admin',
             'submenu' => [
                 [
@@ -369,7 +368,6 @@ return [
                 ],
                 [
                     'text' => 'Seções',
-                    'icon' => 'fa fa-th',
                     'url' => 'secaos',
                     'can' => 'is_admin',
                 ],
