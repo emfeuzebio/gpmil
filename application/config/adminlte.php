@@ -346,7 +346,6 @@ return [
         // ],
         [
             'text' => 'Administração',
-            'icon' => 'fa fa-cog',
             'can' => 'is_admin',
             'submenu' => [
                 [
@@ -369,7 +368,6 @@ return [
                 ],
                 [
                     'text' => 'Seções',
-                    'icon' => 'fas fa-building',
                     'url' => 'secaos',
                     'can' => 'is_admin',
                 ],
@@ -407,6 +405,12 @@ return [
                     'text' => 'Usuários',
                     'icon' => 'fas fa-user-lock',
                     'url' => 'users',
+                    'can' => 'is_admin',
+                ],
+                [
+                    'text' => 'Organizações',
+                    'icon' => 'fas fa-building',
+                    'url' => 'organizacaos',
                     'can' => 'is_admin',
                 ],
                 // [
