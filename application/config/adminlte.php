@@ -330,6 +330,10 @@ return [
             'text' => 'Mapa da Força',
             'url' => 'mapa_forca',
         ],
+        [
+            'text' => 'Login DGP',
+            'url' => 'login_dgp',
+        ],
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
