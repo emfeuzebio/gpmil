@@ -15,7 +15,7 @@
                 <div class="card-header">
                     <div class="row">
                         <!--área de título da Entidade-->
-                        <div class="col-md-3 text-left h5"><b>Apresentações</b></div>
+                        <div class="col-md-3 text-left h5"><b>Plano de Chamada</b></div>
                         <!--área de mensagens-->
                         <div class="col-md-6 text-left">
                             <div style="padding: 0px;  background-color: transparent;">
@@ -27,25 +27,8 @@
                         </div>
                         <!--área de botões-->
                         <div class="col-md-3 text-right">
-                            <span class="badge badge-info">{{$nivelAcesso}}</span>
-
-                            @can('isAdmin','App\Models\Apresentacao')
-                            <label class="btn btn-default btn-sm">É Administrador</label>
-                            @endcan
-                            
                             <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
-                            
-                            @can('PodeInserirApresentacao','App\Models\Apresentacao')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>                            
-                            @endif
                         </div>
-                    </div>
-                </div>
-
-                <div class="card-header">
-                    <!--área de Filtros-->
-                    <div class="row">
-
                     </div>
                 </div>
 
@@ -79,37 +62,65 @@
                     </div>
 
                     <div class="form-group">
-                        <label class="form-label">Data Inicial</label>
-                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
-                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                        <label class="form-label">CEP</label>
+                        <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="" data-toggle="tooltip" title="CEP do endereço de residência">
+                        <div id="error-cep" class="error invalid-feedback" style="display: none;"></div>
                     </div>    
 
                     <div class="form-group">
-                        <label class="form-label">Data Final</label>
-                        <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
-                        <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
+                        <label class="form-label">Endereço</label>
+                        <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="" data-toggle="tooltip" title="Endereço de residência">
+                        <div id="error-endereco" class="error invalid-feedback" style="display: none;"></div>
                     </div>    
 
                     <div class="form-group">
-                        <label class="form-label">Local de Destino</label>
-                        <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
-                        <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
+                        <label class="form-label">Complemento</label>
+                        <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência">
+                        <div id="error-complemento" class="error invalid-feedback" style="display: none;"></div>
                     </div>    
 
                     <div class="form-group">
-                        <label class="form-label">Fone para Contato</label>
-                        <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
-                        <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
-                    </div>                          
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observação</label>                    
-                        <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
-                        <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
+                        <label class="form-label">Bairro</label>
+                        <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="Digite o bairro" data-toggle="tooltip" data-placement="top" title="Bairro de residência">
+                        <div id="error-bairro" class="error invalid-feedback" style="display: none;"></div>
                     </div>
 
-                    <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
-                    isAdmin
+                    <div class="form-group">
+                        <label class="form-label">Cidade</label>
+                        <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Cidade de residência">
+                        <div id="error-cidade" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Município</label>
+                        <input class="form-control" value="" type="text" id="municipio" name="municipio" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Municípios de residência">
+                        <div id="error-municipio" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-group" id="form-group-id">
+                        <label class="form-label">Estado UF</label>
+                        <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="Digite o Estado" data-toggle="tooltip" data-placement="top" title="Estado de residência">
+                        <div id="error-uf" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Telefone Celular</label>
+                        <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="Digite o telefone celular" data-toggle="tooltip" data-placement="top" title="Telefone celular" >
+                        <div id="error-fone_celular" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Telefone de Emergência</label>
+                        <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Telefone de emergência" >
+                        <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label class="form-label">Pessoa para Emergência</label>
+                        <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
+                        <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                    </div>
+                    
                 </form>        
 
             </div>
@@ -126,12 +137,15 @@
         //variável global que recebe o ID do registro
         window.id = '';
         var id = '';
-        var descricao = '';        
+        var descricao = '';
+        var cep_anterior = $('#cep').val().replace(/\D/g, '');
 
         $(document).ready(function () {
 
-            // definitions of filds mask
-            $('#celular').inputmask('(99) 99999-9999');
+            // máscaras para entrada de dados
+            $('#cep').inputmask('99999-999');
+            $('#fone_celular').inputmask('(99) 99999-9999'); 
+            $('#fone_emergencia').inputmask('(99) 99999-9999');
 
             // send token
             $.ajaxSetup({
@@ -155,16 +169,18 @@
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     {"data": "id", "name": "pessoas.id", "class": "dt-right", "title": "#"},
-                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                     {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left", "title": "P/Grad"},                    
                     {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Pessoa"},
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                     {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
                     {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
-                    {"data": "cidade", "name": "pessoas.cidade", "class": "dt-left", "title": "Cidade"},
-                    {"data": "uf", "name": "pessoas.uf", "class": "dt-left", "title": "UF"},
-                    {"data": "cep", "name": "pessoas.cep", "class": "dt-left", "title": "CEP"},
-                    {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "F. Contato"},
-                    {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "F. Emergência"},
+                    {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Compl"},
+                    // {"data": "cidade", "name": "pessoas.cidade", "class": "dt-left", "title": "Cidade"},
+                    // {"data": "uf", "name": "pessoas.uf", "class": "dt-left", "title": "UF"},
+                    // {"data": "cep", "name": "pessoas.cep", "class": "dt-left", "title": "CEP"},
+                    {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "Fone Contato"},
+                    {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "Fone Emergência"},
+                    {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
                     {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "50px", "sortable": false},
                 ]
             });
@@ -197,16 +213,14 @@
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#pessoa_id').val(data.pessoa_id);
-                        $('#destino_id').val(data.destino_id);
-                        $('#boletim_id').val(data.boletim_id);
-                        $('#dt_inicial').val(data.dt_inicial);
-                        $('#dt_final').val(data.dt_final);
-                        $('#local_destino').val(data.local_destino);
-                        $('#celular').val(data.celular);
-                        $('#observacao').val(data.observacao);
-                        $('#publicado').val(data.publicado);
-
+                        $('#cep').val(data.cep);
+                        $('#bairro').val(data.bairro);
+                        $('#cidade').val(data.cidade);
+                        $('#endereco').val(data.endereco);
+                        $('#complemento').val(data.complemento);
+                        $('#fone_emergencia').val(data.fone_emergencia);
+                        $('#fone_celular').val(data.fone_celular);
+                        $('#pessoa_emergencia').val(data.pessoa_emergencia);
                     }
                 }); 
 
@@ -251,7 +265,7 @@
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#endereco').focus();
+                $('#cep').focus();
             })
 
             /*
@@ -260,7 +274,61 @@
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);    
-            });        
+            });
+
+            // busca endereço pelo CEP após campo cep perde o foco
+            $("#cep").blur(function() {
+                //Nova variável "cep" somente com dígitos.
+                var cep = $(this).val().replace(/\D/g, '');
+                console.log(cep + ' ' + cep_anterior);
+
+                //Verifica se campo cep possui valor informado.
+                if (cep != cep_anterior) {
+
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
+
+                    //Valida o formato do CEP.
+                    if(validacep.test(cep)) {
+
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#endereco").val("...");
+                        $("#complemento").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#municipio").val("...");
+
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+
+                            if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#endereco").val(dados.logradouro);
+                                $("#complemento").val(dados.complemento);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                                $("#municipio").val(dados.ibge);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                //alert("CEP não encontrado.");
+                                $('#cep').focus();
+                            }
+                        });
+                    } //end if.
+                    else {
+                        //cep é inválido.
+                        alert("Formato de CEP inválido.");
+                        $('#cep').focus();
+                    }
+                } //end if.
+                else {
+                    //cep sem valor, limpa formulário.
+                    $('#cep').focus();
+                }
+            });
 
         });
 

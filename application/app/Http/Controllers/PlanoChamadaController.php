@@ -117,7 +117,7 @@ class PlanoChamadaController extends Controller
 
         // verifica se o User tem permissão via Policy
         // necessário retornar HTTP 422-Unprocesable Content que bloqueia fechar o modal
-        if($request->user()->cannot('PodeInserirPlanoChamada',PlanoChamada::class)) {
+        if($request->user()->cannot('PodeAtualizarPlanoChamada',PlanoChamada::class)) {
             //terminar o retorno JSON para bloquear o fechamento do Form e mostrar mensagem de erro
             $PlanoChamada = ['message' => 'Operação NÃO autorizada!','errors' => ['form'=>'Form: Operação NÃO autorizada']];
             return Response()->json($PlanoChamada);
@@ -133,8 +133,10 @@ class PlanoChamadaController extends Controller
                 'bairro' => $request->bairro,
                 'cidade' => $request->cidade,
                 'endereco' => $request->endereco,
+                'complemento' => $request->complemento,
                 'fone_celular' => $request->fone_celular,
                 'fone_emergencia' => $request->fone_emergencia,
+                'pessoa_emergencia' => $request->pessoa_emergencia,
             ]
         );  
         return Response()->json($PlanoChamada);

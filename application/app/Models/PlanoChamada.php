@@ -11,7 +11,7 @@ class PlanoChamada extends Model
     
     protected $table = 'pessoas';
 
-    protected $fillable = ['endereco','bairro','cidade','municipio_id','uf','cep','fone_celular','fone_emergencia'];
+    protected $fillable = ['endereco', 'complemento','bairro','cidade','municipio_id','uf','cep','fone_celular','fone_emergencia','pessoa_emergencia'];
 
     public function pgrad() {
         return $this->hasOne(Pgrad::class, 'id', 'pgrad_id');
