@@ -15,6 +15,7 @@ use App\Http\Controllers\OrganizacaoController;
 use App\Http\Controllers\SituacaoController;
 use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
+use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
 use Illuminate\Support\Facades\Auth;
 
@@ -91,6 +92,10 @@ Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');
 Route::post('situacaos/store', [SituacaoController::class, 'store'])->name('home');
 Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home');
 Route::post('situacaos/destroy', [SituacaoController::class, 'destroy'])->name('home');
+
+Route::get('/planochamada', [PlanoChamadaController::class, 'index'])->name('home');
+Route::post('planochamada/store', [PlanoChamadaController::class, 'store'])->name('home');
+Route::post('planochamada/edit', [PlanoChamadaController::class, 'edit'])->name('home');
 
 Route::get('/organizacaos', [OrganizacaoController::class, 'index'])->name('home');
 Route::post('organizacaos/store', [OrganizacaoController::class, 'store'])->name('home');

@@ -3,10 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use App\Models\Pgrad;
-use App\Policies\PgradPolicy;
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -29,6 +26,11 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
+        Gate::define('is_encpes', function (User $user) {
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            return ( $user->pessoa->nivelacesso_id == 3 ? true : false );
+        });                
+
         Gate::define('is_admin', function (User $user) {
             //carrega o usuário e a pessoa correspondente
             $user = User::with('pessoa')->find(Auth::user()->id);
@@ -42,11 +44,6 @@ class AuthServiceProvider extends ServiceProvider
             $user = User::with('pessoa')->find(Auth::user()->id);
             return ( $user->pessoa->nivelacesso_id == 2 ? true : false );
         });        
-
-        Gate::define('is_encpes', function (User $user) {
-            $user = User::with('pessoa')->find(Auth::user()->id);
-            return ( $user->pessoa->nivelacesso_id == 3 ? true : false );
-        });                
 
         Gate::define('is_chesec', function (User $user) {
             $user = User::with('pessoa')->find(Auth::user()->id);
