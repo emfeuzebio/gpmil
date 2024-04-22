@@ -113,9 +113,9 @@ class PessoaController extends Controller
     protected function getActionColumn($row): string
     {
         $actions = '';
-        $btnEditar  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
-        $btnVer  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-info btn-xs" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
-        $btnExcluir = '<button data-id="' .$row->id . '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+        $btnEditar  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-primary btn-sm mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
+        $btnVer  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-info btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
+        $btnExcluir = '<button data-id="' .$row->id . '" class="btnExcluir btn btn-danger btn-sm btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
 
         // btn Editar disponível apenas para Admin, EncPes, Sgtte ou User dono
         if(in_array($this->userNivelAcessoID,[1])) {
