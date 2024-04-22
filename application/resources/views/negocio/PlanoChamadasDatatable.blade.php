@@ -1,9 +1,9 @@
 @extends('adminlte::page')
 
-@section('title', 'AdminLTE')
+@section('title', 'GPMil - Plano de Chamada')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Administração  @can('is_admin') ADMINISTRADOR @endcan  @can('is_gerente') GERENTE @endcan @can('is_usuario') USUÁRIO @endcan</h1>
+    <h1 class="m-0 text-dark">Administração</h1>
 @stop
 
 @section('content')
@@ -27,7 +27,7 @@
                         </div>
                         <!--área de botões-->
                         <div class="col-md-3 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                         </div>
                     </div>
                 </div>
@@ -66,7 +66,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
+                <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
             </div>
             <div class="modal-body">
 
@@ -109,7 +109,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Município</label>
-                        <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Municípios de residência">
+                        <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Selecione o Município" data-toggle="tooltip" data-placement="top" title="Selecione o Município de residência">
                         <div id="error-municipio_id" class="error invalid-feedback" style="display: none;"></div>
                     </div>
 
@@ -134,7 +134,7 @@
                     <div class="form-group">
                         <label class="form-label">Pessoa para Emergência</label>
                         <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
-                        <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                        <div id="error-pessoa_emergencia" class="error invalid-feedback" style="display: none;"></div>
                     </div>
                     
                 </form>        
@@ -145,9 +145,9 @@
                     <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="col-md-5 text-right">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
                     @if( in_array($nivelAcesso,[1,3,4,5,6]) )
-                    <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
                     @endif
                 </div>
             </div>
@@ -158,7 +158,6 @@
     <script type="text/javascript">
 
         //variável global que recebe o ID do registro
-        window.id = '';
         var id = '';
         var descricao = '';
 
@@ -195,11 +194,8 @@
                     {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Pessoa"},
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                     {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
-                    {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
                     {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Compl"},
-                    // {"data": "cidade", "name": "pessoas.cidade", "class": "dt-left", "title": "Cidade"},
-                    // {"data": "uf", "name": "pessoas.uf", "class": "dt-left", "title": "UF"},
-                    // {"data": "cep", "name": "pessoas.cep", "class": "dt-left", "title": "CEP"},
+                    {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
                     {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "Fone Contato"},
                     {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "Fone Emergência"},
                     {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
@@ -278,10 +274,9 @@
                         // validator: vamos exibir todas as mensagens de erro do validador de campos
                         // como o dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
-                            $("#error-" + key ).text(value).show(); //show all error messages
+                            $("#error-" + key ).text(value).show(); //mostra todas as messagens de erros dos campos do form
                         });
-                        // mostra mensagem de erro de roles e persistência
+                        // mostra mensagens de erro de Roles e Persistência em Banco
                         $('#msgOperacao').text(data.responseJSON.policyError).show();
                     }
                 });                
@@ -300,113 +295,54 @@
                 $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);    
             });
 
-            // busca endereço pelo CEP após campo cep perde o foco
+            // busca endereço pelo CEP se o campo cep foi alterado
             $("#cep").change(function() {
                 //Nova variável "cep" somente com dígitos.
                 var cep = $(this).val().replace(/\D/g, '');
 
-                //Verifica se campo cep possui valor informado.
+                //Expressão regular para validar o CEP.
+                var validacep = /^[0-9]{8}$/;
 
-                    //Expressão regular para validar o CEP.
-                    var validacep = /^[0-9]{8}$/;
+                //Valida o formato do CEP.
+                if(validacep.test(cep)) {
 
-                    //Valida o formato do CEP.
-                    if(validacep.test(cep)) {
+                    //Preenche os campos com "..." enquanto consulta webservice.
+                    $("#endereco").val("...");
+                    $("#complemento").val("...");
+                    $("#bairro").val("...");
+                    $("#cidade").val("...");
+                    $("#uf").val("...");
+                    $("#municipio_id").val("...");
 
-                        //Preenche os campos com "..." enquanto consulta webservice.
-                        $("#endereco").val("...");
-                        $("#complemento").val("...");
-                        $("#bairro").val("...");
-                        $("#cidade").val("...");
-                        $("#uf").val("...");
-                        $("#municipio_id").val("...");
+                    //Consulta o webservice viacep.com.br/
+                    $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
 
-                        //Consulta o webservice viacep.com.br/
-                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
-
-                            if (!("erro" in dados)) {
-                                //Atualiza os campos com os valores da consulta.
-                                $("#endereco").val(dados.logradouro);
-                                $("#complemento").val(dados.complemento);
-                                $("#bairro").val(dados.bairro);
-                                $("#cidade").val(dados.localidade);
-                                $("#municipio_id_id").val(dados.municipio_id_id);
-                                $("#uf").val(dados.uf);
-                                $("#municipio_id").val(dados.ibge);
-                            } //end if.
-                            else {
-                                //CEP pesquisado não foi encontrado.
-                                alert("CEP não encontrado.");   
-                                $('#cep').focus();
-                            }
-                        });
-                    } //end if.
-                    else {
-                        //cep é inválido.
-                        alert("Formato de CEP inválido.");
-                        $('#cep').focus();
-                    }
+                        if (!("erro" in dados)) {
+                            //Atualiza os campos com os valores da consulta.
+                            $("#endereco").val(dados.logradouro);
+                            $("#complemento").val(dados.complemento);
+                            $("#bairro").val(dados.bairro);
+                            $("#cidade").val(dados.localidade);
+                            $("#uf").val(dados.uf);
+                            $("#municipio_id").val(dados.ibge);
+                        } //end if.
+                        else {
+                            //CEP pesquisado não foi encontrado.
+                            alert("CEP não encontrado.");   
+                            $('#cep').focus();
+                        }
+                    });
+                } else {
+                    //cep é inválido.
+                    alert("Formato de CEP inválido.");
+                    $('#cep').focus();
+                }
 
             });
 
         });
 
     </script>    
-
-<script>
-
-    //implementa HotKeys específicos desta página
-    document.addEventListener("keydown", function(event) {
-
-        /*
-         * Início 5 Hotkeys manipular registros
-         * implementar usando uma classe específica em cada botão
-         */
-
-            //hotkey tecla Alt+S - Salvar Registro
-            if (event.altKey && event.code === "KeyS") {
-//                alert('Alt + S pressed!');
-                $("button.btnSalvar").trigger('click');
-                event.preventDefault();
-            }
-
-            //hotkey tecla Alt+E - Excluir Registro
-            if (event.altKey && event.code === "KeyE") {
-                //alert('Alt + E pressed!');
-                $(".btnExcluir").trigger('click');
-                event.preventDefault();
-            }
-
-            //hotkey tecla Alt+C - Cancelar Registro
-            if (event.altKey && event.code === "KeyC") {
-                //alert('Alt + C pressed!');
-                $(".btnCancelar").trigger('click');
-                event.preventDefault();
-            }
-
-            //hotkey tecla Alt+N - Incluir Novo Registro
-            if (event.altKey && event.code === "KeyN") {
-                //alert('Alt + N pressed!');
-                $(".btnInserirNovo").trigger('click');
-                event.preventDefault();
-            }
-
-            //hotkey tecla Alt+R - Refresh nos regristos do DataTables
-            if (event.altKey && event.code === "KeyN") {
-                //alert('Alt + R pressed!');
-                $(".btnRefresh").trigger('click');
-                event.preventDefault();
-            }
-        /*
-         * FIM 5 Hotkeys manipular registros
-         * implementar usando uma classe específica em cada botão
-         */
-            
-
-    });
-
-</script>
-
 
 @stop
 

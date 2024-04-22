@@ -160,7 +160,59 @@
 
         });
 
-    </script>        
+    </script>  
+    
+    <!-- EUZ 5 Hotkeys manipular registros em todos CRUDs -->
+    <script type="text/javascript">
+
+        /*
+        * Início 5 Hotkeys manipular registros
+        * implementar usando uma classe específica em cada botão
+        */
+        document.addEventListener("keydown", function(event) {
+    
+                //hotkey tecla Alt+S - Salvar Registro
+                if (event.altKey && event.code === "KeyS") {
+                    // alert('Alt + S pressed!');
+                    $("button.btnSalvar").trigger('click');
+                    event.preventDefault();
+                }
+    
+                //hotkey tecla Alt+E - Excluir Registro
+                if (event.altKey && event.code === "KeyE") {
+                    // alert('Alt + E pressed!');
+                    $(".btnExcluir").trigger('click');
+                    event.preventDefault();
+                }
+    
+                //hotkey tecla Alt+C - Cancelar Registro
+                if (event.altKey && event.code === "KeyC") {
+                    // alert('Alt + C pressed!');
+                    $(".btnCancelar").trigger('click');
+                    event.preventDefault();
+                }
+    
+                //hotkey tecla Alt+N - Incluir Novo Registro
+                if (event.altKey && event.code === "KeyN") {
+                    alert('Alt + N pressed!');
+                    $(".btnInserirNovo").trigger('click');
+                    event.preventDefault();
+                }
+    
+                //hotkey tecla Alt+R - Refresh nos regristos do DataTables
+                if (event.altKey && event.code === "KeyR") {
+                    //alert('Alt + R pressed!');
+                    $(".btnRefresh").trigger('click');
+                    event.preventDefault();
+                }
+            /*
+             * FIM 5 Hotkeys manipular registros
+             * implementar usando uma classe específica em cada botão
+             */
+    
+        });
+    
+    </script>
 
     @else
         <script src="{{ mix(config('adminlte.laravel_mix_js_path', 'js/app.js')) }}"></script>

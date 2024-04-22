@@ -22,14 +22,16 @@ class PlanoChamadaRequest extends FormRequest
     public function rules(): array
     {
         return [            
-            'uf' => 'required',
+            'uf' => 'required|min:2',
             'cep' => 'required',
             'bairro' => 'required',
-            'complemento' => 'required',
             'cidade' => 'required',
-            'endereco' => 'required',
+            'municipio_id' => 'required',
+            'endereco' => 'required|min:6',
+            'complemento' => 'required',
             'fone_celular' => 'required',
             'fone_emergencia' => 'required',
+            'pessoa_emergencia' => 'required',
         ];
 
     }
