@@ -3,10 +3,7 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
-use App\Models\Pgrad;
-use App\Policies\PgradPolicy;
 use App\Models\User;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
 

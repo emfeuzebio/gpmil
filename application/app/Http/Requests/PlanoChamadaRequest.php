@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PgradRequest extends FormRequest
+class PlanoChamadaRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -21,10 +21,18 @@ class PgradRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            'sigla' => 'required|min:2',
-            'descricao' => 'required|min:3',            //|unique
-            'ativo' => ['required','in:"SIM","NÃO"'],
+        return [            
+            'uf' => 'required|min:2',
+            'cep' => 'required',
+            'bairro' => 'required',
+            'cidade' => 'required',
+            'municipio_id' => 'required',
+            'endereco' => 'required|min:6',
+            'complemento' => 'required',
+            'fone_celular' => 'required',
+            'fone_emergencia' => 'required',
+            'pessoa_emergencia' => 'required',
         ];
+
     }
 }

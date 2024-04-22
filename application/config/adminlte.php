@@ -317,6 +317,7 @@ return [
         ],
         [
             'text' => 'Apresentações',
+            'icon' => 'fas fa-id-card',
             'url' => 'apresentacaos',
             // 'icon' => 'far fa-fw fa-file',
             // 'label' => 4,
@@ -324,11 +325,17 @@ return [
         ],
         [
             'text' => 'Plano de Chamada',
+            'icon' => 'fa fa-clipboard',
             'url' => 'planochamada',
         ],
         [
             'text' => 'Mapa da Força',
+            'icon' => 'fas fa-map-marked-alt',
             'url' => 'mapa_forca',
+        ],
+        [
+            'text' => 'Login DGP',
+            'url' => 'login_dgp',
         ],
         // ['header' => 'account_settings'],
         // [
@@ -343,59 +350,96 @@ return [
         // ],
         [
             'text' => 'Administração',
-            'icon' => 'fas fa-fw fa-cog',
             'can' => 'is_admin',
             'submenu' => [
                 [
                     'text' => 'Pessoal',
-                    'url' => 'pessoas',
-                    'can' => 'is_admin',
+                    'icon' => 'fas fa-users',
+                    'url' => '#',
+                    'submenu' => [
+                        [
+                            'text' => 'Pessoas',
+                            'icon' => 'fas fa-user',
+                            'url' => 'pessoas',
+                            'can' => 'is_admin',
+                        ],
+                        [
+                            'text' => 'Seções',
+                            'icon' => 'fas fa-user',
+                            'url' => 'secaos',
+                            'can' => 'is_admin',
+                        ],
+                        [
+                            'text' => 'Funções',
+                            'icon' => 'fas fa-arrows-alt',
+                            'url' => 'funcaos',
+                            'can' => 'is_admin',
+                        ],
+                        [
+                            'text' => 'Qualificações',
+                            'url' => 'qualificacaos',
+                            'icon' => 'fas fa-award',
+                            'can' => 'is_admin',
+                        ],
+                    ],
                 ],
-                [
-                    'text' => 'P/Graduações',
-                    'url' => 'pgrads',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Qualificações',
-                    'url' => 'qualificacaos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Seções',
-                    'url' => 'secaos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Funções',
-                    'url' => 'funcaos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Destinos',
-                    'url' => 'destinos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Boletins',
-                    'url' => 'boletins',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Situações',
-                    'url' => 'situacaos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Níveis de Acesso',
-                    'url' => 'nivelacessos',
-                    'can' => 'is_admin',
-                ],
-                [
-                    'text' => 'Usuários',
-                    'url' => 'users',
-                    'can' => 'is_admin',
-                ],
+                        [
+                            'text' => 'Cadastros',
+                            'icon' => 'fas fa-edit',
+                            'url' => '#',
+                            'submenu' => [
+                                [
+                                    'text' => 'Boletins',
+                                    'icon' => 'fas fa-file',
+                                    'url' => 'boletins',
+                                    'can' => 'is_admin',
+                                ],
+                                [
+                                    'text' => 'Destinos',
+                                    'icon' => 'fas fa-map-signs',
+                                    'url' => 'destinos',
+                                    'can' => 'is_admin',
+                                ],
+                                [
+                                    'text' => 'Situações',
+                                    'icon' => 'fas fa-check-double',
+                                    'url' => 'situacaos',
+                                    'can' => 'is_admin',
+                                ],
+                                [
+                                    'text' => 'P/Graduações',
+                                    'icon' => 'fas fa-user-graduate',
+                                    'url' => 'pgrads',
+                                    'can' => 'is_admin',
+                                ],
+                                [
+                                    'text' => 'Organizações',
+                                    'icon' => 'fas fa-building',
+                                    'url' => 'organizacaos',
+                                    'can' => 'is_admin',
+                                ],                
+                                [
+                                    'text' => 'Municípios IBGE',
+                                    'icon' => 'fas fa-building',
+                                    'url' => 'municipios',
+                                    'can' => 'is_admin',
+                                ],                
+                                [
+                                    'text' => 'Usuários',
+                                    'icon' => 'fas fa-user-lock',
+                                    'url' => 'users',
+                                    'can' => 'is_admin',
+                                ],
+                                [
+                                    'text' => 'Níveis de Acesso',
+                                    'icon' => 'fas fa-key',
+                                    'url' => 'nivelacessos',
+                                    'can' => 'is_admin',
+                                ],
+                            ],
+                        ],
+
+
                 // [
                 //     'text' => 'level_one',
                 //     'url' => '#',

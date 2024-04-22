@@ -10,6 +10,7 @@ use App\Models\Boletim;
 use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
+use App\Models\Organizacao;
 use App\Models\User;
 use DataTables;
 use Illuminate\Support\Facades\Auth;
@@ -32,6 +33,9 @@ class ApresentacaoController extends Controller
 
         //somente Admin têm permissão
         // $this->authorize('is_admin');
+        // $can = $this->authorize('PodeInserirApresentacao',Apresentacao::class);
+        // var_dump($can);
+        // die();
 
         // carrega Entidades necessárias
         $this->Pessoa = new Pessoa();
@@ -177,6 +181,19 @@ class ApresentacaoController extends Controller
 
     public function store(ApresentacaoRequest $request)
     {
+        // verifica se o User tem permissão via Policy
+        // $can = $request->user()->can('PodeInserirApresentacao',Apresentacao::class);
+        // var_dump($can);
+        // die();
+
+        // verifica se o User tem permissão via Policy
+        // necessário retornar HTTP 422-Unprocesable Content que bloqueia fechar o modal
+        if($request->user()->cannot('PodeInserirApresentacao',Apresentacao::class)) {
+            //terminar o retorno JSON para bloquear o fechamento do Form e mostrar mensagem de erro
+            $Apresentacao = ['message' => 'Operação NÃO autorizada!','errors' => ['form'=>'Form: Operação NÃO autorizada']];
+            return Response()->json($Apresentacao);
+        }
+
         //busca a Pessoa para obter a Seção da mesma
         $pessoa = $this->Pessoa->find($request->pessoa_id);
         // print_r($pessoa->secao_id);

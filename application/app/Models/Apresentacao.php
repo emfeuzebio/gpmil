@@ -22,6 +22,8 @@ class Apresentacao extends Model
         'publicado',
         'boletim_id',
         'secao_id',
+        'situacao_id'
+
         // 'dt_apres',
         // 'prtsv',
     ];
@@ -49,6 +51,9 @@ class Apresentacao extends Model
 
     public function secao() {
         return $this->hasOne(Secao::class, 'id', 'secao_id');
-    }   
+    }
+    public function situacao() {
+        return $this->hasOne(Situacao::class, 'id', 'situacao_id');
+    }      
 
 }
