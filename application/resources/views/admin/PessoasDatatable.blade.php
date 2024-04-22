@@ -127,7 +127,9 @@
                                 <input class="form-control" value="" type="email" id="email" name="email" placeholder="Digite seu E-mail" data-toggle="tooltip" data-placement="top" title="E-mail!" >
                                 <div id="error-email" class="error invalid-feedback" style="display: none;"></div>
                             </div>
+                        </div>
 
+                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Data de Nascimento</label>
                                 <input class="form-control" value="" type="date" lang="pt-BR" id="dt_nascimento" name="dt_nascimento" placeholder="Digite sua data de nascimento" data-toggle="tooltip" data-placement="top" title="Data de Nascimento!" >
@@ -151,9 +153,7 @@
                                 <input class="form-control" value="" type="date" id="dt_ult_promocao" name="dt_ult_promocao" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="Última Promoção!" >
                                 <div id="error-dt_ult_promocao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
                             <div class="form-group">    
                                 <label class="form-label">Segmento</label>
                                 <div class="form-check">
@@ -178,66 +178,6 @@
                                     <option value="Civil">Civil</option>
                                 </select>
                                 <div id="error-status" class="invalid-feedback" style="display: none;"></div>
-                            </div>
-                            
-
-                            <div class="form-group" id="form-group-id">
-                                <label class="form-label">CEP</label>
-                                <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="Digite o CEP" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="CEP!">
-                                <div id="error-cep" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group" id="form-group-id">
-                                <label class="form-label">Estado UF</label>
-                                <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="Digite o Estado" data-toggle="tooltip" data-placement="top" title="Estado UF!">
-                                <div id="error-uf" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group" id="form-group-id">
-                                <label class="form-label">Endereço</label>
-                                <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="Digite o endereço" data-toggle="tooltip" data-placement="top" title="Endereço!">
-                                <div id="error-endereco" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Bairro</label>
-                                <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="Digite o bairro" data-toggle="tooltip" data-placement="top" title="Bairro!">
-                                <div id="error-bairro" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Cidade</label>
-                                <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Cidade!">
-                                <div id="error-cidade" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-                            
-                            {{-- <div class="form-group">
-                                <label class="form-label">Municipio</label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control">
-                                    <option value=""> Selecione a QM </option>
-                                    @foreach( $qualificacaos as $qualificacao )
-                                    <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
-                                    @endforeach
-                                </select>
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                            </div>     --}}
-
-                            <div class="form-group">
-                                <label class="form-label">Ramal</label>
-                                <input class="form-control" value="" type="tel" id="fone_ramal" name="fone_ramal" placeholder="Digite o ramal" data-toggle="tooltip" data-placement="top" title="Telefone Ramal!" >
-                                <div id="error-fone_ramal" class="error invalid-feedback" style="display: none;"></div>
-                            </div>    
-
-                            <div class="form-group">
-                                <label class="form-label">Telefone Celular</label>
-                                <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="Digite o telefone celular" data-toggle="tooltip" data-placement="top" title="Telefone Celular!" >
-                                <div id="error-fone_celular" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Telefone de Emergência</label>
-                                <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Telefone de Emergência!" >
-                                <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
@@ -314,11 +254,7 @@
         $(document).ready(function () {
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
-            $('#idt').inputmask('999999999-9'); //Mascara para IDT
-            $('#cep').inputmask('99999-999'); //Mascara para IDT
-            $('#fone_ramal').inputmask('999 9999'); //Mascara para Ramal            
-            $('#fone_celular').inputmask('(99) 99999-9999'); //Mascara para Celular            
-            $('#fone_emergencia').inputmask('(99) 99999-9999'); //Mascara para Tel Emergência           
+            $('#idt').inputmask('999999999-9'); //Mascara para IDT          
 
             var id = '';
 
@@ -456,15 +392,6 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        $('#endereco').val(data.endereco);
-                        $('#cidade').val(data.cidade);
-                        $('#bairro').val(data.bairro);
-                        $('#municipio_id').val(data.municipio_id);
-                        $('#uf').val(data.uf);
-                        $('#cep').val(data.cep);
-                        $('#fone_ramal').val(data.fone_ramal);
-                        $('#fone_celular').val(data.fone_celular);
-                        $('#fone_emergencia').val(data.fone_emergencia);
                         $('#foto').val(data.foto);
                         $('#secao_id').val(data.secao_id);
                         $('#funcao_id').val(data.funcao);
