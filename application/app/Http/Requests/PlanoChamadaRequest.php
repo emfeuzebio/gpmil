@@ -21,11 +21,11 @@ class PlanoChamadaRequest extends FormRequest
      */
     public function rules(): array
     {
-        return [
-            
+        return [            
             'uf' => 'required',
             'cep' => 'required',
             'bairro' => 'required',
+            'complemento' => 'required',
             'cidade' => 'required',
             'endereco' => 'required',
             'fone_celular' => 'required',

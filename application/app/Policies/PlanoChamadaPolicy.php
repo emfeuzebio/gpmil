@@ -25,6 +25,7 @@ class PlanoChamadaPolicy
     }
 
     // aqui podemos usar nome para a operações, pois depois vamos testar com CAN() ou CANNOT()
+    // Nota: Plano de Chamada são colunas da mesma tabela Pessoa, logo não se pode nem INSERIR nem EXCLUIR
     public function PodeAtualizarPlanoChamada(User $user) {
 
         $user = User::with('pessoa')->find($user->id);

@@ -419,6 +419,12 @@ return [
                                     'can' => 'is_admin',
                                 ],                
                                 [
+                                    'text' => 'Municípios IBGE',
+                                    'icon' => 'fas fa-building',
+                                    'url' => 'municipios',
+                                    'can' => 'is_admin',
+                                ],                
+                                [
                                     'text' => 'Usuários',
                                     'icon' => 'fas fa-user-lock',
                                     'url' => 'users',

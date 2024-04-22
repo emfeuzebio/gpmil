@@ -32,6 +32,22 @@
                     </div>
                 </div>
 
+                <div class="card-header">
+                    <!--área de Filtros-->
+                    <div class="row">
+                        <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                            <label class="form-label">Filtro pela Seção</label>
+                            <select id="filtro_secao" name="filtro_secao" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <option value=""> Todas Seções </option>
+                                @foreach( $secoes as $secao )
+                                <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                </div>
+
+
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
                     <table id="datatables-plano-chamada" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
@@ -93,8 +109,8 @@
 
                     <div class="form-group">
                         <label class="form-label">Município</label>
-                        <input class="form-control" value="" type="text" id="municipio" name="municipio" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Municípios de residência">
-                        <div id="error-municipio" class="error invalid-feedback" style="display: none;"></div>
+                        <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Municípios de residência">
+                        <div id="error-municipio_id" class="error invalid-feedback" style="display: none;"></div>
                     </div>
 
                     <div class="form-group" id="form-group-id">
@@ -125,8 +141,15 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                <div class="col-md-5 text-left">
+                    <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                </div>
+                <div class="col-md-5 text-right">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    @if( in_array($nivelAcesso,[1,3,4,5,6]) )
+                    <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endif
+                </div>
             </div>
             </div>
         </div>
@@ -138,7 +161,6 @@
         window.id = '';
         var id = '';
         var descricao = '';
-        var cep_anterior = $('#cep').val().replace(/\D/g, '');
 
         $(document).ready(function () {
 
@@ -181,14 +203,14 @@
                     {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "Fone Contato"},
                     {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "Fone Emergência"},
                     {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "50px", "sortable": false},
+                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "60px", "sortable": false},
                 ]
             });
 
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
             $('#filtro_secao').on("change", function (e) {
                 e.stopImmediatePropagation();
-                $('#datatables-plano-chamada').DataTable().column('1').search( $(this).val() ).draw();
+                $('#datatables-plano-chamada').DataTable().column('3').search( $(this).val() ).draw();
             });        
 
             /*
@@ -253,12 +275,14 @@
                         $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
+                        // validator: vamos exibir todas as mensagens de erro do validador de campos
                         // como o dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // mostra mensagem de erro de roles e persistência
+                        $('#msgOperacao').text(data.responseJSON.policyError).show();
                     }
                 });                
             });
@@ -277,13 +301,11 @@
             });
 
             // busca endereço pelo CEP após campo cep perde o foco
-            $("#cep").blur(function() {
+            $("#cep").change(function() {
                 //Nova variável "cep" somente com dígitos.
                 var cep = $(this).val().replace(/\D/g, '');
-                console.log(cep + ' ' + cep_anterior);
 
                 //Verifica se campo cep possui valor informado.
-                if (cep != cep_anterior) {
 
                     //Expressão regular para validar o CEP.
                     var validacep = /^[0-9]{8}$/;
@@ -297,7 +319,7 @@
                         $("#bairro").val("...");
                         $("#cidade").val("...");
                         $("#uf").val("...");
-                        $("#municipio").val("...");
+                        $("#municipio_id").val("...");
 
                         //Consulta o webservice viacep.com.br/
                         $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
@@ -308,12 +330,13 @@
                                 $("#complemento").val(dados.complemento);
                                 $("#bairro").val(dados.bairro);
                                 $("#cidade").val(dados.localidade);
+                                $("#municipio_id_id").val(dados.municipio_id_id);
                                 $("#uf").val(dados.uf);
-                                $("#municipio").val(dados.ibge);
+                                $("#municipio_id").val(dados.ibge);
                             } //end if.
                             else {
                                 //CEP pesquisado não foi encontrado.
-                                //alert("CEP não encontrado.");
+                                alert("CEP não encontrado.");   
                                 $('#cep').focus();
                             }
                         });
@@ -323,16 +346,67 @@
                         alert("Formato de CEP inválido.");
                         $('#cep').focus();
                     }
-                } //end if.
-                else {
-                    //cep sem valor, limpa formulário.
-                    $('#cep').focus();
-                }
+
             });
 
         });
 
     </script>    
+
+<script>
+
+    //implementa HotKeys específicos desta página
+    document.addEventListener("keydown", function(event) {
+
+        /*
+         * Início 5 Hotkeys manipular registros
+         * implementar usando uma classe específica em cada botão
+         */
+
+            //hotkey tecla Alt+S - Salvar Registro
+            if (event.altKey && event.code === "KeyS") {
+//                alert('Alt + S pressed!');
+                $("button.btnSalvar").trigger('click');
+                event.preventDefault();
+            }
+
+            //hotkey tecla Alt+E - Excluir Registro
+            if (event.altKey && event.code === "KeyE") {
+                //alert('Alt + E pressed!');
+                $(".btnExcluir").trigger('click');
+                event.preventDefault();
+            }
+
+            //hotkey tecla Alt+C - Cancelar Registro
+            if (event.altKey && event.code === "KeyC") {
+                //alert('Alt + C pressed!');
+                $(".btnCancelar").trigger('click');
+                event.preventDefault();
+            }
+
+            //hotkey tecla Alt+N - Incluir Novo Registro
+            if (event.altKey && event.code === "KeyN") {
+                //alert('Alt + N pressed!');
+                $(".btnInserirNovo").trigger('click');
+                event.preventDefault();
+            }
+
+            //hotkey tecla Alt+R - Refresh nos regristos do DataTables
+            if (event.altKey && event.code === "KeyN") {
+                //alert('Alt + R pressed!');
+                $(".btnRefresh").trigger('click');
+                event.preventDefault();
+            }
+        /*
+         * FIM 5 Hotkeys manipular registros
+         * implementar usando uma classe específica em cada botão
+         */
+            
+
+    });
+
+</script>
+
 
 @stop
 
