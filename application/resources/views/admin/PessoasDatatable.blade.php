@@ -296,12 +296,7 @@
                     {"data": "ativo", "name": "pessoas.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
-                    {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
-                        render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
-                        }
-                    },
+                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "auto", "sortable": false},
                 ]
             });
 

@@ -11,9 +11,11 @@ use App\Models\Pessoa;
 use App\Models\Qualificacao;
 use App\Models\Secao;
 use App\Models\NivelAcesso;
+use App\Models\User;
 use Session;
 use DataTables;
 use DB;
+use Illuminate\Support\Facades\Auth;
 
 class PessoaController extends Controller
 {
@@ -24,6 +26,10 @@ class PessoaController extends Controller
     protected $Qualificacao = null;
     protected $Secao = null;
     protected $NivelAcesso = null;
+
+    protected $userID = 0;
+    protected $userSecaoID = 0;
+    protected $userNivelAcessoID = 0;
 
     public function __construct() {
 
@@ -45,6 +51,10 @@ class PessoaController extends Controller
     
     public function index() {
 
+        $user = User::with('pessoa')->find(Auth::user()->id);
+        $this->userID = $user->id;
+        $this->userSecaoID = $user->pessoa->secao_id;
+        $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
         // if(request()->ajax()) {
             
@@ -74,12 +84,13 @@ class PessoaController extends Controller
 
         if(request()->ajax()) {
 
-            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao', 'nivel_acesso', 'secao'))
+            return DataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao', 'nivel_acesso'))
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
                 ->addColumn('secao', function($param) { return $param->secao->sigla; })
-                ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
+                ->addColumn('acoes', function ($param) { return $this->getActionColumn($param); })
+                ->rawColumns(['acoes'])
                 ->addIndexColumn()
                 ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
                 ->make(true);        
@@ -99,6 +110,28 @@ class PessoaController extends Controller
         return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos] );
     }
 
+    protected function getActionColumn($row): string
+    {
+        $actions = '';
+        $btnEditar  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-primary btn-sm mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
+        $btnVer  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-info btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
+        $btnExcluir = '<button data-id="' .$row->id . '" class="btnExcluir btn btn-danger btn-sm btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+
+        // btn Editar disponível apenas para Admin, EncPes, Sgtte ou User dono
+        if(in_array($this->userNivelAcessoID,[1])) {
+            $actions .= $btnEditar;
+        }
+
+        if(in_array($this->userNivelAcessoID,[1])) {
+            $actions .= $btnExcluir;
+        }
+
+        if(in_array($this->userNivelAcessoID,[2,4])) {
+            $actions .= $btnVer;
+        }
+
+        return $actions;
+    }
 
     public function Select() {  
 
