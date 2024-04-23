@@ -297,7 +297,7 @@ return [
         // Navbar items:
         [
             'type' => 'navbar-search',
-            'text' => 'search',
+            'text' => 'procurar por ...',
             'topnav_right' => true,
         ],
         [
@@ -308,7 +308,7 @@ return [
         // Sidebar items:
         [
             'type' => 'sidebar-menu-search',
-            'text' => 'search',
+            'text' => 'procurar por ...',
         ],
         [
             'text' => 'blog',

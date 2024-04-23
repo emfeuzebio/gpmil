@@ -194,7 +194,7 @@
     
                 //hotkey tecla Alt+N - Incluir Novo Registro
                 if (event.altKey && event.code === "KeyN") {
-                    alert('Alt + N pressed!');
+                    // alert('Alt + N pressed!');
                     $(".btnInserirNovo").trigger('click');
                     event.preventDefault();
                 }

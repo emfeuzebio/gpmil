@@ -20,9 +20,9 @@
                     <div class="row">
                         <div class="col-md-8 text-left"><b>Gestão de Pessoal</b></div>
                         <div class="col-md-4 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -46,7 +46,7 @@
             <div class="modal-content"  style="width: 100%;">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"><span aria-hidden="true">&times;</span></button>
                 </div>
 
                 <div class="container modal-body" style=" padding: 20px">
@@ -170,17 +170,6 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Status <span style="color: red">*</span></label>
-                                <select class="form-control" name="status" id="status" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
-                                    <option value="">Selecione o Status</option>
-                                    <option value="Ativa">Ativa</option>
-                                    <option value="Reserva">Reserva</option>
-                                    <option value="Civil">Civil</option>
-                                </select>
-                                <div id="error-status" class="invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group">
                                 <label class="form-label">Seção <span style="color: red">*</span></label>
                                 <select name="secao_id" id="secao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
                                     <option value=""> Selecione a Seção</option>
@@ -195,6 +184,17 @@
                                 <label class="form-label">Função</label>
                                 <input class="form-control" value="" type="text" id="funcao_id" name="funcao_id" placeholder="Digite a função" data-toggle="tooltip" data-placement="top" title="Função!" >
                                 <div id="error-funcao_id" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Status <span style="color: red">*</span></label>
+                                <select class="form-control" name="status" id="status" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
+                                    <option value="">Selecione o Status</option>
+                                    <option value="Ativa">Ativa</option>
+                                    <option value="Reserva">Reserva</option>
+                                    <option value="Civil">Civil</option>
+                                </select>
+                                <div id="error-status" class="invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
@@ -221,8 +221,8 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
                 </div>
             </div>
             
@@ -236,13 +236,13 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="btn-close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
                 </div>
                 <div class="modal-body">
                     <p></p>
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Confirmar a Exclusão" id="confirm">Excluir</button>
                 </div>
             </div>
@@ -255,6 +255,7 @@
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
             $('#idt').inputmask('999999999-9'); //Mascara para IDT          
+            $('#preccp').inputmask('999999999-99'); //Mascara para IDT
 
             var id = '';
 
