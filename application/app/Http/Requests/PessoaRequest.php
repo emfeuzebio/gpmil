@@ -29,6 +29,7 @@ class PessoaRequest extends FormRequest
             'cpf' => 'required',            //|unique
             'idt' => 'required',            //|unique
             'status' => ['required','in:"Ativa","Reserva","Civil"'],
+            'secao_id' => 'required',
             'ativo' => ['required','in:"SIM","NÃO"'],
         ];
     }
