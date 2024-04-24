@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
+use App\Http\Controllers\MunicipioController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
 use App\Http\Controllers\FuncaoController;
@@ -17,6 +18,7 @@ use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Models\Municipio;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -43,6 +45,8 @@ Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/circulos', [CirculoController::class, 'index'])->name('circulos.index');
 
 Route::get('/nivelacessos', [NivelAcessoController::class, 'index'])->name('nivelacessos.index');
+
+Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipios.index');
 
 //Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/pgrads', [PgradController::class, 'index'])->name('home');
