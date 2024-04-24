@@ -138,6 +138,8 @@
             // configura os Modais para terem seu conteúdo limpo ao serem fechados (hide)
             $('body').on('hidden.bs.modal', '.modal', function () {
                 $(this).removeData('bs.modal');
+                $('.invalid-feedback').text('').hide();
+                //alert('Fechou Modal');
             });
 
             //ativa o tooltip nas páginas

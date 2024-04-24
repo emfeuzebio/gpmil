@@ -64,93 +64,93 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
-
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
-
-                    <div class="form-group" id="form-group-id">
-                        <label class="form-label">ID</label>
-                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">CEP</label>
-                        <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="" data-toggle="tooltip" title="CEP do endereço de residência">
-                        <div id="error-cep" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Endereço</label>
-                        <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="" data-toggle="tooltip" title="Endereço de residência">
-                        <div id="error-endereco" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Complemento</label>
-                        <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência">
-                        <div id="error-complemento" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Bairro</label>
-                        <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="Digite o bairro" data-toggle="tooltip" data-placement="top" title="Bairro de residência">
-                        <div id="error-bairro" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Cidade</label>
-                        <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Cidade de residência">
-                        <div id="error-cidade" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Município</label>
-                        <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Selecione o Município" data-toggle="tooltip" data-placement="top" title="Selecione o Município de residência">
-                        <div id="error-municipio_id" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group" id="form-group-id">
-                        <label class="form-label">Estado UF</label>
-                        <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="Digite o Estado" data-toggle="tooltip" data-placement="top" title="Estado de residência">
-                        <div id="error-uf" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Telefone Celular</label>
-                        <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="Digite o telefone celular" data-toggle="tooltip" data-placement="top" title="Telefone celular" >
-                        <div id="error-fone_celular" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Telefone de Emergência</label>
-                        <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Telefone de emergência" >
-                        <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label class="form-label">Pessoa para Emergência</label>
-                        <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
-                        <div id="error-pessoa_emergencia" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-                    
-                </form>        
-
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-5 text-left">
-                    <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
                 </div>
-                <div class="col-md-5 text-right">
-                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                    @if( in_array($nivelAcesso,[1,3,4,5,6]) )
-                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                    @endif
+                <div class="modal-body">
+
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
+
+                        <div class="form-group" id="form-group-id">
+                            <label class="form-label">ID</label>
+                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">CEP</label>
+                            <input class="form-control" value="" type="text" id="cep" name="cep" placeholder="" data-toggle="tooltip" title="CEP do endereço de residência">
+                            <div id="error-cep" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Endereço</label>
+                            <input class="form-control" value="" type="text" id="endereco" name="endereco" placeholder="" data-toggle="tooltip" title="Endereço de residência">
+                            <div id="error-endereco" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Complemento</label>
+                            <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência">
+                            <div id="error-complemento" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Bairro</label>
+                            <input class="form-control" value="" type="text" id="bairro" name="bairro" placeholder="Digite o bairro" data-toggle="tooltip" data-placement="top" title="Bairro de residência">
+                            <div id="error-bairro" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Cidade</label>
+                            <input class="form-control" value="" type="text" id="cidade" name="cidade" placeholder="Digite a cidade" data-toggle="tooltip" data-placement="top" title="Cidade de residência">
+                            <div id="error-cidade" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Município</label>
+                            <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Selecione o Município" data-toggle="tooltip" data-placement="top" title="Selecione o Município de residência">
+                            <div id="error-municipio_id" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group" id="form-group-id">
+                            <label class="form-label">Estado UF</label>
+                            <input class="form-control" value="" type="text" id="uf" name="uf" placeholder="Digite o Estado" data-toggle="tooltip" data-placement="top" title="Estado de residência">
+                            <div id="error-uf" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Telefone Celular</label>
+                            <input class="form-control" value="" type="tel" id="fone_celular" name="fone_celular" placeholder="Digite o telefone celular" data-toggle="tooltip" data-placement="top" title="Telefone celular" >
+                            <div id="error-fone_celular" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Telefone de Emergência</label>
+                            <input class="form-control" value="" type="text" id="fone_emergencia" name="fone_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Telefone de emergência" >
+                            <div id="error-fone_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label class="form-label">Pessoa para Emergência</label>
+                            <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
+                            <div id="error-pessoa_emergencia" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        
+                    </form>        
+
                 </div>
-            </div>
+                <div class="modal-footer">
+                    <div class="col-md-5 text-left">
+                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @if( in_array($nivelAcesso,[1,3,4,5,6]) )
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endif
+                    </div>
+                </div>
             </div>
         </div>
     </div>

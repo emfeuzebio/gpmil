@@ -333,10 +333,11 @@ return [
             'icon' => 'fas fa-map-marked-alt',
             'url' => 'mapa_forca',
         ],
-        [
-            'text' => 'Login DGP',
-            'url' => 'login_dgp',
-        ],
+        // [
+        //     'text' => 'Login DGP',
+        //     'url' => 'login_dgp',
+        // ],
+
         // ['header' => 'account_settings'],
         // [
         //     'text' => 'profile',
@@ -348,14 +349,83 @@ return [
         //     'url' => 'admin/settings',
         //     'icon' => 'fas fa-fw fa-lock',
         // ],
+        
+        [
+            'text' => 'Admin Enc Pes',
+            'url' => '#',
+            'icon' => 'fas fa-fw fa-cogs',
+            'can' => 'is_encpes',
+            'submenu' => [
+                [
+                    'text' => 'Pessoal',
+                    'icon' => 'fas fa-users',
+                    'url' => '#',
+                    'can' => 'is_encpes',
+                    'submenu' => [
+                            [
+                                'text' => 'Pessoas',
+                                'icon' => 'fas fa-user',
+                                'url' => 'pessoas',
+                            ],
+                            [
+                                'text' => 'Seções',
+                                'icon' => 'fas fa-user',
+                                'url' => 'secaos',
+                            ],
+                            [
+                                'text' => 'Funções',
+                                'icon' => 'fas fa-arrows-alt',
+                                'url' => 'funcaos',
+                            ],
+                            [
+                                'text' => 'Qualificações',
+                                'url' => 'qualificacaos',
+                                'icon' => 'fas fa-award',
+                            ],
+                        ],
+                ],
+                [
+                    'text' => 'Cadastros',
+                    'icon' => 'fas fa-edit',
+                    'url' => '#',
+                    'can' => 'is_encpes',
+                    'submenu' => [
+                        [
+                            'text' => 'Boletins',
+                            'icon' => 'fas fa-file',
+                            'url' => 'boletins',
+                        ],
+                        [
+                            'text' => 'Destinos',
+                            'icon' => 'fas fa-map-signs',
+                            'url' => 'destinos',
+                        ],
+                        [
+                            'text' => 'Situações',
+                            'icon' => 'fas fa-check-double',
+                            'url' => 'situacaos',
+                        ],
+                        [
+                            'text' => 'Níveis de Acesso',
+                            'icon' => 'fas fa-key',
+                            'url' => 'nivelacessos',
+                            'can' => 'is_admin',
+                        ],
+                    ],
+                ],
+            ]
+        ],
+
         [
             'text' => 'Administração',
+            'icon' => 'fas fa-fw fa-cogs',
             'can' => 'is_admin',
             'submenu' => [
                 [
                     'text' => 'Pessoal',
                     'icon' => 'fas fa-users',
                     'url' => '#',
+                    'can' => 'is_admin',                    
                     'submenu' => [
                         [
                             'text' => 'Pessoas',
@@ -383,91 +453,55 @@ return [
                         ],
                     ],
                 ],
+                [
+                    'text' => 'Cadastros',
+                    'icon' => 'fas fa-edit',
+                    'url' => '#',
+                    'can' => 'is_admin',                    
+                    'submenu' => [
                         [
-                            'text' => 'Cadastros',
-                            'icon' => 'fas fa-edit',
-                            'url' => '#',
-                            'submenu' => [
-                                [
-                                    'text' => 'Boletins',
-                                    'icon' => 'fas fa-file',
-                                    'url' => 'boletins',
-                                    'can' => 'is_admin',
-                                ],
-                                [
-                                    'text' => 'Destinos',
-                                    'icon' => 'fas fa-map-signs',
-                                    'url' => 'destinos',
-                                    'can' => 'is_admin',
-                                ],
-                                [
-                                    'text' => 'Situações',
-                                    'icon' => 'fas fa-check-double',
-                                    'url' => 'situacaos',
-                                    'can' => 'is_admin',
-                                ],
-                                [
-                                    'text' => 'P/Graduações',
-                                    'icon' => 'fas fa-user-graduate',
-                                    'url' => 'pgrads',
-                                    'can' => 'is_admin',
-                                ],
-                                [
-                                    'text' => 'Organizações',
-                                    'icon' => 'fas fa-building',
-                                    'url' => 'organizacaos',
-                                    'can' => 'is_admin',
-                                ],                
-                                [
-                                    'text' => 'Municípios IBGE',
-                                    'icon' => 'fas fa-building',
-                                    'url' => 'municipios',
-                                    'can' => 'is_admin',
-                                ],                
-                                [
-                                    'text' => 'Usuários',
-                                    'icon' => 'fas fa-user-lock',
-                                    'url' => 'users',
-                                    'can' => 'is_admin',
-                                ],
-                                [
-                                    'text' => 'Níveis de Acesso',
-                                    'icon' => 'fas fa-key',
-                                    'url' => 'nivelacessos',
-                                    'can' => 'is_admin',
-                                ],
-                            ],
+                            'text' => 'Boletins',
+                            'icon' => 'fas fa-file',
+                            'url' => 'boletins',
                         ],
+                        [
+                            'text' => 'Destinos',
+                            'icon' => 'fas fa-map-signs',
+                            'url' => 'destinos',
+                        ],
+                        [
+                            'text' => 'Situações',
+                            'icon' => 'fas fa-check-double',
+                            'url' => 'situacaos',
+                        ],
+                        [
+                            'text' => 'P/Graduações',
+                            'icon' => 'fas fa-user-graduate',
+                            'url' => 'pgrads',
+                        ],
+                        [
+                            'text' => 'Organizações',
+                            'icon' => 'fas fa-building',
+                            'url' => 'organizacaos',
+                        ],                
+                        [
+                            'text' => 'Municípios IBGE',
+                            'icon' => 'fas fa-building',
+                            'url' => 'municipios',
+                        ],                
+                        [
+                            'text' => 'Usuários',
+                            'icon' => 'fas fa-user-lock',
+                            'url' => 'users',
+                        ],
+                        [
+                            'text' => 'Níveis de Acesso',
+                            'icon' => 'fas fa-key',
+                            'url' => 'nivelacessos',
+                        ],
+                    ],
+                ],
 
-
-                // [
-                //     'text' => 'level_one',
-                //     'url' => '#',
-                //     'submenu' => [
-                //         [
-                //             'text' => 'level_two',
-                //             'url' => '#',
-                //         ],
-                //         [
-                //             'text' => 'level_two',
-                //             'url' => '#',
-                //             'submenu' => [
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url' => '#',
-                //                 ],
-                //                 [
-                //                     'text' => 'level_three',
-                //                     'url' => '#',
-                //                 ],
-                //             ],
-                //         ],
-                //     ],
-                // ],
-                // [
-                //     'text' => 'level_one',
-                //     'url' => '#',
-                // ],
             ],
         ],
 

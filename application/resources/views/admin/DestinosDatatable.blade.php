@@ -15,11 +15,25 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Destinos</b></div>
-                        <div class="col-md-4 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                        <!--área de título da Entidade-->
+                        <div class="col-md-3 text-left h5"><b>Cadastro de Boletins</b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar destino (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
+                            @can('is_encpes')
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -41,44 +55,54 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
+                </div>
+                <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                    class="form-horizontal" method="post">
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
+                        class="form-horizontal" method="post">
 
-                        <div class="form-group" id="form-group-id">
-                            <label class="form-label">ID</label>
-                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                        </div>                         
+                            <div class="form-group" id="form-group-id">
+                                <label class="form-label">ID</label>
+                                <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                            </div>                         
 
-                        <div class="form-group">
-                            <label class="form-label">Sigla</label>
-                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Pr Sv" data-toggle="tooltip" title="Digite a sigla do Destino" >
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
-                        
-                        <div class="form-group">
-                            <label class="form-label">Descrição</label>
-                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Pronto para o Serviço" data-toggle="tooltip" title="Digite o nome do Destino" >
-                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
+                            <div class="form-group">
+                                <label class="form-label">Sigla</label>
+                                <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Pr Sv" data-toggle="tooltip" title="Digite a sigla do Destino" >
+                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="form-label">Descrição</label>
+                                <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Pronto para o Serviço" data-toggle="tooltip" title="Digite o nome do Destino" >
+                                <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
 
-                        <div class="form-group">    
-                        <label class="form-label">Ativo</label>                    
-                            <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o destino está ativo" >
-                            <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
-                        </div>
-                </form>        
+                            <div class="form-group">    
+                            <label class="form-label">Ativo</label>                    
+                                <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o destino está ativo" >
+                                <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
+                            </div>
+                    </form>        
 
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-            </div>
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-5 text-left">
+                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @can('is_admin')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_encpes')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                    </div>
+                </div>
             </div>
         </div>
     </div>
@@ -89,10 +113,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
+                    <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
@@ -100,7 +125,7 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>    
 
     <script type="text/javascript">
 
@@ -171,10 +196,20 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#confirmaExcluirModal').modal('hide');
                             $('#datatables').DataTable().ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            // console.log(data.responseJSON.message);
+                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');            
+                    
                 });
 
             });           
@@ -195,7 +230,7 @@
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar Destino');
+                        $('#modalLabel').html('Editar boletins');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
@@ -243,6 +278,9 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // mostra mensagens de erro de Roles e Persistência em Banco
+                        $('#msgOperacao').text(data.responseJSON.policyError).show();
+                        $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                     }
                 });                
             });
@@ -254,25 +292,26 @@
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Destino');  //
+                $('#modalLabel').html('Novo Boletim');  //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#sigla').focus();
+                $('#descricao').focus();
             })
 
-        });
+            /*
+            * Refresh button action
+            */
+            $('#btnRefresh').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().ajax.reload(null, false);
+                $('#alert').trigger('reset').hide();
+            });      
 
-        /*
-        * Refresh button action
-        */
-        $('#btnRefresh').on("click", function (e) {
-            e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
-        });        
+        });
 
     </script>    
 
