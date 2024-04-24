@@ -9,7 +9,7 @@ class Apresentacao extends Model
 {
     use HasFactory;
 
-    //protected $table = 'pessoas';
+    //protected $table = 'apresentacao';
 
     protected $fillable = [
         'pessoa_id',
@@ -22,33 +22,28 @@ class Apresentacao extends Model
         'publicado',
         'boletim_id',
         'secao_id',
-        'situacao_id'
-
-        // 'dt_apres',
-        // 'prtsv',
+        'situacao_id',
     ];
     
     public function pessoa() {
         return $this->hasOne(Pessoa::class, 'id', 'pessoa_id');
     }    
-    // public function pessoa() {
-    //     return $this->belongsTo(Pessoa::class);
-    // }    
-    
+        
     public function boletim() {
         return $this->hasOne(boletim::class, 'id', 'boletim_id');
     }   
-    // public function boletim() {
-    //     return $this->belongsTo(Boletim::class);
-    // }   
 
+    
+    // https://pt.linkedin.com/pulse/relacionamentos-laravel-um-guia-definitivo-para-dominar-de-paula-lvnwf#:~:text=No%20Laravel%2C%20o%20relacionamento%20%22One%20to%20Many%22%20(um,v%C3%A1rias%20correspond%C3%AAncias%20em%20outra%20tabela.
     public function destino() {
         return $this->hasOne(Destino::class, 'id', 'destino_id');
     }   
-    // public function destino() {
-    //     return $this->belongsTo(Destino::class);
-    // }
 
+    public function destinoFk() {
+        return $this->belongsTo(Destino::class);
+    }    
+
+    
     public function secao() {
         return $this->hasOne(Secao::class, 'id', 'secao_id');
     }

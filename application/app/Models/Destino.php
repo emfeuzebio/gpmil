@@ -9,8 +9,12 @@ class Destino extends Model
 {
     use HasFactory;
 
-    // protected $table = 'pgrads';                            //tabela de uso
-    // public $timestamps = false;                             //desabilita colunas timestamps                    
+    // protected $table = 'destino';                            //tabela de uso
+    // public $timestamps = false;                              //desabilita colunas timestamps                    
     protected $fillable = ['organizacao_id','sigla','descricao','ativo'];       //colunas  
+
+    public function apresentacoes() {
+        return $this->hasMany(Apresentacao::class);
+    }    
 
 }
