@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 22/04/2024 às 16:30
+-- Tempo de geração: 24/04/2024 às 14:10
 -- Versão do servidor: 8.1.0
 -- Versão do PHP: 8.2.11
 
@@ -37,11 +37,11 @@ CREATE TABLE `apresentacaos` (
   `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `observacao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
   `publicado` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'NÃO',
-  `boletim_id` int UNSIGNED DEFAULT NULL,
   `dt_apres` date DEFAULT NULL,
   `dt_inicial` date DEFAULT NULL,
   `dt_final` date DEFAULT NULL,
   `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `boletim_id` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -50,14 +50,14 @@ CREATE TABLE `apresentacaos` (
 -- Despejando dados para a tabela `apresentacaos`
 --
 
-INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `boletim_id`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', 3, '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', '2024-04-14 20:06:14', '2024-04-15 20:06:12'),
-(2, 1, 3, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', '2024-04-14 01:22:54', '2024-04-14 23:01:32'),
-(3, 2, 13, 2, '(61) 98656-5656', NULL, 'SIM', 2, NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', '2024-04-14 20:13:22', '2024-04-14 22:57:31'),
-(6, 2, 13, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, NULL, '2024-04-13', '2024-04-20', 'hhhhhh', '2024-04-12 16:39:30', '2024-04-14 23:05:10'),
-(10, 1, 3, 6, '(61) 98167-1586', NULL, 'SIM', 1, NULL, '2024-07-08', '2024-07-12', 'Natal-RN', '2024-04-14 16:22:34', '2024-04-14 23:03:25'),
-(12, 6, 12, 3, '(61) 00000-0000', NULL, 'NÃO', NULL, NULL, '2024-05-02', '2024-05-03', 'Nesta', '2024-04-15 22:25:24', '2024-04-15 22:33:29'),
-(13, 6, 12, 6, '(61) 90265-2656', NULL, 'NÃO', NULL, NULL, '2024-05-06', '2024-02-16', 'Salvador-BA', '2024-04-16 00:52:00', '2024-04-16 00:52:00');
+INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `boletim_id`, `created_at`, `updated_at`) VALUES
+(1, 1, 3, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-04-14 20:06:14', '2024-04-24 09:34:39'),
+(2, 1, 3, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-04-14 01:22:54', '2024-04-14 23:01:32'),
+(3, 2, 13, 2, '(61) 98656-5656', NULL, 'SIM', NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', 2, '2024-04-14 20:13:22', '2024-04-14 22:57:31'),
+(6, 2, 13, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, '2024-04-13', '2024-04-20', 'hhhhhh', NULL, '2024-04-12 16:39:30', '2024-04-14 23:05:10'),
+(10, 1, 3, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-04-14 16:22:34', '2024-04-14 23:03:25'),
+(12, 6, 12, 3, '(61) 00000-0000', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Nesta', NULL, '2024-04-15 22:25:24', '2024-04-15 22:33:29'),
+(13, 6, 12, 6, '(61) 90265-2656', NULL, 'NÃO', NULL, '2024-05-06', '2024-02-16', 'Salvador-BA', NULL, '2024-04-16 00:52:00', '2024-04-16 00:52:00');
 
 -- --------------------------------------------------------
 
@@ -79,9 +79,9 @@ CREATE TABLE `boletins` (
 --
 
 INSERT INTO `boletins` (`id`, `descricao`, `data`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Adt Bol 001-DGP', '2024-01-01', 'SIM', '2024-01-01 00:00:00', '2024-04-12 16:14:22'),
-(2, 'Adt Bol 002-DGP', '2024-01-02', 'SIM', '2024-04-12 13:04:53', '2024-04-12 16:14:47'),
-(3, 'Adt Bol 003-DGP', '2024-05-03', 'NÃO', '2024-04-12 16:14:58', '2024-04-15 21:38:25');
+(1, 'Adt Bol 002-DGP', '2024-01-02', 'SIM', '2024-04-12 13:04:53', '2024-04-12 16:14:47'),
+(2, 'Adt Bol 003-DGP', '2024-05-03', 'NÃO', '2024-04-12 16:14:58', '2024-04-15 21:38:25'),
+(3, 'Adt Bol 001-DGP', '2024-04-24', 'SIM', NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -131,7 +131,7 @@ CREATE TABLE `destinos` (
 --
 
 INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Pronto para o Serviço', 'Pr Sv', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(1, 'Pronto para o serviço', 'Pr Sv', 'SIM', '2024-04-11 20:24:39', '2024-04-11 20:24:39'),
 (2, 'Férias 30 dias', 'Fer 30', 'SIM', '2024-04-11 20:24:39', '2024-04-14 15:22:46'),
 (3, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21'),
 (4, 'Férias 15 dias', 'Fer 15', 'SIM', '2024-04-14 15:23:07', '2024-04-14 15:23:07'),
@@ -196,6 +196,13 @@ CREATE TABLE `funcaos` (
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+--
+-- Despejando dados para a tabela `funcaos`
+--
+
+INSERT INTO `funcaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
+(1, 'Chefe da Assessoria de Tecnologia de Informação', 'Ch ATI', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -280,7 +287,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 --
 
 CREATE TABLE `municipios` (
-  `id` int NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `municipio` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `uf` char(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
   `latitude` float(20,15) DEFAULT NULL,
@@ -6012,11 +6019,11 @@ CREATE TABLE `pessoas` (
 
 INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
 (1, 1, 1, 1, 15, 11, 13, 'SIM', 'Ativa', NULL, 'Emerson Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '70754020', NULL, 'SQN 111 Bloco B', 'Apto 408', 'Asa Norte', 'Brasília', NULL, 'DF', '70754-020', '000 0000', '(61) 98167-0000', '(61) 98500-2010', 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-19 11:47:05'),
-(2, 1, 2, 2, 12, 2, 4, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
-(3, 1, 3, 3, 13, 2, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:06:26'),
-(4, 1, 4, 4, 15, 1, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020', NULL, 'SQS 411 Bloco I', 'Apto 5', 'Asa Sul', 'Brasília', NULL, 'DF', '70277-090', '000 0000', '(61) 98000-1111', '(61) 97777-6666', 'Marcos', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-20 19:33:12'),
-(5, 1, 5, 5, 22, 2, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, 'SQN 111 Bloco B', 'Apto 100', 'Asa Norte', 'Brasília', 5300108, 'DF', '70754-020', NULL, '(61) 90000-0000', '(61) 95698-9898', 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-22 12:06:59'),
-(6, 1, 6, 6, 42, 7, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, 'SQN 111 Bloco A', 'Apto 100', 'Asa Norte', 'Brasília', NULL, 'DF', '70754-010', NULL, '(61) 95958-9598', '(89) 89898-9898', NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-19 11:58:14');
+(2, 1, 2, 2, 12, 2, 4, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
+(3, 1, 3, 3, 13, 2, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:06:26'),
+(4, 1, 4, 4, 15, 1, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020', NULL, 'SQS 115 Bloco I', 'Apto 103', 'Asa Sul', 'Brasília', 5300108, 'DF', '70385-090', '000 0000', '(61) 98000-1111', '(61) 97777-6666', 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-24 09:33:52'),
+(5, 1, 5, 5, 22, 2, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, 'SQN 111 Bloco B', 'Apto 100', 'Asa Norte', 'Brasília', 5300108, 'DF', '70754-020', NULL, '(61) 90000-0000', '(61) 95698-9898', 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-22 12:06:59'),
+(6, 1, 6, 6, 42, 7, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, 'SQN 111 Bloco A', 'Apto 100', 'Asa Norte', 'Brasília', NULL, 'DF', '70754-010', NULL, '(61) 95958-9598', '(89) 89898-9898', NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-19 11:58:14');
 
 -- --------------------------------------------------------
 
@@ -6043,7 +6050,7 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 (2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:17'),
 (3, 1, 'General-de-Divisão', 'Gen Div', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:25'),
 (4, 1, 'General-de-Brigada', 'Gen Bda', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:30'),
-(11, 2, 'Coronel', 'Cel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(11, 1, 'Coronel', 'Cel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (12, 2, 'Tenente-Coronel', 'Ten Cel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (13, 2, 'Major', 'Maj', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (15, 4, 'Capitão', 'Cap', 'SIM', '2024-01-01 03:00:00', '2024-04-06 02:02:03'),
@@ -6343,10 +6350,10 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'zzL4wtRIT0ulLRhFFSJw8fj5IjZ4ptiIdwK1bKLn8svI4RdU2KXCIerI4Gu9', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'qbdl0NYvzKUS9ob2rzweDpVCwd7ifOHesd8GY6SZQTEb9Kaey2iJxdhxdotO', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', '7VHZWxAoefyvWSWOgQYdhdJLMt2e18wC6sPtIsDenL5tmkqzjgjS1VyilQeF', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'nvPsOAgK8rhINwolOWXkgbomkmCVrjWJJtoxx7dLoe3aQXOyQEHddq9LtbU9', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'k9lQYW8vXHvQIfDJu6pfwwti1qkkm4Zd3MnnGGbfRLFZwD5jPy8FVwNnE295', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'pvpajsTSCELy7UTMXvkbL6WyDvuTZRGFiHXYW2m6c1HuzFcEC4klpYrTzZi2', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'hepNp8rCQTrxG7oovFXJHCLQZ63e7xaWTMJZta7I3SfMXYczh6CEp9oiFqjQ', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'uosMxM5hoJR1LU5bXBTZGHnCYttPltLQsr4QG6EWeuL0idJPVGauDCG6R9Fo', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'GJ5Cn2qzIMlzVPaxcwKYvqit1LQ2kFNCZQGqXsvoSJwiaIa7pFdi7ZAwHxGy', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
@@ -6545,7 +6552,7 @@ ALTER TABLE `circulos`
 -- AUTO_INCREMENT de tabela `destinos`
 --
 ALTER TABLE `destinos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `failed_jobs`
@@ -6557,7 +6564,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de tabela `funcaos`
 --
 ALTER TABLE `funcaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `menus`
@@ -6630,6 +6637,42 @@ ALTER TABLE `situacaos`
 --
 ALTER TABLE `users`
   MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `apresentacaos`
+--
+ALTER TABLE `apresentacaos`
+  ADD CONSTRAINT `boletim_tem_apresentacoes` FOREIGN KEY (`boletim_id`) REFERENCES `boletins` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `destino_tem_apresentacoes` FOREIGN KEY (`destino_id`) REFERENCES `destinos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `pessoa_tem_apresentacoes` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `secao_tem_apresentacoes` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `pessoas`
+--
+ALTER TABLE `pessoas`
+  ADD CONSTRAINT `funcao_tem_pessoas` FOREIGN KEY (`funcao_id`) REFERENCES `funcaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `municipio_tem_pessoas` FOREIGN KEY (`municipio_id`) REFERENCES `municipios` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `nivel_acessos_tem_pessoas` FOREIGN KEY (`nivelacesso_id`) REFERENCES `nivel_acessos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `organizacao_tem_pessoas` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacao` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `pgrad_tem_pessoas` FOREIGN KEY (`pgrad_id`) REFERENCES `pgrads` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `pgrads`
+--
+ALTER TABLE `pgrads`
+  ADD CONSTRAINT `circulo_tem_pgrads` FOREIGN KEY (`circulo_id`) REFERENCES `circulos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `secaos`
+--
+ALTER TABLE `secaos`
+  ADD CONSTRAINT `organizacao_tem_secao` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacao` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
