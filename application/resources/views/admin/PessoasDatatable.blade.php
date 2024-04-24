@@ -61,8 +61,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">P / G <span style="color: red">*</span></label>
-                                <select name="pgrad_id" id="pgrad_id" class="form-control"placeholder="" data-toggle="tooltip" data-placement="top" title="Posto / Graduação!">
-                                    <option value=""> Selecione o P / G </option>
+                                <select name="pgrad_id" id="pgrad_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Posto / Graduação!">
                                     @foreach( $pgrads as $pgrad )
                                     <option value="{{$pgrad->id}}">{{$pgrad->sigla}}</option>
                                     @endforeach
@@ -72,8 +71,7 @@
                             
                             <div class="form-group">
                                 <label class="form-label">QM <span style="color: red">*</span></label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
-                                    <option value=""> Selecione a QM</option>
+                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
                                     @foreach( $qualificacaos as $qualificacao )
                                     <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
                                     @endforeach
@@ -83,8 +81,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Linha de Ensino Militar</label>
-                                <select class="form-control" name="lem" id="lem" placeholder="" data-toggle="tooltip" data-placement="top" title="Linha de Ensino Militar">
-                                    <option value="">Selecione a Linha de Ensino</option>
+                                <select class="form-control selectpicker" data-live-search="true" name="lem" id="lem" placeholder="" data-toggle="tooltip" data-placement="top" title="Linha de Ensino Militar">
                                     <option value="Bélica">Bélica</option>
                                     <option value="Técnica">Técnica</option>
                                     <option value="Civil">Civil</option>
@@ -171,8 +168,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Seção <span style="color: red">*</span></label>
-                                <select name="secao_id" id="secao_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
-                                    <option value=""> Selecione a Seção</option>
+                                <select name="secao_id" id="secao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Seção">
                                     @foreach( $secaos as $secao )
                                     <option value="{{$secao->id}}">{{$secao->sigla}}</option>
                                     @endforeach
@@ -188,8 +184,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
-                                <select class="form-control" name="status" id="status" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
-                                    <option value="">Selecione o Status</option>
+                                <select class="form-control selectpicker" name="status" id="status" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
                                     <option value="Ativa">Ativa</option>
                                     <option value="Reserva">Reserva</option>
                                     <option value="Civil">Civil</option>
@@ -199,23 +194,24 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nível Acesso</span></label>
-                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
-                                    <option value=""> Selecione o nível</option>
+                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
                                     @foreach( $nivel_acessos as $nivel_acesso )
                                     <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
                                     @endforeach
                                 </select>
                                 <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-                            
-                            <div class="form-group">    
-                                <label class="form-label">Ativo <span style="color: red">*</span></label>                    
-                                <select class="form-control" id="ativo" name="ativo" placeholder="" data-toggle="tooltip" data-placement="top" title="Ativo! Sim o Não?">
-                                    <option value="SIM">SIM</option>
-                                    <option value="NÃO">NÃO</option>
-                                </select>
+
+                            <div class="form-group">
+                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <div class="form-check">
+                                    <label class="form-label" for="ativo">
+                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                    </label>
+                                </div>
                                 <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                             </div>
+
                         </div>
                     </div>
                     </form>
@@ -255,7 +251,7 @@
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
             $('#idt').inputmask('999999999-9'); //Mascara para IDT          
-            $('#preccp').inputmask('999999999-99'); //Mascara para IDT
+            // $('#preccp').inputmask('999999999-99'); //Mascara para IDT
 
             var id = '';
 
@@ -305,6 +301,14 @@
                 return $('input[name="segmento"]:checked').val();
             }
 
+            function getAtivoValue() {
+                if ($('input[id="ativo"]:checked').val()) {
+                    return 'SIM';
+                } else {
+                    return 'NÃO';
+                }
+            }
+
             /*
             * Delete button action
             */
@@ -343,7 +347,7 @@
             * Edit button action
             */
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
-                e.stopImmediatePropagation();            
+                e.stopImmediatePropagation();
 
                 const id = $(this).data("id")
                 // alert('Editar ID: ' + id );
@@ -362,15 +366,20 @@
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#pgrad_id').val(data.pgrad_id);
-                        $('#qualificacao_id').val(data.qualificacao_id);
+                        $('#pgrad_id').selectpicker('val', data.pgrad_id);
+                        $('#qualificacao_id').selectpicker('val', data.qualificacao_id);
+                        $('#lem').selectpicker('val', data.lem);
                         $('#nome_completo').val(data.nome_completo);
                         $('#nome_guerra').val(data.nome_guerra);
                         $('#cpf').val(data.cpf);
                         $('#idt').val(data.idt);
-                        $('#status').val(data.status);
-                        $('#ativo').val(data.ativo);
-                        $('#lem').val(data.lem);
+                        $('#status').selectpicker('val', data.status);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
+
                         $('#email').val(data.email);
                         // $('#segmento').val(data.segmento);
                         if (data.segmento === "Masculino") {
@@ -389,9 +398,9 @@
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
                         $('#foto').val(data.foto);
-                        $('#secao_id').val(data.secao_id);
+                        $('#secao_id').selectpicker('val', data.secao_id);
                         $('#funcao_id').val(data.funcao);
-                        $('#nivelacesso_id').val(data.nivelacesso_id);
+                        $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
                     }
                 }); 
 
@@ -403,10 +412,17 @@
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
-                getSegmentoValue();
+                
+                // Get the values
+                var segmentoValue = getSegmentoValue();
+                var ativoValue = getAtivoValue();
+
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
+
+                // Add the values to formData
+                formData.append('segmento', segmentoValue);
+                formData.append('ativo', ativoValue);
 
                 //here there are a problem with de serialize the form
                 $.ajax({

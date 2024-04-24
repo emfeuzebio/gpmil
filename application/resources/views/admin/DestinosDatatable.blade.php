@@ -81,9 +81,13 @@
                                 <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
-                            <div class="form-group">    
-                            <label class="form-label">Ativo</label>                    
-                                <input class="form-control" value="SIM" type="text" id="ativo" name="ativo" placeholder="SIM ou NÃO" data-toggle="tooltip" title="Informe se o destino está ativo" >
+                            <div class="form-group">
+                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <div class="form-check">
+                                    <label class="form-label" for="ativo">
+                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                    </label>
+                                </div>
                                 <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                             </div>
                     </form>        
@@ -170,6 +174,14 @@
                 ]
             });
 
+            function getAtivoValue() {
+                if ($('input[id="ativo"]:checked').val()) {
+                    return 'SIM';
+                } else {
+                    return 'NÃO';
+                }
+            }
+
             /*
             * Delete button action
             */
@@ -239,7 +251,11 @@
                         $('#id').val(data.id);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
-                        $('#ativo').val(data.ativo);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
                     }
                 }); 
 
@@ -251,10 +267,12 @@
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
+                var ativoValue = getAtivoValue();
 
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
                 // console.log(formData);
+                formData.append('ativo', ativoValue);
 
                 //here there are a problem with de serialize the form
                 $.ajax({
