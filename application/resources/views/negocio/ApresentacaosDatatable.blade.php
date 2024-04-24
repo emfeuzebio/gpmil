@@ -107,8 +107,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Pessoa</label>
-                        <select name="pessoa_id" id="pessoa_id" class="form-control" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
-                            <option value=""> Selecione </option>
+                        <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
                             @foreach( $pessoas as $pessoa )
                             <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
                             @endforeach
@@ -118,8 +117,7 @@
 
                     <div class="form-group">
                         <label class="form-label">Motivo</label>
-                        <select name="destino_id" id="destino_id" class="form-control" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
-                            <option value=""> Selecione </option>
+                        <select name="destino_id" id="destino_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
                             @foreach( $destinos as $destino )
                             <option value="{{$destino->id}}">{{$destino->descricao}}</option>
                             @endforeach
@@ -400,8 +398,8 @@
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#pessoa_id').val(data.pessoa_id);
-                        $('#destino_id').val(data.destino_id);
+                        $('#pessoa_id').selectpicker('val', data.pessoa_id);
+                        $('#destino_id').selectpicker('val', data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final);
