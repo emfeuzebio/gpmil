@@ -49,20 +49,48 @@ class User extends Authenticatable
     public function pessoa() {
         return $this->belongsTo(Pessoa::class, 'id','user_id');
     }
+    
+    public function adminlte_image()
+    {
+        // Certifique-se de que a variável $pessoa esteja corretamente definida
+        $pessoa = $this->hasOne(Pessoa::class)->first();
+        $image_blob = $pessoa->foto;
 
-    public function adminlte_image() {
-        return 'https://picsum.photos/300/300';
+        // Verifique se o arquivo de imagem existe
+        if ($image_blob) {
+
+            // Crie uma imagem a partir do conteúdo do BLOB
+            $image = imagecreatefromstring($image_blob);
+
+            // Salve a imagem em um buffer
+            ob_start();
+            imagepng($image);
+            $data = ob_get_contents();
+            ob_end_clean();
+
+            return 'data:image/png;base64,' . base64_encode($data);
+
+        }
+        return 'vendor/adminlte/dist/img/avatar.png';
+    }
+    
+
+    public function adminlte_name() {
+        $pessoa = $this->hasOne(Pessoa::class)->with('pgrad')->first();
+        $nome = $pessoa->pgrad->sigla . ' ' . $pessoa->nome_guerra;
+    
+        return $nome;
     }
 
     public function adminlte_desc() {
-        $pessoa = $this->hasOne(Pessoa::class)->with('pgrad', 'secao')->first();
-        $descricao = $pessoa->pgrad->sigla . ' ' . $pessoa->nome_guerra . ' - ' . $pessoa->secao->sigla;
+        $pessoa = $this->hasOne(Pessoa::class)->with('secao', 'nivel_acesso')->first();
+        $descricao = $pessoa->nivel_acesso->sigla . ' - ' . $pessoa->secao->sigla;
     
         return $descricao;
     }
 
     public function adminlte_profile_url() {
-        return 'pessoa/username';
+        return 'pessoas/username';
     }
 
 }
