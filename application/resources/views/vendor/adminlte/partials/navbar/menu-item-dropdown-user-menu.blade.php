@@ -16,6 +16,7 @@
 <li class="nav-item dropdown user-menu">
 
     {{-- User menu toggler --}}
+    {{-- gpmil --}}
     <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown">
         @if(config('adminlte.usermenu_image'))
             <img src="{{ Auth::user()->adminlte_image() }}"
@@ -32,6 +33,7 @@
     <ul class="dropdown-menu dropdown-menu-lg dropdown-menu-right">
 
         {{-- User menu header --}}
+        {{-- gpmil --}}
         @if(!View::hasSection('usermenu_header') && config('adminlte.usermenu_header'))
             <li class="user-header {{ config('adminlte.usermenu_header_class', 'bg-primary') }}
                 @if(!config('adminlte.usermenu_image')) h-auto @endif">
