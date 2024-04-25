@@ -9,7 +9,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Lista de Municípios</b></div>
+            <div class="card-header"><b>Lista de Religiões</b></div>
             <div class="card-body">
                 {{ $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-sm compact']) }}
             </div>
