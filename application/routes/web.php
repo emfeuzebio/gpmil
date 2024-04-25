@@ -9,6 +9,7 @@ use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
 use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\ReligiaoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
 use App\Http\Controllers\FuncaoController;
@@ -47,6 +48,8 @@ Route::get('/circulos', [CirculoController::class, 'index'])->name('circulos.ind
 Route::get('/nivelacessos', [NivelAcessoController::class, 'index'])->name('nivelacessos.index');
 
 Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipios.index');
+
+Route::get('/religiaos', [ReligiaoController::class, 'index'])->name('religiaos.index');
 
 //Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/pgrads', [PgradController::class, 'index'])->name('home');
