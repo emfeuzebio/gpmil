@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use App\DataTables\PessoaDataTable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApresentacaoRequest;
 use App\Models\Apresentacao;
@@ -10,10 +10,8 @@ use App\Models\Boletim;
 use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
-use App\Models\Organizacao;
 use App\Models\User;
 use DataTables;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Contracts\DataTable;
 
 class ApresentacaoController extends Controller
@@ -63,7 +61,7 @@ class ApresentacaoController extends Controller
 
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
-            $secoes = $this->Secao->where('ativo','=','SIM')->sortBy('descricao');
+            $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
             $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
 
             // Admin, Cmt e Enc Pes vem todos registros da OM
