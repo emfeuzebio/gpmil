@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-// use App\DataTables\PessoaDataTable;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests\ApresentacaoRequest;
 use App\Models\Apresentacao;
@@ -10,10 +10,8 @@ use App\Models\Boletim;
 use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
-use App\Models\Organizacao;
 use App\Models\User;
 use DataTables;
-use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Contracts\DataTable;
 
 class ApresentacaoController extends Controller
@@ -55,17 +53,16 @@ class ApresentacaoController extends Controller
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
         // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
         // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
-        // die();
         // dd($user->pessoa);
 
-        $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         // $destinos = $this->Destino->all()->sortBy('descricao');
+        $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
-        $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
 
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
-            $secoes = $this->Secao->all()->sortBy('descricao');
+            $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
 
             // Admin, Cmt e Enc Pes vem todos registros da OM
             $arrFiltro['coluna'] = 'apresentacaos.id';
@@ -73,14 +70,16 @@ class ApresentacaoController extends Controller
             $arrFiltro['valor'] = '1';
 
         } elseif(in_array($this->userNivelAcessoID,[4,5])) {
-            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $secoes = $this->Secao->where('ativo','=','SIM')->where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->where('secao_id','=',$this->userSecaoID)->orderBy('nome_guerra')->get();
 
             // Ch Seç e Sgtte vem todos registros da Seção
             $arrFiltro['coluna'] = 'apresentacaos.secao_id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userSecaoID;
         } else {
-            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $secoes = $this->Secao->where('ativo','=','SIM')->where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->where('id','=',$this->userID)->orderBy('nome_guerra')->get();
 
             // Usuário vê apenas seus registro pessoa_id', '=', $userID
             $arrFiltro['coluna'] = 'apresentacaos.pessoa_id';
@@ -123,7 +122,7 @@ class ApresentacaoController extends Controller
         $actions = '';
         $btnEditar  = '<button class="btnEditar  btn btn-primary btn-xs" data-toggle="tooltip" title="Editar este registro">Editar</button> ';
         $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
-        $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Homologar este registro">Homlg</button> ';
+        $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Publicar este registro">Publi</button> ';
 
         // btn Homologar disponível apenas ao Admin ou Enc Pes
         if(in_array($this->userNivelAcessoID,[1,3,])) {

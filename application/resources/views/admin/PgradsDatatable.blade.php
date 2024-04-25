@@ -28,12 +28,20 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Postos e Graduações</b></div>
-                        <div class="col-md-4 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
-                            @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
-                            @endcan
+                        <!--área de título da Entidade-->
+                        <div class="col-md-4 text-left h5"><b>Cadastro de Postos e Graduações</b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-5 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                         </div>
                     </div>
                 </div>
@@ -92,7 +100,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ativo <span style="color: red">*</span></label>
+                            <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
                                     <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
@@ -110,25 +118,6 @@
             </div>
         </div>
     </div>
-
-    <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-sm">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
-                </div>
-                <div class="modal-body">
-                    <p></p>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Confirmar a Exclusão" id="confirm">Excluir</button>
-                </div>
-            </div>
-        </div>
-    </div>   
 
     <script type="text/javascript">
 
@@ -153,24 +142,23 @@
                 serverSide: true,
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
+                order: [[4,'asc'],[ 0,'asc']],
+                // order: [ 0,'asc'],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 ajax: "{{url("pgrads")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    {"data": "id", "name": "pgrads.descricao", "class": "dt-right", "title": "#"},
+                    {"data": "id", "name": "pgrads.id", "class": "dt-right", "title": "#"},
                     {"data": "circulo", "name": "circulo.sigla", "class": "dt-left", "title": "Círculo"},
-                    // {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
                     {"data": "descricao", "name": "pgrads.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},
                     {"data": "ativo", "name": "pgrads.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
-                    // {"data": "created_at", "name": "created_at", "class": "dt-center", "title": "Criado em"},
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
+                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; 
                         }
                     },
                 ]
@@ -183,40 +171,6 @@
                     return 'NÃO';
                 }
             }
-
-            /*
-            * Delete button action
-            */
-            $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
-                e.stopImmediatePropagation();            
-
-                id = $(this).data("id")
-                //alert('Editar ID: ' + id );
-
-                //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
-                $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
-                $('#confirmaExcluirModal').modal('show');
-
-                //se confirmar a Exclusão, exclui o Registro via Ajax
-                $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
-                    e.stopImmediatePropagation();
-
-                    // alert($id);
-                    $.ajax({
-                        type: "POST",
-                        url: "{{url("pgrads/destroy")}}",
-                        data: {"id": id},
-                        dataType: 'json',
-                        success: function (data) {
-                            $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
-                            $('#datatables').DataTable().ajax.reload(null, false);
-                        }
-                    });
-                    $('#confirmaExcluirModal').modal('hide');            
-                });
-
-            });           
 
             /*
             * Edit button action
@@ -246,7 +200,7 @@
                         $('#descricao').val(data.descricao);
                         if (data.ativo === "SIM") {
                             $('#ativo').bootstrapToggle('on');
-                        } else if (data.ativo === "NÃO") {
+                        } else {
                             $('#ativo').bootstrapToggle('off');
                         }
                     }
@@ -289,20 +243,10 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // mostra mensagens de erro de Roles e Persistência em Banco
+                        $('#msgOperacao').text(data.responseJSON.policyError).show();
                     }
                 });                
-            });
-
-            $('#btnNovo').on("click", function (e) {
-                e.stopImmediatePropagation();
-                //alert('Novo');
-
-                $('#formEntity').trigger('reset');              //clean de form data
-                $('#form-group-id').hide();                     //hide ID field
-                $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Novo Posto ou Graduação');  //
-                $(".invalid-feedback").text('').hide();         // hide all error displayed
-                $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
@@ -318,6 +262,7 @@
         $('#btnRefresh').on("click", function (e) {
             e.stopImmediatePropagation();
             $('#datatables').DataTable().ajax.reload(null, false);    
+            $('#alert').trigger('reset').hide();
         });        
 
     </script>    

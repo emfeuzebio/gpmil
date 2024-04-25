@@ -26,7 +26,7 @@
                 <div class="card-header">
                     <div class="row">
                         <!--área de título da Entidade-->
-                        <div class="col-md-3 text-left h5"><b>Cadastro de Boletins</b></div>
+                        <div class="col-md-3 text-left h5"><b>Cadastro de Destinos</b></div>
                         <!--área de mensagens-->
                         <div class="col-md-6 text-left">
                             <div style="padding: 0px;  background-color: transparent;">
@@ -92,7 +92,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <label class="form-label">Ativo</label>
                                 <div class="form-check">
                                     <label class="form-label" for="ativo">
                                         <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
@@ -327,7 +327,7 @@
 
             // put the focus on de name field
             $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#descricao').focus();
+                $('#sigla').focus();
             })
 
             /*

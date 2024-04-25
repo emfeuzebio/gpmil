@@ -19,7 +19,7 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Gestão de Níveis de Acesso</b></div>
+            <div class="card-header"><b>Níveis de acesso</b></div>
             <div class="card-body">
                 {{ $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-sm compact']) }}
             </div>
