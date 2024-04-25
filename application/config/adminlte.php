@@ -14,7 +14,7 @@ return [
     |
     */
 
-    'title' => 'AdminLTE 3',
+    'title' => 'GPMil',
     'title_prefix' => '',
     'title_postfix' => '',
 
@@ -298,7 +298,7 @@ return [
         [
             'type' => 'navbar-search',
             'text' => 'procurar por ...',
-            'topnav_right' => true,
+            'topnav_right' => false,
         ],
         [
             'type' => 'fullscreen-widget',

@@ -1,16 +1,21 @@
 @extends('adminlte::page')
 
-@section('title', 'GPmil')
 
 @section('content_header')
     <!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
-    <section class="content-header">
-      <h1>GPmil <small>Version 2.0</small>
-      </h1>
-      <ol class="breadcrumb">
-        <li class="active">Gestão de Pessoal Militar</li>
-      </ol>
-    </section>
+    <div class="row mb-2">
+      <div class="m-0 text-dark col-sm-6">
+        <h1>GPmil <small>Version 2.0</small></h1>
+          <ol class="breadcrumb">
+            <li class="active">Gestão de Pessoal Militar</li>
+          </ol>
+      </div>
+        <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+                <li class="breadcrumb-item"><a href="/home">Home</a></li>
+            </ol>
+        </div>
+    </div>
 
 @stop
 
