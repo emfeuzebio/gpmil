@@ -62,8 +62,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                        class="form-horizontal" method="post">
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                             <div class="form-group" id="form-group-id">
                                 <label class="form-label">ID</label>
@@ -83,10 +82,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <label class="form-label">Ativo</label>
                                 <div class="form-check">
                                     <label class="form-label" for="ativo">
-                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="android" data-onstyle="primary" data-on="SIM" data-off="NÃO">
                                     </label>
                                 </div>
                                 <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
@@ -250,7 +249,7 @@
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
-                        $('#data').val(data.data);
+                        $('#codigo').val(data.codigo);
                         $('#descricao').val(data.descricao);
                         if (data.ativo === "SIM") {
                             $('#ativo').bootstrapToggle('on');
@@ -304,9 +303,11 @@
                 });                
             });
 
+            /*
+            * New Record button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
-                //alert('Novo');
 
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
@@ -331,7 +332,6 @@
             });        
 
         });
-
 
     </script>    
 

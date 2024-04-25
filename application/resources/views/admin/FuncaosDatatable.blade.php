@@ -79,7 +79,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ativo <span style="color: red">*</span></label>
+                            <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
                                     <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">

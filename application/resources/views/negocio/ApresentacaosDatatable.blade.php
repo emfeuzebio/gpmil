@@ -3,7 +3,7 @@
 @section('title', 'AdminLTE')
 
 @section('content_header')
-    <h1 class="m-0 text-dark">Administração  @can('is_admin') ADMINISTRADOR @endcan  @can('is_gerente') GERENTE @endcan @can('is_usuario') USUÁRIO @endcan</h1>
+    <h1 class="m-0 text-dark">Administração</h1>
 @stop
 
 @section('content')
@@ -27,14 +27,7 @@
                         </div>
                         <!--área de botões-->
                         <div class="col-md-3 text-right">
-                            <span class="badge badge-info">{{$nivelAcesso}}</span>
-
-                            @can('isAdmin','App\Models\Apresentacao')
-                            <label class="btn btn-default btn-sm">É Administrador</label>
-                            @endcan
-                            
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
-                            
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('PodeInserirApresentacao','App\Models\Apresentacao')
                             <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endif
@@ -92,78 +85,94 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
+                </div>
+                <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
-                    <div class="form-group" id="form-group-id">
-                        <label class="form-label">ID</label>
-                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        <div class="form-group" id="form-group-id">
+                            <label class="form-label">ID</label>
+                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Pessoa</label>
+                            <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
+                                <option value=""> Selecione a Pessoa </option>
+                                @foreach( $pessoas as $pessoa )
+                                <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                                @endforeach
+                            </select>
+                            <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Motivo</label>
+                            <select name="destino_id" id="destino_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                                @foreach( $destinos as $destino )
+                                <option value="{{$destino->id}}">{{$destino->descricao}}</option>
+                                @endforeach
+                            </select>
+                            <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Data Inicial</label>
+                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
+                            <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Data Final</label>
+                            <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
+                            <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Local de Destino</label>
+                            <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                            <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Fone para Contato</label>
+                            <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                            <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
+                        </div>                          
+                        
+                        <div class="form-group">
+                            <label class="form-label">Observação</label>                    
+                            <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
+                            <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                        <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
+                    </form>        
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-5 text-left">
+                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Pessoa</label>
-                        <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
-                            @foreach( $pessoas as $pessoa )
-                            <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
-                            @endforeach
-                        </select>
-                        <div id="error-pessoa_id" class="error invalid-feedback" style="display: none;"></div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @can('is_admin')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_encpes')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_sgtte')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_usuario')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
                     </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Motivo</label>
-                        <select name="destino_id" id="destino_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
-                            @foreach( $destinos as $destino )
-                            <option value="{{$destino->id}}">{{$destino->descricao}}</option>
-                            @endforeach
-                        </select>
-                        <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <div class="form-group">
-                        <label class="form-label">Data Inicial</label>
-                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
-                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Data Final</label>
-                        <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
-                        <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Local de Destino</label>
-                        <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
-                        <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
-                    </div>    
-
-                    <div class="form-group">
-                        <label class="form-label">Fone para Contato</label>
-                        <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
-                        <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
-                    </div>                          
-                    
-                    <div class="form-group">
-                        <label class="form-label">Observação</label>                    
-                        <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
-                        <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
-                    </div>
-
-                    <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
-                    isAdmin
-                </form>        
-
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-            </div>
+                </div>
             </div>
         </div>
     </div>
@@ -173,7 +182,7 @@
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h4 class="modal-title">Homologar Apresentação</h4>
+                    <h4 class="modal-title">Publicar Apresentação</h4>
                     <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -183,7 +192,7 @@
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control">
-                                <option value=""> Cancelar a Homologação </option>
+                                <option value=""> Cancelar a Publicação </option>
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
                                 @endforeach
@@ -196,7 +205,7 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Homologar a Apresentação atual (Alt+S)">Salvar</button>
+                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Publicar a Apresentação atual (Alt+S)">Salvar</button>
                 </div>
             </div>
         </div>
@@ -224,7 +233,6 @@
     <script type="text/javascript">
 
         //variável global que recebe o ID do registro
-        window.id = '';
         var id = '';
         var descricao = '';        
 
@@ -250,18 +258,11 @@
                 },
                 responsive: true,
                 autoWidth: true,
-                // dataType: "json",
-                // fnServerParams: function (aoData) {
-                //     aoData.push(
-                //         {"name": "zFiltro_0", "value": $("#filtro_secao").val() },
-                //     );
-                // },                 
                 order: [ [8, 'desc'],[4, 'asc'] ],  //não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
+                language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
-                    // {"data": "secao", "name": "pessoa.secao_id", "class": "dt-left", "title": "Seção"}, //se a secao_id estiver na pessoa
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"}, //se a secao_id estiver na prórpria apresentacao
                     {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
                     {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
@@ -274,7 +275,7 @@
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
                     {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "146px", "sortable": false},
+                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "190px", "sortable": false},
                 ]
             });
 
@@ -324,10 +325,17 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');            
                 });
 
             });           
@@ -338,15 +346,14 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                // let id = $(this).data("id")
                 var id = $(this).parents('tr').attr("id");
                 // alert('btnHomologar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
-                $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Homologar a Apresentação ID: ' + id + '?');
+                $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Publicar a Apresentação ID: ' + id + '?');
                 $('#confirmahomologarModal').modal('show');
 
-                //se confirmar a Exclusão, exclui o Registro via Ajax
+                //se confirmar a Homologação, exclui o Registro via Ajax
                 $('#confirmahomologarModal').find('.modal-footer #btnHomologar').on('click', function (e) {
                     e.stopImmediatePropagation();
 
@@ -361,13 +368,20 @@
                         async: false,
                         cache: false,                        
                         success: function (data) {
-                            $("#alert .alert-content").text('Homologou a Apresentação ID ' + id + ' com sucesso.');
+                            $("#alert .alert-content").text('Publicou a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $("#boletim_id").val('');
+                            $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmahomologarModal').modal('hide');      
                 });                     
                 
             });
@@ -378,9 +392,6 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                // let id = $(this).data("id")
-                // let id = this.row( this ).id();
-                // let id = $(this).id();
                 let id = $(this).parents('tr').attr("id");
                 //alert('Editar ID: ' + id );
 
@@ -407,7 +418,6 @@
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
                         $('#publicado').val(data.publicado);
-
                     }
                 }); 
 
@@ -446,16 +456,18 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // mostra mensagens de erro de Roles e Persistência em Banco
+                        $('#msgOperacao').text(data.responseJSON.policyError).show();
+                        $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                     }
                 });                
             });
 
             /*
-            * New button action
+            * New Record button action
             */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
-                //alert('Novo');
 
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
@@ -470,15 +482,16 @@
                 $('#pessoa_id').focus();
             })
 
-        });
+            /*
+            * Refresh button action
+            */
+            $('#btnRefresh').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+                $('#alert').trigger('reset').hide();
+            });        
 
-        /*
-        * Refresh button action
-        */
-        $('#btnRefresh').on("click", function (e) {
-            e.stopImmediatePropagation();
-            $('#datatables-apresentacao').DataTable().ajax.reload(null, false);    
-        });        
+        });
 
     </script>    
 

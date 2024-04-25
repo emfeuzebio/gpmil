@@ -11,9 +11,9 @@ class Qualificacao extends Model
 
     protected $fillable = [
         'codigo',
-        'descricao',
         'sigla',
-        'ativo',
+        'descricao',
+       'ativo',
     ];
 
 }

@@ -14,9 +14,9 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <div class="row">
-                        <div class="col-md-3 text-left"><b>Gestão de Situações</b></div>
-
+                <div class="row">
+                        <!--área de título da Entidade-->
+                        <div class="col-md-3 text-left h5"><b>Cadastro de Situações</b></div>
                         <!--área de mensagens-->
                         <div class="col-md-6 text-left">
                             <div style="padding: 0px;  background-color: transparent;">
@@ -26,11 +26,14 @@
                                 </div>
                             </div>                         
                         </div>
-                        
+                        <!--área de botões-->
                         <div class="col-md-3 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova situação (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
+                            @can('is_encpes')
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -79,7 +82,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ativo <span style="color: red">*</span></label>
+                            <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
                                     <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
@@ -91,8 +94,18 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+            <div class="col-md-5 text-left">
+                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @can('is_admin')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_encpes')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                    </div>
             </div>
             </div>
         </div>
@@ -293,15 +306,16 @@
                 $('#sigla').focus();
             })
 
-        });
+            /*
+            * Refresh button action
+            */
+            $('#btnRefresh').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().ajax.reload(null, false);    
+                $('#alert').trigger('reset').hide();
+            });        
 
-        /*
-        * Refresh button action
-        */
-        $('#btnRefresh').on("click", function (e) {
-            e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
-        });        
+        });
 
     </script>    
 
