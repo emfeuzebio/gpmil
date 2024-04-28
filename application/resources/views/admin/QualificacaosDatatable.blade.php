@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Qualificações</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -85,13 +85,13 @@
                             
                             <div class="form-group">
                                 <label class="form-label">Sigla</label>
-                                <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Xxx Xx" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
+                                <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Ex. STT Sau" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
                                 <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                             
                             <div class="form-group">
                                 <label class="form-label">Descrição</label>
-                                <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Infantaria" data-toggle="tooltip" title="Informe a descrição da Qualificação Militar" >
+                                <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Sargento Técnico Temporário - Saúde" data-toggle="tooltip" title="Informe a descrição da Qualificação Militar" >
                                 <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -109,7 +109,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-md-5 text-left">
-                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
                     <div class="col-md-5 text-right">
                         <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
@@ -143,7 +143,7 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>    
 
     <script type="text/javascript">
 
@@ -154,6 +154,7 @@
 
             var id = '';
 
+            // send token            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -166,6 +167,9 @@
             * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
             * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
             */
+            /*
+            * Definitios of DataTables render
+            */
             $('#datatables').DataTable({
                 processing: true,
                 serverSide: true,
@@ -173,6 +177,7 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("qualificacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
@@ -207,7 +212,6 @@
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
-                //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -230,7 +234,6 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         },
                         error: function (data) {
-                            // console.log(data.responseJSON.message);
                             // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
@@ -250,7 +253,6 @@
                 e.stopImmediatePropagation();            
 
                 const id = $(this).data("id")
-                // alert('Editar ID: ' + id );
 
                 $.ajax({
                     type: "POST",
@@ -308,15 +310,16 @@
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
-                        // como o dataType não é JSON, precisa do responseJSON
+                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
-                        // mostra mensagens de erro de Roles e Persistência em Banco
-                        $('#msgOperacao').text(data.responseJSON.policyError).show();
-                        $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });

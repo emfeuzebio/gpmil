@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Seções</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -18,18 +18,31 @@
 
 @section('content')
 
-
     <!-- DataTables de Dados -->
     <div class="row">
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Assessorias, Divisões, Subunidades e Seções</b></div>
-                        <div class="col-md-4 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                        <!--área de título da Entidade-->
+                        <div class="col-md-5 text-left h5"><b>Gestão de Asse, Div, Seções e Subunidades </b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-4 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
+                            @can('is_encpes')
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
                     </div>
@@ -53,7 +66,7 @@
             <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"></button>
+                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
             </div>
             <div class="modal-body">
 
@@ -90,8 +103,18 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                <div class="col-md-6 text-left">
+                    <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                </div>
+                <div class="col-md-5 text-right">
+                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    @can('is_admin')
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
+                    @can('is_encpes')
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
+                </div>
             </div>
             </div>
         </div>
@@ -107,6 +130,7 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
@@ -122,6 +146,7 @@
 
             var id = '';
 
+            // send token            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -134,6 +159,10 @@
             * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
             * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
             */
+
+            /*
+            * Definitios of DataTables render
+            */           
             $('#datatables').DataTable({
                 processing: true,
                 serverSide: true,
@@ -141,6 +170,7 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("secaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
@@ -193,10 +223,18 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables').DataTable().ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');            
                 });
 
             });           
@@ -244,13 +282,12 @@
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
                 var ativoValue = getAtivoValue();
 
-                //to use a button as submit button, is necesary use de .get(0) after
+                // to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
                 // console.log(formData);
                 formData.append('ativo', ativoValue);
 
-
-                //here there are a problem with de serialize the form
+                // here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("secaos/store")}}",
@@ -259,27 +296,31 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
-                        // como o dataType não é JSON, precisa do responseJSON
+                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });
 
+            /*
+            * New Record button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
-                //alert('Novo');
-
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
@@ -293,15 +334,15 @@
                 $('#sigla').focus();
             })
 
-        });
+            /*
+            * Refresh button action
+            */
+            $('#btnRefresh').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().ajax.reload(null, false);    
+            });        
 
-        /*
-        * Refresh button action
-        */
-        $('#btnRefresh').on("click", function (e) {
-            e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
-        });        
+        });
 
     </script>    
 

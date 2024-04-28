@@ -2,29 +2,33 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 use Illuminate\Http\Request;
 use App\Http\Requests\BoletinsRequest;
 use App\Models\Boletins;
-use DataTables;
-use DB;
 
 class BoletinsController extends Controller
 {
     
     public function __construct() {
 
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
     }
 
     public function index() {
 
+        // se não autenticado
+        // Auth::logout();          //faz logout
+        if (! Auth::check()) return redirect('/home');
+
+        // somente Admin e EncPes têm permissão
+        if (Gate::none(['is_admin','is_encpes'], new Boletins())) {
+            abort(403, 'Usuário não autorizado!');
+        }        
+
         if(request()->ajax()) {
-            // return 
-            //     datatables()->of(Pgrad::select('*'))
-            return DataTables::eloquent(Boletins::select(['boletins.*']))
-                // ->addColumn('circulo', function($param) { return $param->circulo->descricao; })
-                // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
+            return FacadesDataTables::eloquent(Boletins::select(['boletins.*']))
                 ->addIndexColumn()
                 ->editColumn('data', function ($param) { return date("d/m/Y", strtotime($param->data)); })
                 ->make(true);        
@@ -47,18 +51,6 @@ class BoletinsController extends Controller
 
     public function store(BoletinsRequest $request)
     {
-
-        $boletins = Boletins::where(['id'=>$request->id]);
-        //  dd($pgrad);
-        //  die();
-
-        // if(! $this->authorize('store', $pgrad)) {
-        //     return response([], 403);
-        //     // {"message":"Não autorizado.","errors":{"store":["Não autorizado."]}
-        //     $message = ["message" => "Não autorizado!"];
-        //     return Response()->json($message);
-        // }        
-
         $Boletins = Boletins::updateOrCreate(
             [
                 'id' => $request->id,

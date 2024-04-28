@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Usuários</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,15 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Gestão de Usuários</b></div>
+            <div class="card-header">
+                <div class="row">
+                    <div class="col-md-3 text-left h5"><b>Cadastro de Usuários</b>
+                    </div>
+                    <div class="col-md-9 text-right">
+                        <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
+                    </div>
+                </div>
+            </div>
             <div class="card-body">
                 {{ $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-sm compact']) }}
             </div>
@@ -29,7 +37,13 @@
 
     <script type="text/javascript">
 
-        // alert('Estou na Blade' );
+        /*
+        * Refresh button action
+        */
+        $('#btnRefresh').on("click", function (e) {
+            e.stopImmediatePropagation();
+            $('#users-table').DataTable().ajax.reload(null, false);    
+        });        
 
     </script>    
 @endsection

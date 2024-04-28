@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Pessoas</h1>
+        <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -24,10 +24,24 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Pessoal</b></div>
-                        <div class="col-md-4 text-right">
+                        <!--área de título da Entidade-->
+                        <div class="col-md-3 text-left h5"><b>Gestão de Pessoas</b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
+                            @can('is_encpes')
                             <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
@@ -280,6 +294,7 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("pessoas")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
@@ -452,6 +467,12 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });

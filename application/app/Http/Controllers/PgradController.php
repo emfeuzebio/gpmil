@@ -2,39 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\PgradsDataTable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 use Illuminate\Http\Request;
 use App\Http\Requests\PgradRequest;   //validação de servidor
 use App\Models\Circulo;
 use App\Models\Pgrad;
-use Session;
-use DataTables;
-use DB;
 
 class PgradController extends Controller
 {
-    
-    // private Organizacao = $X;
     protected $Circulo = null;
 
     public function __construct() {
 
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
-
-        //carrega a Circulo
         $this->Circulo = new Circulo();
     }
-
-    public function indexRender(PgradsDataTable $dataTable)
-    {
-        // return $dataTable->render('users.pgrads');
-    }    
     
     public function index() {
 
+        // se não autenticado
+        // Auth::logout();          //faz logout
+        if (! Auth::check()) return redirect('/home');
+
+        // somente Admin e EncPes têm permissão
+        if (Gate::none(['is_admin','is_encpes','is_sgtte'], new Pgrad())) {
+            abort(403, 'Usuário não autorizado!');
+        }                
+
         if(request()->ajax()) {
-            return DataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circulo'))
+            return FacadesDataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circulo'))
                 ->setRowId( function($param) { return $param->id; })
                 ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
                 ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
@@ -63,8 +60,6 @@ class PgradController extends Controller
 
     public function store(PgradRequest $request)
     {
-
-        $pgrad = Pgrad::where(['id'=>$request->id]);
         $Pgrad = Pgrad::updateOrCreate(
             [
                 'id' => $request->id,

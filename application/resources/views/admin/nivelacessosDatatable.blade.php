@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Níveis de Acesso</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -19,7 +19,9 @@
 @section('content')
     <div class="container">
         <div class="card">
-            <div class="card-header"><b>Níveis de acesso</b></div>
+            <div class="card-header">
+                <div class="col-md-3 text-left h5"><b>Cadastro de Níveis de Acesso</b></div>
+            </div>
             <div class="card-body">
                 {{ $dataTable->table(['class' => 'table table-striped table-bordered table-hover table-sm compact']) }}
             </div>
@@ -32,6 +34,7 @@
         // alert('Estou na Blade' );
 
     </script>    
+    
 @endsection
  
 

@@ -2,7 +2,6 @@
 
 namespace App\DataTables;
 
-// use App\Models\User;
 use App\Models\Religiao;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
@@ -52,15 +51,12 @@ class ReligiaosDataTable extends DataTable
                         'searching' => true,
                         'pageLength' => 10,
                         'lengthMenu' => [5, 10, 25, 50, 100],
-                        // 'language' => [
-                        //     'url' => url('vendor/datatables/DataTables.pt_BR.json')
-                        // ],
+                        'language' => [
+                            'url' => url('vendor/datatables/DataTables.pt_BR.json')
+                        ],
                     ]);
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
     public function getColumns(): array
     {
 

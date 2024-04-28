@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1 class="m-0 text-dark"> @can('is_admin') ADMINISTRADOR @endcan  @can('is_gerente') GERENTE @endcan @can('is_usuario') USUÁRIO @endcan</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -268,6 +268,7 @@
                 autoWidth: true,
                 order: [ [8, 'desc'],[4, 'asc'] ],  //não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},

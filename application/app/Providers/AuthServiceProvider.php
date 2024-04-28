@@ -45,7 +45,7 @@ class AuthServiceProvider extends ServiceProvider
             return ( $user->pessoa->nivelacesso_id == 3 ? true : false );
         });                
 
-        Gate::define('is_chesec', function (User $user) {
+        Gate::define('is_chsec', function (User $user) {
             $user = User::with('pessoa')->find(Auth::user()->id);
             $user->name = $user->pessoa->nome_guerra;
             return ( $user->pessoa->nivelacesso_id == 4 ? true : false );
@@ -59,7 +59,13 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is_usuario', function (User $user) {
             $user = User::with('pessoa')->find(Auth::user()->id);
             return ( $user->pessoa->nivelacesso_id == 6 ? true : false );
+        });
+
+        Gate::define('podeEditarPlanoChamada', function (User $user) {
+            $user = User::with('pessoa')->find(Auth::user()->id);
+            return in_array($user->pessoa->nivelacesso_id,[1,3,5,6]);
         });                        
+
 
     }
 }

@@ -45,6 +45,10 @@ class ApresentacaoController extends Controller
     
     public function index() {
 
+        // se não autenticado
+        // Auth::logout();          //faz logout
+        if (! Auth::check()) return redirect('/home');
+
         // dd(Auth::user()->id);
         // $this->User = User::with('pessoa')->find(Auth::user()->id);        
         $user = User::with('pessoa')->find(Auth::user()->id);

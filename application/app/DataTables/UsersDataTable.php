@@ -14,29 +14,20 @@ use Yajra\DataTables\Services\DataTable;
 
 class UsersDataTable extends DataTable
 {
-    /**
-     * Build the DataTable class.
-     *
-     * @param QueryBuilder $query Results from query() method.
-     */
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            ->addColumn('action', 'users.action')
+            // ->addColumn('action', 'users.action')
+            ->editColumn('created_at', function ($param) { return date("d/m/Y H:i:s", strtotime($param->created_at)); })
+            ->editColumn('updated_at', function ($param) { return date("d/m/Y H:i:s", strtotime($param->updated_at)); })
             ->setRowId('id');
     }
 
-    /**
-     * Get the query source of dataTable.
-     */
     public function query(User $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
-    /**
-     * Optional method if you want to use the html builder.
-     */
     public function html(): HtmlBuilder
     {
         return $this->builder()
@@ -59,26 +50,21 @@ class UsersDataTable extends DataTable
                         'searching' => true,
                         'pageLength' => 10,
                         'lengthMenu' => [5, 10, 25, 50, 100],
-                        // 'language' => [
-                        //     'url' => url('vendor/datatables/DataTables.pt_BR.json')
-                        // ],
+                        'language' => [
+                            'url' => url('vendor/datatables/DataTables.pt_BR.json')
+                        ],
                     ]);
-
-                    ;
     }
 
-    /**
-     * Get the dataTable columns definition.
-     */
     public function getColumns(): array
     {
 
         return [
-            Column::computed('action')
-                  ->exportable(false)
-                  ->printable(false)
-                  ->width(60)
-                  ->addClass('text-center'),
+            // Column::computed('action')
+            //       ->exportable(false)
+            //       ->printable(false)
+            //       ->width(60)
+            //       ->addClass('text-center'),
             Column::make('id'),
             Column::make('name'),
             Column::make('email'),
@@ -99,9 +85,6 @@ class UsersDataTable extends DataTable
         // ];
     }
 
-    /**
-     * Get the filename for export.
-     */
     protected function filename(): string
     {
         return 'Users_' . date('YmdHis');

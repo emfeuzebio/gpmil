@@ -2,31 +2,36 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\FuncaoRequest;
+use Illuminate\Http\Request;
 use App\Models\Funcao;
-use DataTables;
-use DB;
+use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 
 class FuncaoController extends Controller
 {
     
     public function __construct() {
 
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
     }
 
     public function index() {
 
+        // se não autenticado
+        if (! Auth::check()) return redirect('/home');
+
+        // somente Admin e EncPes têm permissão
+        if (Gate::none(['is_admin','is_encpes'], new Funcao())) {
+            abort(403, 'Usuário não autorizado!');
+        }        
+
+
         if(request()->ajax()) {
 
-            return DataTables::eloquent(Funcao::select(['funcaos.*']))
-                ->filter(function ($query) { $query->where('id', '>', "1");}, true)        
-                // ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
-                // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
+            return FacadesDataTables::eloquent(Funcao::select(['funcaos.*']))
+                ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
                 ->addIndexColumn()
-                // ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
                 ->make(true);        
         }
         return view('admin/FuncaosDatatable');
@@ -47,18 +52,6 @@ class FuncaoController extends Controller
 
     public function store(FuncaoRequest $request)
     {
-
-        $Funcao = Funcao::where(['id'=>$request->id]);
-        //  dd($pgrad);
-        //  die();
-
-        // if(! $this->authorize('store', $pgrad)) {
-        //     return response([], 403);
-        //     // {"message":"Não autorizado.","errors":{"store":["Não autorizado."]}
-        //     $message = ["message" => "Não autorizado!"];
-        //     return Response()->json($message);
-        // }        
-
         $Funcao = Funcao::updateOrCreate(
             [
                 'id' => $request->id,

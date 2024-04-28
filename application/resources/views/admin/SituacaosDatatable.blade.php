@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Situações</h1>
+            <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -17,7 +17,6 @@
 @stop
 
 @section('content')
-
 
     <!-- DataTables de Dados -->
     <div class="row">
@@ -71,8 +70,7 @@
             </div>
             <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                    class="form-horizontal" method="post">
+                <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
@@ -105,7 +103,7 @@
             </div>
             <div class="modal-footer">
             <div class="col-md-5 text-left">
-                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
                     <div class="col-md-5 text-right">
                         <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
@@ -127,10 +125,11 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar"></button>
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
@@ -146,6 +145,8 @@
 
             var id = '';
 
+
+            // send token
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -158,13 +159,18 @@
             * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
             * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
             */
+
+            /*
+            * Definitios of DataTables render
+            */
             $('#datatables').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
+                 order: [ 1, 'asc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("situacaos")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
@@ -217,10 +223,17 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables').DataTable().ajax.reload(null, false);
+                        },
+                        error: function (data) {
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');            
                 });
 
             });           
@@ -289,16 +302,23 @@
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
-                        // como o dataType não é JSON, precisa do responseJSON
+                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });
 
+            /*
+            * New Record button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
                 //alert('Novo');
