@@ -33,9 +33,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
 
 Auth::routes();
 
@@ -95,6 +93,7 @@ Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home'
 Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');
 Route::post('boletins/destroy', [BoletinsController::class, 'destroy'])->name('home');
 
+// Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home')->middleware('can:is_admin');
 Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');
 Route::post('situacaos/store', [SituacaoController::class, 'store'])->name('home');
 Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home');
@@ -110,18 +109,7 @@ Route::post('organizacaos/edit', [OrganizacaoController::class, 'edit'])->name('
 Route::post('organizacaos/destroy', [OrganizacaoController::class, 'destroy'])->name('home');
 
 
-
 // Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Auth::routes();
-
-// Route::get('/home', function() {
-//     return view('home');
-// })->name('home')->middleware('auth');
-
-
-// Route::get('/pgrads', [PgradController::class, 'index'])->name('users.pgrads');
-// Route::get('/pgrads/datatablesAjax', [PgradController::class, 'datatablesAjax'])->name('users.pgrads');
 

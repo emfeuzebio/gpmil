@@ -47,7 +47,8 @@ class User extends Authenticatable
     ];
 
     public function pessoa() {
-        return $this->belongsTo(Pessoa::class, 'id','user_id');
+        // return $this->belongsTo(Pessoa::class, 'id','user_id');
+        return $this->hasOne(Pessoa::class);
     }
     
     public function adminlte_image()

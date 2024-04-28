@@ -21,6 +21,9 @@ class SituacaoController extends Controller
         // Auth::logout();          //faz logout
         if (! Auth::check()) return redirect('/home');
 
+        // Simples para apenas um perfil, gera 403 com mensagem padrão
+        // $this->authorize('is_admin');
+
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Situacao())) {
             abort(403, 'Usuário não autorizado!');
