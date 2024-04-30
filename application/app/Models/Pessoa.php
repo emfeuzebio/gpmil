@@ -43,7 +43,7 @@ class Pessoa extends Model
         'fone_celular', 
         'fone_emergencia', 
         'foto',
-        // 'funcao_id',
+        'funcao_id',
         // 'nivelacesso_id'
     ];
 
@@ -57,6 +57,10 @@ class Pessoa extends Model
 
     public function secao() {
         return $this->hasOne(Secao::class, 'id', 'secao_id');
+    }
+
+    public function funcao() {
+        return $this->hasOne(Funcao::class, 'id', 'funcao_id');
     }
 
     public function nivel_acesso() {

@@ -198,7 +198,11 @@
 
                             <div class="form-group">
                                 <label class="form-label">Função</label>
-                                <input class="form-control" value="" type="text" id="funcao_id" name="funcao_id" placeholder="Digite a função" data-toggle="tooltip" data-placement="top" title="Função!" >
+                                <select name="funcao_id" id="funcao_id" class="form-control selectpicker" data-live-search="true" data-toggle="toolip" data-placement="top" title="Selecione a função">
+                                    @foreach( $funcaos as $funcao)
+                                    <option value="{{$funcao->id}}">{{$funcao->sigla}}</option>
+                                    @endforeach
+                                </select>
                                 <div id="error-funcao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -420,7 +424,7 @@
                         $('#pronto_sv').val(data.pronto_sv);
                         $('#foto').val(data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
-                        $('#funcao_id').val(data.funcao);
+                        $('#funcao_id').selectpicker('val', data.funcao_id);
                         $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
                     }
                 }); 
