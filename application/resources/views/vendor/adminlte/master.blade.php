@@ -132,6 +132,8 @@
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
         <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
+        <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.js"></script>
+        <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
