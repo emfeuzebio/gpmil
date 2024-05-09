@@ -3,6 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
+-- Tempo de geração: 09/05/2024 às 16:26
+-- Versão do servidor: 8.1.0
+-- Versão do PHP: 8.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -40,13 +43,13 @@ CREATE TABLE `apresentacaos` (
 --
 
 INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `boletim_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 3, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-04-14 20:06:14', '2024-04-24 09:34:39'),
-(2, 1, 3, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-04-14 01:22:54', '2024-04-14 23:01:32'),
-(3, 2, 13, 2, '(61) 98656-5656', NULL, 'SIM', NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', 2, '2024-04-14 20:13:22', '2024-04-14 22:57:31'),
-(6, 2, 13, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, '2024-04-13', '2024-04-20', 'hhhhhh', NULL, '2024-04-12 16:39:30', '2024-04-24 16:25:06'),
-(10, 1, 3, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-04-14 16:22:34', '2024-04-14 23:03:25'),
-(12, 6, 12, 3, '(54) 54564-5645', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Nesta', NULL, '2024-04-15 22:25:24', '2024-04-24 16:26:19'),
-(14, 5, 12, 3, '(95) 98989-8989', NULL, 'SIM', NULL, '2024-01-01', '2024-05-03', 'RJO', 1, '2024-04-24 16:23:08', '2024-04-24 16:23:46');
+(1, 1, 2, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(2, 1, 2, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(3, 2, 2, 2, '(61) 98656-5656', NULL, 'SIM', NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', 2, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(6, 2, 2, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, '2024-04-13', '2024-04-20', 'hhhhhh', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(10, 1, 2, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(12, 6, 2, 3, '(54) 54564-5645', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Nesta', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(14, 5, 2, 3, '(95) 98989-8989', NULL, 'SIM', NULL, '2024-01-01', '2024-05-03', 'RJO', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24');
 
 -- --------------------------------------------------------
 
@@ -268,9 +271,7 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
-(5, '2014_10_12_100000_create_password_resets_table', 2),
-(6, '2024_05_07_101155_create_preferencias_table', 2);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
 
 -- --------------------------------------------------------
 
@@ -5937,18 +5938,6 @@ INSERT INTO `organizacaos` (`id`, `codom`, `sigla`, `descricao`, `endereco`, `ba
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `password_resets`
---
-
-CREATE TABLE `password_resets` (
-  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `password_reset_tokens`
 --
 
@@ -6058,7 +6047,6 @@ CREATE TABLE `pgrads` (
 -- Despejando dados para a tabela `pgrads`
 --
 
-
 INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
 (1, 1, 'Marechal', 'Mar', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:11'),
 (2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:17'),
@@ -6101,24 +6089,24 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 --
 
 CREATE TABLE `preferencias` (
-  `id` bigint UNSIGNED NOT NULL,
+  `id` int UNSIGNED NOT NULL,
   `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
+  `pessoa_id` int UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL,
-  `user_id` int UNSIGNED NOT NULL
+  `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `preferencias`
 --
 
-INSERT INTO `preferencias` (`id`, `dark_mode`, `created_at`, `updated_at`, `user_id`) VALUES
-(1, 0, NULL, '2024-05-07 11:49:37', 1),
-(2, 0, NULL, NULL, 2),
-(3, 0, NULL, NULL, 3),
-(4, 0, NULL, NULL, 4),
-(5, 0, NULL, NULL, 5),
-(6, 0, NULL, NULL, 6);
+INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updated_at`) VALUES
+(1, 0, 1, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 0, 2, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 0, 3, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 0, 4, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 0, 5, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, 0, 6, '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
@@ -6308,7 +6296,6 @@ INSERT INTO `religiaos` (`id`, `descricao`, `religiao_seq`, `ativo`) VALUES
 
 -- --------------------------------------------------------
 
-
 --
 -- Estrutura para tabela `secaos`
 --
@@ -6344,7 +6331,6 @@ INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 (13, 2, 1, 'Seção de Controle de Efetivos e Movimentação de Praças', 'Seç Ct Ef Mov Pr', 'SIM', '2024-04-30 07:08:07', '2024-04-30 07:08:30'),
 (14, 2, 1, 'Seção de Cursos e Estágios', 'Seç Cur Estg', 'SIM', '2024-04-30 07:02:34', '2024-04-30 07:04:49'),
 (15, 2, 1, 'Seção de Seleção', 'Seç Sel', 'SIM', '2024-01-01 03:00:00', '2024-04-30 06:59:19');
-
 
 -- --------------------------------------------------------
 
@@ -6491,12 +6477,6 @@ ALTER TABLE `organizacaos`
   ADD UNIQUE KEY `organizacao_codom_ukey` (`codom`);
 
 --
--- Índices de tabela `password_resets`
---
-ALTER TABLE `password_resets`
-  ADD KEY `password_resets_email_index` (`email`);
-
---
 -- Índices de tabela `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -6540,7 +6520,7 @@ ALTER TABLE `pgrads`
 --
 ALTER TABLE `preferencias`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `preferencia_user_id_key` (`user_id`) USING BTREE;
+  ADD KEY `preferencias_pessoa_id_key` (`pessoa_id`);
 
 --
 -- Índices de tabela `qualificacaos`
@@ -6633,7 +6613,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT de tabela `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- AUTO_INCREMENT de tabela `nivel_acessos`
@@ -6663,7 +6643,7 @@ ALTER TABLE `pgrads`
 -- AUTO_INCREMENT de tabela `preferencias`
 --
 ALTER TABLE `preferencias`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `qualificacaos`
@@ -6681,7 +6661,7 @@ ALTER TABLE `religiaos`
 -- AUTO_INCREMENT de tabela `secaos`
 --
 ALTER TABLE `secaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `situacaos`
@@ -6724,6 +6704,12 @@ ALTER TABLE `pessoas`
 --
 ALTER TABLE `pgrads`
   ADD CONSTRAINT `circulo_tem_pgrads` FOREIGN KEY (`circulo_id`) REFERENCES `circulos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `preferencias`
+--
+ALTER TABLE `preferencias`
+  ADD CONSTRAINT `pessoa_tem_uma_preferencia` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `secaos`
