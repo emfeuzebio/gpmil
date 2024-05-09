@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Boletins</h1>
+        <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -72,8 +72,7 @@
                 </div>
                 <div class="modal-body">
 
-                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                        class="form-horizontal" method="post">
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                             <div class="form-group" id="form-group-id">
                                 <label class="form-label">ID</label>
@@ -93,10 +92,10 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <label class="form-label">Ativo</label>
                                 <div class="form-check">
                                     <label class="form-label" for="ativo">
-                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="android" data-onstyle="primary" data-on="SIM" data-off="NÃO">
                                     </label>
                                 </div>
                                 <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
@@ -106,7 +105,7 @@
                 </div>
                 <div class="modal-footer">
                     <div class="col-md-5 text-left">
-                        <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
                     <div class="col-md-5 text-right">
                         <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
@@ -148,6 +147,7 @@
 
             var id = '';
 
+            // send token
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -160,20 +160,24 @@
             * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
             * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
             */
+            /*
+            * Definitios of DataTables render
+            */
             $('#datatables').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
+                order: [ 2, 'asc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("boletins")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     {"data": "id", "name": "boletins.id", "class": "dt-right", "title": "#"},
                     {"data": "descricao", "name": "boletins.descricao", "class": "dt-left", "title": "Descrição",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "data", "name": "boletins.data", "class": "dt-center", "title": "data"},
+                    {"data": "data", "name": "boletins.data", "class": "dt-center", "title": "Data"},
                     {"data": "ativo", "name": "boletins.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },
@@ -253,13 +257,14 @@
                     dataType: 'json',
                     success: function (data) {
                         // console.log(data);
-                        $('#modalLabel').html('Editar boletins');
+                        $('#modalLabel').html('Editar Boletim');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         //show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
+                        $('#sigla').val(data.sigla);
                         $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         if (data.ativo === "SIM") {
@@ -301,22 +306,25 @@
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
-                        // como o dataType não é JSON, precisa do responseJSON
+                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
-                        // mostra mensagens de erro de Roles e Persistência em Banco
-                        $('#msgOperacao').text(data.responseJSON.policyError).show();
-                        $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });
 
+            /*
+            * New Record button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
-                //alert('Novo');
 
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
@@ -341,7 +349,6 @@
             });        
 
         });
-
 
     </script>    
 

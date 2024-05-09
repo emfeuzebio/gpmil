@@ -490,9 +490,14 @@ return [
                         ],                
                         [
                             'text' => 'Municípios IBGE',
-                            'icon' => 'fas fa-building',
+                            'icon' => 'fas fa-globe',
                             'url' => 'municipios',
-                        ],                
+                        ],      
+                        [
+                            'text' => 'Religiões',
+                            'icon' => 'fas fa-praying-hands',
+                            'url' => 'religiaos',
+                        ],          
                         [
                             'text' => 'Usuários',
                             'icon' => 'fas fa-user-lock',

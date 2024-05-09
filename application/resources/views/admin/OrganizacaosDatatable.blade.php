@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Organização Militar</h1>
+            <h1></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -17,7 +17,6 @@
 @stop
 
 @section('content')
-
 
     <!-- DataTables de Dados -->
     <div class="row">
@@ -38,10 +37,7 @@
                         </div>
                                                 
                         <div class="col-md-3 text-right">
-                            <button id="btnRefresh" class="btn btn-default btn-sm" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
-                            @can('is_admin')
-                            <button id="btnNovo" class="btnEdit btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar uma nova seção (Alt+N)" >Inserir Novo</button>
-                            @endcan
+                            <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                         </div>
                     </div>
                 </div>
@@ -89,7 +85,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Ativo <span style="color: red">*</span></label>
+                            <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
                                     <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
@@ -101,9 +97,22 @@
 
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                <button type="button" class="btn btn-primary" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-            </div>
+                <div class="col-md-5 text-left">
+                    <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                </div>
+                <div class="col-md-5 text-right">
+                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    @can('is_admin')
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
+                    @can('is_encpes')
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
+                    @can('is_cmt')
+                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
+                </div>
+        </div>
             </div>
         </div>
     </div>
@@ -164,7 +173,7 @@
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
+                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; 
                         }
                     },
                 ]
@@ -177,40 +186,6 @@
                     return 'NÃO';
                 }
             }
-
-            /*
-            * Delete button action
-            */
-            $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
-                e.stopImmediatePropagation();            
-
-                id = $(this).data("id")
-                //alert('Editar ID: ' + id );
-
-                //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
-                $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
-                $('#confirmaExcluirModal').modal('show');
-
-                //se confirmar a Exclusão, exclui o Registro via Ajax
-                $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
-                    e.stopImmediatePropagation();
-
-                    // alert($id);
-                    $.ajax({
-                        type: "POST",
-                        url: "{{url("organizacaos/destroy")}}",
-                        data: {"id": id},
-                        dataType: 'json',
-                        success: function (data) {
-                            $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
-                            $('#datatables').DataTable().ajax.reload(null, false);
-                        }
-                    });
-                    $('#confirmaExcluirModal').modal('hide');            
-                });
-
-            });           
 
             /*
             * Edit button action
@@ -282,20 +257,9 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        $('#msgOperacao').text(data.responseJSON.message).show();
                     }
                 });                
-            });
-
-            $('#btnNovo').on("click", function (e) {
-                e.stopImmediatePropagation();
-                //alert('Novo');
-
-                $('#formEntity').trigger('reset');              //clean de form data
-                $('#form-group-id').hide();                     //hide ID field
-                $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Nova Seção');  //
-                $(".invalid-feedback").text('').hide();         // hide all error displayed
-                $('#editarModal').modal('show');                 // show modal 
             });
 
             // put the focus on de name field
@@ -303,15 +267,16 @@
                 $('#sigla').focus();
             })
 
-        });
+            /*
+            * Refresh button action
+            */
+            $('#btnRefresh').on("click", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().ajax.reload(null, false);    
+                $('#alert').trigger('reset').hide();
+            });        
 
-        /*
-        * Refresh button action
-        */
-        $('#btnRefresh').on("click", function (e) {
-            e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
-        });        
+        });
 
     </script>    
 

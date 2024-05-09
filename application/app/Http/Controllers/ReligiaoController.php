@@ -2,25 +2,26 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\NivelAcessosDataTable;
+use App\DataTables\ReligiaosDataTable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use App\Models\NivelAcesso;
+use App\Models\Religiao;
 
-class NivelAcessoController extends Controller
+class ReligiaoController extends Controller
 {
-    public function index(NivelAcessosDataTable $dataTable)
+    public function index(ReligiaosDataTable $dataTable)
     {
+
         // se não autenticado
         // Auth::logout();          //faz logout
         if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão
-        if (Gate::none(['is_admin','is_encpes'], new NivelAcesso())) {
+        if (Gate::none(['is_admin','is_encpes'], new Religiao())) {
             abort(403, 'Usuário não autorizado!');
-        }
+        }        
 
-        return $dataTable->render('admin/nivelacessosDatatable');
+        return $dataTable->render('admin/religiaosDatatable');
     }
 }
 

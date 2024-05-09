@@ -2,7 +2,7 @@
 
 namespace App\DataTables;
 
-use App\Models\User;
+use App\Models\Religiao;
 use Illuminate\Database\Eloquent\Builder as QueryBuilder;
 use Yajra\DataTables\EloquentDataTable;
 use Yajra\DataTables\Html\Builder as HtmlBuilder;
@@ -12,30 +12,31 @@ use Yajra\DataTables\Html\Editor\Editor;
 use Yajra\DataTables\Html\Editor\Fields;
 use Yajra\DataTables\Services\DataTable;
 
-class UsersDataTable extends DataTable
+class ReligiaosDataTable extends DataTable
 {
     public function dataTable(QueryBuilder $query): EloquentDataTable
     {
         return (new EloquentDataTable($query))
-            // ->addColumn('action', 'users.action')
-            ->editColumn('created_at', function ($param) { return date("d/m/Y H:i:s", strtotime($param->created_at)); })
-            ->editColumn('updated_at', function ($param) { return date("d/m/Y H:i:s", strtotime($param->updated_at)); })
-            ->setRowId('id');
-    }
+            ->addColumn('ativo', function ($circulo) {
+                return '<span style="color:' . ( $circulo->ativo == 'SIM' ? 'blue' : 'red' ) . '">' . $circulo->ativo . '</span>';
+            })            
+            ->rawColumns(['ativo'])
+            ->setRowId('id');    }
 
-    public function query(User $model): QueryBuilder
+    public function query(Religiao $model): QueryBuilder
     {
         return $model->newQuery();
     }
 
     public function html(): HtmlBuilder
     {
+        // https://stackoverflow.com/questions/76383452/ordering-a-yajra-datatable-by-created-at-column-in-laravel
         return $this->builder()
-                    ->setTableId('users-table')
+                    ->setTableId('religiao-table')
                     ->columns($this->getColumns())
                     ->minifiedAjax()
-                    // ->dom('Bfrtip')
-                    ->orderBy(2, 'asc')
+                    // ->dom('Bfrtip')     
+                    ->orderBy(0,'asc')
                     ->selectStyleSingle()
                     ->buttons([
                         Button::make('excel'),
@@ -63,30 +64,12 @@ class UsersDataTable extends DataTable
             // Column::computed('action')
             //       ->exportable(false)
             //       ->printable(false)
-            //       ->width(60)
+            //       ->width(100)
             //       ->addClass('text-center'),
-            Column::make('id'),
-            Column::make('name'),
-            Column::make('email'),
-            Column::make('created_at'),
-            Column::make('updated_at'),
+            Column::make('id')->addClass('text-center'),
+            Column::make('descricao')->addClass('text-bold'),
+            Column::make('religiao_seq'),
+            Column::make('ativo')->addClass('text-center'),
         ];
-
-        // return [
-        //     Column::computed('action')
-        //           ->exportable(false)
-        //           ->printable(false)
-        //           ->width(60)
-        //           ->addClass('text-center'),
-        //     Column::make('id'),
-        //     Column::make('add your columns'),
-        //     Column::make('created_at'),
-        //     Column::make('updated_at'),
-        // ];
-    }
-
-    protected function filename(): string
-    {
-        return 'Users_' . date('YmdHis');
     }
 }

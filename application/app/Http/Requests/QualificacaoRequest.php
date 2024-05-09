@@ -22,7 +22,7 @@ class QualificacaoRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'codigo' => 'required|unique:qualificacaos|digits:4',
+            // 'codigo' => 'required|digits:4',
             'sigla' => 'required|min:2',
             'descricao' => 'required|min:3',            
             'ativo' => ['required','in:"SIM","NÃO"'],

@@ -4,10 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\PlanoChamadaRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Models\PlanoChamada;
 use App\Models\User;
-use App\Models\Pgrad;
 use App\Models\Pessoa;
 use App\Models\Secao;
 use DataTables;
@@ -42,8 +42,11 @@ class PlanoChamadaController extends Controller
     
     public function index() {
 
+        // se não autenticado
+        // Auth::logout();          //faz logout
+        if (! Auth::check()) return redirect('/home');
+
         // dd(Auth::user()->id);
-        // $this->User = User::with('pessoa')->find(Auth::user()->id);        
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
@@ -53,7 +56,6 @@ class PlanoChamadaController extends Controller
         // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
         // die();
         // dd($user->pessoa);
-
         // $municipios = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
 
         // filtros aplicados segundo o níve de acesso
@@ -108,6 +110,7 @@ class PlanoChamadaController extends Controller
             $actions .= $btnEditar;
         }
 
+        // demais apenas o botão Ver
         if(in_array($this->userNivelAcessoID,[2,4])) {
             $actions .= $btnVer;
         }

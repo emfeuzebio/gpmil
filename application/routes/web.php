@@ -8,6 +8,8 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
 use App\Http\Controllers\NivelAcessoController;
+use App\Http\Controllers\MunicipioController;
+use App\Http\Controllers\ReligiaoController;
 use App\Http\Controllers\PgradController;
 use App\Http\Controllers\SecaoController;
 use App\Http\Controllers\FuncaoController;
@@ -17,6 +19,7 @@ use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Models\Municipio;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -30,9 +33,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', function () { return view('welcome'); });
 
 Auth::routes();
 
@@ -43,6 +44,10 @@ Route::get('/users', [UsersController::class, 'index'])->name('users.index');
 Route::get('/circulos', [CirculoController::class, 'index'])->name('circulos.index');
 
 Route::get('/nivelacessos', [NivelAcessoController::class, 'index'])->name('nivelacessos.index');
+
+Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipios.index');
+
+Route::get('/religiaos', [ReligiaoController::class, 'index'])->name('religiaos.index');
 
 //Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/pgrads', [PgradController::class, 'index'])->name('home');
@@ -88,6 +93,7 @@ Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home'
 Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');
 Route::post('boletins/destroy', [BoletinsController::class, 'destroy'])->name('home');
 
+// Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home')->middleware('can:is_admin');
 Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');
 Route::post('situacaos/store', [SituacaoController::class, 'store'])->name('home');
 Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home');
@@ -103,18 +109,7 @@ Route::post('organizacaos/edit', [OrganizacaoController::class, 'edit'])->name('
 Route::post('organizacaos/destroy', [OrganizacaoController::class, 'destroy'])->name('home');
 
 
-
 // Auth::routes();
 
-// Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
 
-// Auth::routes();
-
-// Route::get('/home', function() {
-//     return view('home');
-// })->name('home')->middleware('auth');
-
-
-// Route::get('/pgrads', [PgradController::class, 'index'])->name('users.pgrads');
-// Route::get('/pgrads/datatablesAjax', [PgradController::class, 'datatablesAjax'])->name('users.pgrads');
 

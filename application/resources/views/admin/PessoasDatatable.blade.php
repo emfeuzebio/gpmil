@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-            <h1>Pessoas</h1>
+        <h1 class="m-0 text-dark"></h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -24,10 +24,24 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-8 text-left"><b>Gestão de Pessoal</b></div>
-                        <div class="col-md-4 text-right">
+                        <!--área de título da Entidade-->
+                        <div class="col-md-3 text-left h5"><b>Gestão de Pessoas</b></div>
+                        <!--área de mensagens-->
+                        <div class="col-md-6 text-left">
+                            <div style="padding: 0px;  background-color: transparent;">
+                                <div id="alert" class="alert alert-danger" style="margin-bottom: 0px; display: none; padding: 2px 5px 2px 5px;">
+                                    <a class="close" onClick="$('.alert').hide()">&times;</a>  
+                                    <div class="alert-content">Mensagem</div>
+                                </div>
+                            </div>                         
+                        </div>
+                        <!--área de botões-->
+                        <div class="col-md-3 text-right">
                             <button id="btnRefresh" class="btn btn-default btn-sm btnRefresh" data-toggle="tooltip" title="Atualizar a tabela (Alt+R)">Refresh</button>
                             @can('is_admin')
+                            <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
+                            @endcan
+                            @can('is_encpes')
                             <button id="btnNovo" class="btnInserirNovo btn btn-success btn-sm" data-toggle="tooltip" title="Adicionar um novo registro (Alt+N)" >Inserir Novo</button>
                             @endcan
                         </div>
@@ -184,7 +198,11 @@
 
                             <div class="form-group">
                                 <label class="form-label">Função</label>
-                                <input class="form-control" value="" type="text" id="funcao_id" name="funcao_id" placeholder="Digite a função" data-toggle="tooltip" data-placement="top" title="Função!" >
+                                <select name="funcao_id" id="funcao_id" class="form-control selectpicker" data-live-search="true" data-toggle="toolip" data-placement="top" title="Selecione a função">
+                                    @foreach( $funcaos as $funcao)
+                                    <option value="{{$funcao->id}}">{{$funcao->sigla}}</option>
+                                    @endforeach
+                                </select>
                                 <div id="error-funcao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -209,7 +227,7 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Ativo <span style="color: red">*</span></label>
+                                <label class="form-label">Ativo</label>
                                 <div class="form-check">
                                     <label class="form-label" for="ativo">
                                         <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
@@ -280,6 +298,7 @@
                 autoWidth: true,
                 // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                pageLength: 10,
                 ajax: "{{url("pessoas")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
@@ -405,7 +424,7 @@
                         $('#pronto_sv').val(data.pronto_sv);
                         $('#foto').val(data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
-                        $('#funcao_id').val(data.funcao);
+                        $('#funcao_id').selectpicker('val', data.funcao_id);
                         $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
                     }
                 }); 
@@ -452,6 +471,12 @@
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
+                        // exibe mensagem sobre sucesso da operação
+                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
+                        } else if(data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        }
                     }
                 });                
             });
