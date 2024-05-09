@@ -6329,18 +6329,29 @@ CREATE TABLE `secaos` (
 
 INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
 (1, NULL, 1, 'Gabinete do Comandante/Chefe/Diretor', 'Gab Cmt/Ch/Dir', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(2, 1, 1, 'Gabinete do Subcomandante/Subchefe/Subdiretor', 'Gab SCmt/SCh/SDir', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(3, 1, 1, 'Assessoria 1', 'Asse1', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(4, 1, 1, 'Assessoria 2', 'Asse2', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(5, 1, 1, 'Assessoria 3', 'Asse3', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(6, 1, 1, 'Assessoria 4', 'Asse4', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(7, 1, 1, 'Divisão 1', 'Div 1', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(8, 1, 1, 'Divisão 2', 'Div 2', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(9, 1, 1, 'Seção 1', 'Seç 1', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(10, 1, 1, 'Seção 2', 'Seç 2', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(11, 1, 1, 'Seção 3', 'Seç 3', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(12, 1, 1, 'Seção 4', 'Seç 4', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(13, NULL, 1, 'Assessoria de Tecnologia da Informação', 'ATI', 'SIM', '2024-04-14 16:45:31', '2024-04-14 16:45:31');
+(3, 1, 1, 'Assesoria de Apoio para Assuntos Jurídicos', 'Asse Ap As Jurd', 'SIM', '2024-01-01 03:00:00', '2024-04-30 07:00:09'),
+(12, 1, 1, 'Seção de Seleção', 'Seç Sel', 'SIM', '2024-01-01 03:00:00', '2024-04-30 06:59:19'),
+(13, NULL, 1, 'Assessoria de Tecnologia da Informação', 'Ati', 'SIM', '2024-04-14 16:45:31', '2024-05-09 07:52:21'),
+(14, NULL, 1, 'Seção de Cursos e Estágios', 'Seç Cur Estg', 'SIM', '2024-04-30 07:02:34', '2024-04-30 07:04:49'),
+(15, NULL, 1, 'Ajudância Geral', 'AJ G', 'SIM', '2024-04-30 07:03:13', '2024-04-30 07:04:53'),
+(16, NULL, 1, 'SCAPAD', 'SCA PAD', 'SIM', '2024-04-30 07:03:50', '2024-05-09 07:58:49'),
+(18, NULL, 1, 'Seção de Controle de Efetivos e Movimentação de Praças', 'Seç Ct Ef Mov Pr', 'SIM', '2024-04-30 07:08:07', '2024-04-30 07:08:30'),
+(19, NULL, 1, 'Seção de Controle de Efetivos e Movimentação de Oficiais QSG', 'Seç Ct Ef Mov Of QSG', 'SIM', '2024-04-30 07:08:59', '2024-04-30 07:09:04'),
+(20, NULL, 1, 'Agência de Inteligência - DCEM - Protocolo', 'Ag Intlg Prot', 'SIM', '2024-04-30 07:09:39', '2024-04-30 07:09:48'),
+(21, NULL, 1, 'Serviço', 'Serviço', 'SIM', '2024-04-30 07:10:21', '2024-04-30 07:11:56'),
+(22, NULL, 1, 'Assessoria de Gestão', 'Asse Gestão', 'SIM', '2024-04-30 07:11:25', '2024-04-30 07:11:48'),
+(23, NULL, 1, 'Subcomissão Permanente de Avaliação de Documentos', 'SCPAD', 'SIM', '2024-04-30 07:14:03', '2024-04-30 07:28:23'),
+(24, NULL, 1, 'Seção de Planejamento Estratégico e Coordenação', 'SPEC', 'SIM', '2024-04-30 07:14:51', '2024-04-30 07:28:27'),
+(25, NULL, 1, 'Comissão do TAF', 'TFM TAF', 'SIM', '2024-04-30 07:15:26', '2024-05-09 08:01:47'),
+(26, NULL, 1, 'Comissão de Eventos', 'Coms Evt', 'SIM', '2024-04-30 07:16:34', '2024-05-09 08:02:00'),
+(27, NULL, 1, 'POTOCOLO DE SAÍDA DE DOCUMENTOS', 'PROT', 'SIM', '2024-04-30 07:29:30', '2024-04-30 07:36:14'),
+(28, NULL, 1, 'Comissão de Aplicação do TAT', 'TAT-Com Aplicação', 'SIM', '2024-04-30 07:30:32', '2024-04-30 07:36:19'),
+(29, NULL, 1, 'Agência de Inteligência', 'AI', 'SIM', '2024-04-30 07:34:47', '2024-04-30 07:36:22'),
+(30, NULL, 1, 'Assessoria Especial', 'Asse Esp', 'SIM', '2024-04-30 07:36:07', '2024-04-30 07:36:07'),
+(31, NULL, 1, 'Seção de Controle de Efetivos e Movimentação de Oficiais QEMA', 'Seç Ct Ef Mov Of QEMA', 'SIM', '2024-04-30 07:49:06', '2024-04-30 07:56:53'),
+(32, NULL, 1, 'Centro de Processamentos de Documentos - DCEM', 'CPDoc', 'SIM', '2024-04-30 07:53:51', '2024-04-30 07:55:32'),
+(33, NULL, 1, 'Estado Maior Pessoal', 'EMP', 'SIM', '2024-04-30 07:54:26', '2024-04-30 07:55:36'),
+(34, NULL, 1, 'Direção da DCEM', 'Dir DCEM', 'SIM', '2024-04-30 07:55:13', '2024-05-09 08:00:03');
 
 -- --------------------------------------------------------
 
