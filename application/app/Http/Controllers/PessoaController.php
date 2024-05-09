@@ -11,6 +11,7 @@ use App\Models\Pgrad;
 use App\Models\Pessoa;
 use App\Models\Qualificacao;
 use App\Models\Secao;
+use App\Models\Funcao;
 use App\Models\NivelAcesso;
 use App\Models\User;
 
@@ -21,10 +22,12 @@ class PessoaController extends Controller
     protected $Pgrad = null;
     protected $Qualificacao = null;
     protected $Secao = null;
+    protected $Funcao = null;
     protected $NivelAcesso = null;
 
     protected $userID = 0;
     protected $userSecaoID = 0;
+    protected $userFuncaoID = 0;
     protected $userNivelAcessoID = 0;
 
     public function __construct() {
@@ -33,6 +36,7 @@ class PessoaController extends Controller
         $this->Pgrad = new Pgrad();
         $this->Qualificacao = new Qualificacao();
         $this->Secao = new Secao();
+        $this->Funcao = new Funcao();
         $this->NivelAcesso = new NivelAcesso();
     }
     
@@ -46,11 +50,12 @@ class PessoaController extends Controller
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
+        $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao', 'nivel_acesso')->orderBy('pgrad_id')->orderBy('nome_completo'))
+            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao','funcao', 'nivel_acesso')->orderBy('pgrad_id')->orderBy('nome_completo'))
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
@@ -67,13 +72,11 @@ class PessoaController extends Controller
         $qualificacaos = $this->Qualificacao->all()->sortBy('id');
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
+        $funcaos = $this->Funcao->all()->sortBy('id');
 
-        // echo "<pre>";
-        // print_r($nivel_acessos);
-        // echo "</pre>";
-        // die();
+        // dd($funcaos);
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos] );
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos]);
     }
 
     protected function getActionColumn($row): string
