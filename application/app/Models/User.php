@@ -50,6 +50,10 @@ class User extends Authenticatable
         // return $this->belongsTo(Pessoa::class, 'id','user_id');
         return $this->hasOne(Pessoa::class);
     }
+
+    public function preferencia() {
+        return $this->belongsTo(Preferencia::class, 'id','user_id');
+    }
     
     public function adminlte_image()
     {

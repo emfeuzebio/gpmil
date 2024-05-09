@@ -3,25 +3,14 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 26/04/2024 às 14:15
--- Versão do servidor: 8.1.0
--- Versão do PHP: 8.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
-
 --
 -- Banco de dados: `gpmil`
 --
-CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
-USE `gpmil`;
 
 -- --------------------------------------------------------
 
@@ -279,7 +268,9 @@ INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
 (1, '2014_10_12_000000_create_users_table', 1),
 (2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
 (3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+(4, '2019_12_14_000001_create_personal_access_tokens_table', 1),
+(5, '2014_10_12_100000_create_password_resets_table', 2),
+(6, '2024_05_07_101155_create_preferencias_table', 2);
 
 -- --------------------------------------------------------
 
@@ -5946,6 +5937,18 @@ INSERT INTO `organizacaos` (`id`, `codom`, `sigla`, `descricao`, `endereco`, `ba
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `password_resets`
+--
+
+CREATE TABLE `password_resets` (
+  `email` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `token` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `created_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `password_reset_tokens`
 --
 
@@ -6090,6 +6093,32 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 (63, 7, 'Aluno IME 4º Ano', 'Al IME 4º', 'NÃO', '2024-01-01 03:00:00', '2024-04-28 01:04:51'),
 (64, 7, 'Aluno Esc Formação de Sargento', 'AlEsSgt', 'SIM', '2024-01-01 03:00:00', '2024-04-28 01:02:59'),
 (65, 7, 'Al Órgão Form Praças Reserva', 'AlFPrRe', 'NÃO', '2024-01-01 03:00:00', '2024-04-28 01:04:56');
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `preferencias`
+--
+
+CREATE TABLE `preferencias` (
+  `id` bigint UNSIGNED NOT NULL,
+  `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL,
+  `user_id` int UNSIGNED NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Despejando dados para a tabela `preferencias`
+--
+
+INSERT INTO `preferencias` (`id`, `dark_mode`, `created_at`, `updated_at`, `user_id`) VALUES
+(1, 0, NULL, '2024-05-07 11:49:37', 1),
+(2, 0, NULL, NULL, 2),
+(3, 0, NULL, NULL, 3),
+(4, 0, NULL, NULL, 4),
+(5, 0, NULL, NULL, 5),
+(6, 0, NULL, NULL, 6);
 
 -- --------------------------------------------------------
 
@@ -6458,6 +6487,12 @@ ALTER TABLE `organizacaos`
   ADD UNIQUE KEY `organizacao_codom_ukey` (`codom`);
 
 --
+-- Índices de tabela `password_resets`
+--
+ALTER TABLE `password_resets`
+  ADD KEY `password_resets_email_index` (`email`);
+
+--
 -- Índices de tabela `password_reset_tokens`
 --
 ALTER TABLE `password_reset_tokens`
@@ -6495,6 +6530,13 @@ ALTER TABLE `pgrads`
   ADD UNIQUE KEY `pgrads_descricao_ukey` (`descricao`),
   ADD UNIQUE KEY `pgrads_sigla_ukey` (`sigla`),
   ADD KEY `pgrads_circulo_id_ukey` (`circulo_id`);
+
+--
+-- Índices de tabela `preferencias`
+--
+ALTER TABLE `preferencias`
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `preferencia_user_id_key` (`user_id`) USING BTREE;
 
 --
 -- Índices de tabela `qualificacaos`
@@ -6587,7 +6629,7 @@ ALTER TABLE `menus`
 -- AUTO_INCREMENT de tabela `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `nivel_acessos`
@@ -6612,6 +6654,12 @@ ALTER TABLE `pessoas`
 --
 ALTER TABLE `pgrads`
   MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+
+--
+-- AUTO_INCREMENT de tabela `preferencias`
+--
+ALTER TABLE `preferencias`
+  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `qualificacaos`
@@ -6679,7 +6727,3 @@ ALTER TABLE `pgrads`
 ALTER TABLE `secaos`
   ADD CONSTRAINT `organizacao_tem_secaos` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
