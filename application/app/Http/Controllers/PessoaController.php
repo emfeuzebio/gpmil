@@ -55,7 +55,7 @@ class PessoaController extends Controller
 
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad', 'qualificacao', 'secao','funcao', 'nivel_acesso')->orderBy('pgrad_id')->orderBy('nome_completo'))
+            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad','qualificacao','secao','funcao','nivel_acesso')->orderBy('pgrad_id')->orderBy('nome_completo'))
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
@@ -69,10 +69,10 @@ class PessoaController extends Controller
 
 
         $pgrads = $this->Pgrad->all()->sortBy('id');
-        $qualificacaos = $this->Qualificacao->all()->sortBy('id');
+        $qualificacaos = $this->Qualificacao->all()->sortBy('sigla');
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
-        $funcaos = $this->Funcao->all()->sortBy('id');
+        $funcaos = $this->Funcao->all()->sortBy('sigla');
 
         // dd($funcaos);
 

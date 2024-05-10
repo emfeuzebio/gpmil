@@ -274,8 +274,8 @@
         $(document).ready(function () {
 
             $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
-            $('#idt').inputmask('999999999-9'); //Mascara para IDT          
-            // $('#preccp').inputmask('999999999-99'); //Mascara para IDT
+            $('#idt').inputmask('999999999-9'); //Mascara para Idt  
+            $('#preccp').inputmask('999999999-99'); //Mascara para Prec-CP
 
             var id = '';
 
@@ -309,12 +309,14 @@
                     *                       seguido da coluna a que se deseja fazer a pesquisa
                     *                       no Controller deve estar o mesmo nome de coluna
                     */
-                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left", "title": "P / G"},
-                    {"data": "qualificacao", "name": "qualificacao.sigla", "class": "dt-left", "title": "QM"},
+                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P / G"},
                     // {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
-                    {"data": "nome_completo", "name": "pessoas.nome_completo", "class": "dt-left", "title": "Nome",
+                    {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Nome de Guerra",
                         render: function (data) { return '<b>' + data + '</b>';}},
-                    {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Nome de Guerra"},
+                    {"data": "qualificacao", "name": "qualificacao.sigla", "class": "dt-left", "title": "QM"},
+                    {"data": "nome_completo", "name": "pessoas.nome_completo", "class": "dt-left", "title": "Nome Completo" },
+                    {"data": "funcao.sigla", "name": "funcao.sigla", "class": "dt-left", "title": "Seção"},
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Função"},
                     {"data": "ativo", "name": "pessoas.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },

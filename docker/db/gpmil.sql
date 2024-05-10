@@ -3,17 +3,25 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 09/05/2024 às 16:26
--- Versão do servidor: 8.1.0
--- Versão do PHP: 8.2.11
+-- Tempo de geração: 10/05/2024 às 00:55
+-- Versão do servidor: 8.4.0
+-- Versão do PHP: 8.2.17
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
 
+
+/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
+/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
+/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
+/*!40101 SET NAMES utf8mb4 */;
+
 --
 -- Banco de dados: `gpmil`
 --
+CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE `gpmil`;
 
 -- --------------------------------------------------------
 
@@ -195,7 +203,8 @@ CREATE TABLE `funcaos` (
 --
 
 INSERT INTO `funcaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Chefe da Assessoria de Tecnologia de Informação', 'Ch ATI', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, 'Chefe da Assessoria de Tecnologia de Informação', 'Ch ATI', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Adjunto', 'Adj', 'NÃO', '2024-05-09 21:11:09', '2024-05-09 21:11:09');
 
 -- --------------------------------------------------------
 
@@ -5987,7 +5996,7 @@ CREATE TABLE `pessoas` (
   `nome_guerra` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `cpf` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `idt` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `preccp` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `preccp` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `dt_nascimento` date DEFAULT NULL,
   `endereco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
@@ -6020,12 +6029,12 @@ CREATE TABLE `pessoas` (
 --
 
 INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 15, 11, 13, 'SIM', 'Ativa', NULL, 'Emerson Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '70754020', NULL, 'SQN 111 Bloco B', 'Apto 408', 'Asa Norte', 'Brasília', NULL, 'DF', '70754-020', '000 0000', '(61) 98167-0000', '(61) 98500-2010', 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-19 11:47:05'),
+(1, 1, 1, 1, 15, 61, 9, 'SIM', 'Ativa', NULL, 'Emerson Flávio Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '342271773-00', '1972-08-11', NULL, 'Apto 408', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 2, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:11:25'),
 (2, 1, 2, 2, 12, 2, 4, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
-(3, 1, 3, 3, 13, 1, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, 'Quadra 2 Conjunto H', 'Apto 59852', 'Arapoanga (Planaltina)', 'Brasília', 5300108, 'DF', '73368-580', NULL, '(61) 90000-0000', '(61) 90000-0000', 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-26 11:12:03'),
-(4, 1, 4, 4, 15, 1, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020', NULL, 'SQN 103 Bloco G', 'Apto 501', 'Asa Norte', 'Brasília', 5300108, 'DF', '70732-070', '000 0000', '(61) 93256-5565', '(61) 96556-5656', 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-24 16:27:33'),
-(5, 1, 5, 5, 22, 2, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, 'SQN 111 Bloco B', 'Apto 100', 'Asa Norte', 'Brasília', 5300108, 'DF', '70754-020', NULL, '(61) 90000-0000', '(61) 95698-9898', 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-04-22 12:06:59'),
-(6, 1, 6, 6, 42, 7, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, 'SQN 111 Bloco A', 'Apto 100', 'Asa Norte', 'Brasília', NULL, 'DF', '70754-010', NULL, '(61) 95958-9598', '(89) 89898-9898', NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-19 11:58:14');
+(3, 1, 3, 3, 13, 46, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, 'Apto 59852', 'Arapoanga (Planaltina)', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:25:59'),
+(4, 1, 4, 4, 15, 129, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020_-__', NULL, NULL, 'Apto 501', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:15'),
+(5, 1, 5, 5, 22, 121, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:46'),
+(6, 1, 6, 6, 42, 127, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:24:57');
 
 -- --------------------------------------------------------
 
@@ -6101,7 +6110,7 @@ CREATE TABLE `preferencias` (
 --
 
 INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updated_at`) VALUES
-(1, 0, 1, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(1, 0, 1, '2024-01-01 00:00:00', '2024-05-09 21:46:41'),
 (2, 0, 2, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (3, 0, 3, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (4, 0, 4, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
@@ -6145,7 +6154,6 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (14, NULL, 'Quadro Auxiliar de Oficiais', 'QAO', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (15, NULL, 'Topógrafo', 'Topo', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (16, NULL, 'Quadro Especial', 'QE', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(17, NULL, 'Singular', 'Sing', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (18, NULL, 'Quadro de Capelães Militares', 'QCM', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (19, NULL, 'Veterinária', 'Vet', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (21, NULL, 'Suprimento de Engenharia', 'Sup Eng', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
@@ -6156,7 +6164,6 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (26, NULL, 'Magistério', 'Mag', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (28, NULL, 'Atirador de Tiro de Guerra', 'At TG', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (31, NULL, 'Não Qualificado', 'NQ R2C', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(32, NULL, 'Combatente', 'Cmb ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (33, NULL, 'Engenheiro Militar', 'Eng Mil', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (36, NULL, 'Aviação / Manutenção', 'Av/Mnt', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (39, NULL, 'Aviação / Apoio', 'Av/Ap', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
@@ -6164,30 +6171,20 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (41, NULL, 'Dentista', 'Dent', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (42, NULL, 'Farmaceutico', 'Farm', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (43, NULL, 'Auxiliar de Enfermagem', 'Aux Enf', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(44, '0000', 'Soldado', 'Sd', 'SIM', '2024-01-01 03:00:00', '2024-04-10 13:45:48'),
 (45, NULL, 'Material Bélico - Manutenção de Armamento', 'MB/Mnt Armt', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (46, NULL, 'Material Bélico - Manutenção de Viatura Auto', 'MB/Mnt VtrA', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (47, NULL, 'Material Bélico - Mecânico Operador', 'MB/Mec Op', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(48, NULL, 'Técnico', 'Tec', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (49, '7102', 'Quadro Complementar de Oficiais - Enfermagem', 'QCO Enf', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:07:37'),
 (50, '7107', 'Quadro Complementar de Oficiais - Veterinária', 'QCO Vet', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:09:03'),
 (51, NULL, 'Quadro de estado-maior da ativa', 'QEMA', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(52, '0011', 'Armas/QMB/Sv Int', 'A/QMB/S Int', 'NÃO', '2024-01-01 03:00:00', '2024-04-12 16:35:26'),
-(53, NULL, 'Qualquer QMS', 'Qualquer QMS', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(54, NULL, 'QAO de Qualquer Categoria', 'QAO ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(60, '0005', 'Aprov no CA', 'Aprov no CA', 'SIM', '2024-01-01 03:00:00', '2024-04-12 16:34:27'),
-(61, NULL, 'Quadro Auxiliar de Oficiais - Administração Geral', 'QAO-Adm G', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(62, NULL, 'Quadro Auxiliar de Oficiais - Saúde', 'QAO-Sau', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(63, NULL, 'Quadro Auxiliar de Oficiais - Material Bélico', 'QAO-Mat Bel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(64, NULL, 'Quadro Auxiliar de Oficiais - Topógrafo', 'QAO-Topo', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(65, NULL, 'Quadro Auxiliar de Oficiais - Músico', 'QAO-Mus', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(70, NULL, 'Qualquer QMS Exceto Singular', 'QMS Ex Sing', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(71, NULL, 'Qualquer Arma, Quadro ou Serviço', 'Qq A/Qd/Sv', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(61, NULL, 'Quadro Auxiliar de Oficiais - Administração Geral', 'QAO Adm G', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:39:46'),
+(62, NULL, 'Quadro Auxiliar de Oficiais - Saúde', 'QAO Sau', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:40:05'),
+(63, NULL, 'Quadro Auxiliar de Oficiais - Material Bélico', 'QAO Mat Bel', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:39:58'),
+(64, NULL, 'Quadro Auxiliar de Oficiais - Topógrafo', 'QAO Topo', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:40:22'),
+(65, NULL, 'Quadro Auxiliar de Oficiais - Músico', 'QAO Mus', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:40:11'),
 (72, NULL, 'Aviação', 'Av', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(73, NULL, 'Quadro Auxiliar de Oficiais - Manutenção de Com', 'QAO-Mnt Com', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(73, NULL, 'Quadro Auxiliar de Oficiais - Manutenção de Com', 'QAO Mnt Com', 'SIM', '2024-01-01 03:00:00', '2024-05-09 21:39:52'),
 (77, NULL, 'Estágio Básico de Cabo Temporário', 'EBCT', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(78, NULL, 'Quadro de Oficiais Temporários', 'Of Tmpr', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(79, NULL, 'Serviço Técnico Temporário', 'SvTT', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (80, NULL, 'Piloto', 'Piloto', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (86, NULL, 'Serviço de Assistência Religiosa do Exército', 'SAREx', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (90, '7106', 'Quadro Complementar de Oficiais - Psicologia', 'QCO Psico', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:08:54'),
@@ -6225,7 +6222,20 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (125, '0002', 'Cabo Especialista Temporário', 'CET', 'SIM', '2024-01-01 03:00:00', '2024-04-10 13:51:50'),
 (126, NULL, 'Cabo Especialista Temporário - Motorista', 'CET Mot', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (127, NULL, 'Cabo Especialista Temporário - Mecânico', 'CET Mec', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(128, '7104', 'Quadro Complementar de Oficiais - Direito', 'QCO Dir', 'SIM', '2024-04-10 14:07:03', '2024-04-10 14:07:58');
+(128, '7104', 'Quadro Complementar de Oficiais - Direito', 'QCO Dir', 'SIM', '2024-04-10 14:07:03', '2024-04-10 14:07:58'),
+(129, NULL, 'Quadro Complementar de Oficiais - Informática', 'QCO Infor', 'NÃO', '2024-05-09 21:23:58', '2024-05-09 21:23:58'),
+(130, NULL, 'Oficial Combatente Temporário', 'OCT', 'SIM', '2024-05-09 21:29:43', '2024-05-09 21:30:00'),
+(131, NULL, 'Oficial Combatente Temporário - Infantaria', 'OCT Inf', 'SIM', '2024-05-09 21:30:18', '2024-05-09 21:30:44'),
+(132, NULL, 'Oficial Combatente Temporário - Cavalaria', 'OCT Cav', 'SIM', '2024-05-09 21:30:36', '2024-05-09 21:30:42'),
+(133, NULL, 'Oficial Combatente Temporário - Engenharia', 'OCT Eng', 'SIM', '2024-05-09 21:31:05', '2024-05-09 21:32:04'),
+(134, NULL, 'Oficial Combatente Temporário - Artilharia', 'OCT Art', 'SIM', '2024-05-09 21:31:38', '2024-05-09 21:31:56'),
+(135, NULL, 'Oficial Combatente Temporário - Comunicações', 'OCT Com', 'SIM', '2024-05-09 21:31:49', '2024-05-09 21:32:00'),
+(136, NULL, 'Sargento Combatente Temporário', 'SCT', 'SIM', '2024-05-09 21:32:48', '2024-05-09 21:34:42'),
+(137, NULL, 'Sargento Combatente Temporário - Infantaria', 'SCT Inf', 'SIM', '2024-05-09 21:33:01', '2024-05-09 21:34:55'),
+(138, NULL, 'Sargento Combatente Temporário - Cavalaria', 'SCT Cav', 'SIM', '2024-05-09 21:33:31', '2024-05-09 21:35:07'),
+(139, NULL, 'Sargento Combatente Temporário - Artilharia', 'SCT Art', 'SIM', '2024-05-09 21:33:53', '2024-05-09 21:34:45'),
+(140, NULL, 'Sargento Combatente Temporário - Engenharia', 'SCT Eng', 'SIM', '2024-05-09 21:34:23', '2024-05-09 21:34:52'),
+(141, NULL, 'Sargento Combatente Temporário - Comunicações', 'SCT Com', 'SIM', '2024-05-09 21:34:38', '2024-05-09 21:35:10');
 
 -- --------------------------------------------------------
 
@@ -6601,7 +6611,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de tabela `funcaos`
 --
 ALTER TABLE `funcaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `menus`
@@ -6649,7 +6659,7 @@ ALTER TABLE `preferencias`
 -- AUTO_INCREMENT de tabela `qualificacaos`
 --
 ALTER TABLE `qualificacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=129;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
 
 --
 -- AUTO_INCREMENT de tabela `religiaos`
@@ -6717,3 +6727,7 @@ ALTER TABLE `preferencias`
 ALTER TABLE `secaos`
   ADD CONSTRAINT `organizacao_tem_secaos` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 COMMIT;
+
+/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
+/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
+/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

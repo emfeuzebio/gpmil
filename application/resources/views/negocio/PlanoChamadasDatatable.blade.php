@@ -199,8 +199,8 @@
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     {"data": "id", "name": "pessoas.id", "class": "dt-right", "title": "#"},
-                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left", "title": "P/Grad"},                    
-                    {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Pessoa"},
+                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P/Grad"},                    
+                    {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left font-weight-bold", "title": "Pessoa"},
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                     {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
                     {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Compl"},

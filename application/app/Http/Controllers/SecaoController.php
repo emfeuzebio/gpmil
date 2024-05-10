@@ -31,7 +31,7 @@ class SecaoController extends Controller
         if(request()->ajax()) {
 
             return FacadesDataTables::eloquent(Secao::select(['secaos.*']))
-                ->filter(function ($query) { $query->where('id', '>', "1");}, true)        
+                ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
                 ->addIndexColumn()
                 ->make(true);        
         }

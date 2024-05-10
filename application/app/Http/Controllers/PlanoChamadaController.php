@@ -61,20 +61,20 @@ class PlanoChamadaController extends Controller
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             // Admin, Cmt e Enc Pes vem todos registros da OM
-            $secoes = $this->Secao->all()->sortBy('descricao');
+            $secoes = $this->Secao->all()->sortBy('id');
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '>=';
             $arrFiltro['valor'] = '1';
 
         } elseif(in_array($this->userNivelAcessoID,[4,5])) {
             // Ch Seç e Sgtte vem todos registros da Seção
-            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('id')->get();
             $arrFiltro['coluna'] = 'pessoas.secao_id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userSecaoID;
         } else {
             // Usuário vê apenas seus registro pessoa_id', '=', $userID
-            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('id')->get();
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userID;
