@@ -337,6 +337,11 @@ return [
             'icon' => 'fas fa-map-marked-alt',
             'url' => 'mapa_forca',
         ],
+        [
+            'text' => 'Pessoas',
+            'icon' => 'fas fa-user',
+            'url' => 'pessoas',
+        ],        
         // [
         //     'text' => 'Login DGP',
         //     'url' => 'login_dgp',

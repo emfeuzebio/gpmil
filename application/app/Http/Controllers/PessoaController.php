@@ -53,9 +53,32 @@ class PessoaController extends Controller
         $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
+        // filtros aplicados segundo o níve de acesso
+        if(in_array($this->userNivelAcessoID,[1,2,3])) {
+            // Admin, Cmt e Enc Pes vem todos registros da OM
+            $arrFiltro['coluna'] = 'pessoas.id';
+            $arrFiltro['operador'] = '>=';
+            $arrFiltro['valor'] = '1';
+
+        } elseif(in_array($this->userNivelAcessoID,[4,5])) {
+            // Ch Seç e Sgtte vem todos registros da Seção
+            $arrFiltro['coluna'] = 'pessoas.secao_id';
+            $arrFiltro['operador'] = '=';
+            $arrFiltro['valor'] = $this->userSecaoID;
+        } else {
+            // Usuário vê apenas seus registro id', '=', $userID
+            $arrFiltro['coluna'] = 'pessoas.id';
+            $arrFiltro['operador'] = '=';
+            $arrFiltro['valor'] = $this->userID;
+        }
+
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])->with('pgrad','qualificacao','secao','funcao','nivel_acesso')->orderBy('pgrad_id')->orderBy('nome_completo'))
+            return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])
+                    ->with('pgrad','qualificacao','secao','funcao','nivel_acesso')
+                    ->orderBy('pgrad_id')->orderBy('nome_completo')
+                    ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
+                )
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
@@ -67,13 +90,11 @@ class PessoaController extends Controller
                 ->make(true);        
         }
 
-
         $pgrads = $this->Pgrad->all()->sortBy('id');
         $qualificacaos = $this->Qualificacao->all()->sortBy('sigla');
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
-
         // dd($funcaos);
 
         return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos]);
@@ -82,20 +103,22 @@ class PessoaController extends Controller
     protected function getActionColumn($row): string
     {
         $actions = '';
-        $btnEditar  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-primary btn-sm mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
-        $btnVer  = '<button data-id="' . $row->id . '" class="btnEditar btn btn-info btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
-        $btnExcluir = '<button data-id="' .$row->id . '" class="btnExcluir btn btn-danger btn-sm btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+        $btnEditar  =   '<button data-id="' . $row->id . '" class="btnEditar  btn btn-primary btn-xs mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
+        $btnVer  =      '<button data-id="' . $row->id . '" class="btnEditar  btn btn-info    btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
+        $btnExcluir =   '<button data-id="' . $row->id . '" class="btnExcluir btn btn-danger  btn-xs btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
 
-        // btn Editar disponível apenas para Admin, EncPes, Sgtte ou User dono
-        if(in_array($this->userNivelAcessoID,[1,6])) {
+        // btn Editar disponível para Admin, EncPes, Sgtte ou User dono
+        if(in_array($this->userNivelAcessoID,[1,3,5,6])) {
             $actions .= $btnEditar;
         }
 
+        // btn Excluir apenas disponível para Admin
         if(in_array($this->userNivelAcessoID,[1])) {
             $actions .= $btnExcluir;
         }
 
-        if(in_array($this->userNivelAcessoID,[2,3,4,5])) {
+        // btn Ver disponível para Cmt e Ch Sec
+        if(in_array($this->userNivelAcessoID,[2,4])) {
             $actions .= $btnVer;
         }
 

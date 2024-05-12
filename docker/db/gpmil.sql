@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: db:3306
--- Tempo de geração: 10/05/2024 às 00:55
+-- Tempo de geração: 12/05/2024 às 23:56
 -- Versão do servidor: 8.4.0
 -- Versão do PHP: 8.2.17
 
@@ -51,13 +51,14 @@ CREATE TABLE `apresentacaos` (
 --
 
 INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `boletim_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 2, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(2, 1, 2, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(1, 1, 9, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
+(2, 1, 9, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
 (3, 2, 2, 2, '(61) 98656-5656', NULL, 'SIM', NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', 2, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
 (6, 2, 2, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, '2024-04-13', '2024-04-20', 'hhhhhh', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(10, 1, 2, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(10, 1, 9, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
 (12, 6, 2, 3, '(54) 54564-5645', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Nesta', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(14, 5, 2, 3, '(95) 98989-8989', NULL, 'SIM', NULL, '2024-01-01', '2024-05-03', 'RJO', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24');
+(14, 5, 2, 3, '(95) 98989-8989', NULL, 'SIM', NULL, '2024-01-01', '2024-05-03', 'RJO', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
+(15, 6, 12, 3, '(61) 95985-9898', NULL, 'NÃO', NULL, '2024-06-01', '2024-06-08', 'ggggg', NULL, '2024-05-11 21:29:55', '2024-05-11 21:29:55');
 
 -- --------------------------------------------------------
 
@@ -203,8 +204,24 @@ CREATE TABLE `funcaos` (
 --
 
 INSERT INTO `funcaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Chefe da Assessoria de Tecnologia de Informação', 'Ch ATI', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Adjunto', 'Adj', 'NÃO', '2024-05-09 21:11:09', '2024-05-09 21:11:09');
+(1, 'Diretor', 'Dir', 'SIM', '2024-05-09 11:31:26', '2024-05-10 09:47:19'),
+(2, 'Subdiretor', 'SDir', 'SIM', '2024-05-09 11:35:37', '2024-05-10 09:47:11'),
+(3, 'Assistente-Secretário', 'Assist Sect', 'SIM', '2024-05-09 13:35:25', '2024-05-10 09:44:21'),
+(4, 'Auxiliar do Estado-Maior Pessoal', 'Aux EMP', 'SIM', '2024-05-09 13:35:57', '2024-05-10 09:10:13'),
+(5, 'Adjunto de Comando', 'Adj Cmdo', 'SIM', '2024-05-09 12:52:22', '2024-05-09 13:25:45'),
+(6, 'Chefe de Agência', 'Ch Age', 'SIM', '2024-05-09 13:38:12', '2024-05-10 09:10:17'),
+(7, 'Ajudante Geral', 'Aj G', 'SIM', '2024-05-09 10:21:07', '2024-05-09 13:27:20'),
+(8, 'Chefe de Assessoria', 'Ch Asse', 'SIM', '2024-01-01 00:00:00', '2024-05-09 13:28:48'),
+(9, 'Chefe de Seção', 'Ch Seç', 'SIM', '2024-05-09 10:32:28', '2024-05-09 13:29:18'),
+(10, 'Chefe', 'Ch', 'SIM', '2024-05-10 09:49:24', '2024-05-10 10:04:41'),
+(11, 'Adjunto de Assessoria', 'Adj Asse', 'SIM', '2024-05-09 13:01:19', '2024-05-09 13:28:25'),
+(12, 'Adjunto de Seção', 'Adj Seç', 'SIM', '2024-05-09 12:57:43', '2024-05-09 13:26:36'),
+(13, 'Secretário', 'Sect', 'SIM', '2024-05-09 11:01:50', '2024-05-09 13:30:22'),
+(14, 'Encarregado de Material', 'Enc Mat', 'SIM', '2024-05-09 10:50:53', '2024-05-09 13:32:00'),
+(15, 'Sargenteante', 'Sgtte', 'SIM', '2024-05-09 11:03:41', '2024-05-09 13:32:56'),
+(16, 'Auxiliar', 'Aux', 'SIM', '2024-05-09 10:23:09', '2024-05-09 12:45:30'),
+(17, 'Estafeta', 'Estf', 'SIM', '2024-05-10 09:48:07', '2024-05-10 10:04:46'),
+(18, 'Motorista', 'Mot', 'SIM', '2024-05-10 09:46:27', '2024-05-10 09:46:34');
 
 -- --------------------------------------------------------
 
@@ -5989,6 +6006,7 @@ CREATE TABLE `pessoas` (
   `pgrad_id` int UNSIGNED NOT NULL,
   `qualificacao_id` int UNSIGNED NOT NULL,
   `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
+  `funcao_id` int UNSIGNED DEFAULT NULL,
   `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
   `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Ativa',
   `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
@@ -6014,7 +6032,6 @@ CREATE TABLE `pessoas` (
   `segmento` enum('Masculino','Feminino') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Masculino',
   `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Bélica',
   `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `funcao_id` int UNSIGNED DEFAULT NULL,
   `dt_praca` date DEFAULT NULL,
   `dt_apres_gu` date DEFAULT NULL,
   `dt_apres_om` date DEFAULT NULL,
@@ -6028,13 +6045,13 @@ CREATE TABLE `pessoas` (
 -- Despejando dados para a tabela `pessoas`
 --
 
-INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `funcao_id`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 15, 61, 9, 'SIM', 'Ativa', NULL, 'Emerson Flávio Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '342271773-00', '1972-08-11', NULL, 'Apto 408', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 2, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:11:25'),
-(2, 1, 2, 2, 12, 2, 4, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
-(3, 1, 3, 3, 13, 46, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, 'Apto 59852', 'Arapoanga (Planaltina)', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:25:59'),
-(4, 1, 4, 4, 15, 129, 12, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020_-__', NULL, NULL, 'Apto 501', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:15'),
-(5, 1, 5, 5, 22, 121, 12, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:46'),
-(6, 1, 6, 6, 42, 127, 12, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, 1, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:24:57');
+INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `funcao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 15, 61, 9, 11, 'SIM', 'Ativa', NULL, 'Emerson Flávio Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '342271773-00', '1972-08-11', NULL, 'Apto 408', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-12 19:57:56'),
+(2, 1, 2, 2, 12, 2, 4, 1, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
+(3, 1, 3, 3, 13, 46, 1, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, 'Apto 59852', 'Arapoanga (Planaltina)', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:25:59'),
+(4, 1, 4, 4, 15, 129, 12, 1, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020_-__', NULL, NULL, 'Apto 501', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:15'),
+(5, 1, 5, 5, 22, 121, 9, 8, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-11 21:31:53'),
+(6, 1, 6, 6, 42, 127, 12, 1, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:24:57');
 
 -- --------------------------------------------------------
 
@@ -6112,9 +6129,9 @@ CREATE TABLE `preferencias` (
 INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updated_at`) VALUES
 (1, 0, 1, '2024-01-01 00:00:00', '2024-05-09 21:46:41'),
 (2, 0, 2, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 0, 3, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 0, 4, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 0, 5, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 0, 3, '2024-01-01 00:00:00', '2024-05-12 20:12:12'),
+(4, 0, 4, '2024-01-01 00:00:00', '2024-05-12 20:06:15'),
+(5, 0, 5, '2024-01-01 00:00:00', '2024-05-11 21:30:47'),
 (6, 0, 6, '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
@@ -6390,12 +6407,12 @@ CREATE TABLE `users` (
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'vWJjooB5J4alf7w9WtwGXc11JblFq7kgmIbDfFrGpGxAfTdQ4CvryPbSXQL5', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', '5bCYNQwBURlWDQtGQo6c5PfrstMO1IW2dHJ43peBSqJ1A3Kykf2Fabvost6K', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'Fc9M9kksKwEA8sZWGUbYh3G27dTETDn5JtOp6qb25W0ZDtobwcM6Mu8KVWAu', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'HgG5LOsn9njmvioV2ULBCeuHvCL5g0NZ9h4Jz92h752AO6JTqf0rFP1ySfSO', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'guKKafmnjeTZlVLsMC9Ln30BMqpZvnU5uv9WX9e51QaHfaLQ5uBShcSIj7Cv', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'GJ5Cn2qzIMlzVPaxcwKYvqit1LQ2kFNCZQGqXsvoSJwiaIa7pFdi7ZAwHxGy', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'OSUvzDAer7fLw9RZsHAqmZzK6t9D4PpyKIFsxRDCbYBG6TkAUughoCq1kWNG', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'xWDYIcB5trugP9JFZopfmgd1WWPTDdcxbB6UEMP9kckZ4RRLmqxzQcXU2Xuk', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'EQ7IXqwkFBRiw8QIWxOgolxucVumcqlW9fxY4UcSfY09iqX5IyCyIPNARBSQ', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'mKG8zVONQ9XIJ7JeMmyCfm22RF1wl0IBPQp06LrdT2hYXeEHTndHwLy5AjVV', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', '7RW1C3UMIeRanXRGXf8cg4sDqEC7OJBQXyHGJkOM4vn3eDzpnl1rONVOvCnn', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'LzaMD2qAHFr1y384w2iQR0q38ydkfuYkFkBLmUQcV7vigvSXdm9iiU4EtYhH', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 --
 -- Índices para tabelas despejadas
@@ -6581,7 +6598,7 @@ ALTER TABLE `users`
 -- AUTO_INCREMENT de tabela `apresentacaos`
 --
 ALTER TABLE `apresentacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `boletins`
@@ -6611,7 +6628,7 @@ ALTER TABLE `failed_jobs`
 -- AUTO_INCREMENT de tabela `funcaos`
 --
 ALTER TABLE `funcaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
 
 --
 -- AUTO_INCREMENT de tabela `menus`
@@ -6702,12 +6719,13 @@ ALTER TABLE `apresentacaos`
 -- Restrições para tabelas `pessoas`
 --
 ALTER TABLE `pessoas`
-  ADD CONSTRAINT `funcao_tem_pessoas` FOREIGN KEY (`funcao_id`) REFERENCES `funcaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `funcao_pertence_uma_pessoa` FOREIGN KEY (`funcao_id`) REFERENCES `funcaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `municipio_tem_pessoas` FOREIGN KEY (`municipio_id`) REFERENCES `municipios` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `nivel_acessos_tem_pessoas` FOREIGN KEY (`nivelacesso_id`) REFERENCES `nivel_acessos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `organizacao_tem_pessoas` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `pgrad_tem_pessoas` FOREIGN KEY (`pgrad_id`) REFERENCES `pgrads` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `secao_tem_pessoas` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
 --
 -- Restrições para tabelas `pgrads`

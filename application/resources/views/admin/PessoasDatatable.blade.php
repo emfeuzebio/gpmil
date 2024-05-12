@@ -315,8 +315,8 @@
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "qualificacao", "name": "qualificacao.sigla", "class": "dt-left", "title": "QM"},
                     {"data": "nome_completo", "name": "pessoas.nome_completo", "class": "dt-left", "title": "Nome Completo" },
-                    {"data": "funcao.sigla", "name": "funcao.sigla", "class": "dt-left", "title": "Seção"},
-                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Função"},
+                    {"data": "funcao.sigla", "name": "funcao.sigla", "class": "dt-left", "title": "Função"},
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                     {"data": "ativo", "name": "pessoas.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
                     },

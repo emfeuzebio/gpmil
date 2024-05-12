@@ -26,10 +26,9 @@ class FuncaoController extends Controller
             abort(403, 'Usuário não autorizado!');
         }        
 
-
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Funcao::select(['funcaos.*']))
+            return FacadesDataTables::eloquent(Funcao::select(['funcaos.*'])->orderBy('id'))
                 ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
                 ->addIndexColumn()
                 ->make(true);        
