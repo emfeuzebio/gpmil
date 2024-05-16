@@ -81,7 +81,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">P / G <span style="color: red">*</span></label>
-                                <select name="pgrad_id" id="pgrad_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Posto / Graduação!">
+                                <select name="pgrad_id" id="pgrad_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Posto / Graduação!" @can('soVer') disabled @endcan>
                                     @foreach( $pgrads as $pgrad )
                                     <option value="{{$pgrad->id}}">{{$pgrad->sigla}}</option>
                                     @endforeach
@@ -91,7 +91,7 @@
                             
                             <div class="form-group">
                                 <label class="form-label">QM <span style="color: red">*</span></label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
+                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar" @can('soVer') disabled @endcan>
                                     @foreach( $qualificacaos as $qualificacao )
                                     <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
                                     @endforeach
@@ -101,7 +101,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Linha de Ensino Militar</label>
-                                <select class="form-control selectpicker" data-live-search="true" name="lem" id="lem" placeholder="" data-toggle="tooltip" data-placement="top" title="Linha de Ensino Militar">
+                                <select class="form-control selectpicker" data-live-search="true" name="lem" id="lem" placeholder="" data-toggle="tooltip" data-placement="top" title="Linha de Ensino Militar" @can('soVer') disabled @endcan>
                                     <option value="Bélica">Bélica</option>
                                     <option value="Técnica">Técnica</option>
                                     <option value="Civil">Civil</option>
@@ -111,37 +111,37 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nome Completo <span style="color: red">*</span></label>
-                                <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite seu nome" data-toggle="tooltip" data-placement="top" title="Nome Completo!" >
+                                <input class="form-control" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite seu nome" data-toggle="tooltip" data-placement="top" title="Nome Completo!" @can('soVer') disabled @endcan>
                                 <div id="error-nome_completo" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
                                 <label class="form-label">Nome de Guerra <span style="color: red">*</span></label>
-                                <input class="form-control" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite seu nome de guerra" data-toggle="tooltip" data-placement="top" title="Nome de Guerra!" >
+                                <input class="form-control" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite seu nome de guerra" data-toggle="tooltip" data-placement="top" title="Nome de Guerra!" @can('soVer') disabled @endcan>
                                 <div id="error-nome_guerra" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">CPF <span style="color: red">*</span></label>
-                                <input class="form-control" value="" type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" data-toggle="tooltip" data-placement="top" title="CPF!" >
+                                <input class="form-control" value="" type="text" id="cpf" name="cpf" placeholder="Digite seu CPF" data-toggle="tooltip" data-placement="top" title="CPF!" @can('soVer') disabled @endcan>
                                 <div id="error-cpf" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Identidade <span style="color: red">*</span></label>
-                                <input class="form-control" value="" type="text" id="idt" name="idt" placeholder="Digite sua Identidade" data-toggle="tooltip" data-placement="top" title="Identidade!" >
+                                <input class="form-control" value="" type="text" id="idt" name="idt" placeholder="Digite sua Identidade" data-toggle="tooltip" data-placement="top" title="Identidade!" @can('soVer') disabled @endcan>
                                 <div id="error-idt" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Prec CP</label>
-                                <input class="form-control" value="" type="text" id="preccp" name="preccp" placeholder="Digite seu" data-toggle="tooltip" data-placement="top" title="Prec-CP!">
+                                <input class="form-control" value="" type="text" id="preccp" name="preccp" placeholder="Digite seu" data-toggle="tooltip" data-placement="top" title="Prec-CP!" @can('soVer') disabled @endcan>
                                 <div id="error-preccp" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Email</label>
-                                <input class="form-control" value="" type="email" id="email" name="email" placeholder="Digite seu E-mail" data-toggle="tooltip" data-placement="top" title="E-mail!" >
+                                <input class="form-control" value="" type="email" id="email" name="email" placeholder="Digite seu E-mail" data-toggle="tooltip" data-placement="top" title="E-mail!" @can('soVer') disabled @endcan>
                                 <div id="error-email" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                         </div>
@@ -149,56 +149,45 @@
                         <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Data de Nascimento</label>
-                                <input class="form-control" value="" type="date" lang="pt-BR" id="dt_nascimento" name="dt_nascimento" placeholder="Digite sua data de nascimento" data-toggle="tooltip" data-placement="top" title="Data de Nascimento!" >
+                                <input class="form-control" value="" type="date" lang="pt-BR" id="dt_nascimento" name="dt_nascimento" placeholder="Digite sua data de nascimento" data-toggle="tooltip" data-placement="top" title="Data de Nascimento!" @can('soVer') disabled @endcan>
                                 <div id="error-dt_nascimento" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data de Apresentação na OM</label>
-                                <input class="form-control" value="" type="date" id="dt_apres_om" name="dt_apres_om" placeholder="Digite sua data de apresentação na OM" data-toggle="tooltip" data-placement="top" title="Apresentação na OM!" >
+                                <input class="form-control" value="" type="date" id="dt_apres_om" name="dt_apres_om" placeholder="Digite sua data de apresentação na OM" data-toggle="tooltip" data-placement="top" title="Apresentação na OM!" @can('soVer') disabled @endcan>
                                 <div id="error-dt_apres_om" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data de Apresentação na Guarnição</label>
-                                <input class="form-control" value="" type="date" id="dt_apres_gu" name="dt_apres_gu" placeholder="Digite sua data de apresentação na Guarnição" data-toggle="tooltip" data-placement="top" title="Apresentação na Guarnição!" >
+                                <input class="form-control" value="" type="date" id="dt_apres_gu" name="dt_apres_gu" placeholder="Digite sua data de apresentação na Guarnição" data-toggle="tooltip" data-placement="top" title="Apresentação na Guarnição!" @can('soVer') disabled @endcan>
                                 <div id="error-dt_apres_gu" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data da Última Promoção</label>
-                                <input class="form-control" value="" type="date" id="dt_ult_promocao" name="dt_ult_promocao" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="Última Promoção!" >
+                                <input class="form-control" value="" type="date" id="dt_ult_promocao" name="dt_ult_promocao" placeholder="Digite a data da sua última promoção" data-toggle="tooltip" data-placement="top" title="Última Promoção!" @can('soVer') disabled @endcan>
                                 <div id="error-dt_ult_promocao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
-                            <div class="form-group">    
-                                <label class="form-label">Segmento</label>
-                                <div class="form-check">
+                            <div class="form-group" style="display: flex;">
+                                <label class="form-label" style="margin-right: 20px;">Segmento</label>
+                                <div class="form-check" style="margin-right: 20px;" >
                                     <label class="form-check-label" for="segmentoM">
-                                        <input class="form-check-input" type="radio" id="segmentoM" value="Masculino" name="segmento">Masculino
+                                        <input class="form-check-input" type="radio" id="segmentoM" value="Masculino" name="segmento" @can('soVer') disabled @endcan>Masculino
                                     </label>
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label" for="segmentoF">
-                                        <input class="form-check-input" type="radio" id="segmentoF" value="Feminino" name="segmento">Feminino
+                                        <input class="form-check-input" type="radio" id="segmentoF" value="Feminino" name="segmento" @can('soVer') disabled @endcan>Feminino
                                     </label>
                                 </div>
-                                <div id="error-segmento" class="invalid-feedback" style="display: none;"></div>
                             </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Seção <span style="color: red">*</span></label>
-                                <select name="secao_id" id="secao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Seção">
-                                    @foreach( $secaos as $secao )
-                                    <option value="{{$secao->id}}">{{$secao->sigla}}</option>
-                                    @endforeach
-                                </select>
-                                <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
+                            
                             <div class="form-group">
                                 <label class="form-label">Função</label>
-                                <select name="funcao_id" id="funcao_id" class="form-control selectpicker" data-live-search="true" data-toggle="toolip" data-placement="top" title="Selecione a função">
+                                 <select name="funcao_id" id="funcao_id" class="form-control selectpicker" data-live-search="true" data-toggle="toolip" data-placement="top" title="Selecione a função" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
                                     @foreach( $funcaos as $funcao)
                                     <option value="{{$funcao->id}}">{{$funcao->sigla}}</option>
                                     @endforeach
@@ -207,8 +196,19 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="form-label">Seção <span style="color: red">*</span></label>
+                                <select name="secao_id" id="secao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Seção" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
+                                    @foreach( $secaos as $secao )
+                                    <option value="{{$secao->id}}">{{$secao->sigla}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
+
+                            <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
-                                <select class="form-control selectpicker" name="status" id="status" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!">
+                                <select class="form-control selectpicker" name="status" id="status" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Selecione o Status!" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     <option value="Ativa">Ativa</option>
                                     <option value="Reserva">Reserva</option>
                                     <option value="Civil">Civil</option>
@@ -218,7 +218,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nível Acesso</span></label>
-                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar">
+                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip" data-placement="top" title="Quadro Militar" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     @foreach( $nivel_acessos as $nivel_acesso )
                                     <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
                                     @endforeach
@@ -230,7 +230,7 @@
                                 <label class="form-label">Ativo</label>
                                 <div class="form-check">
                                     <label class="form-label" for="ativo">
-                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO"  @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     </label>
                                 </div>
                                 <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
@@ -242,7 +242,9 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                    @can('podeSalvarPessoa')
                     <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    @endcan
                 </div>
             </div>
             
@@ -336,6 +338,22 @@
                 }
             }
 
+            function getStatusValue() {
+                return $('#status').val();
+            }
+
+            function getSecaoValue() {
+                return $('#secao_id').val();
+            }
+
+            function getFuncaoValue() {
+                return $('#funcao_id').val();
+            }
+
+            function getNivelAcessoValue() {
+                return $('nivelacesso_id').val();
+            }
+
             /*
             * Delete button action
             */
@@ -363,12 +381,16 @@
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#datatables').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         }
                     });
                     $('#confirmaExcluirModal').modal('hide');            
                 });
 
-            });           
+            });
 
             /*
             * Edit button action
@@ -401,14 +423,22 @@
                         $('#cpf').val(data.cpf);
                         $('#idt').val(data.idt);
                         $('#status').selectpicker('val', data.status);
+
+                        $('#ativo').prop('disabled', false);
                         if (data.ativo === "SIM") {
                             $('#ativo').bootstrapToggle('on');
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
 
+                        @cannot('is_admin')
+                            @cannot('is_encpes')
+                                $('#ativo').prop('disabled', true);
+                            @endcannot
+                        @endcannot
+
                         $('#email').val(data.email);
-                        // $('#segmento').val(data.segmento);
+
                         if (data.segmento === "Masculino") {
                             $('#segmentoM').prop('checked', true);
                         } else if (data.segmento === "Feminino") {
@@ -417,6 +447,7 @@
                             $('#segmentoM').prop('checked', false);
                             $('#segmentoF').prop('checked', false);
                         }
+
                         $('#preccp').val(data.preccp);
                         $('#dt_nascimento').val(data.dt_nascimento);
                         $('#dt_praca').val(data.dt_praca);
@@ -439,10 +470,14 @@
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
-                
+
                 // Get the values
                 var segmentoValue = getSegmentoValue();
                 var ativoValue = getAtivoValue();
+                var statusValue = getStatusValue();
+                var secaoValue = getSecaoValue();
+                var funcaoValue = getFuncaoValue();
+                var nivelAcessoValue = getNivelAcessoValue();
 
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
@@ -450,6 +485,10 @@
                 // Add the values to formData
                 formData.append('segmento', segmentoValue);
                 formData.append('ativo', ativoValue);
+                formData.append('status', statusValue);
+                formData.append('secao_id', secaoValue);
+                formData.append('funcao_id', funcaoValue);
+                formData.append('nivelacesso_id', nivelAcessoValue);
 
                 //here there are a problem with de serialize the form
                 $.ajax({
@@ -465,6 +504,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador
