@@ -30,6 +30,8 @@ class PessoaRequest extends FormRequest
             'idt' => 'required',            //|unique
             'status' => ['required','in:"Ativa","Reserva","Civil"'],
             'secao_id' => 'required',
+            'nivelacesso_id' => 'required',
+            'funcao_id' => 'required',
             'ativo' => ['required','in:"SIM","NÃO"'],
         ];
     }

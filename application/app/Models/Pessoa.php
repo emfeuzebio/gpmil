@@ -34,7 +34,7 @@ class Pessoa extends Model
         'ativo', 
         'antiguidade', 
         'secao_id', 
-        // 'municipio_id', // ??????????
+        'municipio_id', // ??????????
         'uf', 
         'cep', 
         'endereco',
@@ -44,7 +44,7 @@ class Pessoa extends Model
         'fone_emergencia', 
         'foto',
         'funcao_id',
-        // 'nivelacesso_id'
+        'nivelacesso_id'
     ];
 
     public function pgrad() {
