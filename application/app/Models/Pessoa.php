@@ -33,7 +33,8 @@ class Pessoa extends Model
         // 'user_id', 
         'ativo', 
         'antiguidade', 
-        'secao_id', 
+        'secao_id',
+        'religiao_id',
         'municipio_id', // ??????????
         'uf', 
         'cep', 
@@ -61,6 +62,10 @@ class Pessoa extends Model
 
     public function funcao() {
         return $this->hasOne(Funcao::class, 'id', 'funcao_id');
+    }
+
+    public function religiao() {
+        return $this->hasOne(Religiao::class, 'id', 'religiao_id');
     }
 
     public function nivel_acesso() {

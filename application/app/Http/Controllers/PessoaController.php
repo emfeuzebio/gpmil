@@ -14,6 +14,7 @@ use App\Models\Secao;
 use App\Models\Funcao;
 use App\Models\NivelAcesso;
 use App\Models\User;
+use App\Models\Religiao;
 use Illuminate\Http\Response as HttpResponse;
 
 
@@ -23,11 +24,13 @@ class PessoaController extends Controller
     protected $Pgrad = null;
     protected $Qualificacao = null;
     protected $Secao = null;
+    protected $Religiao = null;
     protected $Funcao = null;
     protected $NivelAcesso = null;
 
     protected $userID = 0;
     protected $userSecaoID = 0;
+    protected $userReligiaoID = 0;
     protected $userFuncaoID = 0;
     protected $userNivelAcessoID = 0;
 
@@ -37,6 +40,7 @@ class PessoaController extends Controller
         $this->Pgrad = new Pgrad();
         $this->Qualificacao = new Qualificacao();
         $this->Secao = new Secao();
+        $this->Religiao = new Religiao();
         $this->Funcao = new Funcao();
         $this->NivelAcesso = new NivelAcesso();
     }
@@ -51,6 +55,7 @@ class PessoaController extends Controller
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
+        $this->userReligiaoID = $user->pessoa->religiao_id;
         $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
@@ -96,9 +101,10 @@ class PessoaController extends Controller
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
-        // dd($funcaos);
+        $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
+        // dd($religiaos);
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos]);
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
     }
 
     protected function getActionColumn($row): string
@@ -177,7 +183,8 @@ class PessoaController extends Controller
             'nome_guerra' => $request->nome_guerra,
             'cpf' => $request->cpf,
             'idt' => $request->idt,
-            'qualificacao_id' => $request->qualificacao_id, 
+            'qualificacao_id' => $request->qualificacao_id,
+            'religiao_id' => $request->religiao_id,
             'organizacao_id' => 1, 
             'lem' => $request->lem, 
             'email' => $request->email, 

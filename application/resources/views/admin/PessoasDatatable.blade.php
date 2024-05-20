@@ -141,13 +141,24 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="form-label">Religião</label>
+                                 <select name="religiao_id" id="religiao_id" class="form-control selectpicker editable" data-live-search="true" data-toggle="toolip"  title="Selecione a religião" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
+                                    @foreach( $religiaos as $religiao)
+                                    <option value="{{$religiao->id}}">{{$religiao->descricao}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="error-religiao_id" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
+                        </div>
+
+                        <div class="col-md-6">
+                            <div class="form-group">
                                 <label class="form-label">Email</label>
                                 <input class="form-control editable" value="" type="email" id="email" name="email" placeholder="Digite o E-mail" data-toggle="tooltip"  title="Informe o E-mail" >
                                 <div id="error-email" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-                        </div>
 
-                        <div class="col-md-6">
                             <div class="form-group">
                                 <label class="form-label">Data de Nascimento</label>
                                 <input class="form-control editable" value="" type="date" lang="pt-BR" id="dt_nascimento" name="dt_nascimento" placeholder="Digite a data de nascimento" data-toggle="tooltip"  title="Informe a Data de Nascimento" >
@@ -405,7 +416,7 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
+                        console.log(data);
                         $('#modalLabel').html('Editar Pessoa');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
@@ -465,6 +476,7 @@
                         $('#pronto_sv').val(data.pronto_sv);
                         $('#foto').val(data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
+                        $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
                         $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
                     }
@@ -507,7 +519,7 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
+                        console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
