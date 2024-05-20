@@ -91,7 +91,7 @@
                             
                             <div class="form-group">
                                 <label class="form-label">Qualificação Militar <span style="color: red">*</span></label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker editable" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione a Qualificação Militar" >
+                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker editable" data-live-search="true" placeholder="" data-toggle="tooltip" title="Selecione a Qualificação Militar" >
                                     @foreach( $qualificacaos as $qualificacao )
                                     <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
                                     @endforeach
@@ -180,7 +180,7 @@
                                     </label>
                                 </div>
                                 <div class="form-check">
-                                    <label class="form-check-label" for="segmentoF" data-toggle="tooltip" title="Masque se for do segmento Feminino">>
+                                    <label class="form-check-label" for="segmentoF" data-toggle="tooltip" title="Masque se for do segmento Feminino">
                                         <input class="form-check-input  editable" type="radio" id="segmentoF" value="Feminino" name="segmento" >Feminino
                                     </label>
                                 </div>
@@ -436,7 +436,7 @@
                         @endcannot
 
                         // se o Usuário for o dono do registro, permite editar e Salvar
-                        if( data.id == {{ Auth::user()->id }} ) {
+                        if( data.id == {{ Auth::user()->id }} || data.user_nivelacesso_id == 1 || data.user_nivelacesso_id == 3) {
                             $('.editable').prop('disabled', false);
                             $('#btnSave').show();
                         } else {
