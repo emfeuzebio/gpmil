@@ -6529,6 +6529,7 @@ ALTER TABLE `pessoas`
   ADD KEY `pessoa_organizacao_id_key` (`organizacao_id`),
   ADD KEY `pessoa_secao_id_key` (`secao_id`),
   ADD KEY `pessoa_funcao_id_key` (`funcao_id`),
+  ADD KEY `pessoa_religiao_id_key` (`religiao_id`),
   ADD KEY `pessoa_municipio_id_key` (`municipio_id`),
   ADD KEY `pessoa_nivelacesso_id_key` (`nivelacesso_id`),
   ADD KEY `pessoa_user_id_key` (`user_id`);
@@ -6724,6 +6725,7 @@ ALTER TABLE `pessoas`
   ADD CONSTRAINT `nivel_acessos_tem_pessoas` FOREIGN KEY (`nivelacesso_id`) REFERENCES `nivel_acessos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `organizacao_tem_pessoas` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `pgrad_tem_pessoas` FOREIGN KEY (`pgrad_id`) REFERENCES `pgrads` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
+  ADD CONSTRAINT `religiao_tem_pessoas` FOREIGN KEY (`religiao_id`) REFERENCES `religiaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
   ADD CONSTRAINT `secao_tem_pessoas` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
 
