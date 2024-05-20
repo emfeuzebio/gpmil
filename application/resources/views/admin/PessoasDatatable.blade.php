@@ -143,8 +143,8 @@
                             <div class="form-group">
                                 <label class="form-label">Religião</label>
                                  <select name="religiao_id" id="religiao_id" class="form-control selectpicker editable" data-live-search="true" data-toggle="toolip"  title="Selecione a religião" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
-                                    @foreach( $religiaos as $religia)
-                                    <option value="{{$religia->id}}">{{$religia->descricao}}</option>
+                                    @foreach( $religiaos as $religiao)
+                                    <option value="{{$religiao->id}}">{{$religiao->descricao}}</option>
                                     @endforeach
                                 </select>
                                 <div id="error-religiao_id" class="error invalid-feedback" style="display: none;"></div>
@@ -355,10 +355,6 @@
                 return $('#secao_id').val();
             }
 
-            function getReligiaoValue() {
-                return $('religiao_id').val();
-            }
-
             function getFuncaoValue() {
                 return $('#funcao_id').val();
             }
@@ -420,7 +416,7 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
+                        console.log(data);
                         $('#modalLabel').html('Editar Pessoa');
                         $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
                         $('#form-group-id').show();
@@ -500,7 +496,6 @@
                 var ativoValue = getAtivoValue();
                 var statusValue = getStatusValue();
                 var secaoValue = getSecaoValue();
-                var religiaoValue = getReligiaoValue();
                 var funcaoValue = getFuncaoValue();
                 var nivelAcessoValue = getNivelAcessoValue();
 
@@ -512,7 +507,6 @@
                 formData.append('ativo', ativoValue);
                 formData.append('status', statusValue);
                 formData.append('secao_id', secaoValue);
-                formData.append('religiao_id', religiaoValue);
                 formData.append('funcao_id', funcaoValue);
                 formData.append('nivelacesso_id', nivelAcessoValue);
 
@@ -525,7 +519,7 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
+                        console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');

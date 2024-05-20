@@ -55,7 +55,7 @@ class PessoaController extends Controller
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
-        $this->userReligiaoID = $user->pessoa->religia_id;
+        $this->userReligiaoID = $user->pessoa->religiao_id;
         $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
@@ -101,8 +101,8 @@ class PessoaController extends Controller
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
-        $religiaos = $this->Religiao->all()->sortBy('id');
-        // dd($funcaos);
+        $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
+        // dd($religiaos);
 
         return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
     }
