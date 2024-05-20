@@ -136,6 +136,8 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
+        $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
+        $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
         return Response()->json($Pessoa);
     }    
 
@@ -162,7 +164,7 @@ class PessoaController extends Controller
                 'ativo' => $request->ativo,
                 'nivelacesso_id' => $request->nivelacesso_id
             ];
-        } elseif (in_array($this->userNivelAcessoID,[5])) {
+        } elseif (in_array($this->userNivelAcessoID,[5]) || $request->id == $user->id) {
             $dadosRestritos = ['funcao_id' => $request->funcao_id];
         } else {
             $dadosRestritos = [];
