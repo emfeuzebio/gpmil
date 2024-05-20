@@ -156,7 +156,11 @@
             });
 
             //ativa o tooltip nas páginas
-            $('body').tooltip({selector: '[data-toggle="tooltip"]'});
+            //FAZER tooltip ser acionado no Checkbox ATIVO e nos buttons que parou de funcionar ao incluir os selectpicker
+
+            $('body').tooltip({ selector: '[data-toggle="tooltip"]'});  //Original - Tudo OK menos selectpicker
+            // $('body').tooltip({ selector: '[data-toggle="tooltip"], [data-toggle="dropdown"]'});
+            // $('[data-toggle="tooltip"], [data-toggle="dropdown"], [data-toggle="tooltip"] + .bootstrap-select > button').tooltip({ container: 'body' });
 
             // ativa autofocus automático sempre no primeiro input dentro do modal
             $(document).on('shown.bs.modal', function (e) {

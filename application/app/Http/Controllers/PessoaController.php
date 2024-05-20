@@ -104,9 +104,9 @@ class PessoaController extends Controller
     protected function getActionColumn($row): string
     {
         $actions = '';
-        $btnEditar  =   '<button data-id="' . $row->id . '" class="btnEditar  btn btn-primary btn-xs mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
-        $btnVer  =      '<button data-id="' . $row->id . '" class="btnEditar  btn btn-info    btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
-        $btnExcluir =   '<button data-id="' . $row->id . '" class="btnExcluir btn btn-danger  btn-xs btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+        $btnEditar  = '<button data-id="' . $row->id . '" class="btnEditar  btn btn-primary btn-xs mr-1" data-toggle="tooltip" title="Editar o registro atual">Editar</button>';
+        $btnVer     = '<button data-id="' . $row->id . '" class="btnEditar  btn btn-info    btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
+        $btnExcluir = '<button data-id="' . $row->id . '" class="btnExcluir btn btn-danger  btn-xs btn-sm mr-1" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
 
         // btn Editar disponível para Admin, EncPes, Sgtte ou User dono
         if(in_array($this->userNivelAcessoID,[1,3,5,6])) {
@@ -121,6 +121,7 @@ class PessoaController extends Controller
         // btn Ver disponível para Cmt e Ch Sec
         if(in_array($this->userNivelAcessoID,[2,4])) {
 
+            // btn Editar disponível se o User for o dono da linha
             if($row->user_id == $this->userID) {
                 $actions .= $btnEditar;
             } else {
@@ -146,15 +147,12 @@ class PessoaController extends Controller
 
     public function store(PessoaRequest $request)
     {   
-        // $where = array('id'=>$request->id);
-        // $PessoaOriginal = Pessoa::where($where)->first();
-        // $dadosRestritos = [];
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
         $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
-        
+
         if(in_array($this->userNivelAcessoID,[1,3])) {
             $dadosRestritos = 
             [ 
@@ -189,7 +187,6 @@ class PessoaController extends Controller
             'dt_apres_om' => $request->dt_apres_om, 
             'dt_ult_promocao' => $request->dt_ult_promocao,
             'pronto_sv' => $request->pronto_sv, 
-            // 'user_id',
             'antiguidade' => $request->antiguidade, 
             'endereco' => $request->endereco,
             'cidade' => $request->cidade, 
@@ -200,7 +197,7 @@ class PessoaController extends Controller
             'fone_celular' => $request->fone_celular, 
             'fone_emergencia' => $request->fone_emergencia, 
             'foto' => $request->foto,
-            
+            // 'user_id',           
         ];        
         // dd($dadosRestritos);
         $Pessoa = Pessoa::updateOrCreate(
@@ -209,111 +206,14 @@ class PessoaController extends Controller
             ],
                 array_merge($dadosComuns, $dadosRestritos)
         ); 
+        // FAZER false se for o dono do registro
         
         return Response()->json($Pessoa);
-
-        // $PessoaOriginal = Pessoa::where('id')->first();
-
-        // if(in_array($this->userNivelAcessoID,[1,3])) {
-        //     return Response()->json($Pessoa);
-
-    //  elseif (Auth::user()->id == $Pessoa->id) {
-    //         $Pessoa->secao_id = $PessoaOriginal->secao_id;
-    //         $Pessoa->ativo = $PessoaOriginal->ativo;
-    //         $Pessoa->nivelacesso_id = $PessoaOriginal->nivelacesso_id;
-    //         $Pessoa->status = $PessoaOriginal->status;
-    //         $Pessoa->funcao_id = $PessoaOriginal->funcao_id;
-    
-    //         return Response()->json($Pessoa);
-
-    //     } else {
-    //         return Response()->json(['message' => 'Você não tem permissão para atualizar alguns campos.', 'Pessoa' => $Pessoa]);
-    //     }
-    // }    
-    
-    // public function store(PessoaRequest $request)
-    // {
-    //     if(in_array($this->userNivelAcessoID,[1,3])){
-    //         $Pessoa = Pessoa::updateOrCreate(
-    //             [
-    //                 'id' => $request->id,
-    //             ],
-    //             [
-    //                 'pgrad_id' => $request->pgrad_id,
-    //                 'nome_completo' => $request->nome_completo,
-    //                 'nome_guerra' => $request->nome_guerra,
-    //                 'cpf' => $request->cpf,
-    //                 'idt' => $request->idt,
-    //                 'status' => $request->status,
-    //                 'ativo' => $request->ativo,
-    //                 'qualificacao_id' => $request->qualificacao_id, 
-    //                 'organizacao_id' => 1, 
-    //                 'lem' => $request->lem, 
-    //                 'email' => $request->email, 
-    //                 'segmento' => $request->segmento, 
-    //                 'preccp' => $request->preccp,
-    //                 'dt_nascimento' => $request->dt_nascimento,
-    //                 'dt_praca' => $request->dt_praca,
-    //                 'dt_apres_gu' => $request->dt_apres_gu, 
-    //                 'dt_apres_om' => $request->dt_apres_om, 
-    //                 'dt_ult_promocao' => $request->dt_ult_promocao,
-    //                 'pronto_sv' => $request->pronto_sv, 
-    //                 // 'user_id',
-    //                 'antiguidade' => $request->antiguidade, 
-    //                 'secao_id' => $request->secao_id, 
-    //                 'endereco' => $request->endereco,
-    //                 'cidade' => $request->cidade, 
-    //                 'municipio_id' => $request->municipio_id, 
-    //                 'uf' => $request->uf, 
-    //                 'cep' => $request->cep, 
-    //                 'fone_ramal' => $request->fone_ramal, 
-    //                 'fone_celular' => $request->fone_celular, 
-    //                 'fone_emergencia' => $request->fone_emergencia, 
-    //                 'foto' => $request->foto,
-    //                 'funcao_id' => $request->funcao_id,
-    //                 'nivelacesso_id' => $request->nivelacesso_id
-    //             ]
-    //         );  
-    //     } else {
-    //         $Pessoa = Pessoa::updateOrCreate(
-    //             [
-    //                 'id' => $request->id,
-    //             ],
-    //             [
-    //                 'pgrad_id' => $request->pgrad_id,
-    //                 'nome_completo' => $request->nome_completo,
-    //                 'nome_guerra' => $request->nome_guerra,
-    //                 'cpf' => $request->cpf,
-    //                 'idt' => $request->idt,
-    //                 'qualificacao_id' => $request->qualificacao_id, 
-    //                 'organizacao_id' => 1, 
-    //                 'lem' => $request->lem, 
-    //                 'email' => $request->email, 
-    //                 'segmento' => $request->segmento, 
-    //                 'preccp' => $request->preccp,
-    //                 'dt_nascimento' => $request->dt_nascimento,
-    //                 'dt_praca' => $request->dt_praca,
-    //                 'dt_apres_gu' => $request->dt_apres_gu, 
-    //                 'dt_apres_om' => $request->dt_apres_om, 
-    //                 'dt_ult_promocao' => $request->dt_ult_promocao,
-    //                 'pronto_sv' => $request->pronto_sv, 
-    //                 'antiguidade' => $request->antiguidade,
-    //                 'endereco' => $request->endereco,
-    //                 'cidade' => $request->cidade, 
-    //                 'municipio_id' => $request->municipio_id, 
-    //                 'uf' => $request->uf, 
-    //                 'cep' => $request->cep, 
-    //                 'fone_ramal' => $request->fone_ramal, 
-    //                 'fone_celular' => $request->fone_celular, 
-    //                 'fone_emergencia' => $request->fone_emergencia, 
-    //                 'foto' => $request->foto,
-    //             ]
-    //         );  return Response()->json(['message' => 'Você não tem permissão para atualizar alguns campos.', 'Pessoa' => $Pessoa]);
-    //     }
-        
-    //     return Response()->json($Pessoa);
     }
 
+    /**
+     * Mantido para consulta e estudo
+     */
     public function Select() {  
 
         // Forma de buscar os dados
@@ -336,7 +236,6 @@ class PessoaController extends Controller
         // $generos = DB::select($sql, [12]);
 
         return view('PessoaDatatable',['generos' => $generos]);
- 
-    }    
+     }    
 
 }

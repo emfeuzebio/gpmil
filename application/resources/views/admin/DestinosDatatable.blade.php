@@ -185,11 +185,7 @@
             });
 
             function getAtivoValue() {
-                if ($('input[id="ativo"]:checked').val()) {
-                    return 'SIM';
-                } else {
-                    return 'NÃO';
-                }
+                return $('#ativo:checked').val() ? 'SIM': 'NÃO';
             }
 
             /*

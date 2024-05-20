@@ -26,6 +26,15 @@ class AuthServiceProvider extends ServiceProvider
     public function boot(): void
     {
 
+        /**
+         * Nível de acesso 1 = Administrador - is_admin - Pode tudão inclusive em configurações gerais
+         * Nível de acesso 2 = Comandante - is_cmt - Pode Ver tudão e editar seus dados
+         * Nível de acesso 3 = Enc Pessoal - is_encpes - Pode tudão, com restrições em configurações gerais
+         * Nível de acesso 4 = Ch Seç - is_chsec - Pode Ver tudo do pessoal de sua Seç e editar seus dados
+         * Nível de acesso 5 = Sgtte - is_sgtte - Pode Editar tudo do pessoal de sua Seç e editar seus dados
+         * Nível de acesso 6 = Usuário - is_usuario - Pode apenas Editar seus dados
+         */
+
         Gate::define('is_admin', function (User $user) {
             //carrega o usuário e a pessoa correspondente
             $user = User::with('pessoa')->find(Auth::user()->id);
