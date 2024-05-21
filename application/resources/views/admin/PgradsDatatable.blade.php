@@ -165,7 +165,7 @@
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "sigla", "name": "pgrads.sigla", "class": "dt-left", "title": "Sigla"},
                     {"data": "ativo", "name": "pgrads.ativo", "class": "dt-center", "title": "Ativo",  
-                        render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
+                        render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 

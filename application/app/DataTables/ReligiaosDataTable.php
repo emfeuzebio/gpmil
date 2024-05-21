@@ -18,7 +18,7 @@ class ReligiaosDataTable extends DataTable
     {
         return (new EloquentDataTable($query))
             ->addColumn('ativo', function ($circulo) {
-                return '<span style="color:' . ( $circulo->ativo == 'SIM' ? 'blue' : 'red' ) . '">' . $circulo->ativo . '</span>';
+                return '<span class="' . ( $circulo->ativo == 'SIM' ? 'text-primary' : 'text-danger' ) . '">' . $circulo->ativo . '</span>';
             })            
             ->rawColumns(['ativo'])
             ->setRowId('id');    }
