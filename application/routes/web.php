@@ -19,7 +19,6 @@ use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
-use App\Models\Municipio;
 use Illuminate\Support\Facades\Auth;
 
 /*
@@ -49,19 +48,16 @@ Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipi
 
 Route::get('/religiaos', [ReligiaoController::class, 'index'])->name('religiaos.index');
 
-//Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/pgrads', [PgradController::class, 'index'])->name('home');
 Route::post('pgrads/store', [PgradController::class, 'store'])->name('home');
 Route::post('pgrads/edit', [PgradController::class, 'edit'])->name('home');
 Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home');
 
-//Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/pessoas', [PessoaController::class, 'index'])->name('home');
 Route::post('pessoas/store', [PessoaController::class, 'store'])->name('home');
 Route::post('pessoas/edit', [PessoaController::class, 'edit'])->name('home');
 Route::post('pessoas/destroy', [PessoaController::class, 'destroy'])->name('home');
 
-//Funcionado todo CRUD, apenas com esta entrada todas operações funcioanam
 Route::get('/secaos', [SecaoController::class, 'index'])->name('home');
 Route::post('secaos/store', [SecaoController::class, 'store'])->name('home');
 Route::post('secaos/edit', [SecaoController::class, 'edit'])->name('home');

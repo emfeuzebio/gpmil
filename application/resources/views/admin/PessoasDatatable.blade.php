@@ -288,11 +288,12 @@
 
         $(document).ready(function () {
 
-            $('#cpf').inputmask('999.999.999-99'); //Mascara para CPF
-            $('#idt').inputmask('999999999-9'); //Mascara para Idt  
-            $('#preccp').inputmask('999999999-99'); //Mascara para Prec-CP
+            $('#cpf').inputmask('999.999.999-99');  // máscara para CPF
+            $('#idt').inputmask('999999999-9');     // máscara para Idt  
+            $('#preccp').inputmask('999999999-99'); // máscara para Prec-CP
 
             var id = '';
+            const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
             $.ajaxSetup({
                 headers: {
@@ -324,8 +325,7 @@
                     *                       seguido da coluna a que se deseja fazer a pesquisa
                     *                       no Controller deve estar o mesmo nome de coluna
                     */
-                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P / G"},
-                    // {"data": "action", "name": "", "class": "dt-left", "title": "Ações"},
+                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P/Grad"},
                     {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Nome de Guerra",
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "qualificacao", "name": "qualificacao.sigla", "class": "dt-left", "title": "QM"},
@@ -380,7 +380,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("pessoas/destroy")}}",
@@ -416,11 +415,11 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        console.log(data);
+                        // console.log(data);
                         $('#modalLabel').html('Editar Pessoa');
-                        $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
-                        $('#form-group-id').show();
-                        $('#editarModal').modal('show');         //show the modal
+                        $(".invalid-feedback").text('').hide();     // hide and clen all erros messages on the form
+                        $('#form-group-id').show();                 // show edit form
+                        $('#editarModal').modal('show');            // show the modal
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
@@ -432,41 +431,7 @@
                         $('#cpf').val(data.cpf);
                         $('#idt').val(data.idt);
                         $('#status').selectpicker('val', data.status);
-
-                        $('#ativo').prop('disabled', false);
-                        if (data.ativo === "SIM") {
-                            $('#ativo').bootstrapToggle('on');
-                        } else if (data.ativo === "NÃO") {
-                            $('#ativo').bootstrapToggle('off');
-                        }
-
-                        @cannot('is_admin')
-                            @cannot('is_encpes')
-                                $('#ativo').prop('disabled', true);
-                            @endcannot
-                        @endcannot
-
-                        // se o Usuário for o dono do registro, permite editar e Salvar
-                        if( data.id == {{ Auth::user()->id }} || data.user_nivelacesso_id == 1 || data.user_nivelacesso_id == 3) {
-                            $('.editable').prop('disabled', false);
-                            $('#btnSave').show();
-                        } else {
-                            $('.editable').prop('disabled', true);
-                            $('#btnSave').hide();
-                        }
-                        $('.selectpicker').selectpicker('refresh');
-
                         $('#email').val(data.email);
-
-                        if (data.segmento === "Masculino") {
-                            $('#segmentoM').prop('checked', true);
-                        } else if (data.segmento === "Feminino") {
-                            $('#segmentoF').prop('checked', true);
-                        } else {
-                            $('#segmentoM').prop('checked', false);
-                            $('#segmentoF').prop('checked', false);
-                        }
-
                         $('#preccp').val(data.preccp);
                         $('#dt_nascimento').val(data.dt_nascimento);
                         $('#dt_praca').val(data.dt_praca);
@@ -479,6 +444,36 @@
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
                         $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+
+                        if (data.segmento === "Masculino") {
+                            $('#segmentoM').prop('checked', true);
+                        } else if (data.segmento === "Feminino") {
+                            $('#segmentoF').prop('checked', true);
+                        } else {
+                            $('#segmentoM').prop('checked', false);
+                            $('#segmentoF').prop('checked', false);
+                        }
+
+                        $('#ativo').prop('disabled', false);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
+
+                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
+                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
+                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
+                        $('.selectpicker').selectpicker('refresh');                        
                     }
                 }); 
 
@@ -546,17 +541,19 @@
                 });                
             });
 
+            /*
+            * New Record button action
+            */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
-                //alert('Novo');
 
-                $('#formEntity').trigger('reset');              //clean de form data
-                $('#formEntityR').trigger('reset');              //clean de form data
-                $('#form-group-id').hide();                     //hide ID field
+                $('#formEntity').trigger('reset');              // clean de form data
+                $('#formEntityR').trigger('reset');             // clean de form data
+                $('#form-group-id').hide();                     // hide ID field
                 $('#id').val('');                               // reset ID field
-                $('#modalLabel').html('Nova Pessoa');  //
+                $('#modalLabel').html('Nova Pessoa');           //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
-                $('#editarModal').modal('show');                 // show modal 
+                $('#editarModal').modal('show');                // show modal 
             });
 
             // put the focus on de name field
@@ -575,15 +572,14 @@
         });
 
         function limpa_formulário_cep() {
-            // Limpa valores do formulário de cep.
+            // Limpa valores do formulário de cep
             $("#endereco").val("");
             $("#bairro").val("");
             $("#cidade").val("");
             $("#uf").val("");
-            // $("#ibge").val("");
         }
 
-        //Quando o campo cep perde o foco.
+        //Quando o campo cep perde o foco
         $("#cep").blur(function() {
 
             //Nova variável "cep" somente com dígitos.
@@ -614,9 +610,7 @@
                             $("#bairro").val(dados.bairro);
                             $("#cidade").val(dados.localidade);
                             $("#uf").val(dados.uf);
-                            // $("#ibge").val(dados.ibge);
-                        } //end if.
-                        else {
+                        } else {
                             //CEP pesquisado não foi encontrado.
                             limpa_formulário_cep();
                             alert("CEP não encontrado.");

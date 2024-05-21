@@ -102,7 +102,6 @@ class PessoaController extends Controller
         $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
         $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
-        // dd($religiaos);
 
         return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
     }
@@ -142,24 +141,25 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
-        $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
-        $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
+        // print_r($Pessoa);
+        // dd($Pessoa);
+        // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
+        // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
         return Response()->json($Pessoa);
     }    
 
     public function destroy(Request $request)
-    {        
-        $Livro = Pessoa::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+    {   
+        // somente User nível de acesso Admin pode excluir uma Pessoa
+        if( $this->userNivelAcessoID == 1 ) {
+            $PessoaExcluida = Pessoa::where(['id'=>$request->id])->delete();
+        }
+        return Response()->json($PessoaExcluida);
     }   
 
     public function store(PessoaRequest $request)
     {   
         $user = User::with('pessoa')->find(Auth::user()->id);
-        $this->userID = $user->id;
-        $this->userSecaoID = $user->pessoa->secao_id;
-        $this->userFuncaoID = $user->pessoa->funcao_id;
-        $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
         if(in_array($this->userNivelAcessoID,[1,3])) {
             $dadosRestritos = 
@@ -215,7 +215,6 @@ class PessoaController extends Controller
             ],
                 array_merge($dadosComuns, $dadosRestritos)
         ); 
-        // FAZER false se for o dono do registro
         
         return Response()->json($Pessoa);
     }

@@ -6007,6 +6007,7 @@ CREATE TABLE `pessoas` (
   `qualificacao_id` int UNSIGNED NOT NULL,
   `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
   `funcao_id` int UNSIGNED DEFAULT NULL,
+  `religiao_id` int UNSIGNED DEFAULT NULL,
   `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
   `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Ativa',
   `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
