@@ -336,6 +336,10 @@
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         },
                         error: function (data) {
                             if(data.responseJSON.message.indexOf("1451") != -1) {
@@ -382,6 +386,10 @@
                             $("#boletim_id").val('');
                             $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         },
                         error: function (data) {
                             if(data.responseJSON.message.indexOf("1451") != -1) {
@@ -457,6 +465,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador

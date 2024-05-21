@@ -237,6 +237,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
