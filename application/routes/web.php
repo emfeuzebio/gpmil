@@ -32,7 +32,7 @@ use Illuminate\Support\Facades\Auth;
 |
 */
 
-Route::get('/', function () { return view('/vendor/adminlte/auth/login'); });
+Route::get('/', function () { return view('/auth/login'); });
 
 Auth::routes();
 
