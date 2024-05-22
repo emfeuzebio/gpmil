@@ -514,7 +514,6 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
