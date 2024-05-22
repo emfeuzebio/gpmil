@@ -161,7 +161,7 @@ class PessoaController extends Controller
     {   
         $user = User::with('pessoa')->find(Auth::user()->id);
 
-        if(in_array($this->userNivelAcessoID,[1,3])) {
+        if(in_array($user->pessoa->nivelacesso_id,[1,3])) {
             $dadosRestritos = 
             [ 
                 'funcao_id' => $request->funcao_id,
@@ -170,7 +170,7 @@ class PessoaController extends Controller
                 'ativo' => $request->ativo,
                 'nivelacesso_id' => $request->nivelacesso_id
             ];
-        } elseif (in_array($this->userNivelAcessoID,[5]) || $request->id == $user->id) {
+        } elseif (in_array($user->pessoa->nivelacesso_id,[5]) || $request->id == $user->id) {
             $dadosRestritos = ['funcao_id' => $request->funcao_id];
         } else {
             $dadosRestritos = [];

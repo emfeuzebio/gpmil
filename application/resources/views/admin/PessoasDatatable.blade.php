@@ -81,7 +81,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Posto/Graduação <span style="color: red">*</span></label>
-                                <select name="pgrad_id" id="pgrad_id" class="form-control selectpicker editable" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Posto/Graduação" >
+                                <select name="pgrad_id" id="pgrad_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Posto/Graduação" >
                                     @foreach( $pgrads as $pgrad )
                                     <option value="{{$pgrad->id}}">{{$pgrad->sigla}}</option>
                                     @endforeach
@@ -91,7 +91,7 @@
                             
                             <div class="form-group">
                                 <label class="form-label">Qualificação Militar <span style="color: red">*</span></label>
-                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker editable" data-live-search="true" placeholder="" data-toggle="tooltip" title="Selecione a Qualificação Militar" >
+                                <select name="qualificacao_id" id="qualificacao_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip" title="Selecione a Qualificação Militar" >
                                     @foreach( $qualificacaos as $qualificacao )
                                     <option value="{{$qualificacao->id}}">{{$qualificacao->sigla}}</option>
                                     @endforeach
@@ -101,7 +101,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Linha de Ensino Militar</label>
-                                <select class="form-control selectpicker editable" data-live-search="true" name="lem" id="lem" placeholder="" data-toggle="tooltip"  title="Selecione a Linha de Ensino Militar" >
+                                <select class="form-control selectpicker editable" data-style="form-control" data-live-search="true" name="lem" id="lem" placeholder="" data-toggle="tooltip"  title="Selecione a Linha de Ensino Militar" >
                                     <option value="Bélica">Bélica</option>
                                     <option value="Técnica">Técnica</option>
                                     <option value="Civil">Civil</option>
@@ -142,7 +142,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Religião</label>
-                                 <select name="religiao_id" id="religiao_id" class="form-control selectpicker editable" data-live-search="true" data-toggle="toolip"  title="Selecione a religião" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
+                                 <select name="religiao_id" id="religiao_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" data-toggle="toolip"  title="Selecione a religião" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
                                     @foreach( $religiaos as $religiao)
                                     <option value="{{$religiao->id}}">{{$religiao->descricao}}</option>
                                     @endforeach
@@ -199,7 +199,7 @@
                             
                             <div class="form-group">
                                 <label class="form-label">Função</label>
-                                 <select name="funcao_id" id="funcao_id" class="form-control selectpicker editable" data-live-search="true" data-toggle="toolip"  title="Selecione a função" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
+                                 <select name="funcao_id" id="funcao_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" data-toggle="toolip"  title="Selecione a função" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
                                     @foreach( $funcaos as $funcao)
                                     <option value="{{$funcao->id}}">{{$funcao->sigla}}</option>
                                     @endforeach
@@ -209,7 +209,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Seção <span style="color: red">*</span></label>
-                                <select name="secao_id" id="secao_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione a Seção" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
+                                <select name="secao_id" id="secao_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione a Seção" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     @foreach( $secaos as $secao )
                                     <option value="{{$secao->id}}">{{$secao->sigla}}</option>
                                     @endforeach
@@ -220,7 +220,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
-                                <select class="form-control selectpicker" name="status" id="status" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Status" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
+                                <select class="form-control selectpicker" name="status" id="status" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Status" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     <option value="Ativa">Ativa</option>
                                     <option value="Reserva">Reserva</option>
                                     <option value="Civil">Civil</option>
@@ -230,7 +230,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nível Acesso</span></label>
-                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
+                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     @foreach( $nivel_acessos as $nivel_acesso )
                                     <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
                                     @endforeach
@@ -514,7 +514,6 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');

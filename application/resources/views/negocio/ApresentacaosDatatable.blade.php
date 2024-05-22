@@ -49,7 +49,7 @@
                         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
                             <div class="col-md-4 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pela Seção</label>
-                                <select id="filtro_secao" name="filtro_secao" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas Seções </option>
                                     @foreach( $secoes as $secao )
                                     <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
@@ -58,7 +58,7 @@
                             </div>
                             <div class="col-md-4 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pelo Motivo</label>
-                                <select id="filtro_destino" name="filtro_destino" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <select id="filtro_destino" name="filtro_destino" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                 <option value=""> Todos Motivos </option>
                                     @foreach( $destinos as $destino )
                                     <option value="{{$destino->id}}">{{$destino->sigla}}</option>
@@ -67,7 +67,7 @@
                             </div>
                             <div class="col-md-4 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Publicado</label>
-                                <select id="filtro_publicado" name="destino" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <select id="filtro_publicado" name="destino" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Publicados ou não </option>
                                     <option value="SIM">SIM</option>
                                     <option value="NÃO">NÃO</option>
@@ -108,7 +108,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Pessoa</label>
-                            <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
+                            <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
                                 <option value=""> Selecione a Pessoa </option>
                                 @foreach( $pessoas as $pessoa )
                                 <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
@@ -119,7 +119,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Motivo</label>
-                            <select name="destino_id" id="destino_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                            <select name="destino_id" id="destino_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
                                 @foreach( $destinos as $destino )
                                 <option value="{{$destino->id}}">{{$destino->descricao}}</option>
                                 @endforeach
@@ -199,7 +199,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control">
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true">
                                 <option value=""> Cancelar a Publicação </option>
                                 @foreach( $boletins as $boletim )
                                 <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
