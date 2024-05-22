@@ -45,7 +45,7 @@
                     <div class="row">
                         <div class="col-md-4 form-group" style="margin-bottom: 0px;">
                             <label class="form-label">Filtro pela Seção</label>
-                            <select id="filtro_secao" name="filtro_secao" class="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                            <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Selecione para filtrar">
                                 <option value=""> Todas Seções </option>
                                 @foreach( $secoes as $secao )
                                 <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>

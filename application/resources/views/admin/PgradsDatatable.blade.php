@@ -73,7 +73,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Círculo</label>
-                                <select name="circulo_id" id="circulo_id" class="form-control selectpicker" data-live-search="true" data-toggle="tooltip" data-placement="top" title="Selecione o Círculo">
+                                <select name="circulo_id" id="circulo_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" data-placement="top" title="Selecione o Círculo">
                                     <option value=""> Selecione o Círculo </option>
                                     @foreach( $circulos as $circulo )
                                     <option value="{{$circulo->id}}">{{$circulo->sigla}}</option>
