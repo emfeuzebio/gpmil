@@ -338,7 +338,7 @@ return [
             'url' => 'mapa_forca',
         ],
         [
-            'text' => 'Pessoas',
+            'text' => 'Pessoal',
             'icon' => 'fas fa-user',
             'url' => 'pessoas',
         ],        
@@ -366,16 +366,11 @@ return [
             'can' => 'is_encpes',
             'submenu' => [
                 [
-                    'text' => 'Pessoal',
+                    'text' => 'Gestão',
                     'icon' => 'fas fa-users',
                     'url' => '#',
                     'can' => 'is_encpes',
                     'submenu' => [
-                            [
-                                'text' => 'Pessoas',
-                                'icon' => 'fas fa-user',
-                                'url' => 'pessoas',
-                            ],
                             [
                                 'text' => 'Seções',
                                 'icon' => 'fas fa-user',
@@ -431,17 +426,11 @@ return [
             'can' => 'is_admin',
             'submenu' => [
                 [
-                    'text' => 'Pessoal',
+                    'text' => 'Gestão',
                     'icon' => 'fas fa-users',
                     'url' => '#',
                     'can' => 'is_admin',                    
                     'submenu' => [
-                        [
-                            'text' => 'Pessoas',
-                            'icon' => 'fas fa-user',
-                            'url' => 'pessoas',
-                            'can' => 'is_admin',
-                        ],
                         [
                             'text' => 'Seções',
                             'icon' => 'fas fa-user',
