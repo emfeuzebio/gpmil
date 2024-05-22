@@ -278,6 +278,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador de campos

@@ -281,7 +281,7 @@
                     {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local"},
                     {"data": "celular", "name": "apresentacaos.celular", "class": "dt-left", "title": "Contato"},
                     {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ",
-                        render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
+                        render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
                     {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
                     {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "190px", "sortable": false},
@@ -336,6 +336,10 @@
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         },
                         error: function (data) {
                             if(data.responseJSON.message.indexOf("1451") != -1) {
@@ -382,6 +386,10 @@
                             $("#boletim_id").val('');
                             $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         },
                         error: function (data) {
                             if(data.responseJSON.message.indexOf("1451") != -1) {
@@ -457,6 +465,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador

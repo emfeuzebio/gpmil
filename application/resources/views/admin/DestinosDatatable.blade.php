@@ -174,7 +174,7 @@
                         render: function (data) { return '<b>' + data + '</b>';}},
                     {"data": "sigla", "name": "destinos.sigla", "class": "dt-left", "title": "Sigla"},
                     {"data": "ativo", "name": "destinos.ativo", "class": "dt-center", "title": "Ativo",  
-                        render: function (data) { return '<span style="color:' + ( data == 'SIM' ? 'blue' : 'red') + ';">' + data + '</span>';}
+                        render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
                     {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
                         render: function (data, type) { 
@@ -216,6 +216,10 @@
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#confirmaExcluirModal').modal('hide');
                             $('#datatables').DataTable().ajax.reload(null, false);
+
+                            setTimeout(function() {
+                                $('#alert').fadeOut('slow');
+                            }, 2000);
                         },
                         error: function (data) {
                             // console.log(data.responseJSON.message);
@@ -294,6 +298,10 @@
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
+
+                        setTimeout(function() {
+                            $('#alert').fadeOut('slow');
+                        }, 2000);
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador
