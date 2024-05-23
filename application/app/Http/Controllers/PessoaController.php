@@ -141,11 +141,21 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
+        $pessoaArray = $Pessoa->toArray();
+
+        $binaryFields = ['longblob_field'];
+        
+        foreach ($binaryFields as $field) {
+            if (isset($pessoaArray[$field])) {
+                $pessoaArray[$field] = base64_encode($pessoaArray[$field]);
+            }
+        }
+        $pessoaObject = (object) $pessoaArray;
         // print_r($Pessoa);
-        // dd($Pessoa);
+        // dd($pessoaData);
         // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
         // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
-        return Response()->json($Pessoa);
+        return Response()->json($pessoaObject);
     }    
 
     public function destroy(Request $request)
@@ -205,7 +215,7 @@ class PessoaController extends Controller
             'fone_ramal' => $request->fone_ramal, 
             'fone_celular' => $request->fone_celular, 
             'fone_emergencia' => $request->fone_emergencia, 
-            'foto' => $request->foto,
+            'foto' => file_get_contents($_FILES['foto']['tmp_name']),
             // 'user_id',           
         ];        
         // dd($dadosRestritos);

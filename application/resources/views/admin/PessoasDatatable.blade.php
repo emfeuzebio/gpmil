@@ -150,6 +150,15 @@
                                 <div id="error-religiao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
+                            <div class="form-group">
+                                <label class="form-label">Foto</label>
+                                <div class="custom-file">
+                                    <label class="custom-file-label" for="foto">Escolha o arquivo</label>
+                                    <input class="custom-file-input editable" value="" type="file" id="foto" name="foto" data-toggle="tooltip"  title="Escolha a foto" >
+                                  </div>
+                                <div id="error-foto" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
                         </div>
 
                         <div class="col-md-6">
@@ -439,7 +448,7 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        $('#foto').val(data.foto);
+                        // $('#foto').val(data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
