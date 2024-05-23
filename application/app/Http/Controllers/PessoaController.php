@@ -207,7 +207,13 @@ class PessoaController extends Controller
             'fone_emergencia' => $request->fone_emergencia, 
             'foto' => $request->foto,
             // 'user_id',           
-        ];        
+        ];
+
+        if($request->foto) {
+            $extension = $request->foto->getClientOriginalExtension();
+            
+            $dadosComuns['foto'] = $request->foto->storeAs('users', now() . ".{$extension}");
+        }
         // dd($dadosRestritos);
         $Pessoa = Pessoa::updateOrCreate(
             [
