@@ -59,21 +59,12 @@ class User extends Authenticatable
     {
         // Certifique-se de que a variável $pessoa esteja corretamente definida
         $pessoa = $this->hasOne(Pessoa::class)->first();
-        $image_blob = $pessoa->foto;
+        $image = $pessoa->foto;
 
         // Verifique se o arquivo de imagem existe
-        if ($image_blob) {
+        if ($image) {
 
-            // Crie uma imagem a partir do conteúdo do BLOB
-            $image = imagecreatefromstring($image_blob);
-
-            // Salve a imagem em um buffer
-            ob_start();
-            imagepng($image);
-            $data = ob_get_contents();
-            ob_end_clean();
-
-            return 'data:image/png;base64,' . base64_encode($data);
+            return 'storage/' . $image;
 
         }
         return 'vendor/adminlte/dist/img/avatar.png';

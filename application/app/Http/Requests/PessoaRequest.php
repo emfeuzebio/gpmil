@@ -33,6 +33,7 @@ class PessoaRequest extends FormRequest
             'nivelacesso_id' => 'required',
             'funcao_id' => 'required',
             'ativo' => ['required','in:"SIM","NÃO"'],
+            'foto' => ['nullable', 'image', 'max:1024']
         ];
     }
 }

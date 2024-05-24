@@ -179,6 +179,12 @@
 
         });
 
+        // Seleciona todos os elementos select
+        $('select').each(function() {
+            // Adiciona o atributo data-style
+            $(this).attr('data-style', 'form-control btn-light');
+        });
+
     </script>  
     
     <!-- EUZ 5 Hotkeys manipular registros em todos CRUDs -->

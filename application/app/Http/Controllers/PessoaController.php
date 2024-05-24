@@ -16,6 +16,7 @@ use App\Models\NivelAcesso;
 use App\Models\User;
 use App\Models\Religiao;
 use Illuminate\Http\Response as HttpResponse;
+use Illuminate\Support\Facades\Storage;
 
 
 class PessoaController extends Controller
@@ -207,7 +208,16 @@ class PessoaController extends Controller
             'fone_emergencia' => $request->fone_emergencia, 
             'foto' => $request->foto,
             // 'user_id',           
-        ];        
+        ];
+
+        if($request->foto) {
+            if (Storage::exists($user->pessoa->foto)) {
+                Storage::delete($user->pessoa->foto);
+            }
+            $extension = $request->foto->getClientOriginalExtension();
+            
+            $dadosComuns['foto'] = $request->foto->storeAs('users', now() . ".{$extension}");
+        }
         // dd($dadosRestritos);
         $Pessoa = Pessoa::updateOrCreate(
             [
