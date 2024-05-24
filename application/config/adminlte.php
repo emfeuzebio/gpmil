@@ -332,11 +332,11 @@ return [
             'icon' => 'fa fa-clipboard',
             'url' => 'planochamada',
         ],
-        [
-            'text' => 'Mapa da Força',
-            'icon' => 'fas fa-map-marked-alt',
-            'url' => 'mapa_forca',
-        ],
+        // [
+        //     'text' => 'Mapa da Força',
+        //     'icon' => 'fas fa-map-marked-alt',
+        //     'url' => 'mapa_forca',
+        // ],
         [
             'text' => 'Pessoal',
             'icon' => 'fas fa-user',

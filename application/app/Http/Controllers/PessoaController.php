@@ -161,17 +161,27 @@ class PessoaController extends Controller
 
     public function destroy(Request $request)
     {   
-        // somente User nível de acesso Admin pode excluir uma Pessoa
-        if( $this->userNivelAcessoID == 1 ) {
-            $PessoaExcluida = Pessoa::where(['id'=>$request->id])->delete();
+        $user = User::with('pessoa')->find(Auth::user()->id);
+        $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
+        // Somente User com nível de acesso Admin pode excluir uma Pessoa
+        if ($this->userNivelAcessoID == 1) {
+            // Excluir Pessoa
+            $PessoaExcluida = Pessoa::where(['id' => $request->id])->delete();
+            
+            // Verificar se a Pessoa foi excluída antes de excluir o User
+            if ($PessoaExcluida) {
+                // Excluir User com o mesmo id
+                $UserExcluido = User::where(['id' => $request->id])->delete();
+            }
         }
-        return Response()->json($PessoaExcluida);
-    }   
-
+    
+        return response()->json(['PessoaExcluida' => $PessoaExcluida, 'UserExcluido' => isset($UserExcluido) ? $UserExcluido : false]);
+    }
+    
     public function store(PessoaRequest $request)
     {   
         $user = User::with('pessoa')->find(Auth::user()->id);
-
+    
         if(in_array($user->pessoa->nivelacesso_id,[1,3])) {
             $dadosRestritos = 
             [ 
@@ -186,8 +196,8 @@ class PessoaController extends Controller
         } else {
             $dadosRestritos = [];
         }
-
-        $dadosComuns = 
+    
+        $dadosComuns =
         [
             'pgrad_id' => $request->pgrad_id,
             'nome_completo' => $request->nome_completo,
@@ -215,30 +225,30 @@ class PessoaController extends Controller
             'cep' => $request->cep, 
             'fone_ramal' => $request->fone_ramal, 
             'fone_celular' => $request->fone_celular, 
-            'fone_emergencia' => $request->fone_emergencia, 
-            'foto' => file_get_contents($_FILES['foto']['tmp_name']),
-            // 'user_id',           
+            'fone_emergencia' => $request->fone_emergencia,
         ];
-
-        if($request->foto) {
-            if (Storage::exists($user->pessoa->foto)) {
-                Storage::delete($user->pessoa->foto);
-            }
-            $extension = $request->foto->getClientOriginalExtension();
-            
-            $dadosComuns['foto'] = $request->foto->storeAs('users', now() . ".{$extension}");
+    
+        // Tratamento da foto
+        if ($request->hasFile('foto')) {
+            // Lê o conteúdo do arquivo
+            $foto = file_get_contents($request->foto->getRealPath());
+            $dadosComuns['foto'] = base64_encode($foto); // Armazena a imagem como base64 no banco de dados
+        } else {
+            // Caso a foto não seja enviada, define como null ou mantém a existente
+            $dadosComuns['foto'] = null;
         }
-        // dd($dadosRestritos);
+    
+        // Cria ou atualiza a pessoa
         $Pessoa = Pessoa::updateOrCreate(
             [
                 'id' => $request->id,
             ],
-                array_merge($dadosComuns, $dadosRestritos)
-        ); 
-        
+            array_merge($dadosComuns, $dadosRestritos)
+        );
+
         return Response()->json($Pessoa);
     }
-
+    
     /**
      * Mantido para consulta e estudo
      */
