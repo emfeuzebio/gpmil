@@ -280,13 +280,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Excluir Registro</h4>
-                    <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar">&times;</button>
+                    <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
                     <button type="button" class="btn btn-danger" data-toggle="tooltip" title="Confirmar a Exclusão" id="confirm">Excluir</button>
                 </div>
             </div>
@@ -379,7 +380,7 @@
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
-                //alert('btnExcluir ID: ' + id );
+                //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -389,6 +390,7 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
+                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("pessoas/destroy")}}",
@@ -397,17 +399,27 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#confirmaExcluirModal').modal('hide');
                             $('#datatables').DataTable().ajax.reload(null, false);
 
                             setTimeout(function() {
                                 $('#alert').fadeOut('slow');
                             }, 2000);
+                        },
+                        error: function (data) {
+                            // console.log(data.responseJSON.message);
+                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                                $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
+                            } else {
+                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                            }
                         }
                     });
-                    $('#confirmaExcluirModal').modal('hide');            
+                    
                 });
 
-            });
+            });        
 
             /*
             * Edit button action
