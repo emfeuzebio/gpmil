@@ -20,7 +20,7 @@ SET time_zone = "+00:00";
 --
 -- Banco de dados: `gpmil`
 --
-CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+CREATE DATABASE IF NOT EXISTS `gpmil` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE `gpmil`;
 
 -- --------------------------------------------------------
@@ -34,17 +34,17 @@ CREATE TABLE `apresentacaos` (
   `pessoa_id` int UNSIGNED DEFAULT NULL,
   `secao_id` int UNSIGNED DEFAULT NULL,
   `destino_id` int UNSIGNED DEFAULT NULL,
-  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `observacao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `publicado` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci NOT NULL DEFAULT 'NÃO',
+  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `observacao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `publicado` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'NÃO',
   `dt_apres` date DEFAULT NULL,
   `dt_inicial` date DEFAULT NULL,
   `dt_final` date DEFAULT NULL,
-  `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
+  `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
   `boletim_id` int UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `apresentacaos`
@@ -68,12 +68,12 @@ INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celul
 
 CREATE TABLE `boletins` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `data` date DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `boletins`
@@ -93,12 +93,12 @@ INSERT INTO `boletins` (`id`, `descricao`, `data`, `ativo`, `created_at`, `updat
 
 CREATE TABLE `circulos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `circulos`
@@ -121,12 +121,12 @@ INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 
 CREATE TABLE `destinos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `destinos`
@@ -182,7 +182,7 @@ CREATE TABLE `ferias` (
   `saque` char(3) NOT NULL DEFAULT 'NÃO',
   `pgto_13` char(3) NOT NULL DEFAULT 'NÃO',
   `pgto_70` char(3) NOT NULL DEFAULT 'NÃO'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -192,12 +192,12 @@ CREATE TABLE `ferias` (
 
 CREATE TABLE `funcaos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `funcaos`
@@ -239,8 +239,8 @@ CREATE TABLE `mapaforcas` (
   `presenca_formatura` char(3) DEFAULT 'SIM',
   `destino_formatura` varchar(255) DEFAULT NULL,
   `destino_formatura2` varchar(255) DEFAULT NULL,
-  `responsavel_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `responsavel_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
@@ -251,10 +251,10 @@ CREATE TABLE `mapaforcas` (
 CREATE TABLE `menus` (
   `id` int UNSIGNED NOT NULL,
   `menu_id` int UNSIGNED DEFAULT NULL,
-  `descricao` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `descricao` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `ordem` tinyint DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM'
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `menus`
@@ -5909,13 +5909,13 @@ INSERT INTO `municipios` (`id`, `municipio`, `uf`, `latitude`, `longitude`) VALU
 
 CREATE TABLE `nivel_acessos` (
   `id` int UNSIGNED NOT NULL,
-  `nome` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `nome` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `nivel_acessos`
@@ -6008,31 +6008,31 @@ CREATE TABLE `pessoas` (
   `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
   `funcao_id` int UNSIGNED DEFAULT NULL,
   `religiao_id` int UNSIGNED DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
-  `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Ativa',
-  `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
-  `nome_completo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `nome_guerra` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cpf` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `idt` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `preccp` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Ativa',
+  `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `nome_completo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `nome_guerra` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cpf` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `idt` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `preccp` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dt_nascimento` date DEFAULT NULL,
-  `endereco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `endereco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
-  `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cidade` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cidade` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `municipio_id` int UNSIGNED DEFAULT NULL,
-  `uf` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `cep` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fone_ramal` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fone_celular` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `fone_emergencia` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `uf` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `cep` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fone_ramal` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fone_celular` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `fone_emergencia` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `pessoa_emergencia` varchar(100) DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `foto` blob,
-  `segmento` enum('Masculino','Feminino') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Masculino',
-  `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'Bélica',
-  `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
+  `segmento` enum('Masculino','Feminino') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Masculino',
+  `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Bélica',
+  `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
   `dt_praca` date DEFAULT NULL,
   `dt_apres_gu` date DEFAULT NULL,
   `dt_apres_om` date DEFAULT NULL,
@@ -6040,7 +6040,7 @@ CREATE TABLE `pessoas` (
   `antiguidade` smallint DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `pessoas`
@@ -6063,12 +6063,12 @@ INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgr
 CREATE TABLE `pgrads` (
   `id` int UNSIGNED NOT NULL,
   `circulo_id` int UNSIGNED DEFAULT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `pgrads`
@@ -6144,12 +6144,12 @@ INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updat
 CREATE TABLE `qualificacaos` (
   `id` int UNSIGNED NOT NULL,
   `codigo` char(4) DEFAULT NULL,
-  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `qualificacaos`
@@ -6209,12 +6209,12 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 (91, '7105', 'Quadro Complementar de Oficiais - Pedagogia', 'QCO Ped', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:08:45'),
 (92, '7103', 'Quadro Complementar de Oficiais - Magistério', 'QCO Mag', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:07:48'),
 (93, '7101', 'Quadro Complementar de Oficiais - Comunicação Social', 'QCO Com S', 'SIM', '2024-01-01 03:00:00', '2024-04-10 14:07:24'),
-(94, NULL, 'General Intendente', 'Int ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(95, NULL, 'General Veterinário', 'Vet ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(96, NULL, 'General Combatente', 'Cmb', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(97, NULL, 'General Engenheiro Militar', 'Eng Mil ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(98, NULL, 'General Médico', 'Med ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
-(99, NULL, 'General do Quadro Especial (STM)', 'QE ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(94, NULL, 'General Intendente', 'Gen Int ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(95, NULL, 'General Veterinário', 'Gen Vet ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(96, NULL, 'General Combatente', 'Gen Cmb', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(97, NULL, 'General Engenheiro Militar', 'Gen Eng Mil ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(98, NULL, 'General Médico', 'Gen Med ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
+(99, NULL, 'General do Quadro Especial (STM)', 'Gen QE ', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (100, NULL, 'Oficial Técnico Temporário', 'OTT', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (101, NULL, 'Oficial Técnico Temporário - Administração', 'OTT Adm', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
 (102, NULL, 'Oficial Técnico Temporário - Direito', 'OTT Dir', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
@@ -6263,10 +6263,10 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 
 CREATE TABLE `religiaos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `religiao_seq` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT '0',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `religiao_seq` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
   `ativo` enum('SIM','NÃO') NOT NULL DEFAULT 'SIM'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `religiaos`
@@ -6332,12 +6332,12 @@ CREATE TABLE `secaos` (
   `id` int UNSIGNED NOT NULL,
   `secao_id` int UNSIGNED DEFAULT NULL,
   `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `descricao` varchar(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `secaos`
@@ -6368,12 +6368,12 @@ INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 
 CREATE TABLE `situacaos` (
   `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci DEFAULT 'SIM',
+  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
 -- Despejando dados para a tabela `situacaos`
