@@ -153,11 +153,12 @@
                             <div class="form-group">
                                 <label class="form-label">Foto</label>
                                 <div class="custom-file">
+                                    <input class="custom-file-input" type="file" id="foto" name="foto" onchange="exibirFoto()">
                                     <label class="custom-file-label" for="foto">Escolha o arquivo</label>
-                                    <input class="custom-file-input editable" value="" type="file" id="foto" name="foto" data-toggle="tooltip"  title="Escolha a foto" >
-                                  </div>
+                                </div>
                                 <div id="error-foto" class="error invalid-feedback" style="display: none;"></div>
                             </div>
+                            <img id="imagem-exibida" src="" alt="Imagem selecionada" style="max-width: 100%; display: none;">
 
                         </div>
 
@@ -241,7 +242,7 @@
                                 <label class="form-label">Nível Acesso</span></label>
                                 <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
                                     @foreach( $nivel_acessos as $nivel_acesso )
-                                    <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
+                                        <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
                                     @endforeach
                                 </select>
                                 <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
@@ -373,6 +374,20 @@
                 return $('#nivelacesso_id').val();
             }
 
+            $('#foto').change(function() {
+                const inputFoto = this;
+                const imagemExibida = $('#imagem-exibida');
+
+                if (inputFoto.files && inputFoto.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function (e) {
+                        imagemExibida.attr('src', e.target.result);
+                        imagemExibida.show();
+                    };
+                    reader.readAsDataURL(inputFoto.files[0]);
+                }
+            });
+
             /*
             * Delete button action
             */
@@ -380,7 +395,6 @@
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
-                //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -390,7 +404,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("pessoas/destroy")}}",
@@ -407,8 +420,6 @@
                             }, 2000);
                         },
                         error: function (data) {
-                            // console.log(data.responseJSON.message);
-                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
@@ -460,11 +471,16 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        // $('#foto').val(data.foto);
+                        // $('#imagem-exibida').attr('src', data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
-                        $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                        } else {
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        }
+                            
 
                         if (data.segmento === "Masculino") {
                             $('#segmentoM').prop('checked', true);
@@ -480,6 +496,12 @@
                             $('#ativo').bootstrapToggle('on');
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
+                        }
+
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
+                            var url = URL.createObjectURL(blob);
+                            $('#imagem-exibida').attr('src', url);
                         }
 
                         // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);

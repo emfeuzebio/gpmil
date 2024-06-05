@@ -181,6 +181,11 @@ class PessoaController extends Controller
     public function store(PessoaRequest $request)
     {   
         $user = User::with('pessoa')->find(Auth::user()->id);
+
+        $editandoNivelRestrito = $user->pessoa->nivelacesso_id == 3 && $request->nivelacesso_id == 1;
+        if ($request->id) {
+            $atualPessoa = Pessoa::find($request->id);
+        }
     
         if(in_array($user->pessoa->nivelacesso_id,[1,3])) {
             $dadosRestritos = 
@@ -189,7 +194,7 @@ class PessoaController extends Controller
                 'secao_id' => $request->secao_id,
                 'status' => $request->status,
                 'ativo' => $request->ativo,
-                'nivelacesso_id' => $request->nivelacesso_id
+                'nivelacesso_id' => $editandoNivelRestrito ? $atualPessoa->nivelacesso_id : $request->nivelacesso_id
             ];
         } elseif (in_array($user->pessoa->nivelacesso_id,[5]) || $request->id == $user->id) {
             $dadosRestritos = ['funcao_id' => $request->funcao_id];
