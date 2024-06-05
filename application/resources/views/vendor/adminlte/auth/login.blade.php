@@ -85,20 +85,25 @@
 
 @section('auth_footer')
     {{-- Password reset link --}}
-    @if($password_reset_url)
+
+        <p class="my-0 text-center">
+            <a href="https://acesso.dgp.eb.mil.br/auth/log-in/client-id/7190b87750a22ccfc79d19e108a3bd10">Primeiro Acesso e/ou Login via DGP</a>
+        </p>
+
+    {{-- @if($password_reset_url)
         <p class="my-0">
             <a href="{{ $password_reset_url }}">
                 {{ __('adminlte::adminlte.i_forgot_my_password') }}
             </a>
         </p>
-    @endif
+    @endif --}}
 
     {{-- Register link --}}
-    @if($register_url)
+    {{-- @if($register_url)
         <p class="my-0">
             <a href="{{ $register_url }}">
                 {{ __('adminlte::adminlte.register_a_new_membership') }}
             </a>
         </p>
-    @endif
+    @endif --}}
 @stop

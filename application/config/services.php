@@ -31,4 +31,10 @@ return [
         'region' => env('AWS_DEFAULT_REGION', 'us-east-1'),
     ],
 
+    'DGP' => [
+        'client_id' => env('DGP_CLIENT_ID'),
+        'client_secret' => env('DGP_CLIENT_SECRET'),
+        'redirect' => env('DGP_REDIRECT'),
+    ],    
+
 ];

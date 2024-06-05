@@ -20,6 +20,7 @@ use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
 use Illuminate\Support\Facades\Auth;
+use Laravel\Socialite\Facades\Socialite;
 
 /*
 |--------------------------------------------------------------------------
@@ -33,6 +34,34 @@ use Illuminate\Support\Facades\Auth;
 */
 
 Route::get('/', function () { return view('/auth/login'); });
+
+
+// DGP
+Route::get('/auth/redirect', function () {
+    return Socialite::driver('DGP')->redirect();
+});
+ 
+Route::get('/auth/callback/dgp', function () {
+    $DGPUser = Socialite::driver('DGP')->user();
+
+    dd($DGPUser);
+ 
+    // $user = User::updateOrCreate([
+    //     //'github_id' => $DGPUser->id,
+    // ], [
+    //     'name' => $DGPUser->name,
+    //     'email' => $DGPUser->email,
+    //     'github_token' => $DGPUser->token,
+    //     'github_refresh_token' => $DGPUser->refreshToken,
+    // ]);
+ 
+    // Auth::login($user);
+ 
+    return redirect('/dashboard');    
+});
+
+
+
 
 Auth::routes();
 
