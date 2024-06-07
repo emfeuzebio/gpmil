@@ -19,6 +19,7 @@ use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
 
@@ -39,9 +40,12 @@ Route::get('/', function () { return view('/auth/login'); });
 // DGP
 Route::get('/auth/redirect', function () {
     return Socialite::driver('DGP')->redirect();
+    // return Socialite::driver('github')->redirect();
 });
  
+// opção inicial
 Route::get('/auth/callback/dgp', function () {
+    // $DGPUser = Socialite::driver('DGP')->user();
     $DGPUser = Socialite::driver('DGP')->user();
 
     dd($DGPUser);
@@ -58,6 +62,41 @@ Route::get('/auth/callback/dgp', function () {
     // Auth::login($user);
  
     return redirect('/dashboard');    
+});
+
+// opção mais completa
+Route::get('/auth/callback/dgp', function () {
+
+    try {
+        $DGPUser = Socialite::driver('DGP')->user();
+        dd($DGPUser);
+
+        $user = User::query()->whereEmail($DGPUser->email)->first();
+ 
+        if (! $user) {
+            // vamos criar um novo User e uma nova Pessoa com o mesmo ID
+
+            // $user = User::updateOrCreate([
+            //     //'github_id' => $DGPUser->id,
+            // ], [
+            //     'name' => $DGPUser->name,
+            //     'email' => $DGPUser->email,
+            //     'github_token' => $DGPUser->token,
+            //     'github_refresh_token' => $DGPUser->refreshToken,
+            // ]);
+        
+            // Auth::login($user);            
+
+            // return redirect('login');
+
+        }
+ 
+        // Auth::guard('web')->login($user);
+ 
+        // return redirect(route('home'));
+    } catch (Exception $exception) {
+        return redirect('login');
+    }
 });
 
 
