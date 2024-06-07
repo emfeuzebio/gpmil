@@ -40,12 +40,10 @@ Route::get('/', function () { return view('/auth/login'); });
 // DGP
 Route::get('/auth/redirect', function () {
     return Socialite::driver('DGP')->redirect();
-    // return Socialite::driver('github')->redirect();
 });
  
 // opção inicial
 Route::get('/auth/callback/dgp', function () {
-    // $DGPUser = Socialite::driver('DGP')->user();
     $DGPUser = Socialite::driver('DGP')->user();
 
     dd($DGPUser);

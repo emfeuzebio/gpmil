@@ -34,7 +34,8 @@ return [
     'DGP' => [
         'client_id' => env('DGP_CLIENT_ID'),
         'client_secret' => env('DGP_CLIENT_SECRET'),
-        'redirect' => env('DGP_REDIRECT'),
+        'redirect' => env('APP_URL') . '/auth/callback/dgp',
+        // 'redirect' => env('DGP_REDIRECT'),
     ],    
 
 ];
