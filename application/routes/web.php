@@ -22,6 +22,8 @@ use App\Http\Controllers\QualificacaoController;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
 use Laravel\Socialite\Facades\Socialite;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\DB;
 
 /*
 |--------------------------------------------------------------------------
@@ -43,61 +45,67 @@ Route::get('/auth/redirect', function () {
 });
  
 // opção inicial
-Route::get('/auth/callback/dgp', function () {
+Route::get('/auth/callback/dgpde', function () {
     $DGPUser = Socialite::driver('DGP')->user();
 
-    dd($DGPUser);
+    // dd($DGPUser);
+    DB::beginTransaction();
  
-    // $user = User::updateOrCreate([
-    //     //'github_id' => $DGPUser->id,
-    // ], [
-    //     'name' => $DGPUser->name,
-    //     'email' => $DGPUser->email,
-    //     'github_token' => $DGPUser->token,
-    //     'github_refresh_token' => $DGPUser->refreshToken,
-    // ]);
- 
-    // Auth::login($user);
- 
-    return redirect('/dashboard');    
-});
+    // try {
+        // Verifica se o usuário já existe
+        $user = User::where('email', $DGPUser->email . "@dcem.eb.mil.br")->first();
 
-// opção mais completa
-Route::get('/auth/callback/dgp', function () {
+        if (!$user) {
+            // Se o usuário não existir, cria um novo
+            $user = User::create([
+                'name' => $DGPUser->nickname,
+                'email' => $DGPUser->email . "@dcem.eb.mil.br",
+                'password' => Hash::make($DGPUser->idt),
+                'remember_token' => $DGPUser->token
+            ]);
 
-    try {
-        $DGPUser = Socialite::driver('DGP')->user();
-        dd($DGPUser);
+            // Busca o ID da sigla na tabela 'pgrads'
+            $pgrad = DB::table('pgrads')->where('sigla', $DGPUser->pgrad_sigla)->first();
+            $pgrad_id = $pgrad ? $pgrad->id : null;
 
-        $user = User::query()->whereEmail($DGPUser->email)->first();
- 
-        if (! $user) {
-            // vamos criar um novo User e uma nova Pessoa com o mesmo ID
+            // Cria um novo registro na tabela 'pessoa' com o mesmo ID do usuário
+            DB::table('pessoas')->insert([
+                'id' => $user->id,
+                'organizacao_id' => 1,
+                'pgrad_id' => $pgrad_id,
+                'qualificacao_id' => 1,
+                'secao_id' => 9,
+                'nome_completo' => $DGPUser->name,
+                'nome_guerra' => $DGPUser->nickname,
+                'idt' => $DGPUser->idt,
+                'user_id' => $user->id
+                
+                // adicione outras colunas da tabela 'pessoa' conforme necessário
+            ]);
 
-            // $user = User::updateOrCreate([
-            //     //'github_id' => $DGPUser->id,
-            // ], [
-            //     'name' => $DGPUser->name,
-            //     'email' => $DGPUser->email,
-            //     'github_token' => $DGPUser->token,
-            //     'github_refresh_token' => $DGPUser->refreshToken,
-            // ]);
-        
-            // Auth::login($user);            
-
-            // return redirect('login');
-
+            DB::table('preferencias')->insert([
+                'id' => $user->id,
+                'dark_mode' => 0,
+                'pessoa_id' => $user->id 
+                // adicione outras colunas da tabela 'preferencias' conforme necessário
+            ]);
         }
- 
-        // Auth::guard('web')->login($user);
- 
-        // return redirect(route('home'));
-    } catch (Exception $exception) {
-        return redirect('login');
-    }
+
+        // Faz o login do usuário (existente ou recém-criado)
+        Auth::login($user);
+
+        // Confirma a transação
+        DB::commit();
+
+        return redirect('/home');
+    // } catch (\Exception $e) {
+    //     // Em caso de erro, desfaz a transação
+    //     DB::rollBack();
+
+    //     // Trate o erro conforme necessário (exemplo: redirecionar com uma mensagem de erro)
+    //     return redirect('/')->withErrors(['msg' => 'Erro ao criar usuário.']);
+    // } 
 });
-
-
 
 
 Auth::routes();
