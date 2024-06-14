@@ -87,7 +87,6 @@
     {{-- Password reset link --}}
 
         <p class="my-0 text-center">
-            <a href="https://acesso.dgp.eb.mil.br/auth/log-in/client-id/7190b87750a22ccfc79d19e108a3bd10">Primeiro Acesso e/ou Login via DGP</a>
             <a href="/auth/redirect">Primeiro Acesso e/ou Login via DGP</a>
         </p>
 
