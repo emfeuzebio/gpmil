@@ -12,7 +12,7 @@ class SituacaoRequest extends FormRequest
     public function authorize(): bool
     {
         return true;    //true = não necessita estar logado
-    }
+    }   
 
     /**
      * Get the validation rules that apply to the request.

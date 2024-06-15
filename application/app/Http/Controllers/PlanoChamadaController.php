@@ -105,14 +105,20 @@ class PlanoChamadaController extends Controller
         $btnEditar  = '<button class="btnEditar  btn btn-primary btn-xs" data-toggle="tooltip" title="Editar este registro">Editar</button> ';
         $btnVer  = '<button class="btnEditar btn btn-info btn-xs" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button> ';
 
-        // btn Editar disponível apenas para Admin, EncPes, Sgtte ou User dono
+        // btn Editar disponível para Admin, EncPes, Sgtte ou User dono
         if(in_array($this->userNivelAcessoID,[1,3,5,6])) {
             $actions .= $btnEditar;
         }
 
-        // demais apenas o botão Ver
+        // btn Ver disponível para Cmt e Ch Sec
         if(in_array($this->userNivelAcessoID,[2,4])) {
-            $actions .= $btnVer;
+
+            // btn Editar disponível se o User for o dono da linha
+            if($row->user_id == $this->userID) {
+                $actions .= $btnEditar;
+            } else {
+                $actions .= $btnVer;
+            }
         }
 
         return $actions;

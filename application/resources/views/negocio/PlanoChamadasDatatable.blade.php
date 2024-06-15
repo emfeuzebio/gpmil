@@ -154,9 +154,10 @@
                     </div>
                     <div class="col-md-5 text-right">
                         <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                        @if( in_array($nivelAcesso,[1,3,4,5,6]) )
+                        @can('podeSalvarPessoa')
                         <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                        @endif
+                        @endcan
+                        <button type="button" class="btn btn-primary btnSalvar editable" style="display: none;" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
                     </div>
                 </div>
             </div>
@@ -168,6 +169,7 @@
         //variável global que recebe o ID do registro
         var id = '';
         var descricao = '';
+        const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
         $(document).ready(function () {
 
@@ -245,9 +247,20 @@
                         $('#cidade').val(data.cidade);
                         $('#endereco').val(data.endereco);
                         $('#complemento').val(data.complemento);
+                        $('#municipio_id').val(data.municipio_id);
+                        $('#uf').val(data.uf);
                         $('#fone_emergencia').val(data.fone_emergencia);
                         $('#fone_celular').val(data.fone_celular);
                         $('#pessoa_emergencia').val(data.pessoa_emergencia);
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
                     }
                 }); 
 
@@ -280,9 +293,20 @@
                         $('#cidade').val(data.cidade);
                         $('#endereco').val(data.endereco);
                         $('#complemento').val(data.complemento);
+                        $('#municipio_id').val(data.municipio_id);
+                        $('#uf').val(data.uf);
                         $('#fone_emergencia').val(data.fone_emergencia);
                         $('#fone_celular').val(data.fone_celular);
                         $('#pessoa_emergencia').val(data.pessoa_emergencia);
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
                     }
                 }); 
 
@@ -297,7 +321,6 @@
 
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
 
                 //here there are a problem with de serialize the form
                 $.ajax({
