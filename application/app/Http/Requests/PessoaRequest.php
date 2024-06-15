@@ -29,9 +29,9 @@ class PessoaRequest extends FormRequest
             'cpf' => 'required',            //|unique
             'idt' => 'required',            //|unique
             'status' => ['required','in:"Ativa","Reserva","Civil"'],
-            'secao_id' => 'required',
+            'secao_id' => '',
             'nivelacesso_id' => 'required',
-            'funcao_id' => 'required',
+            'funcao_id' => '',
             'ativo' => ['required','in:"SIM","NÃO"'],
             'foto' => ['nullable', 'image', 'max:1024']
         ];

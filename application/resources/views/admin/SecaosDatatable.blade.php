@@ -25,7 +25,7 @@
                 <div class="card-header">
                     <div class="row">
                         <!--área de título da Entidade-->
-                        <div class="col-md-5 text-left h5"><b>Gestão de Asse, Div, Seções e Subunidades </b></div>
+                        <div class="col-md-5 text-left h5"><b>Cadastro de Assessorias, Divisões, Seções e Subunidades</b></div>
                         <!--área de mensagens-->
                         <div class="col-md-4 text-left">
                             <div style="padding: 0px;  background-color: transparent;">
@@ -61,7 +61,7 @@
     </div>
 
     <!-- Modal Editar Registro -->
-    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">

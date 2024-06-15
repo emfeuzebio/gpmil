@@ -69,7 +69,7 @@
     </div>
 
     <!-- Modal Editiar Registro -->
-    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -225,6 +225,41 @@
                 e.stopImmediatePropagation();            
 
                 let id = $(this).parents('tr').attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("planochamada/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        // console.log(data);
+                        $('#modalLabel').html('Editar Plano de Chamada');
+                        $(".invalid-feedback").text('').hide();     
+                        $('#form-group-id').show();
+                        $('#editarModal').modal('show');         
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#cep').val(data.cep);
+                        $('#bairro').val(data.bairro);
+                        $('#cidade').val(data.cidade);
+                        $('#endereco').val(data.endereco);
+                        $('#complemento').val(data.complemento);
+                        $('#fone_emergencia').val(data.fone_emergencia);
+                        $('#fone_celular').val(data.fone_celular);
+                        $('#pessoa_emergencia').val(data.pessoa_emergencia);
+                    }
+                }); 
+
+            });           
+
+            /*
+            * Doble Click on table line edit reg
+            */
+            $("#datatables-plano-chamada tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();            
+
+                let id = $(this).attr("id");
 
                 $.ajax({
                     type: "POST",

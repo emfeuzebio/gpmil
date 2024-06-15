@@ -61,9 +61,9 @@
     </div>
 
     <!-- Modal Editiar Registro -->
-    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
-        <div class="modal-dialog" style="max-width: 150vh">
-            <div class="modal-content"  style="width: 100%;">
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title" id="modalLabel">Modal title</h4>
                     <button type="button" class="close btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');"><span aria-hidden="true">&times;</span></button>
@@ -210,6 +210,7 @@
                             <div class="form-group">
                                 <label class="form-label">Função</label>
                                  <select name="funcao_id" id="funcao_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" data-toggle="toolip"  title="Selecione a função" @cannot('is_admin') @cannot('is_encpes') @cannot('is_sgtte') disabled @endcannot @endcannot @endcannot>
+                                    <option value=""> Não Informada </option>
                                     @foreach( $funcaos as $funcao)
                                     <option value="{{$funcao->id}}">{{$funcao->sigla}}</option>
                                     @endforeach
@@ -226,7 +227,6 @@
                                 </select>
                                 <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-
 
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>

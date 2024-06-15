@@ -61,7 +61,7 @@
                                 <select id="filtro_destino" name="filtro_destino" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                 <option value=""> Todos Motivos </option>
                                     @foreach( $destinos as $destino )
-                                    <option value="{{$destino->id}}">{{$destino->sigla}}</option>
+                                    <option value="{{$destino->sigla}}">{{$destino->sigla}}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -90,7 +90,7 @@
     </div>
 
     <!-- Modal Editiar Registro -->
-    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -129,7 +129,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Data Inicial</label>
-                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
+                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
                             <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
@@ -153,7 +153,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">Observação</label>                    
-                            <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observacao pertinente">
+                            <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
                             <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
                         </div>
 
@@ -186,7 +186,7 @@
     </div>
 
     <!-- Modal Homologar Registro -->
-    <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
                 <div class="modal-header">
@@ -195,7 +195,7 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
-                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
+                    <form id="formHomologar" name="formHomologar"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
@@ -220,7 +220,7 @@
     </div>   
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -240,16 +240,16 @@
 
     <script type="text/javascript">
 
-        //variável global que recebe o ID do registro
+        // variável global que recebe o ID do registro
         var id = '';
         var descricao = '';        
 
         $(document).ready(function () {
 
-            // definitions of filds mask
+            // máscara dos campos
             $('#celular').inputmask('(99) 99999-9999');
 
-            // send token
+            // token da página
             $.ajaxSetup({
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
@@ -266,13 +266,13 @@
                 },
                 responsive: true,
                 autoWidth: true,
-                order: [ [8, 'desc'],[4, 'asc'] ],  //não publicados acima, depois em ordem de dt inicial
+                order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 10,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
-                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"}, //se a secao_id estiver na prórpria apresentacao
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     // se a secao_id estiver na prórpria apresentacao
                     {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
                     {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
                         render: function (data) { return '<b>' + data + '</b>';}},
@@ -313,7 +313,6 @@
             $("#datatables-apresentacao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                // id = $(this).data("id")
                 let id = $(this).parents('tr').attr("id");
                 //alert('Editar ID: ' + id );
 
@@ -325,7 +324,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("apresentacaos/destroy")}}",
@@ -371,7 +369,6 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
-                    // alert('id' + id + '; boletim_id: ' + boletim_id );
 
                     $.ajax({
                         type: "POST",
@@ -410,7 +407,6 @@
                 e.stopImmediatePropagation();            
 
                 let id = $(this).parents('tr').attr("id");
-                //alert('Editar ID: ' + id );
 
                 $.ajax({
                     type: "POST",
@@ -420,9 +416,42 @@
                     success: function (data) {
                         // console.log(data);
                         $('#modalLabel').html('Editar Apresentação');
-                        $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
+                        $(".invalid-feedback").text('').hide();  
                         $('#form-group-id').show();
-                        $('#editarModal').modal('show');         //show the modal
+                        $('#editarModal').modal('show');         
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#pessoa_id').selectpicker('val', data.pessoa_id);
+                        $('#destino_id').selectpicker('val', data.destino_id);
+                        $('#boletim_id').val(data.boletim_id);
+                        $('#dt_inicial').val(data.dt_inicial);
+                        $('#dt_final').val(data.dt_final);
+                        $('#local_destino').val(data.local_destino);
+                        $('#celular').val(data.celular);
+                        $('#observacao').val(data.observacao);
+                        $('#publicado').val(data.publicado);
+                    }
+                }); 
+
+            });           
+
+            $("#datatables-apresentacao tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();            
+
+                let id = $(this).attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("apresentacaos/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        // console.log(data);
+                        $('#modalLabel').html('Editar Apresentação');
+                        $(".invalid-feedback").text('').hide();  
+                        $('#form-group-id').show();
+                        $('#editarModal').modal('show');         
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
@@ -445,13 +474,11 @@
             */
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
-                $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
+                $(".invalid-feedback").text('').hide();    // hide and clean all erros messages on the form
 
-                //to use a button as submit button, is necesary use de .get(0) after
+                // to use a button as submit button, is necesary use de .get(0) after: console.log(formData);
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
 
-                //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("apresentacaos/store")}}",
@@ -460,7 +487,6 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
@@ -474,8 +500,7 @@
                         // validator: vamos exibir todas as mensagens de erro do validador
                         // como o dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
-                            $("#error-" + key ).text(value).show(); //show all error messages
+                            $("#error-" + key ).text(value).show();
                         });
                         // mostra mensagens de erro de Roles e Persistência em Banco
                         $('#msgOperacao').text(data.responseJSON.policyError).show();
@@ -490,18 +515,15 @@
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
 
-                $('#formEntity').trigger('reset');              //clean de form data
-                $('#form-group-id').hide();                     //hide ID field
+                $('#formEntity').trigger('reset');              // clean de form data
+                $('#form-group-id').hide();                     // hide ID field
                 $('#id').val('');                               // reset ID field
+                $('#pessoa_id').selectpicker('val', '');        // reset selectpicker
+                $('#destino_id').selectpicker('val','');        // reset selectpicker                               
                 $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                // show modal 
             });
-
-            // put the focus on de name field
-            $('body').on('shown.bs.modal', '#editarModal', function () {
-                $('#pessoa_id').focus();
-            })
 
             /*
             * Refresh button action
@@ -511,6 +533,11 @@
                 $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                 $('#alert').trigger('reset').hide();
             });        
+
+            // put the focus on de name field
+            $('body').on('shown.bs.modal', '#editarModal', function () {
+                $('#pessoa_id').focus();
+            })
 
         });
 

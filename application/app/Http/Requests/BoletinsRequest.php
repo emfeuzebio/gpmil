@@ -23,7 +23,7 @@ class BoletinsRequest extends FormRequest
     {
         return [
             'descricao' => 'required|min:2',
-            'data' => 'required|date',            //|unique
+            'data' => 'required|date|max:10',            //|unique
             'ativo' => ['required','in:"SIM","NÃO"'],
         ];
     }

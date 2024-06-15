@@ -12,11 +12,9 @@ use App\Models\Pessoa;
 use App\Models\Secao;
 use App\Models\User;
 use DataTables;
-use Yajra\DataTables\Contracts\DataTable;
 
 class ApresentacaoController extends Controller
 {
-    
     // protected $User = null;
     protected $Pessoa = null;
     protected $Destino = null;
@@ -63,7 +61,7 @@ class ApresentacaoController extends Controller
         $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
 
-        // filtros aplicados segundo o níve de acesso
+        // filtros aplicados segundo o nível de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
             $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
@@ -90,9 +88,6 @@ class ApresentacaoController extends Controller
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userID;
         }
-        // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
-        // dd($arrFiltro);
-
 
         if(request()->ajax()) {
 
@@ -141,33 +136,8 @@ class ApresentacaoController extends Controller
                 $actions .= $btnEditar . $btnExcluir;
             }
         }
-
-
         return $actions;
     }
-
-    public function Select() {  
-
-        // Forma de buscar os dados
-        // 1 - Direto via Model: já sabe a tabela
-        // $generos = GeneroModel::all()->sortBy('descricao');
-        // $generos = GeneroModel::where('id_genero','<','5')->orderBy('descricao')->get();
-        // $generos = GeneroModel::where('id_genero','<','10')->orderBy('descricao')->get();
-        // // dd($generos);
-
-        // // 2 - Via DB::table: usar a sintaxy própria do DB que abstrai os tipos de Bancos
-        // $generos = DB::table('bib_genero')->select('*')->get();
-
-        // // 3 - Via DB::select: livre para usar string SQL na mão
-        // $sql = 'SELECT * from bib_genero WHERE id_genero < :param';
-        // $generos = DB::select($sql, ['param'=> 8]);
-
-        // $sql = 'SELECT * from bib_genero WHERE id_genero < ?';
-        // $generos = DB::select($sql, [12]);
-
-        // return view('generoList',['generos' => $generos]);        
- 
-    }    
 
     public function edit(Request $request)
     {        
@@ -184,10 +154,6 @@ class ApresentacaoController extends Controller
 
     public function store(ApresentacaoRequest $request)
     {
-        // verifica se o User tem permissão via Policy
-        // $can = $request->user()->can('PodeInserirApresentacao',Apresentacao::class);
-        // var_dump($can);
-        // die();
 
         // verifica se o User tem permissão via Policy
         // necessário retornar HTTP 422-Unprocesable Content que bloqueia fechar o modal
@@ -199,9 +165,6 @@ class ApresentacaoController extends Controller
 
         //busca a Pessoa para obter a Seção da mesma
         $pessoa = $this->Pessoa->find($request->pessoa_id);
-        // print_r($pessoa->secao_id);
-        // die();
-        // dd($pessoa);
 
         $Apresentacao = Apresentacao::updateOrCreate(
             [
@@ -216,7 +179,7 @@ class ApresentacaoController extends Controller
                 'dt_final' => $request->dt_final,
                 'local_destino' => $request->local_destino,
                 'celular' => $request->celular,
-                'observacao ' => $request->observacao,
+                'observacao' => $request->observacao,
                 // 'prtsv' => $request->prtsv,
                 'publicado' => $request->publicado,
                 'secao_id' => $pessoa->secao_id,    //pega da pessoa
@@ -227,8 +190,6 @@ class ApresentacaoController extends Controller
 
     public function homologar(Request $request)
     {
-        //usar outra forma de persistência para gravar apenas as duas colunas
-        //senão será necessário gravar todos os dados após passar pelo Request
         $Apresentacao = Apresentacao::updateOrCreate(
             [
                 'id' => $request->id,

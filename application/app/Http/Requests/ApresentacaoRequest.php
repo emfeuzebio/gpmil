@@ -17,13 +17,12 @@ class ApresentacaoRequest extends FormRequest
             'pessoa_id' => 'required',
             'destino_id' => 'required',
             'boletim_id' => '',
-            // 'dt_apres' => 'required|date',           
-            'dt_inicial' => 'required|date',
-            'dt_final' => 'required|date',          
+            // 'dt_apres' => 'required|date|max:10',           
+            'dt_inicial' => 'required|date|max:10',
+            'dt_final' => 'required|date|max:10',
             'local_destino' => 'required|min:3',
             'celular' => 'required|min:10',
             'observacao' => '',  
-            // 'prtsv' => '',            
             'publicado' => ['required','in:"SIM","NÃO"'],
         ];
     }

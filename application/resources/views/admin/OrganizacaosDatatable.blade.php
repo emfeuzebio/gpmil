@@ -24,7 +24,7 @@
             <div class="card">
                 <div class="card-header">
                     <div class="row">
-                        <div class="col-md-3 text-left"><b>Organização Militar</b></div>
+                        <div class="col-md-3 text-left h5"><b>Cadastro da Organização Militar</b></div>
                         
                         <!--área de mensagens-->
                         <div class="col-md-6 text-left">
@@ -55,7 +55,7 @@
     </div>
 
     <!-- Modal Editar Registro -->
-    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+    <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
             <div class="modal-header">
