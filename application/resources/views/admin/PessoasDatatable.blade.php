@@ -111,14 +111,14 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nome Completo <span style="color: red">*</span></label>
-                                <input class="form-control editable" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite o nome completo" data-toggle="tooltip"  title="Informe o Nome Completo" >
+                                <input class="form-control editable upper" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite o nome completo" data-toggle="tooltip"  title="Informe o Nome Completo" >
                                 <input class="form-control" value="" type="text" @can('soVer') disabled @endcan style="display: none;" >
                                 <div id="error-nome_completo" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
                                 <label class="form-label">Nome de Guerra <span style="color: red">*</span></label>
-                                <input class="form-control editable" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite o nome de guerra" data-toggle="tooltip"  title="Informe o Nome de Guerra!" >
+                                <input class="form-control editable upper" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite o nome de guerra" data-toggle="tooltip"  title="Informe o Nome de Guerra!" >
                                 <div id="error-nome_guerra" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -302,6 +302,14 @@
             $('#cpf').inputmask('999.999.999-99');  // máscara para CPF
             $('#idt').inputmask('999999999-9');     // máscara para Idt  
             $('#preccp').inputmask('999999999-99'); // máscara para Prec-CP
+
+            $('.upper').on('input', function() {
+                $(this).val($(this).val().toUpperCase());
+            });
+
+            // $('input[name="nome_completo"]').on('input', function() {
+            //     $(this).val($(this).val().toUpperCase());
+            // });
 
             var id = '';
             const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};

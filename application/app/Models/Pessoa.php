@@ -82,5 +82,15 @@ class Pessoa extends Model
         $this->attributes['idt'] = preg_replace('/[^0-9]/', '', $value);
     }
 
+    public function setNomeGuerraAttribute($value)
+    {
+        $this->attributes['nome_guerra'] = mb_strtoupper($value);
+    }
+
+    public function setNomeCompletoAttribute($value)
+    {
+        $this->attributes['nome_completo'] = mb_strtoupper($value);
+    }
+
 
 }
