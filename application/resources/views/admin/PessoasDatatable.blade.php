@@ -152,7 +152,7 @@
 
                             <div class="form-group">
                                 <label class="form-label">Foto</label><br>
-                                <img id="imagem-exibida" src="" class="img-fluid img-thumbnail" alt="Imagem selecionada" style="max-width: 60%; display: none;">
+                                <img id="imagem-exibida" src="" class="img-fluid img-thumbnail" alt="Imagem selecionada" style="max-width: 120px">
                                 <div class="custom-file">
                                     <input class="custom-file-input" type="file" id="foto" name="foto" onchange="exibirFoto()">
                                     <label class="custom-file-label" for="foto">Escolha o arquivo</label>
@@ -432,7 +432,101 @@
 
             });        
 
+/*
+            * Edit button action
+            */
+            $("#datatables-pessoas tbody").delegate('tr td .btnEditar', 'click', function (e) {
+                e.stopImmediatePropagation();
 
+                const id = $(this).data("id")
+                // alert('Editar ID: ' + id );
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("pessoas/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        // console.log(data);
+                        $('#modalLabel').html('Editar Pessoa');
+                        $(".invalid-feedback").text('').hide();     // hide and clen all erros messages on the form
+                        $('#form-group-id').show();                 // show edit form
+                        $('#editarModal').modal('show');            // show the modal
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#pgrad_id').selectpicker('val', data.pgrad_id);
+                        $('#qualificacao_id').selectpicker('val', data.qualificacao_id);
+                        $('#lem').selectpicker('val', data.lem);
+                        $('#nome_completo').val(data.nome_completo);
+                        $('#nome_guerra').val(data.nome_guerra);
+                        $('#cpf').val(data.cpf);
+                        $('#idt').val(data.idt);
+                        $('#status').selectpicker('val', data.status);
+                        $('#email').val(data.email);
+                        $('#preccp').val(data.preccp);
+                        $('#dt_nascimento').val(data.dt_nascimento);
+                        $('#dt_praca').val(data.dt_praca);
+                        $('#dt_apres_gu').val(data.dt_apres_gu);
+                        $('#dt_apres_om').val(data.dt_apres_om);
+                        $('#dt_ult_promocao').val(data.dt_ult_promocao);
+                        $('#pronto_sv').val(data.pronto_sv);
+                        // $('#imagem-exibida').attr('src', data.foto);
+                        $('#secao_id').selectpicker('val', data.secao_id);
+                        $('#religiao_id').selectpicker('val', data.religiao_id);
+                        $('#funcao_id').selectpicker('val', data.funcao_id);
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                        } else {
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        }
+
+                        if (data.segmento === "Masculino") {
+                            $('#segmentoM').prop('checked', true);
+                        } else if (data.segmento === "Feminino") {
+                            $('#segmentoF').prop('checked', true);
+                        } else {
+                            $('#segmentoM').prop('checked', false);
+                            $('#segmentoF').prop('checked', false);
+                        }
+
+                        $('#ativo').prop('disabled', false);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
+
+                        if (data.foto) {
+                            $('#imagem-exibida').attr('src', data.foto);
+                        // } else {
+                        //     $('#imagem-exibida').attr('src', 'vendor/adminlte/dist/img/avatar.png');
+                        }
+
+                        // console.log(data.foto_base64);
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
+                            var url = URL.createObjectURL(blob);
+                            $('#foto').attr('src', url);
+                        }
+
+                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
+                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
+                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
+                        $('.selectpicker').selectpicker('refresh');                        
+                    }
+                }); 
+
+            });
             
             /*
             * Edit record on doble click
@@ -499,13 +593,18 @@
                             $('#ativo').bootstrapToggle('off');
                         }
 
+                        if (data.foto) {
+                            $('#imagem-exibida').attr('src', data.foto);
+                        // } else {
+                        //     $('#imagem-exibida').attr('src', 'vendor/adminlte/dist/img/avatar.png');
+                        }
+
                         // console.log(data.foto_base64);
                         if (data.foto) {
                             var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
                             var url = URL.createObjectURL(blob);
-                            $('#imagem-exibida').attr('src', url);
+                            $('#foto').attr('src', url);
                         }
-
                         // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
                         // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
                         // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );

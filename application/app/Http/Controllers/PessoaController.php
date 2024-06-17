@@ -142,6 +142,31 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
+        $image_blob = $Pessoa->foto;
+
+        if ($image_blob) {
+            // Decodifique os dados base64
+            $decoded_data = base64_decode($image_blob);
+    
+            // Crie uma imagem a partir dos dados decodificados
+            $image = imagecreatefromstring($decoded_data);
+    
+            if ($image !== false) {
+                // Salve a imagem em um buffer
+                ob_start();
+                imagepng($image);
+                $data = ob_get_contents();
+                ob_end_clean();
+    
+                $Pessoa->foto = 'data:image/png;base64,' . base64_encode($data);
+            } else {
+                $Pessoa->foto = 'Erro ao criar a imagem.';
+            }
+        } else {
+            $Pessoa->foto = 'vendor/adminlte/dist/img/avatar.png';
+        }
+
+        // dd($Pessoa);
         return Response()->json($Pessoa);
 
     }    
