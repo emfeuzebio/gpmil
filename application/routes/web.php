@@ -1,7 +1,7 @@
 <?php
 
 
-use App\Http\Controllers\BoletinsController;
+use App\Http\Controllers\BoletimController;
 use App\Http\Controllers\ApresentacaoController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
@@ -158,10 +158,10 @@ Route::post('/apresentacaos/edit', [ApresentacaoController::class, 'edit'])->nam
 Route::post('/apresentacaos/destroy', [ApresentacaoController::class, 'destroy'])->name('home');
 Route::post('/apresentacaos/homologar', [ApresentacaoController::class, 'homologar'])->name('home');
 
-Route::get('/boletins', [BoletinsController::class, 'index'])->name('home');
-Route::post('boletins/store', [BoletinsController::class, 'store'])->name('home');
-Route::post('boletins/edit', [BoletinsController::class, 'edit'])->name('home');
-Route::post('boletins/destroy', [BoletinsController::class, 'destroy'])->name('home');
+Route::get('/boletins', [BoletimController::class, 'index'])->name('home');
+Route::post('boletins/store', [BoletimController::class, 'store'])->name('home');
+Route::post('boletins/edit', [BoletimController::class, 'edit'])->name('home');
+Route::post('boletins/destroy', [BoletimController::class, 'destroy'])->name('home');
 
 // Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home')->middleware('can:is_admin');
 Route::get('/situacaos', [SituacaoController::class, 'index'])->name('home');

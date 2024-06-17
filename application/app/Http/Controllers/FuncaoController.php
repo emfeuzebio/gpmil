@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Gate;
 use App\Http\Requests\FuncaoRequest;
 use Illuminate\Http\Request;
 use App\Models\Funcao;
-use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class FuncaoController extends Controller
 {
@@ -28,8 +28,9 @@ class FuncaoController extends Controller
 
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Funcao::select(['funcaos.*'])->orderBy('id'))
+            return DataTables::eloquent(Funcao::select(['funcaos.*'])->orderBy('id'))
                 ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
+                ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
                 ->make(true);        
         }

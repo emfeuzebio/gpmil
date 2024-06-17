@@ -4,25 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 use Illuminate\Http\Request;
 use App\Http\Requests\SituacaoRequest;
 use App\Models\Situacao;
+use Yajra\DataTables\Facades\DataTables;
 
 class SituacaoController extends Controller
 {
-    
     public function __construct() {
+
     }
 
     public function index() {
 
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // Auth::logout();          // se não autenticado faz logout
         if (! Auth::check()) return redirect('/home');
-
-        // Simples para apenas um perfil, gera 403 com mensagem padrão
-        // $this->authorize('is_admin');
 
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Situacao())) {
@@ -30,9 +26,9 @@ class SituacaoController extends Controller
         }        
 
         if(request()->ajax()) {
-
-            return FacadesDataTables::eloquent(Situacao::select(['situacaos.*']))
+            return DataTables::eloquent(Situacao::select(['situacaos.*']))
                 ->filter(function ($query) { $query->where('id', '>', "1");}, true)        
+                ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
                 ->make(true);        
         }

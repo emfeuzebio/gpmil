@@ -11,7 +11,7 @@ use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
 use App\Models\User;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class ApresentacaoController extends Controller
 {
@@ -43,8 +43,7 @@ class ApresentacaoController extends Controller
     
     public function index() {
 
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // Auth::logout();          // se não autenticado faz logout
         if (! Auth::check()) return redirect('/home');
 
         // dd(Auth::user()->id);

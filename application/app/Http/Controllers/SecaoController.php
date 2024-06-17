@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
-use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
+use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
 use App\Http\Requests\SecaoRequest;
 use App\Models\Secao;
@@ -30,8 +30,9 @@ class SecaoController extends Controller
 
         if(request()->ajax()) {
 
-            return FacadesDataTables::eloquent(Secao::select(['secaos.*']))
+            return DataTables::eloquent(Secao::select(['secaos.*']))
                 ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
+                ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
                 ->make(true);        
         }

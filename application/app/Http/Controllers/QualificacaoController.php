@@ -2,31 +2,32 @@
 
 namespace App\Http\Controllers;
 
-use App\DataTables\QualificacaosDataTable;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\QualificacaoRequest;   //validação de servidor
 use App\Models\Qualificacao;
-use DataTables;
+use Yajra\DataTables\Facades\DataTables;
 
 class QualificacaoController extends Controller
 {
-
     public function __construct() {
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
-    }
 
-    public function indexRender(QualificacaosDataTable $dataTable)
-    {
-        // return $dataTable->render('users.Qualificacaos');
-    }    
+    }
     
     public function index() {
 
+        // Auth::logout();          // se não autenticado faz logout
+        if (! Auth::check()) return redirect('/home');
+
+        // somente Admin e EncPes têm permissão
+        if (Gate::none(['is_admin','is_encpes'], new Qualificacao())) {
+            abort(403, 'Usuário não autorizado!');
+        }        
+
         if(request()->ajax()) {
-            // return 
-            //     datatables()->of(Qualificacao::select('*'))
             return DataTables::eloquent(Qualificacao::select(['qualificacaos.*']))
+                ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
                 ->make(true);        
         }

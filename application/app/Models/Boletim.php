@@ -9,8 +9,9 @@ class Boletim extends Model
 {
     use HasFactory;
 
-    protected $table = 'boletins';
-    // public $timestamps = false;                             //desabilita colunas timestamps                    
-    protected $fillable = ['descricao','data','ativo'];       //colunas  
+    protected $table = 'boletins';                                          // tabela de uso
+    protected $fillable = ['descricao','data','ativo'];                     // colunas      
+    // public $timestamps = false;                                          // desabilita colunas timestamps                    
+
 
 }

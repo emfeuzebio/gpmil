@@ -2,31 +2,34 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\DestinoRequest;
 use App\Models\Destino;
-use DataTables;
-use DB;
+use Yajra\DataTables\Facades\DataTables;
 
 class DestinoController extends Controller
 {
     
     public function __construct() {
 
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
     }
 
     public function index() {
 
+        // Auth::logout();          // se não autenticado faz logout
+        if (! Auth::check()) return redirect('/home');
+
+        // somente Admin e EncPes têm permissão
+        if (Gate::none(['is_admin','is_encpes'], new Destino())) {
+            abort(403, 'Usuário não autorizado!');
+        }        
+
         if(request()->ajax()) {
-            // return 
-            //     datatables()->of(Pgrad::select('*'))
             return DataTables::eloquent(Destino::select(['destinos.*']))
-                // ->addColumn('circulo', function($param) { return $param->circulo->sigla; })
-                // ->addColumn('action', function ($param) { return '<button data-id="' . $param->id . '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>'; })
+                ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
-                // ->editColumn('created_at', function ($param) { return date("d/m/Y", strtotime($param->created_at)); })
                 ->make(true);        
         }
         return view('admin/DestinosDatatable');
@@ -47,17 +50,7 @@ class DestinoController extends Controller
 
     public function store(DestinoRequest $request)
     {
-
         $destino = Destino::where(['id'=>$request->id]);
-        //  dd($pgrad);
-        //  die();
-
-        // if(! $this->authorize('store', $pgrad)) {
-        //     return response([], 403);
-        //     // {"message":"Não autorizado.","errors":{"store":["Não autorizado."]}
-        //     $message = ["message" => "Não autorizado!"];
-        //     return Response()->json($message);
-        // }        
 
         $Destino = Destino::updateOrCreate(
             [

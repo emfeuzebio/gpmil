@@ -55,7 +55,6 @@
                     </div>
                 </div>
 
-
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
                     <table id="datatables-plano-chamada" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">

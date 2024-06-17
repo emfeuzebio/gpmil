@@ -48,10 +48,8 @@ class PessoaController extends Controller
     
     public function index() {
 
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // Auth::logout();          // se não autenticado faz logout
         if (! Auth::check()) return redirect('/home');
-
 
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
@@ -72,6 +70,7 @@ class PessoaController extends Controller
             $arrFiltro['coluna'] = 'pessoas.secao_id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userSecaoID;
+
         } else {
             // Usuário vê apenas seus registro id', '=', $userID
             $arrFiltro['coluna'] = 'pessoas.id';
@@ -86,6 +85,7 @@ class PessoaController extends Controller
                     ->orderBy('pgrad_id')->orderBy('nome_completo')
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
+                ->setRowId( function($param) { return $param->id; })
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
@@ -142,30 +142,32 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
-        $pessoaArray = $Pessoa->toArray();
+        return Response()->json($Pessoa);
 
-        $binaryFields = ['longblob_field'];
+        // NÃO ENTENDI O CODIGO ABAIXO - desnecessário?
         
-        foreach ($binaryFields as $field) {
-            if (isset($pessoaArray[$field])) {
-                $pessoaArray[$field] = base64_encode($pessoaArray[$field]);
-            }
-        }
-        $pessoaObject = (object) $pessoaArray;
-        // print_r($Pessoa);
-        // dd($pessoaData);
-        // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
-        // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
-        return Response()->json($pessoaObject);
+        // $pessoaArray = $Pessoa->toArray();
+        // $binaryFields = ['longblob_field'];
+        // foreach ($binaryFields as $field) {
+        //     if (isset($pessoaArray[$field])) {
+        //         $pessoaArray[$field] = base64_encode($pessoaArray[$field]);
+        //     }
+        // }
+        // $pessoaObject = (object) $pessoaArray;
+        // // print_r($Pessoa);
+        // // dd($pessoaData);
+        // // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
+        // // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
+        // return Response()->json($pessoaObject);
     }    
 
     public function destroy(Request $request)
     {   
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
+
         // Somente User com nível de acesso Admin pode excluir uma Pessoa
         if ($this->userNivelAcessoID == 1) {
-            // Excluir Pessoa
             $PessoaExcluida = Pessoa::where(['id' => $request->id])->delete();
             
             // Verificar se a Pessoa foi excluída antes de excluir o User
@@ -196,6 +198,7 @@ class PessoaController extends Controller
                 'ativo' => $request->ativo,
                 'nivelacesso_id' => $editandoNivelRestrito ? $atualPessoa->nivelacesso_id : $request->nivelacesso_id
             ];
+            
         } elseif (in_array($user->pessoa->nivelacesso_id,[5]) || $request->id == $user->id) {
             $dadosRestritos = ['funcao_id' => $request->funcao_id];
         } else {

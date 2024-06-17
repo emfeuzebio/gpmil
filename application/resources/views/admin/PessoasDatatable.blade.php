@@ -50,7 +50,7 @@
 
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
-                    <table id="datatables" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
+                    <table id="datatables-pessoas" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
                         <thead></thead>
                         <tbody></tbody>
                         <tfoot></tfoot>                
@@ -318,7 +318,7 @@
             * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
             * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
             */
-            $('#datatables').DataTable({
+            $('#datatables-pessoas').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -391,7 +391,7 @@
             /*
             * Delete button action
             */
-            $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
+            $("#datatables-pessoas tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
@@ -413,7 +413,7 @@
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#confirmaExcluirModal').modal('hide');
-                            $('#datatables').DataTable().ajax.reload(null, false);
+                            $('#datatables-pessoas').DataTable().ajax.reload(null, false);
 
                             setTimeout(function() {
                                 $('#alert').fadeOut('slow');
@@ -435,7 +435,7 @@
             /*
             * Edit button action
             */
-            $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
+            $("#datatables-pessoas tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();
 
                 const id = $(this).data("id")
@@ -480,7 +480,6 @@
                         } else {
                             $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
                         }
-                            
 
                         if (data.segmento === "Masculino") {
                             $('#segmentoM').prop('checked', true);
@@ -521,6 +520,96 @@
                 }); 
 
             });
+            
+            /*
+            * Edit record on doble click
+            */
+            $("#datatables-pessoas tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();
+
+                let id = $(this).attr("id");
+                // alert('Editar ID: ' + id );
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("pessoas/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        // console.log(data);
+                        $('#modalLabel').html('Editar Pessoa');
+                        $(".invalid-feedback").text('').hide();     // hide and clen all erros messages on the form
+                        $('#form-group-id').show();                 // show edit form
+                        $('#editarModal').modal('show');            // show the modal
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#pgrad_id').selectpicker('val', data.pgrad_id);
+                        $('#qualificacao_id').selectpicker('val', data.qualificacao_id);
+                        $('#lem').selectpicker('val', data.lem);
+                        $('#nome_completo').val(data.nome_completo);
+                        $('#nome_guerra').val(data.nome_guerra);
+                        $('#cpf').val(data.cpf);
+                        $('#idt').val(data.idt);
+                        $('#status').selectpicker('val', data.status);
+                        $('#email').val(data.email);
+                        $('#preccp').val(data.preccp);
+                        $('#dt_nascimento').val(data.dt_nascimento);
+                        $('#dt_praca').val(data.dt_praca);
+                        $('#dt_apres_gu').val(data.dt_apres_gu);
+                        $('#dt_apres_om').val(data.dt_apres_om);
+                        $('#dt_ult_promocao').val(data.dt_ult_promocao);
+                        $('#pronto_sv').val(data.pronto_sv);
+                        // $('#imagem-exibida').attr('src', data.foto);
+                        $('#secao_id').selectpicker('val', data.secao_id);
+                        $('#religiao_id').selectpicker('val', data.religiao_id);
+                        $('#funcao_id').selectpicker('val', data.funcao_id);
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                        } else {
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        }
+
+                        if (data.segmento === "Masculino") {
+                            $('#segmentoM').prop('checked', true);
+                        } else if (data.segmento === "Feminino") {
+                            $('#segmentoF').prop('checked', true);
+                        } else {
+                            $('#segmentoM').prop('checked', false);
+                            $('#segmentoF').prop('checked', false);
+                        }
+
+                        $('#ativo').prop('disabled', false);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
+
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
+                            var url = URL.createObjectURL(blob);
+                            $('#imagem-exibida').attr('src', url);
+                        }
+
+                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
+                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
+                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
+                        $('.selectpicker').selectpicker('refresh');                        
+                    }
+                }); 
+
+            });
+            
 
             /*
             * Save button action
@@ -537,7 +626,7 @@
                 var funcaoValue = getFuncaoValue();
                 var nivelAcessoValue = getNivelAcessoValue();
 
-                //to use a button as submit button, is necesary use de .get(0) after
+                // to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
 
                 // Add the values to formData
@@ -548,7 +637,7 @@
                 formData.append('funcao_id', funcaoValue);
                 formData.append('nivelacesso_id', nivelAcessoValue);
 
-                //here there are a problem with de serialize the form
+                // here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("pessoas/store")}}",
@@ -560,17 +649,15 @@
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
-                        $('#datatables').DataTable().ajax.reload(null, false);
+                        $('#datatables-pessoas').DataTable().ajax.reload(null, false);
 
                         setTimeout(function() {
                             $('#alert').fadeOut('slow');
                         }, 2000);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador
-                        // como o dataType não é JSON, precisa do responseJSON
+                        // validator: vamos exibir todas as mensagens de erro do validador. como o dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
                         // exibe mensagem sobre sucesso da operação
@@ -610,7 +697,7 @@
         */
         $('#btnRefresh').on("click", function (e) {
             e.stopImmediatePropagation();
-            $('#datatables').DataTable().ajax.reload(null, false);    
+            $('#datatables-pessoas').DataTable().ajax.reload(null, false);    
         });
 
         function limpa_formulário_cep() {

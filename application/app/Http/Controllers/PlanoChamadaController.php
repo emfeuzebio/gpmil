@@ -2,48 +2,33 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\PlanoChamadaRequest;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
+use App\Http\Requests\PlanoChamadaRequest;
 use Illuminate\Http\Request;
 use App\Models\PlanoChamada;
 use App\Models\User;
 use App\Models\Pessoa;
 use App\Models\Secao;
-use DataTables;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Response as HttpResponse;
+use Yajra\DataTables\Facades\DataTables;
 
 class PlanoChamadaController extends Controller
 {
-
-    // protected $User = null;
     protected $Pessoa = null;
     protected $Secao = null;
-
-    // protected $Municipio = null;
     protected $userID = 0;
     protected $userSecaoID = 0;
     protected $userNivelAcessoID = 0;    
 
     public function __construct() {
 
-        //somente Admin têm permissão
-        // $this->authorize('is_admin');
-        // $can = $this->authorize('PodeInserirPlanoChamada',PlanoChamada::class);
-        // var_dump($can);
-        // die();
-
-        // carrega Entidades necessárias
         $this->Pessoa = new Pessoa();
         $this->Secao = new Secao();
-
     }
     
     public function index() {
 
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // Auth::logout();          // se não autenticado faz logout
         if (! Auth::check()) return redirect('/home');
 
         // dd(Auth::user()->id);
@@ -54,9 +39,7 @@ class PlanoChamadaController extends Controller
 
         // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
         // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
-        // die();
         // dd($user->pessoa);
-        // $municipios = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
 
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
@@ -72,6 +55,7 @@ class PlanoChamadaController extends Controller
             $arrFiltro['coluna'] = 'pessoas.secao_id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userSecaoID;
+
         } else {
             // Usuário vê apenas seus registro pessoa_id', '=', $userID
             $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('id')->get();
@@ -82,18 +66,16 @@ class PlanoChamadaController extends Controller
         // dd($arrFiltro);
 
         if(request()->ajax()) {
-
             return DataTables::eloquent(PlanoChamada::select(['pessoas.*'])->with('pgrad')->with('secao')
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
+                ->setRowId( function($param) { return $param->id; })
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
                 ->addColumn('secao', function($param) { return $param->secao->sigla; })
                 ->addColumn('acoes', function ($param) {return $this->getActionColumn($param); })
                 ->rawColumns(['acoes'])
                 ->addIndexColumn()
-                ->setRowId( function($param) { return $param->id; })
                 ->make(true);        
-
         }
 
         return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes]);

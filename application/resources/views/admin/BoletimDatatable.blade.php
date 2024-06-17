@@ -200,7 +200,6 @@
                 e.stopImmediatePropagation();            
 
                 id = $(this).data("id")
-                //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -227,7 +226,6 @@
                             }, 2000);
                         },
                         error: function (data) {
-                            // console.log(data.responseJSON.message);
                             // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
@@ -287,7 +285,6 @@
 
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
                 formData.append('ativo', ativoValue);
 
                 //here there are a problem with de serialize the form
@@ -299,7 +296,6 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
