@@ -144,21 +144,6 @@ class PessoaController extends Controller
         $Pessoa = Pessoa::where($where)->first();
         return Response()->json($Pessoa);
 
-        // NÃO ENTENDI O CODIGO ABAIXO - desnecessário?
-        
-        // $pessoaArray = $Pessoa->toArray();
-        // $binaryFields = ['longblob_field'];
-        // foreach ($binaryFields as $field) {
-        //     if (isset($pessoaArray[$field])) {
-        //         $pessoaArray[$field] = base64_encode($pessoaArray[$field]);
-        //     }
-        // }
-        // $pessoaObject = (object) $pessoaArray;
-        // // print_r($Pessoa);
-        // // dd($pessoaData);
-        // // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
-        // // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
-        // return Response()->json($pessoaObject);
     }    
 
     public function destroy(Request $request)
@@ -241,10 +226,10 @@ class PessoaController extends Controller
             // Lê o conteúdo do arquivo
             $foto = file_get_contents($request->foto->getRealPath());
             $dadosComuns['foto'] = base64_encode($foto); // Armazena a imagem como base64 no banco de dados
-        } else {
-            // Caso a foto não seja enviada, define como null ou mantém a existente
-            $dadosComuns['foto'] = null;
-        }
+         } //else {
+        //     // Caso a foto não seja enviada, define como null ou mantém a existente
+        //     $dadosComuns['foto'] = null;
+        // }
     
         // Cria ou atualiza a pessoa
         $Pessoa = Pessoa::updateOrCreate(
