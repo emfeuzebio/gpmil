@@ -116,7 +116,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Município</label>
-                            <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Selecione o Município" data-toggle="tooltip" data-placement="top" title="Selecione o Município de residência">
+                            <input class="form-control" value="" type="text" id="municipio_id" name="municipio_id" placeholder="Selecione o Município" data-toggle="tooltip" data-placement="top" title="Selecione o Município de residência" readonly>
                             <div id="error-municipio_id" class="error invalid-feedback" style="display: none;"></div>
                         </div>
 
@@ -140,7 +140,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">Pessoa para Emergência</label>
-                            <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Digite o telefone de emergência" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
+                            <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Nome da Pessoa para caso de emergência (parentesco)" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
                             <div id="error-pessoa_emergencia" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
