@@ -151,14 +151,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Foto</label>
+                                <label class="form-label">Foto</label><br>
+                                <img id="imagem-exibida" src="" alt="Imagem selecionada" style="max-width: 60%; display: none;">
                                 <div class="custom-file">
                                     <input class="custom-file-input" type="file" id="foto" name="foto" onchange="exibirFoto()">
                                     <label class="custom-file-label" for="foto">Escolha o arquivo</label>
                                 </div>
                                 <div id="error-foto" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-                            <img id="imagem-exibida" src="" alt="Imagem selecionada" style="max-width: 100%; display: none;">
 
                         </div>
 
