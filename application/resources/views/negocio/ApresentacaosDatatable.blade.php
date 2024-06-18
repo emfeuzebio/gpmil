@@ -47,7 +47,16 @@
                     <!--área de Filtros-->
                     <div class="row">
                         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
-                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Militar</label>
+                                <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Todas os Militares </option>
+                                    @foreach( $pessoas as $pessoa )
+                                    <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pela Seção</label>
                                 <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas Seções </option>
@@ -56,7 +65,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pelo Motivo</label>
                                 <select id="filtro_destino" name="filtro_destino" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                 <option value=""> Todos Motivos </option>
@@ -65,7 +74,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-4 form-group" style="margin-bottom: 0px;">
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Publicado</label>
                                 <select id="filtro_publicado" name="destino" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Publicados ou não </option>

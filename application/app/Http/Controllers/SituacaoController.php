@@ -27,7 +27,7 @@ class SituacaoController extends Controller
 
         if(request()->ajax()) {
             return DataTables::eloquent(Situacao::select(['situacaos.*']))
-                ->filter(function ($query) { $query->where('id', '>', "1");}, true)        
+                ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
                 ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
                 ->make(true);        

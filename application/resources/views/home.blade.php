@@ -25,18 +25,34 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-body">
-                    <p class="mb-0">Bem vindo <strong>{{$pessoa->pgrad->sigla}} {{$user->pessoa->nome_guerra}}</strong>!</p> 
+                    <p class="mb-0">Bem vindo <strong>{{$pessoa->pgrad->sigla}} {{$user->pessoa->nome_guerra}}</strong>!</p>
                 </div>
             </div>
         </div>
     </div>
 
     <section class="content">
+
+      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+        <div class="card">
+          <div class="card-body">
+            <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p> 
+          </div>
+        </div>
+      @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
+        <div class="card">
+          <div class="card-body">
+            <p class="mb-0"><strong>{{$secaos->descricao}}</strong>!</p> 
+          </div>
+        </div>
+      @endif
+
+      @cannot('is_usuario')
       <!-- Info boxes -->
       <div class="row">
         <div class="col-md-3 col-sm-6 col-xs-12">
           <div class="info-box">
-            <span class="info-box-icon bg-aqua"><i class="ion ion-ios-gear-outline"></i></span>
+            <span class="info-box-icon bg-primary"><i class="ion ion-ios-gear-outline"></i></span>
 
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Pronto</span>
@@ -83,7 +99,7 @@
 
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Total</span>
-              <span class="info-box-number">250</span>
+              <span class="info-box-number">{{ $qtdPessoasTotal }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
@@ -92,6 +108,59 @@
         <!-- /.col -->
       </div>
       <!-- /.row -->
+      @endcannot
+
+      <!-- Show presentations if user is a common user -->
+      {{-- @can('user') --}}
+        <div class="row">
+          <div class="col-12">
+            <div class="card">
+              <div class="card-header">
+                <h3 class="card-title">Minhas Apresentações</h3>
+              </div>
+              <!-- /.card-header -->
+              <div class="card-body table-responsive p-0">
+                @if($apresentacoes->isEmpty())
+                  <p class="text-center">Não há nenhuma apresentação para listar.</p>
+                @else
+                <table class="table table-hover text-nowrap">
+                  <thead>
+                    <tr>
+                      <th>ID</th>
+                      <th>Data da Apresentação</th>
+                      <th>Data Inicial</th>
+                      <th>Data Final</th>
+                      <th>Publicado</th>
+                      <th>Observação</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @foreach($apresentacoes as $apresentacao)
+                      <tr>
+                        <td>{{ $apresentacao->id }}</td>
+                        <td>{{ $apresentacao->dt_apres }}</td>
+                        <td>{{ $apresentacao->dt_inicial }}</td>
+                        <td>{{ $apresentacao->dt_final }}</td>
+                        <td>
+                          @if($apresentacao->publicado == 'SIM')
+                            <span class="text-primary">{{ $apresentacao->publicado }}</span>
+                          @else
+                            <span class="text-danger">{{ $apresentacao->publicado }}</span>
+                          @endif
+                        </td>
+                        <td>{{ $apresentacao->observacao }}</td>
+                      </tr>
+                    @endforeach
+                  </tbody>
+                </table>
+                @endif
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+        </div>
+      {{-- @endcan --}}
     </section>
 
 @stop

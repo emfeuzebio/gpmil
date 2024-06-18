@@ -111,14 +111,14 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nome Completo <span style="color: red">*</span></label>
-                                <input class="form-control editable" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite o nome completo" data-toggle="tooltip"  title="Informe o Nome Completo" >
+                                <input class="form-control editable upper" value="" type="text" id="nome_completo" name="nome_completo" placeholder="Digite o nome completo" data-toggle="tooltip"  title="Informe o Nome Completo" >
                                 <input class="form-control" value="" type="text" @can('soVer') disabled @endcan style="display: none;" >
                                 <div id="error-nome_completo" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
                                 <label class="form-label">Nome de Guerra <span style="color: red">*</span></label>
-                                <input class="form-control editable" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite o nome de guerra" data-toggle="tooltip"  title="Informe o Nome de Guerra!" >
+                                <input class="form-control editable upper" value="" type="text" id="nome_guerra" name="nome_guerra" placeholder="Digite o nome de guerra" data-toggle="tooltip"  title="Informe o Nome de Guerra!" >
                                 <div id="error-nome_guerra" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -151,14 +151,14 @@
                             </div>
 
                             <div class="form-group">
-                                <label class="form-label">Foto</label>
+                                <label class="form-label">Foto</label><br>
+                                <img id="imagem-exibida" src="" class="img-fluid img-thumbnail" alt="Imagem selecionada" style="max-width: 120px">
                                 <div class="custom-file">
                                     <input class="custom-file-input" type="file" id="foto" name="foto" onchange="exibirFoto()">
                                     <label class="custom-file-label" for="foto">Escolha o arquivo</label>
                                 </div>
                                 <div id="error-foto" class="error invalid-feedback" style="display: none;"></div>
                             </div>
-                            <img id="imagem-exibida" src="" alt="Imagem selecionada" style="max-width: 100%; display: none;">
 
                         </div>
 
@@ -303,6 +303,14 @@
             $('#idt').inputmask('999999999-9');     // máscara para Idt  
             $('#preccp').inputmask('999999999-99'); // máscara para Prec-CP
 
+            $('.upper').on('input', function() {
+                $(this).val($(this).val().toUpperCase());
+            });
+
+            // $('input[name="nome_completo"]').on('input', function() {
+            //     $(this).val($(this).val().toUpperCase());
+            // });
+
             var id = '';
             const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
@@ -432,7 +440,7 @@
 
             });        
 
-            /*
+/*
             * Edit button action
             */
             $("#datatables-pessoas tbody").delegate('tr td .btnEditar', 'click', function (e) {
@@ -471,7 +479,6 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        // $('#imagem-exibida').attr('src', data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
@@ -496,16 +503,21 @@
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
-
-                        if (data.foto) {
-                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
-                            var url = URL.createObjectURL(blob);
-                            $('#imagem-exibida').attr('src', url);
+                        if (userNivelAcessoID == 1 || userNivelAcessoID == 3) {
+                            $('#ativo').prop('disabled', false);
+                        } else {
+                            $('#ativo').prop('disabled', true);
                         }
 
-                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
-                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
-                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
+                        if (data.foto) {
+                            $('#imagem-exibida').attr('src', data.foto);
+                        }
+
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
+                            var url = URL.createObjectURL(blob);
+                            $('#foto').attr('src', url);
+                        }
 
                         // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
                         if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
@@ -560,7 +572,6 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        // $('#imagem-exibida').attr('src', data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
@@ -585,16 +596,21 @@
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
-
-                        if (data.foto) {
-                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
-                            var url = URL.createObjectURL(blob);
-                            $('#imagem-exibida').attr('src', url);
+                        if (userNivelAcessoID == 1 || userNivelAcessoID == 3) {
+                            $('#ativo').prop('disabled', false);
+                        } else {
+                            $('#ativo').prop('disabled', true);
                         }
 
-                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
-                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
-                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
+                        if (data.foto) {
+                            $('#imagem-exibida').attr('src', data.foto);
+                        }
+
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
+                            var url = URL.createObjectURL(blob);
+                            $('#foto').attr('src', url);
+                        }
 
                         // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
                         if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {

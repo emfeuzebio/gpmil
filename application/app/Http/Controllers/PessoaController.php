@@ -142,23 +142,33 @@ class PessoaController extends Controller
     {        
         $where = array('id'=>$request->id);
         $Pessoa = Pessoa::where($where)->first();
+        $image_blob = $Pessoa->foto;
+
+        if ($image_blob) {
+            // Decodifique os dados base64
+            $decoded_data = base64_decode($image_blob);
+    
+            // Crie uma imagem a partir dos dados decodificados
+            $image = imagecreatefromstring($decoded_data);
+    
+            if ($image !== false) {
+                // Salve a imagem em um buffer
+                ob_start();
+                imagepng($image);
+                $data = ob_get_contents();
+                ob_end_clean();
+    
+                $Pessoa->foto = 'data:image/png;base64,' . base64_encode($data);
+            } else {
+                $Pessoa->foto = 'Erro ao criar a imagem.';
+            }
+        } else {
+            $Pessoa->foto = 'vendor/adminlte/dist/img/avatar.png';
+        }
+
+        // dd($Pessoa);
         return Response()->json($Pessoa);
 
-        // NÃO ENTENDI O CODIGO ABAIXO - desnecessário?
-        
-        // $pessoaArray = $Pessoa->toArray();
-        // $binaryFields = ['longblob_field'];
-        // foreach ($binaryFields as $field) {
-        //     if (isset($pessoaArray[$field])) {
-        //         $pessoaArray[$field] = base64_encode($pessoaArray[$field]);
-        //     }
-        // }
-        // $pessoaObject = (object) $pessoaArray;
-        // // print_r($Pessoa);
-        // // dd($pessoaData);
-        // // $loggedUserPessoa = Pessoa::where('user_id', Auth::id())->first();
-        // // $Pessoa->user_nivelacesso_id = $loggedUserPessoa->nivelacesso_id;
-        // return Response()->json($pessoaObject);
     }    
 
     public function destroy(Request $request)
@@ -241,10 +251,10 @@ class PessoaController extends Controller
             // Lê o conteúdo do arquivo
             $foto = file_get_contents($request->foto->getRealPath());
             $dadosComuns['foto'] = base64_encode($foto); // Armazena a imagem como base64 no banco de dados
-        } else {
-            // Caso a foto não seja enviada, define como null ou mantém a existente
-            $dadosComuns['foto'] = null;
-        }
+         } //else {
+        //     // Caso a foto não seja enviada, define como null ou mantém a existente
+        //     $dadosComuns['foto'] = null;
+        // }
     
         // Cria ou atualiza a pessoa
         $Pessoa = Pessoa::updateOrCreate(
