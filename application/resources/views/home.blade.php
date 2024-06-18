@@ -32,11 +32,21 @@
     </div>
 
     <section class="content">
-      <div class="card">
-        <div class="card-body">
-            <p class="mb-0"><strong>{{$secaos->descricao}}</strong>!</p> 
+
+      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+        <div class="card">
+          <div class="card-body">
+            <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p> 
+          </div>
         </div>
-      </div>
+      @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
+        <div class="card">
+          <div class="card-body">
+            <p class="mb-0"><strong>{{$secaos->descricao}}</strong>!</p> 
+          </div>
+        </div>
+      @endif
+
       @cannot('is_usuario')
       <!-- Info boxes -->
       <div class="row">
