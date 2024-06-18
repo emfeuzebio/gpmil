@@ -201,4 +201,30 @@ class ApresentacaoController extends Controller
         return Response()->json($Apresentacao);
     }     
 
+    public function haApresAberta(Request $request)
+    {
+        $ApresAberta = 
+        [
+            'id' => 1000,
+            'nota' => 'Teste',
+        ];
+
+
+        // Apresentação aberta sem publicação
+        // Se esta Pessoa tem uma Apresentação de Início sem publicar, não deve permitir inserir outra
+        // SELECT * FROM apresentacaos WHERE pessoa_id = 1 AND boletim_id IS NULL; 
+        // "Há uma Apresentação de Início de {Férias} sem publicação. Impossível inserir nova!"
+
+        // Apresentação aberta com publicação sem fechamento
+        // Se esta Pessoa tem uma Apresentação de Início já publicada mas sem o respectivo término, deve encaminhar para Terminar esta
+        // SELECT * FROM apresentacaos WHERE apresentaca_id = 1 AND pessoa_id = 1 AND boletim_id IS NULL; 
+        // "Há uma Apresentação de {Início de Férias} sem Término. Deseja fecha-ĺá agora?"
+
+        // Apresentação 
+
+
+        // return Response()->json($ApresAberta);
+        return Response()->json($request);
+    }     
+
 }

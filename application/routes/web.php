@@ -157,6 +157,7 @@ Route::post('/apresentacaos/store', [ApresentacaoController::class, 'store'])->n
 Route::post('/apresentacaos/edit', [ApresentacaoController::class, 'edit'])->name('home');
 Route::post('/apresentacaos/destroy', [ApresentacaoController::class, 'destroy'])->name('home');
 Route::post('/apresentacaos/homologar', [ApresentacaoController::class, 'homologar'])->name('home');
+Route::post('/apresentacaos/haApresAberta', [ApresentacaoController::class, 'haApresAberta'])->name('home');
 
 Route::get('/boletins', [BoletimController::class, 'index'])->name('home');
 Route::post('boletins/store', [BoletimController::class, 'store'])->name('home');

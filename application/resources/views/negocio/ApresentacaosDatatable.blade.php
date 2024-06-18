@@ -254,6 +254,27 @@
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
+            // ao mudar de pessoa
+            $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+                e.stopImmediatePropagation();
+                //console.log(this.value, clickedIndex, newValue, oldValue)
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("apresentacaos/haApresAberta")}}",
+                    data: { "pessoa_id": this.value },
+                    dataType: 'json',
+                    async: false,
+                    cache: false,                        
+                    success: function (data) {
+                        console.log(data);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });                
+            });
+
             /*
             * Definitios of DataTables render
             */
