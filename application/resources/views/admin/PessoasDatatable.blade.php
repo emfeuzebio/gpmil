@@ -479,7 +479,6 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        // $('#imagem-exibida').attr('src', data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
@@ -504,23 +503,21 @@
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
+                        if (userNivelAcessoID == 1 || userNivelAcessoID == 3) {
+                            $('#ativo').prop('disabled', false);
+                        } else {
+                            $('#ativo').prop('disabled', true);
+                        }
 
                         if (data.foto) {
                             $('#imagem-exibida').attr('src', data.foto);
-                        // } else {
-                        //     $('#imagem-exibida').attr('src', 'vendor/adminlte/dist/img/avatar.png');
                         }
 
-                        // console.log(data.foto_base64);
                         if (data.foto) {
-                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
                             var url = URL.createObjectURL(blob);
                             $('#foto').attr('src', url);
                         }
-
-                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
-                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
-                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
 
                         // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
                         if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
@@ -575,7 +572,6 @@
                         $('#dt_apres_om').val(data.dt_apres_om);
                         $('#dt_ult_promocao').val(data.dt_ult_promocao);
                         $('#pronto_sv').val(data.pronto_sv);
-                        // $('#imagem-exibida').attr('src', data.foto);
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
@@ -600,22 +596,21 @@
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
+                        if (userNivelAcessoID == 1 || userNivelAcessoID == 3) {
+                            $('#ativo').prop('disabled', false);
+                        } else {
+                            $('#ativo').prop('disabled', true);
+                        }
 
                         if (data.foto) {
                             $('#imagem-exibida').attr('src', data.foto);
-                        // } else {
-                        //     $('#imagem-exibida').attr('src', 'vendor/adminlte/dist/img/avatar.png');
                         }
 
-                        // console.log(data.foto_base64);
                         if (data.foto) {
-                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' }); // ou 'image/png' dependendo do tipo de imagem
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
                             var url = URL.createObjectURL(blob);
                             $('#foto').attr('src', url);
                         }
-                        // console.log("nivelacesso da Pessoa que esta sendo editada = " + data.nivelacesso_id);
-                        // console.log("nivelacesso da Pessoa Logada = " + {{ Auth::user()->Pessoa->nivelacesso_id }});
-                        // console.log("nivelacesso da Pessoa Logada = " + userNivelAcessoID );
 
                         // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
                         if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
