@@ -132,48 +132,50 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Motivo</label>
-                            <select name="destino_id" id="destino_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                            <label class="form-label hide">Motivo</label>
+                            <select name="destino_id" id="destino_id" class="form-control selectpicker hide" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
                                 @foreach( $destinos as $destino )
                                 <option value="{{$destino->id}}">{{$destino->descricao}}</option>
                                 @endforeach
                             </select>
                             <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                            <input value="" type="hidden" id="destino_input" name="destino_id">
                         </div>
+                        
 
                         <div class="form-group">
-                            <label class="form-label">Data da Apresentação</label>
-                            <input class="form-control" value="" type="date" id="dt_apres" name="dt_apres" maxlength="10" data-toggle="tooltip" title="Informe a Data da Apresentação">
+                            <label class="form-label hide">Data da Apresentação</label>
+                            <input class="form-control hide" value="" type="date" id="dt_apres" name="dt_apres" maxlength="10" data-toggle="tooltip" title="Informe a Data da Apresentação">
                             <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
-                            <label class="form-label">Data Inicial</label>
-                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
+                            <label class="form-label hide">Data Inicial</label>
+                            <input class="form-control hide" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
                             <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
-                            <label class="form-label">Data Final</label>
-                            <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
+                            <label class="form-label hide">Data Final</label>
+                            <input class="form-control hide" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
                             <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
-                            <label class="form-label">Local de Destino</label>
-                            <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                            <label class="form-label hide">Local de Destino</label>
+                            <input class="form-control hide" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
                             <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
-                            <label class="form-label">Fone para Contato</label>
-                            <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                            <label class="form-label hide">Fone para Contato</label>
+                            <input class="form-control hide" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
                             <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
                         </div>                          
                         
                         <div class="form-group">
-                            <label class="form-label">Observação</label>                    
-                            <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
+                            <label class="form-label hide">Observação</label>                    
+                            <input class="form-control hide" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
                             <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
                         </div>
 
@@ -462,6 +464,7 @@
                         $('#id').val(data.id);
                         $('#pessoa_id').selectpicker('val', data.pessoa_id);
                         $('#destino_id').selectpicker('val', data.destino_id);
+                        $('#destino_input').val(data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final);
@@ -495,7 +498,7 @@
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#pessoa_id').selectpicker('val', data.pessoa_id);
-                        $('#destino_id').selectpicker('val', data.destino_id);
+                        $('#destino_input').val(data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final);
@@ -582,6 +585,27 @@
             $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
                 e.stopImmediatePropagation();
                 //console.log(this.value, clickedIndex, newValue, oldValue)
+                // Função para atualizar os campos de formulário
+                function updateFormFields(registro, readonly) {
+                    // Atualiza o valor do selectpicker
+
+                    $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
+                    $('#destino_input').val(registro.destino_id).attr('readonly', readonly);
+                    $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
+                    $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
+                    $('#celular').val(registro.celular).attr('readonly', readonly);
+                    $('#observacao').val(registro.observacao).attr('readonly', readonly);
+                    $('#apresentacao_id').val(registro.apresentacao_id);
+                }
+
+                // Função para mostrar ou esconder elementos e ajustar classes de alerta
+                function updateUI(showSaveButton, showHideElements, alertClass, message) {
+                    $('#btnSave').toggle(showSaveButton);
+                    $('.hide').toggle(showHideElements);
+                    $('#nota').removeClass('alert-danger alert-success').addClass(alertClass).text(message);
+                    $('#dt_apres').focus();
+                }
 
                 $.ajax({
                     type: "POST",
@@ -591,44 +615,31 @@
                     async: false,
                     cache: false,                        
                     success: function (data) {
-                        console.log('Dados recebidos:', data);
-
-                        if (data.codigo == 1) {
-                            $('#nota').text(data.mensagem);
-                            $('#btnSave').hide();
-                            $('#nota').addClass('alert-danger');
-                        } else if (data.codigo == 2) {
-                            const registro = data.registro;
-                            $('#btnSave').show();
-                            $('#nota').text(data.mensagem);
-                            $('#nota').addClass('alert-danger');
-
-                            $('#destino_id').selectpicker('val', registro.destino_id);
-                            $('#dt_inicial').val(registro.dt_inicial);
-                            $('#dt_final').val(registro.dt_final);
-                            $('#local_destino').val(registro.local_destino);
-                            $('#celular').val(registro.celular);
-                            $('#observacao').val(registro.observacao);
-                            $('#apresentacao_id').val(registro.apresentacao_id);
-
-                            // Garante que os campos ficaram igual ao inicio do afastamento
-                            $('#dt_inicial').attr('readonly', true);
-                            $('#dt_final').attr('readonly', true);
-                            $('#local_destino').attr('readonly', true);
-                            $('#celular').attr('readonly', true);
-                            $('#observacao').attr('readonly', true);
-                        } else if (data.codigo == 3) {
-                            $('#nota').text(data.mensagem);
-                            $('#btnSave').hide();
-                            $('#nota').addClass('alert-danger');
-                        } else if (data.codito == 0) {
-                            $('#btnSave').show();
-                            $('#nota').text(data.mensagem);
-                            $('#nota').addClass('alert-success');
-                        } else {
-                            $('#btnSave').show();
-                            $('#nota').text(data.mensagem);
-                            $('#nota').removeClass('alert-danger').addClass('alert-success');
+                        switch (data.codigo) {
+                            case 1:
+                                updateUI(false, false, 'alert-danger', data.mensagem);
+                                break;
+                            case 2:
+                                updateUI(true, true, 'alert-danger', data.mensagem);
+                                updateFormFields(data.registro, true);
+                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled').selectpicker('refresh');
+                                $('#destino_input').val(data.destino_id)
+                                break;
+                            case 3:
+                                updateUI(false, false, 'alert-danger', data.mensagem);
+                                break;
+                            case 0:
+                                updateUI(true, true, 'alert-success', data.mensagem);
+                                updateFormFields(data.registro, false);
+                                $('#destino_id').selectpicker('val', data.destino_id).selectpicker('refresh');
+                                $('#destino_input').val(data.destino_id).prop('disabled');
+                                break;
+                            default:
+                                updateUI(true, true, 'alert-success', data.mensagem);
+                                updateFormFields(data.registro, false);
+                                $('#destino_id').selectpicker('val', data.destino_id).selectpicker('refresh');
+                                $('#destino_input').val(data.destino_id).prop('disabled');
+                                break;
                         }
 
                     },

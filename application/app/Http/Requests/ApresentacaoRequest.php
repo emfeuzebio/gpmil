@@ -17,7 +17,7 @@ class ApresentacaoRequest extends FormRequest
             'pessoa_id' => 'required',
             'destino_id' => 'required',
             'boletim_id' => '',
-            // 'dt_apres' => 'required|date|max:10',           
+            'dt_apres' => 'required|date|max:10',           
             'dt_inicial' => 'required|date|max:10',
             'dt_final' => 'required|date|max:10',
             'local_destino' => 'required|min:3',
