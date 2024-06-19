@@ -127,6 +127,11 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="form-label">Nota</label>
+                            <div id="nota" class="alert alert-danger">xxx</div>
+                        </div>
+
+                        <div class="form-group">
                             <label class="form-label">Motivo</label>
                             <select name="destino_id" id="destino_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
                                 @foreach( $destinos as $destino )
@@ -263,29 +268,9 @@
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
-            // ao mudar de pessoa
-            $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
-                e.stopImmediatePropagation();
-                //console.log(this.value, clickedIndex, newValue, oldValue)
-
-                $.ajax({
-                    type: "POST",
-                    url: "{{url("apresentacaos/haApresAberta")}}",
-                    data: { "pessoa_id": this.value },
-                    dataType: 'json',
-                    async: false,
-                    cache: false,                        
-                    success: function (data) {
-                        console.log(data);
-                    },
-                    error: function (error) {
-                        console.log(error);
-                    }
-                });                
-            });
-
             /*
             * Definitios of DataTables render
+            * https://datatables.net/examples/basic_init/data_rendering.html
             */
             $('#datatables-apresentacao').DataTable({
                 processing: true,
@@ -296,7 +281,7 @@
                 },
                 responsive: true,
                 autoWidth: true,
-                order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
+                // order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 10,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
@@ -305,7 +290,16 @@
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     // se a secao_id estiver na prórpria apresentacao
                     {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
                     {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
-                        render: function (data) { return '<b>' + data + '</b>';}},
+                        render: function (data, type, row) { 
+                            let color = 'success';
+                            let texto = 'I';
+                            if(row.apresentacao_id) {
+                                color = 'danger';
+                                texto = 'T';
+                            } 
+                            return '<span class="badge badge-pill badge-' + color + '">' + texto + '</span>' + ' <b>' + data + '</b>';
+                            // return '<span class="badge badge-' + color + '">' + data + '</span>';
+                        }},
                     {"data": "dt_inicial", "name": "apresentacaos.dt_inicial", "class": "dt-center", "title": "Dt Início"},
                     {"data": "dt_final", "name": "apresentacaos.dt_final", "class": "dt-center", "title": "Dt Fim"},
                     {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local"},
@@ -568,6 +562,28 @@
             $('body').on('shown.bs.modal', '#editarModal', function () {
                 $('#pessoa_id').focus();
             })
+
+            // ao mudar de pessoa
+            $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+                e.stopImmediatePropagation();
+                //console.log(this.value, clickedIndex, newValue, oldValue)
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("apresentacaos/getApresentacoesAbertas")}}",
+                    data: { "pessoa_id": this.value },
+                    dataType: 'json',
+                    async: false,
+                    cache: false,                        
+                    success: function (data) {
+                        $('#nota').text(data.mensagem);
+                        // console.log(data);
+                    },
+                    error: function (error) {
+                        console.log(error);
+                    }
+                });                
+            });
 
         });
 

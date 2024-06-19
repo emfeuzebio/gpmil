@@ -11,6 +11,7 @@ use App\Models\Destino;
 use App\Models\Pessoa;
 use App\Models\Secao;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 use Yajra\DataTables\Facades\DataTables;
 
 class ApresentacaoController extends Controller
@@ -201,14 +202,77 @@ class ApresentacaoController extends Controller
         return Response()->json($Apresentacao);
     }     
 
-    public function haApresAberta(Request $request)
+    // public function haApresAberta(Request $request)
+    public function getApresentacoesAbertas(Request $request)
     {
-        $ApresAberta = 
-        [
-            'id' => 1000,
-            'nota' => 'Teste',
-        ];
 
+        // $apresentacoes = Apresentacao::where('pessoa_id', $request->pessoa_id)->get();
+        // $apresentacoes = Apresentacao::where(['id'=>$request->pessoa_id])->first();  // trás primeira linha como objeto
+        // $apresentacoes = DB::query("SELECT * FROM apresentacaos WHERE pessoa_id = ? AND boletim_id IS NULL", [$request->pessoa_id]);
+        // User::where('this', '=', 1)
+        // ->whereNotNull('created_at')
+        // ->whereNotNull('updated_at')
+        // ->where(function($query){
+        //     return $query
+        //     ->whereNull('alias')
+        //     ->orWhere('alias', '=', 'admin');
+        // });        
+
+        // $apresentacoes = Apresentacao::where('pessoa_id','=',$request->pessoa_id)->whereNull('boletim_id')->get();
+        $apresentacaoIniSemPubl = Apresentacao::with('destino')->where('pessoa_id','=',$request->pessoa_id)->whereNull('apresentacao_id')->whereNull('boletim_id')->first();
+
+        // caso 1/3 - Apresentação Ini sem publicação - Aberta sem publicação
+        if(! empty($apresentacaoIniSemPubl)) {
+            $resposta = 
+            [
+                'codigo' => 1,
+                'registro' => $apresentacaoIniSemPubl,
+                'mensagem' => "Há uma Apresentação de Início de '{$apresentacaoIniSemPubl->destino->sigla}' sem publicação. Impossível inserir nova! ID {$apresentacaoIniSemPubl->id}",
+            ];
+            return Response()->json($resposta);
+        }
+
+        // https://stackoverflow.com/questions/19325312/how-to-create-multiple-where-clause-query-using-laravel-eloquent
+        // caso 2/3 - Apresentação Ini com publicação mas sem linha de término - Aberta com publicação mas sem Termino
+        $sql = "
+            SELECT a.*, destinos.sigla AS motivo
+            FROM apresentacaos a 
+                LEFT JOIN destinos ON destinos.id = a.destino_id
+            WHERE a.pessoa_id = ?
+              AND a.apresentacao_id IS NULL
+              AND a.boletim_id IS NOT NULL
+              AND NOT EXISTS (
+                  SELECT * 
+                  FROM apresentacaos ae 
+                  WHERE ae.pessoa_id = a.pessoa_id
+                    AND ae.apresentacao_id = a.id
+            )
+        ";
+        $apresentacaoSemTermino = DB::select($sql, [$request->pessoa_id]);  //retorna um array de objetos
+        if(! empty($apresentacaoSemTermino)) {
+            $resposta = 
+            [
+                'codigo' => 2,
+                'registro' => $apresentacaoSemTermino[0],   //retorna primeira linha do array
+                // 'mensagem' => "Há uma Apresentação de Início de '{TEXTO}'  sem Término. Deseja fecha-ĺá agora? ID",
+                'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "'  sem Término. Deseja fecha-ĺá agora? ID " . $apresentacaoSemTermino[0]->id,
+            ];
+            return Response()->json($resposta);
+        }        
+
+
+        // caso 3/3 - Apresentação Fim sem publicação - Fechada sem publicação
+        $apresentacaoFimSemPubl = Apresentacao::with('destino')->where('pessoa_id','=',$request->pessoa_id)->whereNotNull('apresentacao_id')->whereNull('boletim_id')->first();
+
+        if(! empty($apresentacaoFimSemPubl)) {
+            $resposta = 
+            [
+                'codigo' => 3,
+                'registro' => $apresentacaoFimSemPubl,
+                'mensagem' => "Há uma Apresentação de Término de '{$apresentacaoFimSemPubl->destino->sigla}' sem publicação. Impossível inserir nova! ID {$apresentacaoFimSemPubl->id}",
+            ];
+            return Response()->json($resposta);
+        }
 
         // Apresentação aberta sem publicação
         // Se esta Pessoa tem uma Apresentação de Início sem publicar, não deve permitir inserir outra
@@ -220,11 +284,13 @@ class ApresentacaoController extends Controller
         // SELECT * FROM apresentacaos WHERE apresentaca_id = 1 AND pessoa_id = 1 AND boletim_id IS NULL; 
         // "Há uma Apresentação de {Início de Férias} sem Término. Deseja fecha-ĺá agora?"
 
-        // Apresentação 
-
-
-        // return Response()->json($ApresAberta);
-        return Response()->json($request);
+        $resposta = 
+        [
+            'codigo' => 0,
+            'registro' => (object) [],
+            'mensagem' => "Não há apresentações abertas.",
+        ];        
+        return Response()->json($resposta);
     }     
 
 }

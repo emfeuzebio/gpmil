@@ -127,7 +127,7 @@
                   <thead>
                     <tr>
                       <th>ID</th>
-                      <th>Data da Apresentação</th>
+                      <th>Data Apresentação</th>
                       <th>Data Inicial</th>
                       <th>Data Final</th>
                       <th>Publicado</th>
@@ -138,10 +138,10 @@
                     @foreach($apresentacoes as $apresentacao)
                       <tr>
                         <td>{{ $apresentacao->id }}</td>
-                        <td>{{ $apresentacao->dt_apres }}</td>
-                        <td>{{ $apresentacao->dt_inicial }}</td>
-                        <td>{{ $apresentacao->dt_final }}</td>
-                        <td>
+                        <td>{{ $apresentacao->DtApresBr }}</td>
+                        <td>{{ $apresentacao->DtInicialBr }}</td>
+                        <td>{{ $apresentacao->DtFinalBr }}</td>
+                        <td class="text-center">
                           @if($apresentacao->publicado == 'SIM')
                             <span class="text-primary">{{ $apresentacao->publicado }}</span>
                           @else

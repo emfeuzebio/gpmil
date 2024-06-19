@@ -84,6 +84,8 @@ class HomeController extends Controller
         }
 
         $apresentacoes = Apresentacao::where('pessoa_id', $this->userID)->get();
+        // dd($apresentacoes);
+
         // $secaos = $this->Secao->all()->sortBy('id');
         // dd($secaos);
 
