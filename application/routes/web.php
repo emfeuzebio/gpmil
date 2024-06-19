@@ -73,8 +73,6 @@ Route::get('/auth/callback/dgpde', function () {
                 'id' => $user->id,
                 'organizacao_id' => 1,
                 'pgrad_id' => $pgrad_id,
-                'qualificacao_id' => 1,
-                'secao_id' => 9,
                 'nome_completo' => $DGPUser->name,
                 'nome_guerra' => $DGPUser->nickname,
                 'idt' => $DGPUser->idt,

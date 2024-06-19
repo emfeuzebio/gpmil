@@ -49,7 +49,7 @@
                         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
                             <div class="col-md-3 form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Militar</label>
-                                <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <select id="filtro_pessoa" name="filtro_pessoa" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas os Militares </option>
                                     @foreach( $pessoas as $pessoa )
                                     <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
@@ -128,7 +128,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Nota</label>
-                            <div id="nota" class="alert alert-danger">xxx</div>
+                            <div id="nota" class="alert ">xxx</div>
                         </div>
 
                         <div class="form-group">
@@ -142,14 +142,20 @@
                         </div>
 
                         <div class="form-group">
+                            <label class="form-label">Data da Apresentação</label>
+                            <input class="form-control" value="" type="date" id="dt_apres" name="dt_apres" maxlength="10" data-toggle="tooltip" title="Informe a Data da Apresentação">
+                            <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
+                        </div>    
+
+                        <div class="form-group">
                             <label class="form-label">Data Inicial</label>
-                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" placeholder="" data-toggle="tooltip" title="Informe a Data Inicial">
+                            <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
                             <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
                         <div class="form-group">
                             <label class="form-label">Data Final</label>
-                            <input class="form-control" value="" type="date" id="dt_final" name="dt_final" placeholder="" data-toggle="tooltip" title="Informe a Data Final">
+                            <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
                             <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
@@ -171,7 +177,9 @@
                             <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
                         </div>
 
-                        <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe se está publicado">
+                        <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado">
+
+                        <input class="form-control" value="" type="hidden" id="apresentacao_id" name="apresentacao_id">
                     </form>        
 
                 </div>
@@ -283,7 +291,7 @@
                 autoWidth: true,
                 // order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                pageLength: 10,
+                pageLength: 20,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
@@ -292,14 +300,15 @@
                     {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
                         render: function (data, type, row) { 
                             let color = 'success';
-                            let texto = 'I';
+                            let texto = 'Início';
                             if(row.apresentacao_id) {
                                 color = 'danger';
-                                texto = 'T';
+                                texto = 'Término';
                             } 
                             return '<span class="badge badge-pill badge-' + color + '">' + texto + '</span>' + ' <b>' + data + '</b>';
                             // return '<span class="badge badge-' + color + '">' + data + '</span>';
                         }},
+                    {"data": "dt_apres", "name": "apresentacaos.dt_apres", "class": "dt-center", "title": "Dt Apresentação"},
                     {"data": "dt_inicial", "name": "apresentacaos.dt_inicial", "class": "dt-center", "title": "Dt Início"},
                     {"data": "dt_final", "name": "apresentacaos.dt_final", "class": "dt-center", "title": "Dt Fim"},
                     {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local"},
@@ -314,10 +323,15 @@
 
             // https://www.youtube.com/watch?v=e-HA2YQUoi0
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
+            $('#filtro_pessoa').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-apresentacao').DataTable().column('2').search( $(this).val() ).draw();
+            });
+
             $('#filtro_secao').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-apresentacao').DataTable().column('1').search( $(this).val() ).draw();
-            });        
+            });    
             
             // Filtro - Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
             $('#filtro_destino').on("change", function (e) {
@@ -455,6 +469,7 @@
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
                         $('#publicado').val(data.publicado);
+                        $('#btnSave').show();
                     }
                 }); 
 
@@ -576,8 +591,46 @@
                     async: false,
                     cache: false,                        
                     success: function (data) {
-                        $('#nota').text(data.mensagem);
-                        // console.log(data);
+                        console.log('Dados recebidos:', data);
+
+                        if (data.codigo == 1) {
+                            $('#nota').text(data.mensagem);
+                            $('#btnSave').hide();
+                            $('#nota').addClass('alert-danger');
+                        } else if (data.codigo == 2) {
+                            const registro = data.registro;
+                            $('#btnSave').show();
+                            $('#nota').text(data.mensagem);
+                            $('#nota').addClass('alert-danger');
+
+                            $('#destino_id').selectpicker('val', registro.destino_id);
+                            $('#dt_inicial').val(registro.dt_inicial);
+                            $('#dt_final').val(registro.dt_final);
+                            $('#local_destino').val(registro.local_destino);
+                            $('#celular').val(registro.celular);
+                            $('#observacao').val(registro.observacao);
+                            $('#apresentacao_id').val(registro.apresentacao_id);
+
+                            // Garante que os campos ficaram igual ao inicio do afastamento
+                            $('#dt_inicial').attr('readonly', true);
+                            $('#dt_final').attr('readonly', true);
+                            $('#local_destino').attr('readonly', true);
+                            $('#celular').attr('readonly', true);
+                            $('#observacao').attr('readonly', true);
+                        } else if (data.codigo == 3) {
+                            $('#nota').text(data.mensagem);
+                            $('#btnSave').hide();
+                            $('#nota').addClass('alert-danger');
+                        } else if (data.codito == 0) {
+                            $('#btnSave').show();
+                            $('#nota').text(data.mensagem);
+                            $('#nota').addClass('alert-success');
+                        } else {
+                            $('#btnSave').show();
+                            $('#nota').text(data.mensagem);
+                            $('#nota').removeClass('alert-danger').addClass('alert-success');
+                        }
+
                     },
                     error: function (error) {
                         console.log(error);

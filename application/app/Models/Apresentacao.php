@@ -17,6 +17,7 @@ class Apresentacao extends Model
     protected $fillable = [
         'pessoa_id',
         'destino_id',
+        'dt_apres',
         'dt_inicial',
         'dt_final',
         'local_destino',
@@ -26,6 +27,7 @@ class Apresentacao extends Model
         'boletim_id',
         'secao_id',
         'situacao_id',
+        'apresentacao_id',
     ];
 
     public function getDtApresBrAttribute() {

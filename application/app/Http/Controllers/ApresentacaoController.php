@@ -174,17 +174,23 @@ class ApresentacaoController extends Controller
                 'pessoa_id' => $request->pessoa_id,
                 'destino_id' => $request->destino_id,
                 'boletim_id' => $request->boletim_id,
-                // 'dt_apres' => $request->dt_apres,
+                'dt_apres' => $request->dt_apres,
                 'dt_inicial' => $request->dt_inicial,
                 'dt_final' => $request->dt_final,
                 'local_destino' => $request->local_destino,
                 'celular' => $request->celular,
                 'observacao' => $request->observacao,
-                // 'prtsv' => $request->prtsv,
                 'publicado' => $request->publicado,
-                'secao_id' => $pessoa->secao_id,    //pega da pessoa
+                'apresentacao_id' => $request->apresentacao_id, 
+                'secao_id' => $pessoa->secao_id,
             ]
-        );  
+        );        
+
+        $apresentacaoRelacionada = Apresentacao::find($request->apresentacao_id);
+        if ($apresentacaoRelacionada) {
+            $apresentacaoRelacionada->update(['apresentacao_id' => $Apresentacao->id]);
+        }
+
         return Response()->json($Apresentacao);
     }     
 
@@ -250,12 +256,17 @@ class ApresentacaoController extends Controller
         ";
         $apresentacaoSemTermino = DB::select($sql, [$request->pessoa_id]);  //retorna um array de objetos
         if(! empty($apresentacaoSemTermino)) {
+
+
+            $apresentacaoSemTermino[0]->apresentacao_id = $apresentacaoSemTermino[0]->id;
+            $apresentacaoSemTermino[0]->id = null;
+
             $resposta = 
             [
                 'codigo' => 2,
                 'registro' => $apresentacaoSemTermino[0],   //retorna primeira linha do array
                 // 'mensagem' => "Há uma Apresentação de Início de '{TEXTO}'  sem Término. Deseja fecha-ĺá agora? ID",
-                'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "'  sem Término. Deseja fecha-ĺá agora? ID " . $apresentacaoSemTermino[0]->id,
+                'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "'  sem Término. Deseja fecha-ĺá agora? ID " . $apresentacaoSemTermino[0]->apresentacao_id,
             ];
             return Response()->json($resposta);
         }        
@@ -288,7 +299,7 @@ class ApresentacaoController extends Controller
         [
             'codigo' => 0,
             'registro' => (object) [],
-            'mensagem' => "Não há apresentações abertas.",
+            'mensagem' => "Preecha o formulário abaixo.",
         ];        
         return Response()->json($resposta);
     }     
