@@ -32,6 +32,7 @@ USE `gpmil`;
 CREATE TABLE `apresentacaos` (
   `id` int UNSIGNED NOT NULL,
   `pessoa_id` int UNSIGNED DEFAULT NULL,
+  `apresentacao_id` int UNSIGNED DEFAULT NULL,
   `secao_id` int UNSIGNED DEFAULT NULL,
   `destino_id` int UNSIGNED DEFAULT NULL,
   `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
