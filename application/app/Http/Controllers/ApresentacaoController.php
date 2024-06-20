@@ -154,7 +154,6 @@ class ApresentacaoController extends Controller
 
     public function store(ApresentacaoRequest $request)
     {
-
         // verifica se o User tem permissão via Policy
         // necessário retornar HTTP 422-Unprocesable Content que bloqueia fechar o modal
         if($request->user()->cannot('PodeInserirApresentacao',Apresentacao::class)) {
@@ -185,11 +184,6 @@ class ApresentacaoController extends Controller
                 'secao_id' => $pessoa->secao_id,
             ]
         );        
-
-        $apresentacaoRelacionada = Apresentacao::find($request->apresentacao_id);
-        if ($apresentacaoRelacionada) {
-            $apresentacaoRelacionada->update(['apresentacao_id' => $Apresentacao->id]);
-        }
 
         return Response()->json($Apresentacao);
     }     

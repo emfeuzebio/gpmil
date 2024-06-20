@@ -139,7 +139,7 @@
                                 @endforeach
                             </select>
                             <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
-                            <input value="" type="hidden" id="destino_input" name="destino_id">
+                            <input value="" type="hidden" id="destino_input" name="destino_id" disabled>
                         </div>
                         
 
@@ -361,7 +361,7 @@
                 $('#confirmaExcluirModal').modal('show');
 
                 //se confirmar a Exclusão, exclui o Registro via Ajax
-                $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
+                $('#confirmaExcluirModal').find('.modal-footer #confirm').one('click', function (e) {
                     e.stopImmediatePropagation();
 
                     $.ajax({
@@ -405,7 +405,7 @@
                 $('#confirmahomologarModal').modal('show');
 
                 //se confirmar a Homologação, exclui o Registro via Ajax
-                $('#confirmahomologarModal').find('.modal-footer #btnHomologar').on('click', function (e) {
+                $('#confirmahomologarModal').find('.modal-footer #btnHomologar').one('click', function (e) {
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
@@ -440,11 +440,16 @@
                 
             });
 
+            //Diferencia modal novo do editar no
+            let isNovoClicked = false;
+
             /*
             * Edit button action
             */
             $("#datatables-apresentacao tbody").delegate('tr td .btnEditar', 'click', function (e) {
-                e.stopImmediatePropagation();            
+                e.stopImmediatePropagation();       
+                
+                isNovoClicked = false;
 
                 let id = $(this).parents('tr').attr("id");
 
@@ -480,6 +485,8 @@
 
             $("#datatables-apresentacao tbody").delegate('tr', 'dblclick', function (e) {
                 e.stopImmediatePropagation();            
+
+                isNovoClicked = false;
 
                 let id = $(this).attr("id");
 
@@ -557,6 +564,8 @@
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
 
+                isNovoClicked = true;
+
                 $('#formEntity').trigger('reset');              // clean de form data
                 $('#form-group-id').hide();                     // hide ID field
                 $('#id').val('');                               // reset ID field
@@ -584,13 +593,17 @@
             // ao mudar de pessoa
             $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
                 e.stopImmediatePropagation();
-                //console.log(this.value, clickedIndex, newValue, oldValue)
+
+                if (!isNovoClicked) {
+                    return;
+                }
+
                 // Função para atualizar os campos de formulário
                 function updateFormFields(registro, readonly) {
                     // Atualiza o valor do selectpicker
 
                     $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
-                    $('#destino_input').val(registro.destino_id).attr('readonly', readonly);
+                    $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
@@ -622,8 +635,6 @@
                             case 2:
                                 updateUI(true, true, 'alert-danger', data.mensagem);
                                 updateFormFields(data.registro, true);
-                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled').selectpicker('refresh');
-                                $('#destino_input').val(data.destino_id)
                                 break;
                             case 3:
                                 updateUI(false, false, 'alert-danger', data.mensagem);
@@ -631,13 +642,13 @@
                             case 0:
                                 updateUI(true, true, 'alert-success', data.mensagem);
                                 updateFormFields(data.registro, false);
-                                $('#destino_id').selectpicker('val', data.destino_id).selectpicker('refresh');
+                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
                                 $('#destino_input').val(data.destino_id).prop('disabled');
                                 break;
                             default:
                                 updateUI(true, true, 'alert-success', data.mensagem);
                                 updateFormFields(data.registro, false);
-                                $('#destino_id').selectpicker('val', data.destino_id).selectpicker('refresh');
+                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
                                 $('#destino_input').val(data.destino_id).prop('disabled');
                                 break;
                         }
