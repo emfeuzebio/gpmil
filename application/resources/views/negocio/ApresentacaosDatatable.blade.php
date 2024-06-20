@@ -52,7 +52,7 @@
                                 <select id="filtro_pessoa" name="filtro_pessoa" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas os Militares </option>
                                     @foreach( $pessoas as $pessoa )
-                                    <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                                    <option value="{{$pessoa->nome_guerra}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
                                     @endforeach
                                 </select>
                             </div>
