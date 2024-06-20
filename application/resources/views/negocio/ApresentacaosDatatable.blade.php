@@ -116,7 +116,7 @@
                         </div>
 
                         <div class="form-group">
-                            <label class="form-label">Pessoa</label>
+                            <label class="form-label"><span style="color:red">Selecione a Pessoa</span></label>
                             <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
                                 <option value=""> Selecione a Pessoa </option>
                                 @foreach( $pessoas as $pessoa )
@@ -128,60 +128,61 @@
 
                         <div class="form-group">
                             <label class="form-label">Nota</label>
-                            <div id="nota" class="alert ">xxx</div>
+                            <div id="nota" class="alert alert-default"></div>
                         </div>
 
-                        <div class="form-group">
-                            <label class="form-label hide">Motivo</label>
-                            <select name="destino_id" id="destino_id" class="form-control selectpicker hide" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
-                                @foreach( $destinos as $destino )
-                                <option value="{{$destino->id}}">{{$destino->descricao}}</option>
-                                @endforeach
-                            </select>
-                            <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
-                            <input value="" type="hidden" id="destino_input" name="destino_id" disabled>
+                        <div id="dadosForm" style="display: none">
+                            <div class="form-group">
+                                <label class="form-label">Motivo</label>
+                                <select name="destino_id" id="destino_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                                    @foreach( $destinos as $destino )
+                                    <option value="{{$destino->id}}">{{$destino->descricao}}</option>
+                                    @endforeach
+                                </select>
+                                <div id="error-destino_id" class="error invalid-feedback" style="display: none;"></div>
+                                <input value="" type="hidden" id="destino_input" name="destino_id" disabled>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Data da Apresentação</label>
+                                <input class="form-control" value="" type="date" id="dt_apres" name="dt_apres" maxlength="10" data-toggle="tooltip" title="Data da Apresentação" readonly>
+                                <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
+                            </div>    
+
+                            <div class="form-group">
+                                <label class="form-label">Data Inicial</label>
+                                <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
+                                <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                            </div>    
+
+                            <div class="form-group">
+                                <label class="form-label">Data Final</label>
+                                <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
+                                <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
+                            </div>    
+
+                            <div class="form-group">
+                                <label class="form-label">Local de Destino</label>
+                                <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                                <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
+                            </div>    
+
+                            <div class="form-group">
+                                <label class="form-label">Fone para Contato</label>
+                                <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                                <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
+                            </div>                          
+                            
+                            <div class="form-group">
+                                <label class="form-label">Observação</label>                    
+                                <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
+                                <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
+                            </div>
+
+                            <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado">
+
+                            <input class="form-control" value="" type="hidden" id="apresentacao_id" name="apresentacao_id">
                         </div>
-                        
-
-                        <div class="form-group">
-                            <label class="form-label hide">Data da Apresentação</label>
-                            <input class="form-control hide" value="" type="date" id="dt_apres" name="dt_apres" maxlength="10" data-toggle="tooltip" title="Informe a Data da Apresentação">
-                            <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
-
-                        <div class="form-group">
-                            <label class="form-label hide">Data Inicial</label>
-                            <input class="form-control hide" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
-                            <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
-
-                        <div class="form-group">
-                            <label class="form-label hide">Data Final</label>
-                            <input class="form-control hide" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
-                            <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
-
-                        <div class="form-group">
-                            <label class="form-label hide">Local de Destino</label>
-                            <input class="form-control hide" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
-                            <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
-                        </div>    
-
-                        <div class="form-group">
-                            <label class="form-label hide">Fone para Contato</label>
-                            <input class="form-control hide" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
-                            <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
-                        </div>                          
-                        
-                        <div class="form-group">
-                            <label class="form-label hide">Observação</label>                    
-                            <input class="form-control hide" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
-                            <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
-                        </div>
-
-                        <input class="form-control" value="NÃO" type="hidden" id="publicado" name="publicado">
-
-                        <input class="form-control" value="" type="hidden" id="apresentacao_id" name="apresentacao_id">
                     </form>        
 
                 </div>
@@ -272,6 +273,11 @@
 
             // máscara dos campos
             $('#celular').inputmask('(99) 99999-9999');
+
+            // Obtém a data atual no formato YYYY-MM-DD
+            const today = new Date().toISOString().slice(0, 10);
+            
+
 
             // token da página
             $.ajaxSetup({
@@ -405,7 +411,7 @@
                 $('#confirmahomologarModal').modal('show');
 
                 //se confirmar a Homologação, exclui o Registro via Ajax
-                $('#confirmahomologarModal').find('.modal-footer #btnHomologar').one('click', function (e) {
+                $('#confirmahomologarModal').find('.modal-footer #btnHomologar').on('click', function (e) {
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
@@ -471,6 +477,7 @@
                         $('#destino_id').selectpicker('val', data.destino_id);
                         $('#destino_input').val(data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
+                        $('#dt_apres').val(today);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final);
                         $('#local_destino').val(data.local_destino);
@@ -509,6 +516,7 @@
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final);
+                        $('#dt_apres').val(today);
                         $('#local_destino').val(data.local_destino);
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
@@ -570,7 +578,8 @@
                 $('#form-group-id').hide();                     // hide ID field
                 $('#id').val('');                               // reset ID field
                 $('#pessoa_id').selectpicker('val', '');        // reset selectpicker
-                $('#destino_id').selectpicker('val','');        // reset selectpicker                               
+                $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#dt_apres').val(today);                           
                 $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                // show modal 
@@ -590,11 +599,11 @@
                 $('#pessoa_id').focus();
             })
 
-            // ao mudar de pessoa
-            $("#pessoa_id").on("changed.bs.select", function(e, clickedIndex, newValue, oldValue) {
+            // ao encolher o selectpicker da pessoa
+            $("#pessoa_id").on("hidden.bs.select", function(e, clickedIndex, newValue, oldValue) {
                 e.stopImmediatePropagation();
 
-                if (!isNovoClicked) {
+                if (! isNovoClicked) {
                     return;
                 }
 
@@ -606,6 +615,7 @@
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);
                     $('#observacao').val(registro.observacao).attr('readonly', readonly);
@@ -615,9 +625,8 @@
                 // Função para mostrar ou esconder elementos e ajustar classes de alerta
                 function updateUI(showSaveButton, showHideElements, alertClass, message) {
                     $('#btnSave').toggle(showSaveButton);
-                    $('.hide').toggle(showHideElements);
-                    $('#nota').removeClass('alert-danger alert-success').addClass(alertClass).text(message);
-                    $('#dt_apres').focus();
+                    $('#dadosForm').toggle(showHideElements);
+                    $('#nota').removeClass('alert-danger alert-success alert-warning').addClass(alertClass).text(message);
                 }
 
                 $.ajax({
@@ -628,29 +637,22 @@
                     async: false,
                     cache: false,                        
                     success: function (data) {
-                        switch (data.codigo) {
-                            case 1:
-                                updateUI(false, false, 'alert-danger', data.mensagem);
-                                break;
-                            case 2:
-                                updateUI(true, true, 'alert-danger', data.mensagem);
-                                updateFormFields(data.registro, true);
-                                break;
-                            case 3:
-                                updateUI(false, false, 'alert-danger', data.mensagem);
-                                break;
-                            case 0:
-                                updateUI(true, true, 'alert-success', data.mensagem);
-                                updateFormFields(data.registro, false);
-                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
-                                $('#destino_input').val(data.destino_id).prop('disabled');
-                                break;
-                            default:
-                                updateUI(true, true, 'alert-success', data.mensagem);
-                                updateFormFields(data.registro, false);
-                                $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
-                                $('#destino_input').val(data.destino_id).prop('disabled');
-                                break;
+                        if (data.codigo === 1) {
+                            updateUI(false, false, 'alert-danger', data.mensagem);
+                        } else if (data.codigo === 2) {
+                            updateUI(true, true, 'alert-danger', data.mensagem);
+                            updateFormFields(data.registro, true);
+                        } else if (data.codigo === 3) {
+                            updateUI(false, false, 'alert-danger', data.mensagem);
+                        } else if ($('#pessoa_id').val() == '') {
+                            $('#nota').addClass('alert alert-warning').text('Selecione a Pessoa');
+                            $('#dadosForm').hide();
+                        } else {
+                            // console.log($('#pessoa_id').val());
+                            updateUI(true, true, 'alert-success', data.mensagem);
+                            updateFormFields(data.registro, false);
+                            $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
+                            $('#destino_input').val(data.destino_id).prop('disabled', false);
                         }
 
                     },
