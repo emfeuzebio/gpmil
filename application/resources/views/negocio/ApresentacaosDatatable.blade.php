@@ -276,7 +276,7 @@
             $('#celular').inputmask('(99) 99999-9999');
 
             // Obtém a data atual no formato YYYY-MM-DD
-            const today = new Date().toISOString().slice(0, 10);
+            var today = new Date().toISOString().slice(0, 10);
             
 
 
@@ -643,7 +643,6 @@
 
                 $('#destino_id').val('').change();
                 $('#destino_input').val('');
-                $('#dt_apres').val('');
                 $('#dt_inicial').val('');
                 $('#dt_final').val('');
                 $('#local_destino').val('');
