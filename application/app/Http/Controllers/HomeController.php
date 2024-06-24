@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Pgrad;
 use App\Models\Secao;
 use App\Models\Apresentacao;
+use App\Models\Organizacao;
 use App\Models\Ferias;
 use App\Models\Destino;
 use App\Models\Funcao;
@@ -55,6 +56,7 @@ class HomeController extends Controller
         $user = User::with('pessoa')->find(Auth::user()->id);
         $pessoa = Pessoa::with('pgrad')->find($user->id);
         $secaos = Secao::find($user->pessoa->secao_id);
+        $organizacao = Organizacao::find($user->pessoa->organizacao_id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
         $this->userFuncaoID = $user->pessoa->funcao_id;
@@ -104,6 +106,7 @@ class HomeController extends Controller
             // 'qtdPessoasDestinos' => $qtdPessoasDestinos, 
             'qtdPessoasTotal' => $qtdPessoasTotal,
             'apresentacoes' => $apresentacoes,
+            'organizacao' => $organizacao,
             'secaos'=> $secaos
         ]);
     }

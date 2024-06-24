@@ -128,7 +128,8 @@
 
                         <div class="form-group">
                             <label class="form-label">Nota</label>
-                            <div id="nota" class="alert alert-default"></div>
+                            <div id="nota" class="alert alert-default d-flex justify-content-between align-items-center"><i id="notaIcon"></i></div>
+                            
                         </div>
 
                         <div id="dadosForm" style="display: none">
@@ -275,7 +276,7 @@
             $('#celular').inputmask('(99) 99999-9999');
 
             // Obtém a data atual no formato YYYY-MM-DD
-            const today = new Date().toISOString().slice(0, 10);
+            var today = new Date().toISOString().slice(0, 10);
             
 
 
@@ -299,7 +300,7 @@
                 autoWidth: true,
                 // order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                pageLength: 20,
+                pageLength: 15,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
                     {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
@@ -468,7 +469,7 @@
                         $(".invalid-feedback").text('').hide();  
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         
-                        $('#nota').addClass('alert alert-success').text('Editar dados a baixo.');
+                        $('#nota').addClass('alert alert-success').html('<span>Editar dados a baixo</span> <i class="fa-solid fa-arrow-down"></i>');
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
@@ -493,7 +494,7 @@
             });           
 
             $("#datatables-apresentacao tbody").delegate('tr', 'dblclick', function (e) {
-                e.stopImmediatePropagation();            
+                e.stopImmediatePropagation();         
 
                 isNovoClicked = false;
 
@@ -505,27 +506,30 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        $('#modalLabel').html('Editar Apresentação');
-                        $(".invalid-feedback").text('').hide();  
-                        $('#form-group-id').show();
-                        $('#editarModal').modal('show');         
-                        $('#nota').addClass('alert alert-success').text('Editar dados a baixo.');
+                        if(data.boletim_id == null || data.boletim_id == 1) {
+                            $('#modalLabel').html('Editar Apresentação');
+                            $(".invalid-feedback").text('').hide();  
+                            $('#form-group-id').show();
+                            $('#editarModal').modal('show');         
+                            $('#nota').addClass('alert alert-success').html('<span>Editar dados a baixo</span> <i class="fa-solid fa-arrow-down"></i>');
 
-                        // implementar que seja automático foreach   
-                        $('#id').val(data.id);
-                        $('#pessoa_id').selectpicker('val', data.pessoa_id);
-                        $('#destino_input').val(data.destino_id);
-                        $('#boletim_id').val(data.boletim_id);
-                        $('#dt_inicial').val(data.dt_inicial);
-                        $('#dt_final').val(data.dt_final);
-                        $('#dt_apres').val(today);
-                        $('#local_destino').val(data.local_destino);
-                        $('#celular').val(data.celular);
-                        $('#observacao').val(data.observacao);
-                        $('#publicado').val(data.publicado);
+                            // implementar que seja automático foreach   
+                            $('#id').val(data.id);
+                            $('#pessoa_id').selectpicker('val', data.pessoa_id);
+                            $('#destino_input').val(data.destino_id);
+                            $('#boletim_id').val(data.boletim_id);
+                            $('#dt_inicial').val(data.dt_inicial);
+                            $('#dt_final').val(data.dt_final);
+                            $('#dt_apres').val(today);
+                            $('#local_destino').val(data.local_destino);
+                            $('#celular').val(data.celular);
+                            $('#observacao').val(data.observacao);
+                            $('#publicado').val(data.publicado);
 
-                        $('#dadosForm').show();
-                        $('#btnSave').show();
+                            $('#dadosForm').show();
+                            $('#btnSave').show();
+                        }
+
                     }
                 }); 
 
@@ -594,23 +598,12 @@
             * Limpa o modal ao fechar
             */
             $('#editarModal').on('hidden.bs.modal', function () {
-                if(!isNovoClicked) {
+                if(!isNovoClicked || isNovoClicked) {
                     // Limpar todos os campos do formulário
                     $(this).find('form')[0].reset();
                     //Diferencia modal novo do editar no
                     $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
                     $('.selectpicker').prop('disabled', false).selectpicker('refresh');
-
-                    // // Limpar campos específicos
-                    $('#nota').removeClass('alert-danger alert-success alert-warning').html('');
-
-                    // Ocultar mensagens de erro
-                    $('.error.invalid-feedback').hide();
-
-                    $('#dadosForm').hide();
-                } else {
-                    // Limpar todos os campos do formulário
-                    $(this).find('form')[0].reset();
 
                     // // Limpar campos específicos
                     $('#nota').removeClass('alert-danger alert-success alert-warning').html('');
@@ -644,6 +637,19 @@
                     return;
                 }
 
+                // Limpar todos os campos do formulário
+                $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
+                $('.selectpicker').prop('disabled', false).selectpicker('refresh');
+
+                $('#destino_id').val('').change();
+                $('#destino_input').val('');
+                $('#dt_inicial').val('');
+                $('#dt_final').val('');
+                $('#local_destino').val('');
+                $('#celular').val('');
+                $('#observacao').val('');
+                $('#dadosForm').hide();
+
                 // Função para atualizar os campos de formulário
                 function updateFormFields(registro, readonly) {
                     $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
@@ -661,7 +667,9 @@
                 function updateUI(showSaveButton, showHideElements, alertClass, message) {
                     $('#btnSave').toggle(showSaveButton);
                     $('#dadosForm').toggle(showHideElements);
-                    $('#nota').removeClass('alert-danger alert-success alert-warning').addClass(alertClass).text(message);
+                    $('#nota').removeClass('alert-danger alert-success alert-warning')
+                                .addClass(alertClass)
+                                .html('<span>' + message + '</span> <i class="fa-solid fa-arrow-down"></i>');
                 }
 
                 $.ajax({
