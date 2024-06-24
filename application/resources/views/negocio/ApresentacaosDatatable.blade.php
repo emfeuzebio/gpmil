@@ -150,15 +150,26 @@
                                 <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
-                            <div class="form-group">
-                                <label class="form-label">Data Inicial</label>
-                                <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
-                                <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
-                            </div>    
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Data Inicial</label>
+                                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
+                                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Quantidade de Dias</label>
+                                        <input class="form-control" value="" type="number" id="qtd_dias" name="qtd_dias" data-toggle="tooltip" title="Informe a Quantidade de Dias">
+                                        <div id="error-qtd_dias" class="error invalid-feedback" style="display: none;"></div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data Final</label>
-                                <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
+                                <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final" readonly>
                                 <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
@@ -272,6 +283,65 @@
 
         $(document).ready(function () {
 
+            $('#dt_inicial, #destino_id').on('change', function() {
+                preencherQuantidadeDias();
+                calcularDataFinal();
+            });
+
+            $('#qtd_dias').on('input', function() {
+                calcularDataFinal();
+            });
+
+            function preencherQuantidadeDias() {
+                const dataInicial = $('#dt_inicial').val();
+                const selectedValue = $('#destino_id').val();
+                let qtdDias = 0;
+
+                if (dataInicial) {
+                    switch (selectedValue) {
+                        case '2':
+                            qtdDias = 30;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '4':
+                            qtdDias = 15;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '5':
+                            qtdDias = 20;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '6':
+                            qtdDias = 10;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        default:
+                        $('#qtd_dias').prop('readonly', false);
+                        break;
+                    }
+
+                    if (qtdDias > 0) {
+                        $('#qtd_dias').val(qtdDias);
+                    }
+                }
+            }
+
+            function calcularDataFinal() {
+                const dataInicial = $('#dt_inicial').val();
+                const qtdDias = $('#qtd_dias').val();
+
+                if (dataInicial && qtdDias) {
+                    const data = new Date(dataInicial);
+                    data.setDate(data.getDate() + parseInt(qtdDias));
+
+                    const ano = data.getFullYear();
+                    const mes = String(data.getMonth() + 1).padStart(2, '0');
+                    const dia = String(data.getDate()).padStart(2, '0');
+
+                    $('#dt_final').val(`${ano}-${mes}-${dia}`);
+                }
+            }
+
             // máscara dos campos
             $('#celular').inputmask('(99) 99999-9999');
 
@@ -351,7 +421,7 @@
             // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
             $('#filtro_publicado').on("change", function (e) {
                 e.stopImmediatePropagation();
-                $('#datatables-apresentacao').DataTable().column('8').search( $(this).val() ).draw();
+                $('#datatables-apresentacao').DataTable().column('9').search( $(this).val() ).draw();
             });        
 
             var isNovoClicked = false;
@@ -644,7 +714,7 @@
 
                 $('#dt_apres').val(today);     
                 $('#dt_inicial').val('');
-                $('#dt_final').val('');
+                $('#dt_final').val('').attr('readonly', true);
                 $('#destino_id').selectpicker('val','');        // reset selectpicker    
                 $('#destino_input').val('').prop('disabled', true);
                 $('#local_destino').val('');
@@ -657,7 +727,7 @@
                     $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
-                    $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    // $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
                     $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);

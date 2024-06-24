@@ -104,6 +104,7 @@ class ApresentacaoController extends Controller
                 ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
                 ->addColumn('destino', function($param) { return $param->destino?->sigla; })
                 ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+                ->editColumn('dt_apres', function ($param) { return date("d/m/Y", strtotime($param->dt_apres)); })
                 ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
                 ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
                 ->addColumn('acoes', function ($param) {return $this->getActionColumn($param); })
