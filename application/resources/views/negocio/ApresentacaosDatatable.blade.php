@@ -353,6 +353,8 @@
                 $('#datatables-apresentacao').DataTable().column('8').search( $(this).val() ).draw();
             });        
 
+            var isNovoClicked = false;
+
             /*
             * Delete button action
             */
@@ -360,7 +362,6 @@
                 e.stopImmediatePropagation();            
 
                 let id = $(this).parents('tr').attr("id");
-                //alert('Editar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -404,7 +405,6 @@
                 e.stopImmediatePropagation();            
 
                 var id = $(this).parents('tr').attr("id");
-                // alert('btnHomologar ID: ' + id );
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Publicar a Apresentação ID: ' + id + '?');
@@ -446,8 +446,7 @@
                 
             });
 
-            //Diferencia modal novo do editar no
-            let isNovoClicked = false;
+
 
             /*
             * Edit button action
@@ -465,15 +464,16 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
                         $('#modalLabel').html('Editar Apresentação');
                         $(".invalid-feedback").text('').hide();  
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         
+                        $('#nota').addClass('alert alert-success').text('Editar dados a baixo.');
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#pessoa_id').selectpicker('val', data.pessoa_id);
+
                         $('#destino_id').selectpicker('val', data.destino_id);
                         $('#destino_input').val(data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
@@ -484,6 +484,8 @@
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
                         $('#publicado').val(data.publicado);
+
+                        $('#dadosForm').show();
                         $('#btnSave').show();
                     }
                 }); 
@@ -503,11 +505,11 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
                         $('#modalLabel').html('Editar Apresentação');
                         $(".invalid-feedback").text('').hide();  
                         $('#form-group-id').show();
                         $('#editarModal').modal('show');         
+                        $('#nota').addClass('alert alert-success').text('Editar dados a baixo.');
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
@@ -521,6 +523,9 @@
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
                         $('#publicado').val(data.publicado);
+
+                        $('#dadosForm').show();
+                        $('#btnSave').show();
                     }
                 }); 
 
@@ -586,6 +591,38 @@
             });
 
             /*
+            * Limpa o modal ao fechar
+            */
+            $('#editarModal').on('hidden.bs.modal', function () {
+                if(!isNovoClicked) {
+                    // Limpar todos os campos do formulário
+                    $(this).find('form')[0].reset();
+                    //Diferencia modal novo do editar no
+                    $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
+                    $('.selectpicker').prop('disabled', false).selectpicker('refresh');
+
+                    // // Limpar campos específicos
+                    $('#nota').removeClass('alert-danger alert-success alert-warning').html('');
+
+                    // Ocultar mensagens de erro
+                    $('.error.invalid-feedback').hide();
+
+                    $('#dadosForm').hide();
+                } else {
+                    // Limpar todos os campos do formulário
+                    $(this).find('form')[0].reset();
+
+                    // // Limpar campos específicos
+                    $('#nota').removeClass('alert-danger alert-success alert-warning').html('');
+
+                    // Ocultar mensagens de erro
+                    $('.error.invalid-feedback').hide();
+
+                    $('#dadosForm').hide();
+                }
+            });
+
+            /*
             * Refresh button action
             */
             $('#btnRefresh').on("click", function (e) {
@@ -603,14 +640,12 @@
             $("#pessoa_id").on("hidden.bs.select", function(e, clickedIndex, newValue, oldValue) {
                 e.stopImmediatePropagation();
 
-                if (! isNovoClicked) {
+                if (!isNovoClicked) {
                     return;
                 }
 
                 // Função para atualizar os campos de formulário
                 function updateFormFields(registro, readonly) {
-                    // Atualiza o valor do selectpicker
-
                     $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
@@ -640,15 +675,14 @@
                         if (data.codigo === 1) {
                             updateUI(false, false, 'alert-danger', data.mensagem);
                         } else if (data.codigo === 2) {
-                            updateUI(true, true, 'alert-danger', data.mensagem);
+                            updateUI(true, true, 'alert-success', data.mensagem);
                             updateFormFields(data.registro, true);
                         } else if (data.codigo === 3) {
                             updateUI(false, false, 'alert-danger', data.mensagem);
                         } else if ($('#pessoa_id').val() == '') {
-                            $('#nota').addClass('alert alert-warning').text('Selecione a Pessoa');
+                            $('#nota').addClass('alert alert-success').text('Selecione a Pessoa');
                             $('#dadosForm').hide();
                         } else {
-                            // console.log($('#pessoa_id').val());
                             updateUI(true, true, 'alert-success', data.mensagem);
                             updateFormFields(data.registro, false);
                             $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
