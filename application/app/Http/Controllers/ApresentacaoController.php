@@ -123,8 +123,9 @@ class ApresentacaoController extends Controller
         $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
         $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Publicar este registro">Publi</button> ';
 
+        // dd($row);
         // btn Homologar disponível apenas ao Admin ou Enc Pes
-        if(in_array($this->userNivelAcessoID,[1,3,])) {
+        if(in_array($this->userNivelAcessoID,[1,3,]) && $row->destino_id != 1) {
             $actions = $btnHomolg;
         }
 
@@ -165,27 +166,52 @@ class ApresentacaoController extends Controller
         //busca a Pessoa para obter a Seção da mesma
         $pessoa = $this->Pessoa->find($request->pessoa_id);
 
-        $Apresentacao = Apresentacao::updateOrCreate(
-            [
-                'id' => $request->id,
-            ],
-            [
-                'pessoa_id' => $request->pessoa_id,
-                'destino_id' => $request->destino_id,
-                'boletim_id' => $request->boletim_id,
-                'dt_apres' => $request->dt_apres,
-                'dt_inicial' => $request->dt_inicial,
-                'dt_final' => $request->dt_final,
-                'local_destino' => $request->local_destino,
-                'celular' => $request->celular,
-                'observacao' => $request->observacao,
-                'publicado' => $request->publicado,
-                'apresentacao_id' => $request->apresentacao_id, 
-                'secao_id' => $pessoa->secao_id,
-            ]
-        );        
+        if($request->destino_id == 1) {
+            $Apresentacao = Apresentacao::updateOrCreate(
+                [
+                    'id' => $request->id,
+                ],
+                [
+                    'pessoa_id' => $request->pessoa_id,
+                    'destino_id' => $request->destino_id,
+                    'boletim_id' => 1,
+                    'dt_apres' => $request->dt_apres,
+                    'dt_inicial' => $request->dt_inicial,
+                    'dt_final' => $request->dt_final,
+                    'local_destino' => $request->local_destino,
+                    'celular' => $request->celular,
+                    'observacao' => $request->observacao,
+                    'publicado' => 'NÃO',
+                    'apresentacao_id' => $request->apresentacao_id, 
+                    'secao_id' => $pessoa->secao_id,
+                ]
+            );   
 
-        return Response()->json($Apresentacao);
+            return Response()->json($Apresentacao);
+
+        } else {
+            $Apresentacao = Apresentacao::updateOrCreate(
+                [
+                    'id' => $request->id,
+                ],
+                [
+                    'pessoa_id' => $request->pessoa_id,
+                    'destino_id' => $request->destino_id,
+                    'boletim_id' => $request->boletim_id,
+                    'dt_apres' => $request->dt_apres,
+                    'dt_inicial' => $request->dt_inicial,
+                    'dt_final' => $request->dt_final,
+                    'local_destino' => $request->local_destino,
+                    'celular' => $request->celular,
+                    'observacao' => $request->observacao,
+                    'publicado' => $request->publicado,
+                    'apresentacao_id' => $request->apresentacao_id, 
+                    'secao_id' => $pessoa->secao_id,
+                ]
+            );   
+
+            return Response()->json($Apresentacao);
+        }
     }     
 
     public function homologar(Request $request)
