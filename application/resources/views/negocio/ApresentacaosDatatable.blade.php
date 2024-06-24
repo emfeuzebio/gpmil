@@ -276,7 +276,7 @@
             $('#celular').inputmask('(99) 99999-9999');
 
             // Obtém a data atual no formato YYYY-MM-DD
-            var today = new Date().toISOString().slice(0, 10);
+            const today = new Date().toISOString().slice(0, 10);
             
 
 
@@ -588,6 +588,7 @@
                 $('#id').val('');                               // reset ID field
                 $('#pessoa_id').selectpicker('val', '');        // reset selectpicker
                 $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#destino_input').val('').prop('disabled', true);
                 $('#dt_apres').val(today);                           
                 $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
@@ -641,10 +642,11 @@
                 $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
                 $('.selectpicker').prop('disabled', false).selectpicker('refresh');
 
-                $('#destino_id').val('').change();
-                $('#destino_input').val('');
+                $('#dt_apres').val(today);     
                 $('#dt_inicial').val('');
                 $('#dt_final').val('');
+                $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#destino_input').val('').prop('disabled', true);
                 $('#local_destino').val('');
                 $('#celular').val('');
                 $('#observacao').val('');
