@@ -128,7 +128,8 @@
 
                         <div class="form-group">
                             <label class="form-label">Nota</label>
-                            <div id="nota" class="alert alert-default"></div>
+                            <div id="nota" class="alert alert-default d-flex justify-content-between align-items-center"><i id="notaIcon"></i></div>
+                            
                         </div>
 
                         <div id="dadosForm" style="display: none">
@@ -661,7 +662,9 @@
                 function updateUI(showSaveButton, showHideElements, alertClass, message) {
                     $('#btnSave').toggle(showSaveButton);
                     $('#dadosForm').toggle(showHideElements);
-                    $('#nota').removeClass('alert-danger alert-success alert-warning').addClass(alertClass).text(message);
+                    $('#nota').removeClass('alert-danger alert-success alert-warning')
+                                .addClass(alertClass)
+                                .html('<span>' + message + '</span> <i class="fa-solid fa-arrow-down"></i>');
                 }
 
                 $.ajax({

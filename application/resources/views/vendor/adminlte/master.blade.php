@@ -143,6 +143,8 @@
 
         <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
 
+        <script src="https://kit.fontawesome.com/ee8c259d94.js" crossorigin="anonymous"></script>
+
     <!-- EUZ javascript com configurações iniciais -->
     <script type="text/javascript" language="javascript" class="init">
 

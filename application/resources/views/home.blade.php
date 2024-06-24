@@ -36,7 +36,8 @@
       @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
         <div class="card">
           <div class="card-body">
-            <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p> 
+            <p class="mb-0"><strong>{{$organizacao->descricao}}</strong>!</p> 
+            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
           </div>
         </div>
       @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
