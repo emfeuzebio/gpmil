@@ -228,7 +228,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Publicar Apresentação</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');" aria-label="Cancelar">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -236,11 +236,10 @@
 
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true">
-                                <option value=""> Cancelar a Publicação </option>
-                                @foreach( $boletins as $boletim )
-                                <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
-                                @endforeach
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione o Boletim">
+                                {{-- @foreach($boletins as $boletim)
+                                    <option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>
+                                @endforeach --}}
                             </select>
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
@@ -266,6 +265,7 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
@@ -426,6 +426,12 @@
 
             var isNovoClicked = false;
 
+            // Limpa os dados da modal sempre que a mesma é fechada
+            $('#confirmaExcluirModal').on('hidden.bs.modal', function () {
+                $('#error-sigla').hide(); // Esconder mensagem de erro
+                $('#btnExcluir').off('click'); // Remover todos os eventos de clique antigos do botão salvar
+            });
+
             /*
             * Delete button action
             */
@@ -469,6 +475,7 @@
 
             });      
 
+            var apresentacoes = @json($apresentacoes);
 
             // Limpa os dados da modal sempre que a mesma é fechada
             $('#confirmahomologarModal').on('hidden.bs.modal', function () {
@@ -478,7 +485,6 @@
                 $('#btnHomologar').off('click'); // Remover todos os eventos de clique antigos do botão salvar
             });
 
-
             /*
             * Homologar button action
             */
@@ -486,6 +492,26 @@
                 e.stopImmediatePropagation();            
 
                 var id = $(this).parents('tr').attr("id");
+
+                var apresentacao = apresentacoes.find(function(apresentacao){
+                    return apresentacao.id == id;
+                });
+
+                // Limpa o select antes de adicionar opções
+                $('#boletim_id').empty();
+
+                if (apresentacao && apresentacao.apresentacao_id !== null) {
+                    // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
+                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
+                }
+
+                // Adicionar os boletins
+                @foreach($boletins as $boletim)
+                    $('#boletim_id').append('<option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>');
+                @endforeach
+
+                // Atualiza o selectpicker para refletir as mudanças
+                $('#boletim_id').selectpicker('refresh');
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Publicar a Apresentação ID: ' + id + '?');
@@ -505,10 +531,9 @@
                         async: false,
                         cache: false,                        
                         success: function (data) {
-                            console.log(data);
                             $("#alert .alert-content").text('Publicou a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
-                            $("#boletim_id").val('');
+                            $('#boletim_id').selectpicker('val', data.boletim_id);
                             $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
 

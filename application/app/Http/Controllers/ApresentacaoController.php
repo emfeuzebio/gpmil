@@ -60,6 +60,8 @@ class ApresentacaoController extends Controller
         // $destinos = $this->Destino->all()->sortBy('descricao');
         $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
+        // $apresentacoes = Apresentacao::select(['id', 'apresentacao_id'])->get();
+        $apresentacoes = Apresentacao::all();
 
         $temDestinoDiferenteDe1 = $destinos->contains(function ($destino) {
             return $destino->id != 1;
@@ -71,7 +73,6 @@ class ApresentacaoController extends Controller
             });
         }
         
-
         // filtros aplicados segundo o nível de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
@@ -125,7 +126,7 @@ class ApresentacaoController extends Controller
 
         }
 
-        return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes]);
+        return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes, 'apresentacoes' => $apresentacoes ]);
     }
 
     protected function getActionColumn($row): string
