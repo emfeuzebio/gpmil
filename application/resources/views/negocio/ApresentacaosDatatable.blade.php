@@ -467,7 +467,17 @@
                     });
                 });
 
-            });           
+            });      
+
+
+            // Limpa os dados da modal sempre que a mesma é fechada
+            $('#confirmahomologarModal').on('hidden.bs.modal', function () {
+                $('#formHomologar')[0].reset();
+                $('#boletim_id').selectpicker('refresh'); // Para limpar o selectpicker
+                $('#error-sigla').hide(); // Esconder mensagem de erro
+                $('#btnHomologar').off('click'); // Remover todos os eventos de clique antigos do botão salvar
+            });
+
 
             /*
             * Homologar button action
@@ -495,6 +505,7 @@
                         async: false,
                         cache: false,                        
                         success: function (data) {
+                            console.log(data);
                             $("#alert .alert-content").text('Publicou a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $("#boletim_id").val('');
@@ -550,7 +561,8 @@
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_apres').val(today);
                         $('#dt_inicial').val(data.dt_inicial);
-                        $('#dt_final').val(data.dt_final);
+                        $('#dt_final').val(data.dt_final).attr('readonly', true);
+                        $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                         $('#local_destino').val(data.local_destino);
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
@@ -589,7 +601,8 @@
                             $('#destino_input').val(data.destino_id);
                             $('#boletim_id').val(data.boletim_id);
                             $('#dt_inicial').val(data.dt_inicial);
-                            $('#dt_final').val(data.dt_final);
+                            $('#dt_final').val(data.dt_final).attr('readonly', true);
+                            $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                             $('#dt_apres').val(today);
                             $('#local_destino').val(data.local_destino);
                             $('#celular').val(data.celular);
@@ -727,7 +740,8 @@
                     $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
-                    // $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#qtd_dias').val((new Date(registro.dt_final) - new Date(registro.dt_inicial)) / (1000 * 60 * 60 * 24)).attr('readonly', readonly);
                     $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);

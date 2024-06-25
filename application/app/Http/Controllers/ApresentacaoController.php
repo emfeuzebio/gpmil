@@ -61,6 +61,17 @@ class ApresentacaoController extends Controller
         $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
 
+        $temDestinoDiferenteDe1 = $destinos->contains(function ($destino) {
+            return $destino->id != 1;
+        });
+        
+        if ($temDestinoDiferenteDe1) {
+            $boletins = $boletins->reject(function ($boletim) {
+                return $boletim->id == 1;
+            });
+        }
+        
+
         // filtros aplicados segundo o nível de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
