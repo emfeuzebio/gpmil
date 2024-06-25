@@ -300,19 +300,19 @@
                 if (dataInicial) {
                     switch (selectedValue) {
                         case '2':
-                            qtdDias = 30;
+                            qtdDias = 10;
                             $('#qtd_dias').prop('readonly', true);
                             break;
-                        case '4':
+                        case '3':
                             qtdDias = 15;
                             $('#qtd_dias').prop('readonly', true);
                             break;
-                        case '5':
+                        case '4':
                             qtdDias = 20;
                             $('#qtd_dias').prop('readonly', true);
                             break;
-                        case '6':
-                            qtdDias = 10;
+                        case '5':
+                            qtdDias = 30;
                             $('#qtd_dias').prop('readonly', true);
                             break;
                         default:

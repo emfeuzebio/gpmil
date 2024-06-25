@@ -87,7 +87,7 @@ class PessoaController extends Controller
                 )
                 ->setRowId( function($param) { return $param->id; })
                 ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
-                ->addColumn('qualificacao', function($param) { return $param->qualificacao->sigla; })
+                ->addColumn('qualificacao', function($param) { return $param->qualificacao ? $param->qualificacao->sigla : ''; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
                 ->addColumn('secao', function($param) { return $param->secao->sigla; })
                 ->addColumn('acoes', function ($param) { return $this->getActionColumn($param); })

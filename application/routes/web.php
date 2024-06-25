@@ -71,7 +71,6 @@ Route::get('/auth/callback/dgpde', function () {
             // Cria um novo registro na tabela 'pessoa' com o mesmo ID do usuário
             DB::table('pessoas')->insert([
                 'id' => $user->id,
-                'organizacao_id' => 1,
                 'pgrad_id' => $pgrad_id,
                 'nome_completo' => $DGPUser->name,
                 'nome_guerra' => $DGPUser->nickname,
