@@ -60,7 +60,19 @@ class ApresentacaoController extends Controller
         // $destinos = $this->Destino->all()->sortBy('descricao');
         $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
+        // $apresentacoes = Apresentacao::select(['id', 'apresentacao_id'])->get();
+        $apresentacoes = Apresentacao::all();
 
+        $temDestinoDiferenteDe1 = $destinos->contains(function ($destino) {
+            return $destino->id != 1;
+        });
+        
+        if ($temDestinoDiferenteDe1) {
+            $boletins = $boletins->reject(function ($boletim) {
+                return $boletim->id == 1;
+            });
+        }
+        
         // filtros aplicados segundo o nível de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             $secoes = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
@@ -104,6 +116,7 @@ class ApresentacaoController extends Controller
                 ->addColumn('pessoa', function($param) { return $param->pessoa?->pgrad->sigla . ' ' . $param->pessoa?->nome_guerra; })
                 ->addColumn('destino', function($param) { return $param->destino?->sigla; })
                 ->addColumn('boletim', function($param) { return $param->boletim?->descricao; })
+                ->editColumn('dt_apres', function ($param) { return date("d/m/Y", strtotime($param->dt_apres)); })
                 ->editColumn('dt_inicial', function ($param) { return date("d/m/Y", strtotime($param->dt_inicial)); })
                 ->editColumn('dt_final', function ($param) { return date("d/m/Y", strtotime($param->dt_final)); })
                 ->addColumn('acoes', function ($param) {return $this->getActionColumn($param); })
@@ -113,7 +126,7 @@ class ApresentacaoController extends Controller
 
         }
 
-        return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes]);
+        return view('negocio/ApresentacaosDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'boletins' => $boletins, 'destinos' => $destinos, 'pessoas' => $pessoas, 'secoes' => $secoes, 'apresentacoes' => $apresentacoes ]);
     }
 
     protected function getActionColumn($row): string

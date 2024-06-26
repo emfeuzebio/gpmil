@@ -1,21 +1,15 @@
 -- phpMyAdmin SQL Dump
--- version 5.2.1
+-- version 5.2.1deb1
 -- https://www.phpmyadmin.net/
 --
--- Host: db:3306
--- Tempo de geração: 12/05/2024 às 23:56
--- Versão do servidor: 8.4.0
--- Versão do PHP: 8.2.17
+-- Host: localhost:3306
+-- Tempo de geração: 25-Jun-2024 às 13:23
+-- Versão do servidor: 10.11.6-MariaDB-0+deb12u1
+-- versão do PHP: 8.2.18
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
 SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8mb4 */;
 
 --
 -- Banco de dados: `gpmil`
@@ -26,83 +20,69 @@ USE `gpmil`;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `apresentacaos`
+-- Estrutura da tabela `apresentacaos`
 --
 
 CREATE TABLE `apresentacaos` (
-  `id` int UNSIGNED NOT NULL,
-  `pessoa_id` int UNSIGNED DEFAULT NULL,
-  `apresentacao_id` int UNSIGNED DEFAULT NULL,
-  `secao_id` int UNSIGNED DEFAULT NULL,
-  `destino_id` int UNSIGNED DEFAULT NULL,
-  `celular` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `observacao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `publicado` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'NÃO',
+  `id` int(10) UNSIGNED NOT NULL,
+  `pessoa_id` int(10) UNSIGNED DEFAULT NULL,
+  `apresentacao_id` int(10) UNSIGNED DEFAULT NULL,
+  `secao_id` int(10) UNSIGNED DEFAULT NULL,
+  `destino_id` int(10) UNSIGNED DEFAULT NULL,
+  `celular` varchar(15) DEFAULT NULL,
+  `observacao` text DEFAULT NULL,
+  `publicado` enum('SIM','NÃO') NOT NULL DEFAULT 'NÃO',
   `dt_apres` date DEFAULT NULL,
   `dt_inicial` date DEFAULT NULL,
   `dt_final` date DEFAULT NULL,
-  `local_destino` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `boletim_id` int UNSIGNED DEFAULT NULL,
+  `local_destino` text DEFAULT NULL,
+  `boletim_id` int(10) UNSIGNED DEFAULT NULL,
   `created_at` timestamp NOT NULL,
   `updated_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Despejando dados para a tabela `apresentacaos`
---
-
-INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `boletim_id`, `created_at`, `updated_at`) VALUES
-(1, 1, 9, 2, '(61) 98000-0000', 'Viagem por cidades do Nordeste', 'SIM', '2024-04-04', '2024-04-16', '2024-04-29', 'João Pessoa-PB', 1, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
-(2, 1, 9, 3, '(61) 98167-1586', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Porto Alegre-RS', NULL, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
-(3, 2, 2, 2, '(61) 98656-5656', NULL, 'SIM', NULL, '2024-08-26', '2024-09-06', 'Buenos Aires-AR', 2, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(6, 2, 2, 1, '(51) 00000-0000', NULL, 'NÃO', NULL, '2024-04-13', '2024-04-20', 'hhhhhh', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(10, 1, 9, 6, '(61) 98167-1586', NULL, 'SIM', NULL, '2024-07-08', '2024-07-12', 'Natal-RN', 1, '2024-05-12 23:25:38', '2024-05-12 23:25:38'),
-(12, 6, 2, 3, '(54) 54564-5645', NULL, 'NÃO', NULL, '2024-05-02', '2024-05-03', 'Nesta', NULL, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(14, 5, 2, 3, '(95) 98989-8989', NULL, 'SIM', NULL, '2024-01-01', '2024-05-03', 'RJO', 1, '2024-05-09 16:22:24', '2024-05-09 16:22:24'),
-(15, 6, 12, 3, '(61) 95985-9898', NULL, 'NÃO', NULL, '2024-06-01', '2024-06-08', 'ggggg', NULL, '2024-05-11 21:29:55', '2024-05-11 21:29:55');
-
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `boletins`
+-- Estrutura da tabela `boletins`
 --
 
 CREATE TABLE `boletins` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(100) DEFAULT NULL,
   `data` date DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `boletins`
+-- Extraindo dados da tabela `boletins`
 --
 
 INSERT INTO `boletins` (`id`, `descricao`, `data`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Adt Bol 002-DGP', '2024-01-02', 'SIM', '2024-04-12 13:04:53', '2024-04-24 15:50:06'),
-(2, 'Adt Bol 003-DGP', '2024-05-03', 'NÃO', '2024-04-12 16:14:58', '2024-04-15 21:38:25'),
+(1, 'Sem Boletim', NULL, 'SIM', '2024-04-12 13:04:53', '2024-06-24 11:06:00'),
+(2, 'Adt Bol 003-DGP', '2024-05-03', 'SIM', '2024-04-12 16:14:58', '2024-06-24 11:05:43'),
 (3, 'Adt Bol 001-DGP', '2024-04-24', 'SIM', NULL, NULL),
 (4, 'Adt Bol 004-DGP', '2024-05-01', 'SIM', '2024-04-24 16:24:27', '2024-04-24 16:24:27');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `circulos`
+-- Estrutura da tabela `circulos`
 --
 
 CREATE TABLE `circulos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `circulos`
+-- Extraindo dados da tabela `circulos`
 --
 
 INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -117,67 +97,52 @@ INSERT INTO `circulos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `destinos`
+-- Estrutura da tabela `destinos`
 --
 
 CREATE TABLE `destinos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `destinos`
+-- Extraindo dados da tabela `destinos`
 --
 
 INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 'Pronto para o serviço', 'Pr Sv', 'SIM', '2024-04-11 20:24:39', '2024-04-11 20:24:39'),
-(2, 'Férias 30 dias', 'Fer 30d', 'SIM', '2024-04-11 20:24:39', '2024-04-24 15:56:54'),
-(3, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21'),
-(4, 'Férias 15 dias', 'Fer 15d', 'SIM', '2024-04-14 15:23:07', '2024-04-24 15:56:42'),
-(5, 'Férias 20 dias', 'Fer 20d', 'SIM', '2024-04-14 15:23:16', '2024-04-24 15:56:46'),
-(6, 'Férias 10 dias', 'Fer 10d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36');
+(1, 'Afastamento da Sede', 'Aftmto Sede', 'SIM', '2024-04-11 20:24:39', '2024-04-11 20:24:39'),
+(2, 'Férias 10 dias', 'Fer 10d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(3, 'Férias 15 dias', 'Fer 15d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(4, 'Férias 20 dias', 'Fer 20d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(5, 'Férias 30 dias', 'Fer 30d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(6, 'Dispensa Desconto em Férias', 'Disp Desc Fer', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(7, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `failed_jobs`
---
-
-CREATE TABLE `failed_jobs` (
-  `id` bigint UNSIGNED NOT NULL,
-  `uuid` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `connection` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `queue` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `payload` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `exception` longtext CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `failed_at` timestamp NOT NULL DEFAULT CURRENT_TIMESTAMP
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `ferias`
+-- Estrutura da tabela `ferias`
 --
 
 CREATE TABLE `ferias` (
-  `id` int NOT NULL,
-  `codigo_f` int NOT NULL DEFAULT '0',
-  `ano_id` int NOT NULL,
-  `parcela_id` int DEFAULT NULL,
+  `id` int(11) NOT NULL,
+  `codigo_f` int(11) NOT NULL DEFAULT 0,
+  `ano_id` int(11) NOT NULL,
+  `parcela_id` int(11) DEFAULT NULL,
   `periodo_aquisitivo_inicio` date DEFAULT NULL,
   `periodo_aquisitivo_fim` date DEFAULT NULL,
   `tipo_f` varchar(1) NOT NULL,
   `dt_inicio` date NOT NULL,
-  `nr_dias` int DEFAULT NULL,
+  `nr_dias` int(11) DEFAULT NULL,
   `dt_termino` date NOT NULL,
-  `boletim_id` int DEFAULT NULL,
+  `boletim_id` int(11) DEFAULT NULL,
   `publicado` char(3) DEFAULT 'NÃO',
-  `apresentacao_inicio` int NOT NULL DEFAULT '0',
-  `apresentacao_termino` int NOT NULL DEFAULT '0',
+  `apresentacao_inicio` int(11) NOT NULL DEFAULT 0,
+  `apresentacao_termino` int(11) NOT NULL DEFAULT 0,
   `decimo_terceiro` char(3) NOT NULL DEFAULT 'NÃO',
   `setenta_pcento` char(3) NOT NULL DEFAULT 'NÃO',
   `saque` char(3) NOT NULL DEFAULT 'NÃO',
@@ -188,20 +153,20 @@ CREATE TABLE `ferias` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `funcaos`
+-- Estrutura da tabela `funcaos`
 --
 
 CREATE TABLE `funcaos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `funcaos`
+-- Extraindo dados da tabela `funcaos`
 --
 
 INSERT INTO `funcaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -227,12 +192,12 @@ INSERT INTO `funcaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `mapaforcas`
+-- Estrutura da tabela `mapa_forcas`
 --
 
-CREATE TABLE `mapaforcas` (
-  `id` int NOT NULL,
-  `pessoa_id` int DEFAULT NULL,
+CREATE TABLE `mapa_forcas` (
+  `id` int(11) NOT NULL,
+  `pessoa_id` int(11) DEFAULT NULL,
   `data` date DEFAULT NULL,
   `presenca_expediente` char(3) DEFAULT 'SIM',
   `destino_expediente` varchar(255) DEFAULT NULL,
@@ -240,82 +205,44 @@ CREATE TABLE `mapaforcas` (
   `presenca_formatura` char(3) DEFAULT 'SIM',
   `destino_formatura` varchar(255) DEFAULT NULL,
   `destino_formatura2` varchar(255) DEFAULT NULL,
-  `responsavel_id` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL
+  `responsavel_id` varchar(10) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `menus`
---
-
-CREATE TABLE `menus` (
-  `id` int UNSIGNED NOT NULL,
-  `menu_id` int UNSIGNED DEFAULT NULL,
-  `descricao` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ordem` tinyint DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM'
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
---
--- Despejando dados para a tabela `menus`
---
-
-INSERT INTO `menus` (`id`, `menu_id`, `descricao`, `ordem`, `ativo`) VALUES
-(1, NULL, 'Gestão de Pessoal', NULL, 'SIM'),
-(2, 1, 'Plano de Chamada', NULL, 'SIM'),
-(3, 1, 'Livro de Apresentações', NULL, 'SIM'),
-(4, 1, 'Mapa da Força', NULL, 'SIM'),
-(5, 1, 'Plano de Férias', NULL, 'SIM'),
-(6, 1, 'Pessoal', NULL, 'SIM'),
-(7, NULL, 'Administração', NULL, 'SIM'),
-(8, 2, 'Painel de Controle', NULL, 'SIM'),
-(9, 2, 'Cadastros', NULL, 'SIM'),
-(10, 3, 'Qualificações', NULL, 'SIM'),
-(11, 3, 'Círculos', NULL, 'SIM'),
-(12, 3, 'Asse/Div/Seções/Cias/Pels', NULL, 'SIM'),
-(13, 3, 'P/Graduações', NULL, 'SIM'),
-(14, 3, 'Funções', NULL, 'SIM'),
-(17, 3, 'Municípios', NULL, 'SIM');
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `migrations`
+-- Estrutura da tabela `migrations`
 --
 
 CREATE TABLE `migrations` (
-  `id` int UNSIGNED NOT NULL,
-  `migration` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `batch` int NOT NULL
+  `id` int(10) UNSIGNED NOT NULL,
+  `migration` varchar(255) NOT NULL,
+  `batch` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `migrations`
+-- Extraindo dados da tabela `migrations`
 --
 
 INSERT INTO `migrations` (`id`, `migration`, `batch`) VALUES
-(1, '2014_10_12_000000_create_users_table', 1),
-(2, '2014_10_12_100000_create_password_reset_tokens_table', 1),
-(3, '2019_08_19_000000_create_failed_jobs_table', 1),
-(4, '2019_12_14_000001_create_personal_access_tokens_table', 1);
+(1, '2014_10_12_000000_create_users_table', 1);
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `municipios`
+-- Estrutura da tabela `municipios`
 --
 
 CREATE TABLE `municipios` (
-  `id` int UNSIGNED NOT NULL,
-  `municipio` varchar(50) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
-  `uf` char(2) CHARACTER SET utf8mb3 COLLATE utf8mb3_unicode_ci DEFAULT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `municipio` varchar(50) DEFAULT NULL,
+  `uf` char(2) DEFAULT NULL,
   `latitude` float(20,15) DEFAULT NULL,
   `longitude` float(20,15) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3 COLLATE=utf8mb3_unicode_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `municipios`
+-- Extraindo dados da tabela `municipios`
 --
 
 INSERT INTO `municipios` (`id`, `municipio`, `uf`, `latitude`, `longitude`) VALUES
@@ -5905,21 +5832,21 @@ INSERT INTO `municipios` (`id`, `municipio`, `uf`, `latitude`, `longitude`) VALU
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `nivel_acessos`
+-- Estrutura da tabela `nivel_acessos`
 --
 
 CREATE TABLE `nivel_acessos` (
-  `id` int UNSIGNED NOT NULL,
-  `nome` varchar(40) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` char(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `descricao` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `nome` varchar(40) DEFAULT NULL,
+  `sigla` char(10) DEFAULT NULL,
+  `descricao` text DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `nivel_acessos`
+-- Extraindo dados da tabela `nivel_acessos`
 --
 
 INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -5933,152 +5860,121 @@ INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `creat
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `organizacaos`
+-- Estrutura da tabela `organizacaos`
 --
 
 CREATE TABLE `organizacaos` (
-  `id` int UNSIGNED NOT NULL,
-  `codom` varchar(6) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `descricao` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `endereco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cidade` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `municipio_id` int UNSIGNED DEFAULT NULL,
-  `uf` varchar(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cep` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `contatos` varchar(15) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `site` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `codom` varchar(6) DEFAULT NULL,
+  `sigla` varchar(10) NOT NULL,
+  `descricao` varchar(255) NOT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
+  `bairro` varchar(100) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `municipio_id` int(10) UNSIGNED DEFAULT NULL,
+  `uf` varchar(2) DEFAULT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `contatos` varchar(15) DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `site` varchar(100) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') NOT NULL DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `organizacaos`
+-- Extraindo dados da tabela `organizacaos`
 --
 
 INSERT INTO `organizacaos` (`id`, `codom`, `sigla`, `descricao`, `endereco`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `contatos`, `email`, `site`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, '000000', 'Sigla', 'Nome completo da Organização Militar', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, '045575', 'Sigla', 'Diretoria de Controle de Efetivos e Movimentos', NULL, NULL, NULL, NULL, NULL, NULL, '', NULL, '', 'SIM', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `password_reset_tokens`
---
-
-CREATE TABLE `password_reset_tokens` (
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `created_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `personal_access_tokens`
---
-
-CREATE TABLE `personal_access_tokens` (
-  `id` bigint UNSIGNED NOT NULL,
-  `tokenable_type` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `tokenable_id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `token` varchar(64) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `abilities` text CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci,
-  `last_used_at` timestamp NULL DEFAULT NULL,
-  `expires_at` timestamp NULL DEFAULT NULL,
-  `created_at` timestamp NULL DEFAULT NULL,
-  `updated_at` timestamp NULL DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
--- --------------------------------------------------------
-
---
--- Estrutura para tabela `pessoas`
+-- Estrutura da tabela `pessoas`
 --
 
 CREATE TABLE `pessoas` (
-  `id` int UNSIGNED NOT NULL,
-  `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `user_id` int UNSIGNED NOT NULL,
-  `nivelacesso_id` int UNSIGNED NOT NULL DEFAULT '6',
-  `pgrad_id` int UNSIGNED NOT NULL,
-  `qualificacao_id` int UNSIGNED NOT NULL,
-  `secao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `funcao_id` int UNSIGNED DEFAULT NULL,
-  `religiao_id` int UNSIGNED DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
-  `status` enum('Ativa','Reserva','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Ativa',
-  `pronto_sv` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
-  `nome_completo` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `nome_guerra` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cpf` varchar(14) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `idt` varchar(10) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `preccp` varchar(12) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `organizacao_id` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `user_id` int(10) UNSIGNED NOT NULL,
+  `nivelacesso_id` int(10) UNSIGNED NOT NULL DEFAULT 6,
+  `pgrad_id` int(10) UNSIGNED NOT NULL,
+  `qualificacao_id` int(10) UNSIGNED DEFAULT NULL,
+  `secao_id` int(10) UNSIGNED NOT NULL DEFAULT 5,
+  `funcao_id` int(10) UNSIGNED DEFAULT NULL,
+  `religiao_id` int(10) UNSIGNED DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
+  `status` enum('Ativa','Reserva','Civil') DEFAULT 'Ativa',
+  `pronto_sv` enum('SIM','NÃO') DEFAULT 'SIM',
+  `nome_completo` varchar(255) DEFAULT NULL,
+  `nome_guerra` varchar(30) DEFAULT NULL,
+  `cpf` varchar(14) DEFAULT NULL,
+  `idt` varchar(10) DEFAULT NULL,
+  `preccp` varchar(12) DEFAULT NULL,
   `dt_nascimento` date DEFAULT NULL,
-  `endereco` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `endereco` varchar(255) DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
-  `bairro` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cidade` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `municipio_id` int UNSIGNED DEFAULT NULL,
-  `uf` char(2) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `cep` varchar(9) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fone_ramal` char(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fone_celular` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `fone_emergencia` varchar(18) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `bairro` varchar(100) DEFAULT NULL,
+  `cidade` varchar(100) DEFAULT NULL,
+  `municipio_id` int(10) UNSIGNED DEFAULT NULL,
+  `uf` char(2) DEFAULT NULL,
+  `cep` varchar(9) DEFAULT NULL,
+  `fone_ramal` char(8) DEFAULT NULL,
+  `fone_celular` varchar(18) DEFAULT NULL,
+  `fone_emergencia` varchar(18) DEFAULT NULL,
   `pessoa_emergencia` varchar(100) DEFAULT NULL,
-  `email` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `foto` blob,
-  `segmento` enum('Masculino','Feminino') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Masculino',
-  `lem` enum('Bélica','Técnica','Civil') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'Bélica',
-  `funcao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `email` varchar(100) DEFAULT NULL,
+  `foto` longblob DEFAULT NULL,
+  `segmento` enum('Masculino','Feminino') DEFAULT 'Masculino',
+  `lem` enum('Bélica','Técnica','Civil') DEFAULT 'Bélica',
+  `funcao` varchar(100) DEFAULT NULL,
   `dt_praca` date DEFAULT NULL,
   `dt_apres_gu` date DEFAULT NULL,
   `dt_apres_om` date DEFAULT NULL,
   `dt_ult_promocao` date DEFAULT NULL,
-  `antiguidade` smallint DEFAULT NULL,
+  `antiguidade` smallint(6) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `pessoas`
+-- Extraindo dados da tabela `pessoas`
 --
 
-INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `funcao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
-(1, 1, 1, 1, 15, 61, 9, 11, 'SIM', 'Ativa', NULL, 'Emerson Flávio Euzébio', 'Euzébio (Admin)', '00000000000', '0000000000', '342271773-00', '1972-08-11', NULL, 'Apto 408', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-12 19:57:56'),
-(2, 1, 2, 2, 12, 2, 4, 1, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-04-15 21:05:09'),
-(3, 1, 3, 3, 13, 46, 1, 1, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, 'Apto 59852', 'Arapoanga (Planaltina)', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:25:59'),
-(4, 1, 4, 4, 15, 129, 12, 1, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020_-__', NULL, NULL, 'Apto 501', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:15'),
-(5, 1, 5, 5, 22, 121, 9, 8, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-11 21:31:53'),
-(6, 1, 6, 6, 42, 127, 12, 1, 'SIM', 'Ativa', NULL, 'Cumpridor da Silva', 'Cumpridor (Usuário)', '00000000006', '0000000006', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-05-09 21:24:57');
+INSERT INTO `pessoas` (`id`, `organizacao_id`, `user_id`, `nivelacesso_id`, `pgrad_id`, `qualificacao_id`, `secao_id`, `funcao_id`, `religiao_id`, `ativo`, `status`, `pronto_sv`, `nome_completo`, `nome_guerra`, `cpf`, `idt`, `preccp`, `dt_nascimento`, `endereco`, `complemento`, `bairro`, `cidade`, `municipio_id`, `uf`, `cep`, `fone_ramal`, `fone_celular`, `fone_emergencia`, `pessoa_emergencia`, `email`, `foto`, `segmento`, `lem`, `funcao`, `dt_praca`, `dt_apres_gu`, `dt_apres_om`, `dt_ult_promocao`, `antiguidade`, `created_at`, `updated_at`) VALUES
+(1, 1, 1, 1, 15, 61, 9, 11, NULL, 'SIM', 'Ativa', NULL, 'EMERSON FLÁVIO EUZÉBIO', 'EUZÉBIO (ADMIN)', '00000000000', '0000000000', '342271773-00', '1972-08-11', NULL, 'Apto 408', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Sandra', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-06-18 14:19:49'),
+(2, 1, 2, 2, 12, 2, 4, 1, NULL, 'SIM', 'Ativa', NULL, 'Arthur Silva e Silva', 'Arthur (Cmt)', '00000000010', '0310000000', NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-06-05 15:27:59'),
+(3, 1, 3, 3, 13, 46, 1, 1, NULL, 'SIM', 'Ativa', NULL, 'Luiz Forte da Silva', 'Forte (Enc Pes)', '00000000003', '0000000003', NULL, NULL, NULL, 'Apto 59852', 'Arapoanga (Planaltina)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Dna. Maria', 'rozella.gleason@example.net', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-06-05 14:33:33'),
+(4, 1, 4, 4, 15, 129, 12, 1, NULL, 'SIM', 'Ativa', NULL, 'Mentor da Silva', 'Mentor (Ch Seç)', '00000000004', '0000000004', '70754020_-__', NULL, NULL, 'Apto 501', 'Asa Norte', NULL, 5300108, NULL, NULL, NULL, NULL, NULL, 'Da. Maria', 'email@dominio.com.br', NULL, 'Masculino', 'Bélica', 'Ordenados de Sistemas', NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-05-09 21:24:15'),
+(5, 1, 5, 5, 22, 121, 9, 8, NULL, 'SIM', 'Ativa', NULL, 'Arrocha da Silva', 'Arrocha (Sgtte)', '00000000005', '0000000005', NULL, NULL, NULL, 'Apto 100', 'Asa Norte', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Maria esposa', NULL, NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, '2024-01-01 00:00:00', '2024-06-17 14:26:41'),
+(6, 1, 6, 6, 42, 127, 12, 1, NULL, 'SIM', 'Ativa', NULL, 'CUMPRIDOR DA SILVA', 'CUMPRIDOR (USUÁRIO)', '00000000006', '0000000006', NULL, NULL, NULL, '(Residencial Porto Pilar)', 'Setor Meireles (Santa Maria)', NULL, NULL, NULL, NULL, NULL, NULL, NULL, 'Maria (Mãe)', 'usuario@om.eb.mil.br', NULL, 'Masculino', 'Bélica', NULL, NULL, NULL, NULL, NULL, NULL, NULL, '2024-06-18 14:27:37');
 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `pgrads`
+-- Estrutura da tabela `pgrads`
 --
 
 CREATE TABLE `pgrads` (
-  `id` int UNSIGNED NOT NULL,
-  `circulo_id` int UNSIGNED DEFAULT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `circulo_id` int(10) UNSIGNED DEFAULT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `pgrads`
+-- Extraindo dados da tabela `pgrads`
 --
 
 INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
-(1, 1, 'Marechal', 'Mar', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:11'),
-(2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:17'),
-(3, 1, 'General-de-Divisão', 'Gen Div', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:25'),
+(1, 1, 'Marechal', 'Mar', 'NÃO', '2024-01-01 03:00:00', '2024-06-18 16:24:12'),
+(2, 1, 'General-de-Exército', 'Gen Ex', 'SIM', '2024-01-01 03:00:00', '2024-06-18 16:27:17'),
+(3, 1, 'General-de-Divisão', 'Gen Div', 'SIM', '2024-01-01 03:00:00', '2024-06-18 16:27:12'),
 (4, 1, 'General-de-Brigada', 'Gen Bda', 'SIM', '2024-01-01 03:00:00', '2024-04-06 00:08:30'),
 (11, 2, 'Coronel', 'Cel', 'SIM', '2024-01-01 03:00:00', '2024-04-28 01:03:17'),
 (12, 2, 'Tenente-Coronel', 'Ten Cel', 'SIM', '2024-01-01 03:00:00', '2024-01-01 03:00:00'),
@@ -6113,23 +6009,23 @@ INSERT INTO `pgrads` (`id`, `circulo_id`, `descricao`, `sigla`, `ativo`, `create
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `preferencias`
+-- Estrutura da tabela `preferencias`
 --
 
 CREATE TABLE `preferencias` (
-  `id` int UNSIGNED NOT NULL,
-  `dark_mode` tinyint(1) NOT NULL DEFAULT '0',
-  `pessoa_id` int UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
+  `dark_mode` tinyint(1) NOT NULL DEFAULT 0,
+  `pessoa_id` int(10) UNSIGNED NOT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `preferencias`
+-- Extraindo dados da tabela `preferencias`
 --
 
 INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updated_at`) VALUES
-(1, 0, 1, '2024-01-01 00:00:00', '2024-05-09 21:46:41'),
+(1, 0, 1, '2024-01-01 00:00:00', '2024-06-24 10:27:50'),
 (2, 0, 2, '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
 (3, 0, 3, '2024-01-01 00:00:00', '2024-05-12 20:12:12'),
 (4, 0, 4, '2024-01-01 00:00:00', '2024-05-12 20:06:15'),
@@ -6139,21 +6035,21 @@ INSERT INTO `preferencias` (`id`, `dark_mode`, `pessoa_id`, `created_at`, `updat
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `qualificacaos`
+-- Estrutura da tabela `qualificacaos`
 --
 
 CREATE TABLE `qualificacaos` (
-  `id` int UNSIGNED NOT NULL,
+  `id` int(10) UNSIGNED NOT NULL,
   `codigo` char(4) DEFAULT NULL,
-  `descricao` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `descricao` varchar(100) DEFAULT NULL,
+  `sigla` varchar(50) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `qualificacaos`
+-- Extraindo dados da tabela `qualificacaos`
 --
 
 INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -6259,18 +6155,18 @@ INSERT INTO `qualificacaos` (`id`, `codigo`, `descricao`, `sigla`, `ativo`, `cre
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `religiaos`
+-- Estrutura da tabela `religiaos`
 --
 
 CREATE TABLE `religiaos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `religiao_seq` varchar(8) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT '0',
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `religiao_seq` varchar(8) DEFAULT '0',
   `ativo` enum('SIM','NÃO') NOT NULL DEFAULT 'SIM'
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `religiaos`
+-- Extraindo dados da tabela `religiaos`
 --
 
 INSERT INTO `religiaos` (`id`, `descricao`, `religiao_seq`, `ativo`) VALUES
@@ -6326,22 +6222,22 @@ INSERT INTO `religiaos` (`id`, `descricao`, `religiao_seq`, `ativo`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `secaos`
+-- Estrutura da tabela `secaos`
 --
 
 CREATE TABLE `secaos` (
-  `id` int UNSIGNED NOT NULL,
-  `secao_id` int UNSIGNED DEFAULT NULL,
-  `organizacao_id` int UNSIGNED NOT NULL DEFAULT '1',
-  `descricao` varchar(70) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(30) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `secao_id` int(10) UNSIGNED DEFAULT NULL,
+  `organizacao_id` int(10) UNSIGNED NOT NULL DEFAULT 1,
+  `descricao` varchar(70) DEFAULT NULL,
+  `sigla` varchar(30) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `secaos`
+-- Extraindo dados da tabela `secaos`
 --
 
 INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -6364,20 +6260,20 @@ INSERT INTO `secaos` (`id`, `secao_id`, `organizacao_id`, `descricao`, `sigla`, 
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `situacaos`
+-- Estrutura da tabela `situacaos`
 --
 
 CREATE TABLE `situacaos` (
-  `id` int UNSIGNED NOT NULL,
-  `descricao` varchar(50) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `sigla` varchar(20) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
-  `ativo` enum('SIM','NÃO') CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT 'SIM',
+  `id` int(10) UNSIGNED NOT NULL,
+  `descricao` varchar(50) DEFAULT NULL,
+  `sigla` varchar(20) DEFAULT NULL,
+  `ativo` enum('SIM','NÃO') DEFAULT 'SIM',
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `situacaos`
+-- Extraindo dados da tabela `situacaos`
 --
 
 INSERT INTO `situacaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `updated_at`) VALUES
@@ -6390,48 +6286,49 @@ INSERT INTO `situacaos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upd
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `users`
+-- Estrutura da tabela `users`
 --
 
 CREATE TABLE `users` (
-  `id` bigint UNSIGNED NOT NULL,
-  `name` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `email` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
+  `id` bigint(20) UNSIGNED NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `email` varchar(255) NOT NULL,
   `email_verified_at` timestamp NULL DEFAULT NULL,
-  `password` varchar(255) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci NOT NULL,
-  `remember_token` varchar(100) CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci DEFAULT NULL,
+  `password` varchar(255) NOT NULL,
+  `remember_token` varchar(100) DEFAULT NULL,
   `created_at` timestamp NULL DEFAULT NULL,
   `updated_at` timestamp NULL DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 --
--- Despejando dados para a tabela `users`
+-- Extraindo dados da tabela `users`
 --
 
 INSERT INTO `users` (`id`, `name`, `email`, `email_verified_at`, `password`, `remember_token`, `created_at`, `updated_at`) VALUES
-(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'OSUvzDAer7fLw9RZsHAqmZzK6t9D4PpyKIFsxRDCbYBG6TkAUughoCq1kWNG', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'xWDYIcB5trugP9JFZopfmgd1WWPTDdcxbB6UEMP9kckZ4RRLmqxzQcXU2Xuk', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'EQ7IXqwkFBRiw8QIWxOgolxucVumcqlW9fxY4UcSfY09iqX5IyCyIPNARBSQ', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'mKG8zVONQ9XIJ7JeMmyCfm22RF1wl0IBPQp06LrdT2hYXeEHTndHwLy5AjVV', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', '7RW1C3UMIeRanXRGXf8cg4sDqEC7OJBQXyHGJkOM4vn3eDzpnl1rONVOvCnn', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
-(6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'LzaMD2qAHFr1y384w2iQR0q38ydkfuYkFkBLmUQcV7vigvSXdm9iiU4EtYhH', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
+(1, 'Administrador', 'admin@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'wB3q0GmQUqeeS92PrjDm3FUxNcCjz90uqQEOYV1QV1pfWn2I5WOKLlo2SNVt', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(2, 'Comandante', 'cmt@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'cNEmZhpkv6pd78NniZwmTJylyzomvc9CebUeoTZBAWX4UvuSYDpXUFQj3gpM', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(3, 'Encarregado de Pessoal', 'encpes@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'nPf1CnEvESDpImwp8RxrOEKWrbFHOTOYlmIEGOOg4EVKnVYngAOClFPoS4E5', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(4, 'Chefe de Seção', 'chsec@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'PB3eprX9vehhrqHxlOZp8m573kxzhWsnCNp6jVVnB9Aiz5YxGA5FChC749Hi', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(5, 'Sargenteante', 'sgtte@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'OMfdFfyFQylDaFhHR3lr6ZRxk7P8iBOINhn3f5z4QI8mTCr7GV7yncTiDmPE', '2024-01-01 00:00:00', '2024-01-01 00:00:00'),
+(6, 'Usuário', 'usuario@om.eb.mil.br', NULL, '$2y$12$ramex3HPgr45jvtgdo2oJO1eWV34.UH5sevzPgL9mY7B0/89CvQcS', 'kf1IZnqKOluDAoBZh4Zfex4QvhYgfLXKOLTxbnt2q8ZN01OsTqh9moqhV06w', '2024-01-01 00:00:00', '2024-01-01 00:00:00');
 
 --
 -- Índices para tabelas despejadas
 --
 
 --
--- Índices de tabela `apresentacaos`
+-- Índices para tabela `apresentacaos`
 --
 ALTER TABLE `apresentacaos`
   ADD PRIMARY KEY (`id`),
   ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
   ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
   ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`),
-  ADD KEY `apresentacoes_secao_id_key` (`secao_id`);
+  ADD KEY `apresentacoes_secao_id_key` (`secao_id`),
+  ADD KEY `apresentacao_tem_apresentacao` (`apresentacao_id`);
 
 --
--- Índices de tabela `boletins`
+-- Índices para tabela `boletins`
 --
 ALTER TABLE `boletins`
   ADD PRIMARY KEY (`id`),
@@ -6439,7 +6336,7 @@ ALTER TABLE `boletins`
   ADD UNIQUE KEY `boletins_data_ukey` (`data`);
 
 --
--- Índices de tabela `circulos`
+-- Índices para tabela `circulos`
 --
 ALTER TABLE `circulos`
   ADD PRIMARY KEY (`id`),
@@ -6447,7 +6344,7 @@ ALTER TABLE `circulos`
   ADD UNIQUE KEY `circulos_sigla_ukey` (`sigla`);
 
 --
--- Índices de tabela `destinos`
+-- Índices para tabela `destinos`
 --
 ALTER TABLE `destinos`
   ADD PRIMARY KEY (`id`),
@@ -6455,14 +6352,7 @@ ALTER TABLE `destinos`
   ADD UNIQUE KEY `destinos_descricao_ukey` (`descricao`);
 
 --
--- Índices de tabela `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `failed_jobs_uuid_unique` (`uuid`);
-
---
--- Índices de tabela `funcaos`
+-- Índices para tabela `funcaos`
 --
 ALTER TABLE `funcaos`
   ADD PRIMARY KEY (`id`),
@@ -6470,26 +6360,19 @@ ALTER TABLE `funcaos`
   ADD UNIQUE KEY `funcoes_sigla_ukey` (`sigla`);
 
 --
--- Índices de tabela `menus`
---
-ALTER TABLE `menus`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `menus_descricao_ukey` (`descricao`);
-
---
--- Índices de tabela `migrations`
+-- Índices para tabela `migrations`
 --
 ALTER TABLE `migrations`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `municipios`
+-- Índices para tabela `municipios`
 --
 ALTER TABLE `municipios`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `nivel_acessos`
+-- Índices para tabela `nivel_acessos`
 --
 ALTER TABLE `nivel_acessos`
   ADD PRIMARY KEY (`id`),
@@ -6497,7 +6380,7 @@ ALTER TABLE `nivel_acessos`
   ADD UNIQUE KEY `nivelacessos_sigla_ukey` (`sigla`);
 
 --
--- Índices de tabela `organizacaos`
+-- Índices para tabela `organizacaos`
 --
 ALTER TABLE `organizacaos`
   ADD PRIMARY KEY (`id`),
@@ -6506,21 +6389,7 @@ ALTER TABLE `organizacaos`
   ADD UNIQUE KEY `organizacao_codom_ukey` (`codom`);
 
 --
--- Índices de tabela `password_reset_tokens`
---
-ALTER TABLE `password_reset_tokens`
-  ADD PRIMARY KEY (`email`);
-
---
--- Índices de tabela `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `personal_access_tokens_token_unique` (`token`),
-  ADD KEY `personal_access_tokens_tokenable_type_tokenable_id_index` (`tokenable_type`,`tokenable_id`);
-
---
--- Índices de tabela `pessoas`
+-- Índices para tabela `pessoas`
 --
 ALTER TABLE `pessoas`
   ADD PRIMARY KEY (`id`),
@@ -6537,7 +6406,7 @@ ALTER TABLE `pessoas`
   ADD KEY `pessoa_user_id_key` (`user_id`);
 
 --
--- Índices de tabela `pgrads`
+-- Índices para tabela `pgrads`
 --
 ALTER TABLE `pgrads`
   ADD PRIMARY KEY (`id`),
@@ -6546,14 +6415,14 @@ ALTER TABLE `pgrads`
   ADD KEY `pgrads_circulo_id_ukey` (`circulo_id`);
 
 --
--- Índices de tabela `preferencias`
+-- Índices para tabela `preferencias`
 --
 ALTER TABLE `preferencias`
   ADD PRIMARY KEY (`id`),
   ADD KEY `preferencias_pessoa_id_key` (`pessoa_id`);
 
 --
--- Índices de tabela `qualificacaos`
+-- Índices para tabela `qualificacaos`
 --
 ALTER TABLE `qualificacaos`
   ADD PRIMARY KEY (`id`),
@@ -6562,7 +6431,7 @@ ALTER TABLE `qualificacaos`
   ADD UNIQUE KEY `qualificacoes_codigo_ukey` (`codigo`);
 
 --
--- Índices de tabela `religiaos`
+-- Índices para tabela `religiaos`
 --
 ALTER TABLE `religiaos`
   ADD PRIMARY KEY (`id`),
@@ -6570,7 +6439,7 @@ ALTER TABLE `religiaos`
   ADD UNIQUE KEY `religiaos_descricao_ukey` (`descricao`);
 
 --
--- Índices de tabela `secaos`
+-- Índices para tabela `secaos`
 --
 ALTER TABLE `secaos`
   ADD PRIMARY KEY (`id`),
@@ -6579,7 +6448,7 @@ ALTER TABLE `secaos`
   ADD KEY `secao_organizacao_id_key` (`organizacao_id`);
 
 --
--- Índices de tabela `situacaos`
+-- Índices para tabela `situacaos`
 --
 ALTER TABLE `situacaos`
   ADD PRIMARY KEY (`id`),
@@ -6587,169 +6456,148 @@ ALTER TABLE `situacaos`
   ADD UNIQUE KEY `situacaos_sigla_ukey` (`sigla`);
 
 --
--- Índices de tabela `users`
+-- Índices para tabela `users`
 --
 ALTER TABLE `users`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `users_email_unique` (`email`);
 
 --
--- AUTO_INCREMENT para tabelas despejadas
+-- AUTO_INCREMENT de tabelas despejadas
 --
 
 --
 -- AUTO_INCREMENT de tabela `apresentacaos`
 --
 ALTER TABLE `apresentacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `boletins`
 --
 ALTER TABLE `boletins`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `circulos`
 --
 ALTER TABLE `circulos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `destinos`
 --
 ALTER TABLE `destinos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
-
---
--- AUTO_INCREMENT de tabela `failed_jobs`
---
-ALTER TABLE `failed_jobs`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `funcaos`
 --
 ALTER TABLE `funcaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=201;
-
---
--- AUTO_INCREMENT de tabela `menus`
---
-ALTER TABLE `menus`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `migrations`
 --
 ALTER TABLE `migrations`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `nivel_acessos`
 --
 ALTER TABLE `nivel_acessos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
-
---
--- AUTO_INCREMENT de tabela `personal_access_tokens`
---
-ALTER TABLE `personal_access_tokens`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `pgrads`
 --
 ALTER TABLE `pgrads`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=66;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `preferencias`
 --
 ALTER TABLE `preferencias`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `qualificacaos`
 --
 ALTER TABLE `qualificacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=142;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `religiaos`
 --
 ALTER TABLE `religiaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=101;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `secaos`
 --
 ALTER TABLE `secaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `situacaos`
 --
 ALTER TABLE `situacaos`
-  MODIFY `id` int UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(10) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
 -- AUTO_INCREMENT de tabela `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` bigint UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` bigint(20) UNSIGNED NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=1;
 
 --
--- Restrições para tabelas despejadas
+-- Restrições para despejos de tabelas
 --
 
 --
--- Restrições para tabelas `apresentacaos`
+-- Limitadores para a tabela `apresentacaos`
 --
 ALTER TABLE `apresentacaos`
-  ADD CONSTRAINT `boletim_tem_apresentacoes` FOREIGN KEY (`boletim_id`) REFERENCES `boletins` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `destino_tem_apresentacoes` FOREIGN KEY (`destino_id`) REFERENCES `destinos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `pessoa_tem_apresentacoes` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `secao_tem_apresentacoes` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `apresentacao_tem_apresentacao` FOREIGN KEY (`apresentacao_id`) REFERENCES `apresentacaos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `boletim_tem_apresentacoes` FOREIGN KEY (`boletim_id`) REFERENCES `boletins` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `destino_tem_apresentacoes` FOREIGN KEY (`destino_id`) REFERENCES `destinos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pessoa_tem_apresentacoes` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `secao_tem_apresentacoes` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON UPDATE CASCADE;
 
 --
--- Restrições para tabelas `pessoas`
+-- Limitadores para a tabela `pessoas`
 --
 ALTER TABLE `pessoas`
-  ADD CONSTRAINT `funcao_pertence_uma_pessoa` FOREIGN KEY (`funcao_id`) REFERENCES `funcaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `municipio_tem_pessoas` FOREIGN KEY (`municipio_id`) REFERENCES `municipios` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `nivel_acessos_tem_pessoas` FOREIGN KEY (`nivelacesso_id`) REFERENCES `nivel_acessos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `organizacao_tem_pessoas` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `pgrad_tem_pessoas` FOREIGN KEY (`pgrad_id`) REFERENCES `pgrads` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `religiao_tem_pessoas` FOREIGN KEY (`religiao_id`) REFERENCES `religiaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE,
-  ADD CONSTRAINT `secao_tem_pessoas` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `funcao_pertence_uma_pessoa` FOREIGN KEY (`funcao_id`) REFERENCES `funcaos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `municipio_tem_pessoas` FOREIGN KEY (`municipio_id`) REFERENCES `municipios` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `nivel_acessos_tem_pessoas` FOREIGN KEY (`nivelacesso_id`) REFERENCES `nivel_acessos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `organizacao_tem_pessoas` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `pgrad_tem_pessoas` FOREIGN KEY (`pgrad_id`) REFERENCES `pgrads` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `qualificacao_tem_pessoas` FOREIGN KEY (`qualificacao_id`) REFERENCES `qualificacaos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `religiao_tem_pessoas` FOREIGN KEY (`religiao_id`) REFERENCES `religiaos` (`id`) ON UPDATE CASCADE,
+  ADD CONSTRAINT `secao_tem_pessoas` FOREIGN KEY (`secao_id`) REFERENCES `secaos` (`id`) ON UPDATE CASCADE;
 
 --
--- Restrições para tabelas `pgrads`
+-- Limitadores para a tabela `pgrads`
 --
 ALTER TABLE `pgrads`
-  ADD CONSTRAINT `circulo_tem_pgrads` FOREIGN KEY (`circulo_id`) REFERENCES `circulos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `circulo_tem_pgrads` FOREIGN KEY (`circulo_id`) REFERENCES `circulos` (`id`) ON UPDATE CASCADE;
 
 --
--- Restrições para tabelas `preferencias`
+-- Limitadores para a tabela `preferencias`
 --
 ALTER TABLE `preferencias`
   ADD CONSTRAINT `pessoa_tem_uma_preferencia` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
--- Restrições para tabelas `secaos`
+-- Limitadores para a tabela `secaos`
 --
 ALTER TABLE `secaos`
-  ADD CONSTRAINT `organizacao_tem_secaos` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+  ADD CONSTRAINT `organizacao_tem_secaos` FOREIGN KEY (`organizacao_id`) REFERENCES `organizacaos` (`id`) ON UPDATE CASCADE;
 COMMIT;
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

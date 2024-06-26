@@ -51,7 +51,7 @@ Route::get('/auth/callback/dgpde', function () {
     // dd($DGPUser);
     DB::beginTransaction();
  
-    // try {
+    try {
         // Verifica se o usuário já existe
         $user = User::where('email', $DGPUser->email . "@dcem.eb.mil.br")->first();
 
@@ -71,7 +71,6 @@ Route::get('/auth/callback/dgpde', function () {
             // Cria um novo registro na tabela 'pessoa' com o mesmo ID do usuário
             DB::table('pessoas')->insert([
                 'id' => $user->id,
-                'organizacao_id' => 1,
                 'pgrad_id' => $pgrad_id,
                 'nome_completo' => $DGPUser->name,
                 'nome_guerra' => $DGPUser->nickname,
@@ -96,13 +95,13 @@ Route::get('/auth/callback/dgpde', function () {
         DB::commit();
 
         return redirect('/home');
-    // } catch (\Exception $e) {
+    } catch (\Exception $e) {
     //     // Em caso de erro, desfaz a transação
-    //     DB::rollBack();
+        DB::rollBack();
 
     //     // Trate o erro conforme necessário (exemplo: redirecionar com uma mensagem de erro)
-    //     return redirect('/')->withErrors(['msg' => 'Erro ao criar usuário.']);
-    // } 
+        return redirect('/')->withErrors(['msg' => 'Erro ao criar usuário.']);
+    } 
 });
 
 

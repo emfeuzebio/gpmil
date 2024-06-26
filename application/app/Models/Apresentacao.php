@@ -48,7 +48,7 @@ class Apresentacao extends Model
     }    
         
     public function boletim() {
-        return $this->hasOne(boletim::class, 'id', 'boletim_id');
+        return $this->hasOne(Boletim::class, 'id', 'boletim_id');
     }   
 
     public function destino() {

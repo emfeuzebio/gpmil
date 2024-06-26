@@ -150,15 +150,26 @@
                                 <div id="error-dt_apres" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
-                            <div class="form-group">
-                                <label class="form-label">Data Inicial</label>
-                                <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
-                                <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
-                            </div>    
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Data Inicial</label>
+                                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
+                                        <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label class="form-label">Quantidade de Dias</label>
+                                        <input class="form-control" value="" type="number" id="qtd_dias" name="qtd_dias" data-toggle="tooltip" title="Informe a Quantidade de Dias">
+                                        <div id="error-qtd_dias" class="error invalid-feedback" style="display: none;"></div>
+                                    </div>
+                                </div>
+                            </div>
 
                             <div class="form-group">
                                 <label class="form-label">Data Final</label>
-                                <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final">
+                                <input class="form-control" value="" type="date" id="dt_final" name="dt_final" data-toggle="tooltip" title="Informe a Data Final" readonly>
                                 <div id="error-dt_final" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
@@ -217,7 +228,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">Publicar Apresentação</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');" aria-label="Cancelar">&times;</button>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');" aria-label="Cancelar">&times;</button>
                 </div>
                 <div class="modal-body">
                     <p></p>
@@ -225,11 +236,10 @@
 
                         <div class="form-group">
                             <label class="form-label">Selecione o Boletim de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true">
-                                <option value=""> Cancelar a Publicação </option>
-                                @foreach( $boletins as $boletim )
-                                <option value="{{$boletim->id}}">{{$boletim->descricao}}, de {{$boletim->data}}</option>
-                                @endforeach
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione o Boletim">
+                                {{-- @foreach($boletins as $boletim)
+                                    <option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>
+                                @endforeach --}}
                             </select>
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
@@ -255,6 +265,7 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
+                    <label id="msgOperacaoExcluir" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmaExcluirModal').modal('hide');">Cancelar</button>
@@ -272,11 +283,70 @@
 
         $(document).ready(function () {
 
+            $('#dt_inicial, #destino_id').on('change', function() {
+                preencherQuantidadeDias();
+                calcularDataFinal();
+            });
+
+            $('#qtd_dias').on('input', function() {
+                calcularDataFinal();
+            });
+
+            function preencherQuantidadeDias() {
+                const dataInicial = $('#dt_inicial').val();
+                const selectedValue = $('#destino_id').val();
+                let qtdDias = 0;
+
+                if (dataInicial) {
+                    switch (selectedValue) {
+                        case '2':
+                            qtdDias = 10;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '3':
+                            qtdDias = 15;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '4':
+                            qtdDias = 20;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        case '5':
+                            qtdDias = 30;
+                            $('#qtd_dias').prop('readonly', true);
+                            break;
+                        default:
+                        $('#qtd_dias').prop('readonly', false);
+                        break;
+                    }
+
+                    if (qtdDias > 0) {
+                        $('#qtd_dias').val(qtdDias);
+                    }
+                }
+            }
+
+            function calcularDataFinal() {
+                const dataInicial = $('#dt_inicial').val();
+                const qtdDias = $('#qtd_dias').val();
+
+                if (dataInicial && qtdDias) {
+                    const data = new Date(dataInicial);
+                    data.setDate(data.getDate() + parseInt(qtdDias));
+
+                    const ano = data.getFullYear();
+                    const mes = String(data.getMonth() + 1).padStart(2, '0');
+                    const dia = String(data.getDate()).padStart(2, '0');
+
+                    $('#dt_final').val(`${ano}-${mes}-${dia}`);
+                }
+            }
+
             // máscara dos campos
             $('#celular').inputmask('(99) 99999-9999');
 
             // Obtém a data atual no formato YYYY-MM-DD
-            var today = new Date().toISOString().slice(0, 10);
+            const today = new Date().toISOString().slice(0, 10);
             
 
 
@@ -351,10 +421,16 @@
             // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
             $('#filtro_publicado').on("change", function (e) {
                 e.stopImmediatePropagation();
-                $('#datatables-apresentacao').DataTable().column('8').search( $(this).val() ).draw();
+                $('#datatables-apresentacao').DataTable().column('9').search( $(this).val() ).draw();
             });        
 
             var isNovoClicked = false;
+
+            // Limpa os dados da modal sempre que a mesma é fechada
+            $('#confirmaExcluirModal').on('hidden.bs.modal', function () {
+                $('#error-sigla').hide(); // Esconder mensagem de erro
+                $('#btnExcluir').off('click'); // Remover todos os eventos de clique antigos do botão salvar
+            });
 
             /*
             * Delete button action
@@ -397,7 +473,17 @@
                     });
                 });
 
-            });           
+            });      
+
+            var apresentacoes = @json($apresentacoes);
+
+            // Limpa os dados da modal sempre que a mesma é fechada
+            $('#confirmahomologarModal').on('hidden.bs.modal', function () {
+                $('#formHomologar')[0].reset();
+                $('#boletim_id').selectpicker('refresh'); // Para limpar o selectpicker
+                $('#error-sigla').hide(); // Esconder mensagem de erro
+                $('#btnHomologar').off('click'); // Remover todos os eventos de clique antigos do botão salvar
+            });
 
             /*
             * Homologar button action
@@ -406,6 +492,26 @@
                 e.stopImmediatePropagation();            
 
                 var id = $(this).parents('tr').attr("id");
+
+                var apresentacao = apresentacoes.find(function(apresentacao){
+                    return apresentacao.id == id;
+                });
+
+                // Limpa o select antes de adicionar opções
+                $('#boletim_id').empty();
+
+                if (apresentacao && apresentacao.apresentacao_id !== null) {
+                    // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
+                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
+                }
+
+                // Adicionar os boletins
+                @foreach($boletins as $boletim)
+                    $('#boletim_id').append('<option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>');
+                @endforeach
+
+                // Atualiza o selectpicker para refletir as mudanças
+                $('#boletim_id').selectpicker('refresh');
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmahomologarModal .modal-body p").text('Você está certo que deseja Publicar a Apresentação ID: ' + id + '?');
@@ -427,7 +533,7 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Publicou a Apresentação ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
-                            $("#boletim_id").val('');
+                            $('#boletim_id').selectpicker('val', data.boletim_id);
                             $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
 
@@ -480,7 +586,8 @@
                         $('#boletim_id').val(data.boletim_id);
                         $('#dt_apres').val(today);
                         $('#dt_inicial').val(data.dt_inicial);
-                        $('#dt_final').val(data.dt_final);
+                        $('#dt_final').val(data.dt_final).attr('readonly', true);
+                        $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                         $('#local_destino').val(data.local_destino);
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
@@ -519,7 +626,8 @@
                             $('#destino_input').val(data.destino_id);
                             $('#boletim_id').val(data.boletim_id);
                             $('#dt_inicial').val(data.dt_inicial);
-                            $('#dt_final').val(data.dt_final);
+                            $('#dt_final').val(data.dt_final).attr('readonly', true);
+                            $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                             $('#dt_apres').val(today);
                             $('#local_destino').val(data.local_destino);
                             $('#celular').val(data.celular);
@@ -588,6 +696,7 @@
                 $('#id').val('');                               // reset ID field
                 $('#pessoa_id').selectpicker('val', '');        // reset selectpicker
                 $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#destino_input').val('').prop('disabled', true);
                 $('#dt_apres').val(today);                           
                 $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
@@ -641,10 +750,11 @@
                 $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
                 $('.selectpicker').prop('disabled', false).selectpicker('refresh');
 
-                $('#destino_id').val('').change();
-                $('#destino_input').val('');
+                $('#dt_apres').val(today);     
                 $('#dt_inicial').val('');
-                $('#dt_final').val('');
+                $('#dt_final').val('').attr('readonly', true);
+                $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#destino_input').val('').prop('disabled', true);
                 $('#local_destino').val('');
                 $('#celular').val('');
                 $('#observacao').val('');
@@ -656,6 +766,7 @@
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#qtd_dias').val((new Date(registro.dt_final) - new Date(registro.dt_inicial)) / (1000 * 60 * 60 * 24)).attr('readonly', readonly);
                     $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);

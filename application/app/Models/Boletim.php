@@ -11,7 +11,12 @@ class Boletim extends Model
 
     protected $table = 'boletins';                                          // tabela de uso
     protected $fillable = ['descricao','data','ativo'];                     // colunas      
-    // public $timestamps = false;                                          // desabilita colunas timestamps                    
+    // public $timestamps = false;                                          // desabilita colunas timestamps     
+    
+    public function apresentacao()
+    {
+        return $this->hasMany(Apresentacao::class, 'boletim_id', 'id');
+    }
 
 
 }
