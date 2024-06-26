@@ -19,23 +19,6 @@
 
 @stop
 
-<style>
-  .custom-col {
-    flex: 0 0 19%;
-    max-width: 19%;
-    margin-right: 1%;
-    position: relative;
-    width: 100%;
-    padding-right: 7.5px;
-    padding-left: 7.5px;
-  }
-
-  .custom-col:last-child {
-    margin-right: 0;
-  }
-
-</style>
-
 @section('content')
 
     <div class="row">
@@ -187,6 +170,28 @@
           </div>
         </div>
       {{-- @endcan --}}
+
+      <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Aniversariantes da Semana</h3>
+                </div>
+                <div class="card-body">
+                    @if ($aniversariantes->isEmpty())
+                        <p>Não há aniversariantes esta semana.</p>
+                    @else
+                        <ul>
+                            @foreach ($aniversariantes as $aniversariante)
+                                <li>{{ $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     </section>
 
 @stop

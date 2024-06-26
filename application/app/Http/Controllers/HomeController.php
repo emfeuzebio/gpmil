@@ -16,6 +16,7 @@ use App\Models\NivelAcesso;
 use Carbon\Carbon;
 // use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller
@@ -129,6 +130,23 @@ class HomeController extends Controller
 
         $apresentacoes = Apresentacao::where('pessoa_id', $this->userID)->get();
 
+        // Data atual
+        $now = Carbon::now();
+
+        // Primeira e última data da semana atual
+        $startOfWeek = $now->startOfWeek(Carbon::SUNDAY)->format('m-d');
+        $endOfWeek = $now->endOfWeek(Carbon::SATURDAY)->format('m-d');
+
+        // Buscar pessoas com aniversário na semana atual usando Eloquent
+        $aniversariantes = Pessoa::whereRaw("
+            DATE_FORMAT(dt_nascimento, '%m-%d') >= ? 
+            AND DATE_FORMAT(dt_nascimento, '%m-%d') <= ?
+        ", [$startOfWeek, $endOfWeek])
+                                ->get()
+                                ->sortBy(function($aniversariantes) {
+                                    return Carbon::createFromFormat('Y-m-d', $aniversariantes->dt_nascimento)->format('m-d');
+                                });
+
         return view('home', [
             'qtdPessoasAtivas' => $qtdPessoasAtivas, 
             'user' => $user, 
@@ -139,7 +157,8 @@ class HomeController extends Controller
             'qtdPessoasTotal' => $qtdPessoasTotal,
             'apresentacoes' => $apresentacoes,
             'organizacao' => $organizacao,
-            'secaos'=> $secaos
+            'secaos' => $secaos,
+            'aniversariantes' => $aniversariantes
         ]);
     }
 }

@@ -96,6 +96,24 @@
         <meta name="msapplication-TileImage" content="{{ asset('favicon/ms-icon-144x144.png') }}">
     @endif
 
+    <style>
+        /*  Classe customizada para exibir o Efetivo na home  */
+        .custom-col {
+          flex: 0 0 19%;
+          max-width: 19%;
+          margin-right: 1%;
+          position: relative;
+          width: 100%;
+          padding-right: 7.5px;
+          padding-left: 7.5px;
+        }
+      
+        .custom-col:last-child {
+          margin-right: 0;
+        }
+      
+      </style>
+
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
