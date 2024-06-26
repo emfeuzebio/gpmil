@@ -19,6 +19,23 @@
 
 @stop
 
+<style>
+  .custom-col {
+    flex: 0 0 19%;
+    max-width: 19%;
+    margin-right: 1%;
+    position: relative;
+    width: 100%;
+    padding-right: 7.5px;
+    padding-left: 7.5px;
+  }
+
+  .custom-col:last-child {
+    margin-right: 0;
+  }
+
+</style>
+
 @section('content')
 
     <div class="row">
@@ -50,11 +67,10 @@
 
       @cannot('is_usuario')
       <!-- Info boxes -->
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="row justify-content-around">
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-primary"><i class="ion ion-ios-gear-outline"></i></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Pronto</span>
               <span class="info-box-number">{{ $qtdPessoasAtivas }} <small>pessoas</small></span>
@@ -64,40 +80,49 @@
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-red"></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Em Férias</span>
-              <span class="info-box-number">26</span>
+              <span class="info-box-number">{{ $qtdPessoasFerias }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
-
             <div class="info-box-content">
-              <span class="info-box-text">Em Destinos</span>
-              <span class="info-box-number">16</span>
+              <span class="info-box-text">Em Dispensa</span>
+              <span class="info-box-number">{{ $qtdPessoasDispensa }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="ion ion-ios-cart-outline"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Em Afastamento de Sede</span>
+              <span class="info-box-number">{{ $qtdPessoasAfasSede }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Total</span>
               <span class="info-box-number">{{ $qtdPessoasTotal }}</span>
