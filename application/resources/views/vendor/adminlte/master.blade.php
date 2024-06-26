@@ -185,6 +185,8 @@
         $('select').each(function() {
             // Adiciona o atributo data-style
             $(this).attr('data-style', 'form-control btn-light');
+            // Adiciona uma leve borda
+            $(this).addClass('border');
         });
 
     </script>  

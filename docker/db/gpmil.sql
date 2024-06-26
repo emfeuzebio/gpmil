@@ -41,21 +41,6 @@ CREATE TABLE `apresentacaos` (
   `updated_at` timestamp NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
---
--- Extraindo dados da tabela `apresentacaos`
---
-
-INSERT INTO `apresentacaos` (`id`, `pessoa_id`, `apresentacao_id`, `secao_id`, `destino_id`, `celular`, `observacao`, `publicado`, `dt_apres`, `dt_inicial`, `dt_final`, `local_destino`, `boletim_id`, `created_at`, `updated_at`) VALUES
-(4, 5, 3, 9, 2, '(61) 98889-8989', NULL, 'SIM', '2024-06-20', '2024-07-01', '2024-07-10', 'BSB', 3, '2024-06-20 11:21:16', '2024-06-20 11:52:06'),
-(5, 1, NULL, 9, 7, '(61) 98259-6651', NULL, 'SIM', '2024-06-20', '2024-06-24', '2024-06-27', 'Brasilia', 3, '2024-06-20 11:53:55', '2024-06-20 11:54:04'),
-(8, 1, 5, 9, 7, '(61) 98259-6651', NULL, 'SIM', '2024-06-21', '2024-06-24', '2024-06-27', 'Brasilia', 3, '2024-06-21 11:31:23', '2024-06-21 11:41:59'),
-(9, 2, NULL, 4, 7, '(42) 00202-0404', NULL, 'SIM', '2024-06-21', '2024-06-24', '2024-06-28', 'Brasilia', 3, '2024-06-21 11:43:12', '2024-06-21 11:43:53'),
-(10, 2, 9, 4, 7, '(42) 00202-0404', NULL, 'SIM', '2024-06-21', '2024-06-24', '2024-06-28', 'Brasilia', 3, '2024-06-21 11:44:08', '2024-06-21 11:48:28'),
-(11, 2, NULL, 4, 7, '(61) 98259-6651', NULL, 'SIM', '2024-06-24', '2024-06-25', '2024-06-27', 'Brasilia', 2, '2024-06-24 09:05:52', '2024-06-24 12:57:47'),
-(32, 5, NULL, 9, 7, '(23) 35351-3513', NULL, 'NÃO', '2024-06-24', '2024-06-25', '2024-06-28', 'Brasilia', NULL, '2024-06-24 13:38:19', '2024-06-24 13:38:19'),
-(33, 6, 31, 12, 1, '(61) 98259-6651', NULL, 'NÃO', '2024-06-24', '2024-06-25', '2024-06-28', 'Brasilia', 1, '2024-06-24 13:41:19', '2024-06-24 13:41:19'),
-(34, 6, 11, 12, 1, '(42) 00202-0404', NULL, 'NÃO', '2024-06-24', '2024-06-25', '2024-06-28', 'Brasilia', 1, '2024-06-24 14:37:44', '2024-06-24 14:37:44');
-
 -- --------------------------------------------------------
 
 --
@@ -6339,7 +6324,8 @@ ALTER TABLE `apresentacaos`
   ADD KEY `apresentacaos_pessoa_id_key` (`pessoa_id`),
   ADD KEY `apresentacaos_destino_id_key` (`destino_id`),
   ADD KEY `apresentacaos_boletim_id_key` (`boletim_id`),
-  ADD KEY `apresentacoes_secao_id_key` (`secao_id`);
+  ADD KEY `apresentacoes_secao_id_key` (`secao_id`),
+  ADD KEY `apresentacao_tem_apresentacao` (`apresentacao_id`);
 
 --
 -- Índices para tabela `boletins`
@@ -6578,6 +6564,7 @@ ALTER TABLE `users`
 -- Limitadores para a tabela `apresentacaos`
 --
 ALTER TABLE `apresentacaos`
+  ADD CONSTRAINT `apresentacao_tem_apresentacao` FOREIGN KEY (`apresentacao_id`) REFERENCES `apresentacaos` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `boletim_tem_apresentacoes` FOREIGN KEY (`boletim_id`) REFERENCES `boletins` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `destino_tem_apresentacoes` FOREIGN KEY (`destino_id`) REFERENCES `destinos` (`id`) ON UPDATE CASCADE,
   ADD CONSTRAINT `pessoa_tem_apresentacoes` FOREIGN KEY (`pessoa_id`) REFERENCES `pessoas` (`id`) ON UPDATE CASCADE,
