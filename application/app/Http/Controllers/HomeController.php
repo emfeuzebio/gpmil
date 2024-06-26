@@ -13,8 +13,10 @@ use App\Models\Ferias;
 use App\Models\Destino;
 use App\Models\Funcao;
 use App\Models\NivelAcesso;
+use Carbon\Carbon;
 // use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 
 class HomeController extends Controller
@@ -62,52 +64,101 @@ class HomeController extends Controller
         $this->userFuncaoID = $user->pessoa->funcao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
 
-        // filtros aplicados segundo o níve de acesso
-        if(in_array($this->userNivelAcessoID,[1,2,3])) {
-            // Admin, Cmt e Enc Pes vem todos registros da OM
-            $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->count();
-            // $qtdPessoasFerias = Apresentacao::where('status', 'Férias')->count();
-            // $qtdPessoasDestinos = Apresentacao::where('status', 'Destinos')->count();
-            $qtdPessoasTotal = Pessoa::count();
+        $hoje = date("d-m-Y");
 
-        } elseif(in_array($this->userNivelAcessoID,[4,5])) {
-            $secaoId = $this->userSecaoID; // Assuming there is a `secao_id` field in the user model to identify the section
-            $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->where('secao_id', $secaoId)->count();
-            // $qtdPessoasFerias = Apresentacao::where('status', 'Férias')->where('secao_id', $secaoId)->count();
-            // $qtdPessoasDestinos = Apresentacao::where('status', 'Destinos')->where('secao_id', $secaoId)->count();
-            $qtdPessoasTotal = Pessoa::where('secao_id', $secaoId)->count();
+        $dt_inicial = Apresentacao::select('dt_inicial')->first();
+        $dt_final = Apresentacao::select('dt_final')->first();
 
-        } else {
-            $pessoaId = $this->userID; // Assuming there is a `pessoa_id` field in the user model to identify the person
-            $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->where('id', $pessoaId)->count();
-            // $qtdPessoasFerias = Apresentacao::where('status', 'Férias')->where('pessoa_id', $pessoaId)->count();
-            // $qtdPessoasDestinos = Apresentacao::where('status', 'Destinos')->where('pessoa_id', $pessoaId)->count();
-            $qtdPessoasTotal = Pessoa::count(); // The user can see only their own status
+        $qtdPessoasFerias = 0;
+        $qtdPessoasDispensa = 0;
+        $qtdPessoasAfasSede = 0;
+        $qtdPessoasAtivas = 0;
+        $qtdPessoasTotal = 0;
+
+        if ($dt_inicial && $dt_final) {
+            $dt_inicial = Carbon::parse($dt_inicial->dt_inicial);
+            $dt_final = Carbon::parse($dt_final->dt_final);
+    
+            if ($dt_inicial->lte($hoje) && $dt_final->gte($hoje)) {
+                if (in_array($this->userNivelAcessoID, [1, 2, 3])) {
+                    // Admin, Cmt e Enc Pes veem todos os registros da OM
+                    $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])->count();
+                    $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])->count();
+                    $qtdPessoasAfasSede = Apresentacao::where('destino_id', 1)->count();
+                    $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->count();
+                    $qtdPessoasTotal = Pessoa::where('ativo', 'SIM')->count();
+
+                    // Subtrair as quantidades
+                    $qtdPessoasAtivas -= ($qtdPessoasFerias + $qtdPessoasDispensa + $qtdPessoasAfasSede);
+                } elseif (in_array($this->userNivelAcessoID, [4, 5])) {
+                    // Filtros para usuários com nível de acesso 4 e 5
+                    $secaoId = $this->userSecaoID;
+                    $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])
+                        ->whereHas('pessoa', function($query) use ($secaoId) {
+                            $query->where('secao_id', $secaoId);
+                        })->count();
+                    $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])
+                        ->whereHas('pessoa', function($query) use ($secaoId) {
+                            $query->where('secao_id', $secaoId);
+                        })->count();
+                    $qtdPessoasAfasSede = Apresentacao::where('destino_id', 1)
+                        ->whereHas('pessoa', function($query) use ($secaoId) {
+                            $query->where('secao_id', $secaoId);
+                        })->count();
+                    $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->where('secao_id', $secaoId)->count();
+                    $qtdPessoasTotal = Pessoa::where('secao_id', $secaoId)->where('ativo', 'SIM')->count();
+
+                    // Subtrair as quantidades
+                    $qtdPessoasAtivas -= ($qtdPessoasFerias + $qtdPessoasDispensa + $qtdPessoasAfasSede);
+                } else {
+                    // Filtros para usuários com nível de acesso inferior
+                    $pessoaId = $this->userID;
+                    $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])
+                        ->where('pessoa_id', $pessoaId)->count();
+                    $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])
+                        ->where('pessoa_id', $pessoaId)->count();
+                    $qtdPessoasAfasSede = Apresentacao::where('destino_id_id', 1)
+                        ->where('pessoa_id', $pessoaId)->count();
+                    $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->where('id', $pessoaId)->count();
+                    $qtdPessoasTotal = Pessoa::where('ativo', 'SIM')->count(); // The user can see only their own status
+
+                    // Subtrair as quantidades
+                    $qtdPessoasAtivas -= ($qtdPessoasFerias + $qtdPessoasDispensa + $qtdPessoasAfasSede);
+                }
+            }
         }
 
         $apresentacoes = Apresentacao::where('pessoa_id', $this->userID)->get();
-        // dd($apresentacoes);
 
-        // $secaos = $this->Secao->all()->sortBy('id');
-        // dd($secaos);
+        // Data atual
+        $now = Carbon::now();
 
-        // $qtdPessoasAtivas = $this->Pessoa->all()->count();
-        // $qtdPessoasAtivas = Pessoa::where('ativo', 'SIM')->count();
-        // $qtdPessoasFerias = Apresentacao::where('status', 'Férias')->count();
-        // $qtdPessoasDestinos = Destino::where('status', 'Destinos')->count();
-        // $qtdPessoasTotal = Pessoa::count();
-        //dd($qtdPessoasAtivas);
+        // Primeira e última data da semana atual
+        $startOfWeek = $now->startOfWeek(Carbon::SUNDAY)->format('m-d');
+        $endOfWeek = $now->endOfWeek(Carbon::SATURDAY)->format('m-d');
+
+        // Buscar pessoas com aniversário na semana atual usando Eloquent
+        $aniversariantes = Pessoa::whereRaw("
+            DATE_FORMAT(dt_nascimento, '%m-%d') >= ? 
+            AND DATE_FORMAT(dt_nascimento, '%m-%d') <= ?
+        ", [$startOfWeek, $endOfWeek])
+                                ->get()
+                                ->sortBy(function($aniversariantes) {
+                                    return Carbon::createFromFormat('Y-m-d', $aniversariantes->dt_nascimento)->format('m-d');
+                                });
 
         return view('home', [
             'qtdPessoasAtivas' => $qtdPessoasAtivas, 
             'user' => $user, 
             'pessoa' => $pessoa, 
-            // 'qtdPessoasFerias' => $qtdPessoasFerias, 
-            // 'qtdPessoasDestinos' => $qtdPessoasDestinos, 
+            'qtdPessoasFerias' => $qtdPessoasFerias, 
+            'qtdPessoasDispensa' => $qtdPessoasDispensa, 
+            'qtdPessoasAfasSede' => $qtdPessoasAfasSede, 
             'qtdPessoasTotal' => $qtdPessoasTotal,
             'apresentacoes' => $apresentacoes,
             'organizacao' => $organizacao,
-            'secaos'=> $secaos
+            'secaos' => $secaos,
+            'aniversariantes' => $aniversariantes
         ]);
     }
 }

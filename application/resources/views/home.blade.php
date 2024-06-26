@@ -50,11 +50,10 @@
 
       @cannot('is_usuario')
       <!-- Info boxes -->
-      <div class="row">
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      <div class="row justify-content-around">
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-primary"><i class="ion ion-ios-gear-outline"></i></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Pronto</span>
               <span class="info-box-number">{{ $qtdPessoasAtivas }} <small>pessoas</small></span>
@@ -64,40 +63,49 @@
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-red"></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Em Férias</span>
-              <span class="info-box-number">26</span>
+              <span class="info-box-number">{{ $qtdPessoasFerias }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-
-        <!-- fix for small devices only -->
-        <div class="clearfix visible-sm-block"></div>
-
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-green"><i class="ion ion-ios-cart-outline"></i></span>
-
             <div class="info-box-content">
-              <span class="info-box-text">Em Destinos</span>
-              <span class="info-box-number">16</span>
+              <span class="info-box-text">Em Dispensa</span>
+              <span class="info-box-number">{{ $qtdPessoasDispensa }}</span>
             </div>
             <!-- /.info-box-content -->
           </div>
           <!-- /.info-box -->
         </div>
         <!-- /.col -->
-        <div class="col-md-3 col-sm-6 col-xs-12">
+      
+        <div class="custom-col col-xs-12">
+          <div class="info-box">
+            <span class="info-box-icon bg-info"><i class="ion ion-ios-cart-outline"></i></span>
+            <div class="info-box-content">
+              <span class="info-box-text">Em Afastamento de Sede</span>
+              <span class="info-box-number">{{ $qtdPessoasAfasSede }}</span>
+            </div>
+            <!-- /.info-box-content -->
+          </div>
+          <!-- /.info-box -->
+        </div>
+        <!-- /.col -->
+      
+        <div class="custom-col col-xs-12">
           <div class="info-box">
             <span class="info-box-icon bg-yellow"><i class="ion ion-ios-people-outline"></i></span>
-
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Total</span>
               <span class="info-box-number">{{ $qtdPessoasTotal }}</span>
@@ -162,6 +170,28 @@
           </div>
         </div>
       {{-- @endcan --}}
+
+      <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Aniversariantes da Semana</h3>
+                </div>
+                <div class="card-body">
+                    @if ($aniversariantes->isEmpty())
+                        <p>Não há aniversariantes esta semana.</p>
+                    @else
+                        <ul>
+                            @foreach ($aniversariantes as $aniversariante)
+                                <li>{{ $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
+                            @endforeach
+                        </ul>
+                    @endif
+                </div>
+            </div>
+        </div>
+    </div>
+
     </section>
 
 @stop
