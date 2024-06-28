@@ -17,13 +17,13 @@ class SituacaoController extends Controller
 
     public function index() {
 
-        // Auth::logout();          // se não autenticado faz logout
+        // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Situacao())) {
             abort(403, 'Usuário não autorizado!');
-        }        
+        }      
 
         if(request()->ajax()) {
             return DataTables::eloquent(Situacao::select(['situacaos.*']))
@@ -44,8 +44,8 @@ class SituacaoController extends Controller
 
     public function destroy(Request $request)
     {        
-        $Livro = Situacao::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+        $Situacao = Situacao::where(['id'=>$request->id])->delete();
+        return Response()->json($Situacao);
     }   
 
     public function store(SituacaoRequest $request)

@@ -18,6 +18,7 @@ class DestinoController extends Controller
 
     public function index() {
 
+        // se não autenticado faz logout  // Auth::logout();          
         if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão
@@ -43,14 +44,12 @@ class DestinoController extends Controller
 
     public function destroy(Request $request)
     {        
-        $Livro = Destino::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+        $Destino = Destino::where(['id'=>$request->id])->delete();
+        return Response()->json($Destino);
     }   
 
     public function store(DestinoRequest $request)
     {
-        $destino = Destino::where(['id'=>$request->id]);
-
         $Destino = Destino::updateOrCreate(
             [
                 'id' => $request->id,

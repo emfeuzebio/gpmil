@@ -17,7 +17,7 @@ class BoletimController extends Controller
 
     public function index() {
 
-        // Auth::logout();          // se não autenticado faz logout
+        // se não autenticado faz logout  // Auth::logout();          
         if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão

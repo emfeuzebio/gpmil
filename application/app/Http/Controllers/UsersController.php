@@ -11,12 +11,11 @@ class UsersController extends Controller
 {
     public function index(UsersDataTable $dataTable)
     {
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
 
-        // somente Admin e EncPes têm permissão
-        if (Gate::none(['is_admin','is_encpes'], new User())) {
+        // somente Admin têm permissão
+        if (Gate::none(['is_admin'], new User())) {
             abort(403, 'Usuário não autorizado!');
         }
 

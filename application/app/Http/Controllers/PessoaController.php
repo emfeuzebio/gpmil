@@ -45,7 +45,7 @@ class PessoaController extends Controller
     
     public function index() {
 
-        // Auth::logout();          // se não autenticado faz logout
+        // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
 
         $user = User::with('pessoa')->find(Auth::user()->id);
@@ -163,9 +163,7 @@ class PessoaController extends Controller
             $Pessoa->foto = 'vendor/adminlte/dist/img/avatar.png';
         }
 
-        // dd($Pessoa);
         return Response()->json($Pessoa);
-
     }    
 
     public function destroy(Request $request)
@@ -248,10 +246,7 @@ class PessoaController extends Controller
             // Lê o conteúdo do arquivo
             $foto = file_get_contents($request->foto->getRealPath());
             $dadosComuns['foto'] = base64_encode($foto); // Armazena a imagem como base64 no banco de dados
-         } //else {
-        //     // Caso a foto não seja enviada, define como null ou mantém a existente
-        //     $dadosComuns['foto'] = null;
-        // }
+         } 
     
         // Cria ou atualiza a pessoa
         $Pessoa = Pessoa::updateOrCreate(
@@ -267,12 +262,12 @@ class PessoaController extends Controller
     /**
      * Mantido para consulta e estudo
      */
-    public function Select() {  
+    // public function Select() {  
 
         // Forma de buscar os dados
         // 1 - Direto via Model: já sabe a tabela
         // ->orderBy('pgrad_id')
-        $generos = Pessoa::all()->sortBy('nome_completo');
+        // $generos = Pessoa::all()->sortBy('nome_completo');
 
         // $generos = Pgrad::where('id_genero','<','5')->orderBy('descricao')->get();
         // $generos = Pgrad::where('id_genero','<','10')->orderBy('descricao')->get();
@@ -288,7 +283,7 @@ class PessoaController extends Controller
         // $sql = 'SELECT * from bib_genero WHERE id_genero < ?';
         // $generos = DB::select($sql, [12]);
 
-        return view('PessoaDatatable',['generos' => $generos]);
-     }    
+    //     return view('PessoaDatatable',['generos' => $generos]);
+    //  }    
 
 }

@@ -21,14 +21,14 @@ class PgradController extends Controller
     
     public function index() {
 
-        // se não autenticado
-        // Auth::logout();          //faz logout
+        // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
 
-        // somente Admin e EncPes têm permissão
-        if (Gate::none(['is_admin','is_encpes','is_sgtte'], new Pgrad())) {
+        // somente Admin têm permissão
+        if (Gate::none(['is_admin'], new Pgrad())) {
             abort(403, 'Usuário não autorizado!');
-        }                
+        }
+             
 
         if(request()->ajax()) {
             return FacadesDataTables::eloquent(Pgrad::select(['pgrads.*'])->with('circulo'))
@@ -54,8 +54,8 @@ class PgradController extends Controller
 
     public function destroy(Request $request)
     {        
-        $Livro = Pgrad::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+        $Pgrad = Pgrad::where(['id'=>$request->id])->delete();
+        return Response()->json($Pgrad);
     }   
 
     public function store(PgradRequest $request)
