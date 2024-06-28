@@ -56,7 +56,7 @@
             <span class="info-box-icon bg-primary"><i class="ion ion-ios-gear-outline"></i></span>
             <div class="info-box-content">
               <span class="info-box-text">Efetivo Pronto</span>
-              <span class="info-box-number">{{ $qtdPessoasAtivas }} <small>pessoas</small></span>
+              <span class="info-box-number">{{ $qtdPessoasProntas }} <small>pessoas</small></span>
             </div>
             <!-- /.info-box-content -->
           </div>
