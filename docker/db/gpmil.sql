@@ -117,10 +117,9 @@ INSERT INTO `destinos` (`id`, `descricao`, `sigla`, `ativo`, `created_at`, `upda
 (1, 'Afastamento da Sede', 'Aftmto Sede', 'SIM', '2024-04-11 20:24:39', '2024-04-11 20:24:39'),
 (2, 'Férias 10 dias', 'Fer 10d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
 (3, 'Férias 15 dias', 'Fer 15d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
-(4, 'Férias 20 dias', 'Fer 20d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
-(5, 'Férias 30 dias', 'Fer 30d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
-(6, 'Dispensa Desconto em Férias', 'Disp Desc Fer', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
-(7, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21');
+(4, 'Férias 30 dias', 'Fer 30d', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(5, 'Dispensa Desconto em Férias', 'Disp Desc Fer', 'SIM', '2024-04-14 15:24:04', '2024-04-24 15:56:36'),
+(6, 'Dispensa Recompensa', 'Disp Recom', 'SIM', '2024-04-14 15:10:21', '2024-04-14 15:10:21');
 
 -- --------------------------------------------------------
 
