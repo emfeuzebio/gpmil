@@ -308,10 +308,6 @@
                             $('#qtd_dias').prop('readonly', true);
                             break;
                         case '4':
-                            qtdDias = 20;
-                            $('#qtd_dias').prop('readonly', true);
-                            break;
-                        case '5':
                             qtdDias = 30;
                             $('#qtd_dias').prop('readonly', true);
                             break;
@@ -766,7 +762,7 @@
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
-                    $('#qtd_dias').val((new Date(registro.dt_final) - new Date(registro.dt_inicial)) / (1000 * 60 * 60 * 24)).attr('readonly', readonly);
+                    $('#qtd_dias').val((new Date(registro.dt_final) - new Date(registro.dt_inicial)) / (1000 * 60 * 60 * 24) + 1).attr('readonly', readonly);
                     $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);
