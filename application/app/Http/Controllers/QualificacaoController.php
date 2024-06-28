@@ -49,8 +49,6 @@ class QualificacaoController extends Controller
 
     public function store(QualificacaoRequest $request)
     {
-
-       //$Qualificacao = Qualificacao::where(['id'=>$request->id]);
        $Qualificacao = Qualificacao::updateOrCreate(
             [
                 'id' => $request->id,

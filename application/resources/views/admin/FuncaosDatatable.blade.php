@@ -18,7 +18,7 @@
 
 @section('content')
 
-    <!-- DataTables de Dados -->
+    <!-- datatables-funcao de Dados -->
     <div class="row">
         <div class="col-12">
             <div class="card">
@@ -50,7 +50,7 @@
 
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
-                    <table id="datatables" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
+                    <table id="datatables-funcao" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
                         <thead></thead>
                         <tbody></tbody>
                         <tfoot></tfoot>                
@@ -64,45 +64,40 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
+                </div>
+                <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                    class="form-horizontal" method="post">
-
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
                             <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
                         </div>                         
-
                         <div class="form-group">
                             <label class="form-label">Sigla</label>
                             <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="OD" data-toggle="tooltip" title="Digite a sigla da Função" >
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
-                        
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
                             <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Ordenador de Despesas" data-toggle="tooltip" title="Digite o nome da Função" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
-                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                    <input class="form-check-input" type="checkbox" checked data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
                                 </label>
                             </div>
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
-                </form>        
+                    </form>        
 
-            </div>
-            <div class="modal-footer">
+                </div>
+                <div class="modal-footer">
                     <div class="col-md-5 text-left">
                         <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
@@ -121,7 +116,7 @@
     </div>
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -138,15 +133,14 @@
                 </div>
             </div>
         </div>
-    </div>    
+    </div>   
 
     <script type="text/javascript">
 
         $(document).ready(function () {
 
-            var id = '';
+            let id = '';
 
-            // send token
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -154,16 +148,15 @@
             });
 
             /*
-            * Create and drow DataTables
-            * https://datatables.net/examples/basic_init/data_rendering.html
-            * https://yajrabox.com/docs/laravel-datatables/10.0/engine-query
-            * https://medium.com/@boolfalse/laravel-yajra-datatables-1847b0cbc680
+            * Create and drow datatables-funcao
+            * https://datatables-funcao.net/examples/basic_init/data_rendering.html
+            * https://yajrabox.com/docs/laravel-datatables-funcao/10.0/engine-query
+            * https://medium.com/@boolfalse/laravel-yajra-datatables-funcao-1847b0cbc680
             */
-           
             /*
-            * Definitios of DataTables render
+            * Definitios of datatables-funcao render
             */
-            $('#datatables').DataTable({
+            $('#datatables-funcao').DataTable({
                 processing: true,
                 serverSide: true,
                 responsive: true,
@@ -172,7 +165,7 @@
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 10,
                 ajax: "{{url("funcaos")}}",
-                language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
+                language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
                     {"data": "id", "name": "funcaos.id", "class": "dt-right", "title": "#"},
                     {"data": "descricao", "name": "funcaos.descricao", "class": "dt-left", "title": "Descrição",
@@ -196,10 +189,10 @@
             /*
             * Delete button action
             */
-            $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
+            $("#datatables-funcao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
+                id = $(this).parents('tr').attr("id");
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -209,7 +202,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("funcaos/destroy")}}",
@@ -218,11 +210,11 @@
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
                             $('#alert').removeClass().addClass('alert alert-success').show();
-                            $('#confirmaExcluirModal').modal('hide');            
-                            $('#datatables').DataTable().ajax.reload(null, false);
+                            $('#confirmaExcluirModal').modal('hide');
+                            $('#datatables-funcao').DataTable().ajax.reload(null, false);
+                            setTimeout(function() { $('#alert').fadeOut('slow'); }, 2000);
                         },
                         error: function (data) {
-                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
@@ -231,17 +223,15 @@
                         }
                     });
                 });
-
             });           
 
             /*
             * Edit button action
             */
-            $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
+            $("#datatables-funcao tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
-                // alert('Editar ID: ' + id );
+                id = $(this).parents('tr').attr("id");
 
                 $.ajax({
                     type: "POST",
@@ -249,24 +239,46 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
                         $('#modalLabel').html('Editar Função');
-                        $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
+                        $(".invalid-feedback").text('').hide();     
                         $('#form-group-id').show();
-                        $('#editarModal').modal('show');         //show the modal
+                        $('#editarModal').modal('show');         
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
-                        if (data.ativo === "SIM") {
-                            $('#ativo').bootstrapToggle('on');
-                        } else if (data.ativo === "NÃO") {
-                            $('#ativo').bootstrapToggle('off');
-                        }
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');                        
                     }
                 }); 
+            });           
 
+            /*
+            * Edit record on double click
+            */
+            $("#datatables-funcao tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();            
+
+                id = $(this).attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("funcaos/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#modalLabel').html('Editar Função');
+                        $(".invalid-feedback").text('').hide();     
+                        $('#form-group-id').show();
+                        $('#editarModal').modal('show');         
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#sigla').val(data.sigla);
+                        $('#descricao').val(data.descricao);
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');                        
+                    }
+                }); 
             });           
 
             /*
@@ -274,15 +286,14 @@
             */
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
+
                 $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
                 var ativoValue = getAtivoValue();
 
                 //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
                 formData.append('ativo', ativoValue);
 
-                //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("funcaos/store")}}",
@@ -291,18 +302,15 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
-                        $('#datatables').DataTable().ajax.reload(null, false);
+                        $('#datatables-funcao').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
-                        // exibe mensagem sobre sucesso da operação
                         if(data.responseJSON.message.indexOf("1062") != -1) {
                             $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
                         } else if(data.responseJSON.exception) {
@@ -336,7 +344,7 @@
             */
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
-                $('#datatables').DataTable().ajax.reload(null, false);    
+                $('#datatables-funcao').DataTable().ajax.reload(null, false);    
                 $('#alert').trigger('reset').hide();
             });        
 

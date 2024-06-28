@@ -28,7 +28,7 @@ class FuncaoController extends Controller
 
         if(request()->ajax()) {
 
-            return DataTables::eloquent(Funcao::select(['funcaos.*'])->orderBy('id'))
+            return DataTables::eloquent(Funcao::select(['funcaos.*']))
                 ->filter(function ($query) { $query->where('id', '>=', "1");}, true)        
                 ->setRowId( function($param) { return $param->id; })
                 ->addIndexColumn()
@@ -46,8 +46,8 @@ class FuncaoController extends Controller
 
     public function destroy(Request $request)
     {        
-        $Livro = Funcao::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+        $Funcao = Funcao::where(['id'=>$request->id])->delete();
+        return Response()->json($Funcao);
     }   
 
     public function store(FuncaoRequest $request)

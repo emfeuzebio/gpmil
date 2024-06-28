@@ -39,22 +39,16 @@ class ApresentacaoController extends Controller
         $this->Destino = new Destino();
         $this->Boletim = new Boletim();
         $this->Secao = new Secao();
-
     }
     
     public function index() {
 
-        // Auth::logout();          // se não autenticado faz logout
         if (! Auth::check()) return redirect('/home');
 
-        // dd(Auth::user()->id);
-        // $this->User = User::with('pessoa')->find(Auth::user()->id);        
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
-        // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
-        // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
         // dd($user->pessoa);
 
         // $destinos = $this->Destino->all()->sortBy('descricao');
@@ -136,9 +130,8 @@ class ApresentacaoController extends Controller
         $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
         $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Publicar este registro">Publi</button> ';
 
-        // dd($row);
-        // btn Homologar disponível apenas ao Admin ou Enc Pes
-        if(in_array($this->userNivelAcessoID,[1,3,]) && $row->destino_id != 1) {
+        // btn Homologar disponível apenas ao Admin ou Enc Pes e Apresentação por 1-Afastamento da Sede  não requer publicação
+        if(in_array($this->userNivelAcessoID,[1,3,]) AND $row->destino_id != 1) {
             $actions = $btnHomolg;
         }
 
@@ -171,14 +164,14 @@ class ApresentacaoController extends Controller
         // verifica se o User tem permissão via Policy
         // necessário retornar HTTP 422-Unprocesable Content que bloqueia fechar o modal
         if($request->user()->cannot('PodeInserirApresentacao',Apresentacao::class)) {
-            //terminar o retorno JSON para bloquear o fechamento do Form e mostrar mensagem de erro
             $Apresentacao = ['message' => 'Operação NÃO autorizada!','errors' => ['form'=>'Form: Operação NÃO autorizada']];
             return Response()->json($Apresentacao);
         }
 
-        //busca a Pessoa para obter a Seção da mesma
+        // busca a Pessoa para obter a Seção da mesma
         $pessoa = $this->Pessoa->find($request->pessoa_id);
 
+        // se for Apresentação por 1-Afastamento da Sede não requer publicação logo publicado 'NÂO' e 1-Sem Boletim
         if($request->destino_id == 1) {
             $Apresentacao = Apresentacao::updateOrCreate(
                 [
@@ -187,19 +180,18 @@ class ApresentacaoController extends Controller
                 [
                     'pessoa_id' => $request->pessoa_id,
                     'destino_id' => $request->destino_id,
-                    'boletim_id' => 1,
+                    'boletim_id' => 1,                      // 1-Sem Boletim
                     'dt_apres' => $request->dt_apres,
                     'dt_inicial' => $request->dt_inicial,
                     'dt_final' => $request->dt_final,
                     'local_destino' => $request->local_destino,
                     'celular' => $request->celular,
                     'observacao' => $request->observacao,
-                    'publicado' => 'NÃO',
+                    'publicado' => 'NÃO',                   // publicado 'NÂO'
                     'apresentacao_id' => $request->apresentacao_id, 
                     'secao_id' => $pessoa->secao_id,
                 ]
             );   
-
             return Response()->json($Apresentacao);
 
         } else {
@@ -222,7 +214,6 @@ class ApresentacaoController extends Controller
                     'secao_id' => $pessoa->secao_id,
                 ]
             );   
-
             return Response()->json($Apresentacao);
         }
     }     
@@ -241,23 +232,9 @@ class ApresentacaoController extends Controller
         return Response()->json($Apresentacao);
     }     
 
-    // public function haApresAberta(Request $request)
     public function getApresentacoesAbertas(Request $request)
     {
-
-        // $apresentacoes = Apresentacao::where('pessoa_id', $request->pessoa_id)->get();
-        // $apresentacoes = Apresentacao::where(['id'=>$request->pessoa_id])->first();  // trás primeira linha como objeto
-        // $apresentacoes = DB::query("SELECT * FROM apresentacaos WHERE pessoa_id = ? AND boletim_id IS NULL", [$request->pessoa_id]);
-        // User::where('this', '=', 1)
-        // ->whereNotNull('created_at')
-        // ->whereNotNull('updated_at')
-        // ->where(function($query){
-        //     return $query
-        //     ->whereNull('alias')
-        //     ->orWhere('alias', '=', 'admin');
-        // });        
-
-        // $apresentacoes = Apresentacao::where('pessoa_id','=',$request->pessoa_id)->whereNull('boletim_id')->get();
+        // busca Apresentações aberta da Pessoa
         $apresentacaoIniSemPubl = Apresentacao::with('destino')->where('pessoa_id','=',$request->pessoa_id)->whereNull('apresentacao_id')->whereNull('boletim_id')->first();
 
         // caso 1/3 - Apresentação Ini sem publicação - Aberta sem publicação
@@ -288,8 +265,8 @@ class ApresentacaoController extends Controller
             )
         ";
         $apresentacaoSemTermino = DB::select($sql, [$request->pessoa_id]);  //retorna um array de objetos
-        if(! empty($apresentacaoSemTermino)) {
 
+        if(! empty($apresentacaoSemTermino)) {
 
             $apresentacaoSemTermino[0]->apresentacao_id = $apresentacaoSemTermino[0]->id;
             $apresentacaoSemTermino[0]->id = null;
@@ -298,14 +275,13 @@ class ApresentacaoController extends Controller
             [
                 'codigo' => 2,
                 'registro' => $apresentacaoSemTermino[0],   //retorna primeira linha do array
-                // 'mensagem' => "Há uma Apresentação de Início de '{TEXTO}'  sem Término. Deseja fecha-ĺá agora? ID",
                 'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "'  sem Término. Deseja fecha-ĺá agora? ID " . $apresentacaoSemTermino[0]->apresentacao_id,
             ];
             return Response()->json($resposta);
         }        
 
 
-        // caso 3/3 - Apresentação Fim sem publicação - Fechada sem publicação
+        // caso 3/3 - Apresentação Fim sem publicação - Fechada faltando bol de publicação
         $apresentacaoFimSemPubl = Apresentacao::with('destino')->where('pessoa_id','=',$request->pessoa_id)->whereNotNull('apresentacao_id')->whereNull('boletim_id')->first();
 
         if(! empty($apresentacaoFimSemPubl)) {

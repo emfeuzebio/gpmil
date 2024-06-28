@@ -44,8 +44,8 @@ class BoletimController extends Controller
 
     public function destroy(Request $request)
     {        
-        $Livro = Boletim::where(['id'=>$request->id])->delete();
-        return Response()->json($Livro);
+        $Boletim = Boletim::where(['id'=>$request->id])->delete();
+        return Response()->json($Boletim);
     }   
 
     public function store(BoletimRequest $request)

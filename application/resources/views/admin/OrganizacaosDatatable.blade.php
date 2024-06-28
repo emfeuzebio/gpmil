@@ -118,7 +118,7 @@
     </div>
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">

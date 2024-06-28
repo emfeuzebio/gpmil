@@ -71,39 +71,29 @@
                 <div class="modal-body">
 
                     <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
-
-                            <div class="form-group" id="form-group-id">
-                                <label class="form-label">ID</label>
-                                <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        <div class="form-group" id="form-group-id">
+                            <label class="form-label">ID</label>
+                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Sigla</label>
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Ex. STT Sau" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
+                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descrição</label>
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Sargento Técnico Temporário - Saúde" data-toggle="tooltip" title="Informe a descrição da Qualificação Militar" >
+                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ativo</label>
+                            <div class="form-check">
+                                <label class="form-label" for="ativo">
+                                    <input class="form-check-input" type="checkbox" checked data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                </label>
                             </div>
-
-                            <!-- <div class="form-group">
-                                <label class="form-label">Código</label>
-                                <input class="form-control" value="" type="text" id="codigo" name="codigo" placeholder="9999" data-toggle="tooltip" title="Informe o Código da Qualificação Militar com 4 números">
-                                <div id="error-codigo" class="error invalid-feedback" style="display: none;"></div>
-                            </div> -->
-                            
-                            <div class="form-group">
-                                <label class="form-label">Sigla</label>
-                                <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Ex. STT Sau" data-toggle="tooltip" title="Informe a Sigla da Qualificação Militar">
-                                <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-                            
-                            <div class="form-group">
-                                <label class="form-label">Descrição</label>
-                                <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Sargento Técnico Temporário - Saúde" data-toggle="tooltip" title="Informe a descrição da Qualificação Militar" >
-                                <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
-                            </div>
-
-                            <div class="form-group">
-                                <label class="form-label">Ativo</label>
-                                <div class="form-check">
-                                    <label class="form-label" for="ativo">
-                                        <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
-                                    </label>
-                                </div>
-                                <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
-                            </div>
+                            <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
+                        </div>
                     </form>        
 
                 </div>
@@ -126,7 +116,7 @@
     </div>
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -152,9 +142,8 @@
             //máscaras necessárias em campos
             $('#codigo').inputmask('9999');
 
-            var id = '';
+            let id = '';
 
-            // send token            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -175,7 +164,6 @@
                 serverSide: true,
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 10,
                 ajax: "{{url("qualificacaos")}}",
@@ -207,7 +195,7 @@
             $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
+                id = $(this).parents('tr').attr("id");
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -217,7 +205,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("qualificacaos/destroy")}}",
@@ -230,7 +217,6 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         },
                         error: function (data) {
-                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
@@ -239,7 +225,6 @@
                         }
                     });
                 });
-
             });           
 
             /*
@@ -248,7 +233,7 @@
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
+                id = $(this).parents('tr').attr("id");
 
                 $.ajax({
                     type: "POST",
@@ -256,25 +241,48 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
                         $('#modalLabel').html('Editar Qualificação Militar');
-                        $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
+                        $(".invalid-feedback").text('').hide();    
                         $('#form-group-id').show();
-                        $('#editarModal').modal('show');         //show the modal
+                        $('#editarModal').modal('show');         aa
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#codigo').val(data.codigo);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
-                        if (data.ativo === "SIM") {
-                            $('#ativo').bootstrapToggle('on');
-                        } else if (data.ativo === "NÃO") {
-                            $('#ativo').bootstrapToggle('off');
-                        }
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');                        
                     }
                 }); 
+            });           
 
+            /*
+            * Edit record on double click
+            */
+            $("#datatables tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();            
+
+                id = $(this).attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("qualificacaos/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#modalLabel').html('Editar Qualificação Militar');
+                        $(".invalid-feedback").text('').hide();    
+                        $('#form-group-id').show();
+                        $('#editarModal').modal('show');         
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#codigo').val(data.codigo);
+                        $('#sigla').val(data.sigla);
+                        $('#descricao').val(data.descricao);
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');
+                    }
+                }); 
             });           
 
             /*
@@ -282,15 +290,12 @@
             */
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
-                $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
+                $(".invalid-feedback").text('').hide();    
                 var ativoValue = getAtivoValue();
 
-                //to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
                 formData.append('ativo', ativoValue);
 
-                //here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("qualificacaos/store")}}",
@@ -299,18 +304,15 @@
                     contentType: false,
                     processData: false,
                     success: function (data) {
-                        //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
                         $('#alert').removeClass().addClass('alert alert-success').show();
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (data) {
-                        // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
                         $.each( data.responseJSON.errors, function( key, value ) {
-                            $("#error-" + key ).text(value).show(); //show all error messages
+                            $("#error-" + key ).text(value).show();     // show all error messages
                         });
-                        // exibe mensagem sobre sucesso da operação
                         if(data.responseJSON.message.indexOf("1062") != -1) {
                             $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
                         } else if(data.responseJSON.exception) {

@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use Yajra\DataTables\Facades\DataTables as FacadesDataTables;
 use Illuminate\Http\Request;
-use App\Http\Requests\PessoaRequest;   //validação de servidor
+use App\Http\Requests\PessoaRequest;   
 use App\Models\Circulo;
 use App\Models\Pgrad;
 use App\Models\Pessoa;
@@ -15,9 +15,6 @@ use App\Models\Funcao;
 use App\Models\NivelAcesso;
 use App\Models\User;
 use App\Models\Religiao;
-use Illuminate\Http\Response as HttpResponse;
-use Illuminate\Support\Facades\Storage;
-
 
 class PessoaController extends Controller
 {

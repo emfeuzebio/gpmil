@@ -275,7 +275,7 @@
     </div>
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -306,11 +306,7 @@
                 $(this).val($(this).val().toUpperCase());
             });
 
-            // $('input[name="nome_completo"]').on('input', function() {
-            //     $(this).val($(this).val().toUpperCase());
-            // });
-
-            var id = '';
+            let id = '';
             const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
             $.ajaxSetup({
@@ -421,10 +417,7 @@
                             $('#alert').removeClass().addClass('alert alert-success').show();
                             $('#confirmaExcluirModal').modal('hide');
                             $('#datatables-pessoas').DataTable().ajax.reload(null, false);
-
-                            setTimeout(function() {
-                                $('#alert').fadeOut('slow');
-                            }, 2000);
+                            setTimeout(function() { $('#alert').fadeOut('slow'); }, 2000);
                         },
                         error: function (data) {
                             if(data.responseJSON.message.indexOf("1451") != -1) {
@@ -439,14 +432,13 @@
 
             });        
 
-/*
+            /*
             * Edit button action
             */
             $("#datatables-pessoas tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();
 
-                const id = $(this).data("id")
-                // alert('Editar ID: ' + id );
+                id = $(this).data("id")
 
                 $.ajax({
                     type: "POST",
@@ -539,7 +531,6 @@
                 e.stopImmediatePropagation();
 
                 let id = $(this).attr("id");
-                // alert('Editar ID: ' + id );
 
                 $.ajax({
                     type: "POST",

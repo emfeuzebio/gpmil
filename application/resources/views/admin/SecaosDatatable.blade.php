@@ -64,64 +64,59 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
+                </div>
+                <div class="modal-body">
 
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" 
-                    class="form-horizontal" method="post">
-
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
                         <div class="form-group" id="form-group-id">
                             <label class="form-label">ID</label>
                             <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
                         </div>                         
-
                         <div class="form-group">
                             <label class="form-label">Sigla</label>
                             <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="S1" data-toggle="tooltip" title="Digite a sigla da Seção" >
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
-                        
+                        </div>                        
                         <div class="form-group">
                             <label class="form-label">Descrição</label>
                             <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: 1ª Seção" data-toggle="tooltip" title="Digite o nome da Seção" >
                             <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
                         </div>
-
                         <div class="form-group">
                             <label class="form-label">Ativo</label>
                             <div class="form-check">
                                 <label class="form-label" for="ativo">
-                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                    <input class="form-check-input" type="checkbox" checked data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
                                 </label>
                             </div>
                             <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
                         </div>
-                </form>        
+                    </form>        
 
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-6 text-left">
-                    <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                 </div>
-                <div class="col-md-5 text-right">
-                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                    @can('is_admin')
-                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                    @endcan
-                    @can('is_encpes')
-                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                    @endcan
+                <div class="modal-footer">
+                    <div class="col-md-6 text-left">
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @can('is_admin')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        @can('is_encpes')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                    </div>
                 </div>
-            </div>
             </div>
         </div>
     </div>
 
     <!-- modal excluir registro -->
-    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true">
+    <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">
                 <div class="modal-header">
@@ -144,9 +139,8 @@
 
         $(document).ready(function () {
 
-            var id = '';
+            let id = '';
 
-            // send token            
             $.ajaxSetup({
                 headers: {
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
@@ -199,8 +193,7 @@
             $("#datatables tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
-                //alert('Editar ID: ' + id );
+                id = $(this).parents('tr').attr("id");
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -210,7 +203,6 @@
                 $('#confirmaExcluirModal').find('.modal-footer #confirm').on('click', function (e) {
                     e.stopImmediatePropagation();
 
-                    // alert($id);
                     $.ajax({
                         type: "POST",
                         url: "{{url("secaos/destroy")}}",
@@ -223,7 +215,6 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         },
                         error: function (data) {
-                            // $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
                             if(data.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
@@ -241,8 +232,7 @@
             $("#datatables tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                const id = $(this).data("id")
-                // alert('Editar ID: ' + id );
+                id = $(this).parents('tr').attr("id");
 
                 $.ajax({
                     type: "POST",
@@ -250,24 +240,46 @@
                     data: {"id": id},
                     dataType: 'json',
                     success: function (data) {
-                        // console.log(data);
                         $('#modalLabel').html('Editar Seção');
-                        $(".invalid-feedback").text('').hide();     //hide and clen all erros messages on the form
+                        $(".invalid-feedback").text('').hide();     
                         $('#form-group-id').show();
-                        $('#editarModal').modal('show');         //show the modal
+                        $('#editarModal').modal('show');         
 
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#sigla').val(data.sigla);
                         $('#descricao').val(data.descricao);
-                        if (data.ativo === "SIM") {
-                            $('#ativo').bootstrapToggle('on');
-                        } else if (data.ativo === "NÃO") {
-                            $('#ativo').bootstrapToggle('off');
-                        }
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');
                     }
                 }); 
+            });           
 
+            /*
+            * Double Click on table line edit reg
+            */
+            $("#datatables tbody").delegate('tr', 'dblclick', function (e) {
+                e.stopImmediatePropagation();            
+
+                id = $(this).attr("id");
+
+                $.ajax({
+                    type: "POST",
+                    url: "{{url("secaos/edit")}}",
+                    data: {"id": id},
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#modalLabel').html('Editar Seção');
+                        $(".invalid-feedback").text('').hide();     
+                        $('#form-group-id').show();
+                        $('#editarModal').modal('show');         
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#sigla').val(data.sigla);
+                        $('#descricao').val(data.descricao);
+                        $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');
+                    }
+                }); 
             });           
 
             /*
@@ -275,15 +287,13 @@
             */
             $('#btnSave').on("click", function (e) {
                 e.stopImmediatePropagation();
-                $(".invalid-feedback").text('').hide();    //hide and clean all erros messages on the form
+                $(".invalid-feedback").text('').hide();   
                 var ativoValue = getAtivoValue();
 
                 // to use a button as submit button, is necesary use de .get(0) after
                 const formData = new FormData($('#formEntity').get(0));
-                // console.log(formData);
                 formData.append('ativo', ativoValue);
 
-                // here there are a problem with de serialize the form
                 $.ajax({
                     type: "POST",
                     url: "{{url("secaos/store")}}",
@@ -302,7 +312,6 @@
                         $.each( data.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
-                        // exibe mensagem sobre sucesso da operação
                         if(data.responseJSON.message.indexOf("1062") != -1) {
                             $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
                         } else if(data.responseJSON.exception) {
