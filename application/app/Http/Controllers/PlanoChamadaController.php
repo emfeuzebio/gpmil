@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use App\Models\PlanoChamada;
 use App\Models\User;
 use App\Models\Pessoa;
+use App\Models\Pgrad;
 use App\Models\Secao;
 use Illuminate\Http\Response as HttpResponse;
 use Yajra\DataTables\Facades\DataTables;
@@ -24,6 +25,7 @@ class PlanoChamadaController extends Controller
 
         $this->Pessoa = new Pessoa();
         $this->Secao = new Secao();
+        $this->Pgrad = new Pgrad();
     }
     
     public function index() {
@@ -36,6 +38,7 @@ class PlanoChamadaController extends Controller
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
+        $pgrads = $this->Pgrad->all()->sortBy('id');
 
         // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
         // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
@@ -44,6 +47,7 @@ class PlanoChamadaController extends Controller
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             // Admin, Cmt e Enc Pes vem todos registros da OM
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
             $secoes = $this->Secao->all()->sortBy('id');
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '>=';
@@ -51,6 +55,7 @@ class PlanoChamadaController extends Controller
 
         } elseif(in_array($this->userNivelAcessoID,[4,5])) {
             // Ch Seç e Sgtte vem todos registros da Seção
+            $pessoas = $this->Pessoa::where('ativo','=','SIM')->where('secao_id','=',$this->userSecaoID)->orderBy('nome_guerra')->get();
             $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('id')->get();
             $arrFiltro['coluna'] = 'pessoas.secao_id';
             $arrFiltro['operador'] = '=';
@@ -58,6 +63,7 @@ class PlanoChamadaController extends Controller
 
         } else {
             // Usuário vê apenas seus registro pessoa_id', '=', $userID
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->where('id','=',$this->userID)->orderBy('nome_guerra')->get();
             $secoes = $this->Secao::where('id','=',$this->userSecaoID)->orderBy('id')->get();
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '=';
@@ -78,7 +84,7 @@ class PlanoChamadaController extends Controller
                 ->make(true);        
         }
 
-        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes]);
+        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'pessoas' => $pessoas, 'pgrads' => $pgrads]);
     }
 
     protected function getActionColumn($row): string
