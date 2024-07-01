@@ -84,7 +84,9 @@ class PlanoChamadaController extends Controller
                 ->make(true);        
         }
 
-        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'pessoas' => $pessoas, 'pgrads' => $pgrads]);
+        // dd($user->pessoa->secao_id);
+
+        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'pessoas' => $pessoas, 'pgrads' => $pgrads, 'user' => $user]);
     }
 
     protected function getActionColumn($row): string

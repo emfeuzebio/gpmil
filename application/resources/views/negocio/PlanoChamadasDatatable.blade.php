@@ -202,6 +202,20 @@
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
+            function getSecaoUsuario() {
+                var secao_id = {{$user->pessoa->secao_id}};
+                var secoes = {!! json_encode($secoes) !!};
+                
+                var secaoUser = '';
+                secoes.forEach(function(secao) {
+                    if (secao.id === secao_id) {
+                        secaoUser = secao.sigla;
+                        return false; // Para sair do loop quando encontrar a correspondência
+                    }
+                });
+                
+                return secaoUser;
+            }
             /*
             * Definitios of DataTables render
             */
@@ -243,6 +257,10 @@
                             var dd = String(today.getDate()).padStart(2, '0');
                             var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
                             var yyyy = today.getFullYear();
+                            if(userNivelAcessoID == 5) {
+                                var secaoUser = getSecaoUsuario();
+                                return 'Plano de Chamada ' + secaoUser + ' ' + dd + '/' + mm + '/' + yyyy;
+                            }
                             return 'Plano de Chamada - DCEM - ' + dd + '/' + mm + '/' + yyyy;
                         },
                         exportOptions: {
@@ -264,6 +282,7 @@
                     api.buttons().container().appendTo($('.dataTables_wrapper .col-md-6:eq(0)'));
                 }
             });
+        
 
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
             $('#filtro_secao').on("change", function (e) {
