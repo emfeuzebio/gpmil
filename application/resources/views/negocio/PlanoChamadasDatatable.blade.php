@@ -230,7 +230,39 @@
                     {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "Fone Emergência"},
                     {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
                     {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "60px", "sortable": false},
-                ]
+                ],
+                dom: '<"d-flex"<"col-sm-12 col-md-6 d-flex align-items-center"<"mr-2"l>B><"ml-auto p-2"f>>tipr',
+                buttons: [
+                    {
+                        extend: 'pdfHtml5',
+                        text: '<i class="fa fa-file-pdf"></i> Exportar para PDF',
+                        className: 'btn btn-danger',
+                        filename: 'planodechamada_' + new Date().toLocaleDateString(),
+                        title: function() {
+                            var today = new Date();
+                            var dd = String(today.getDate()).padStart(2, '0');
+                            var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                            var yyyy = today.getFullYear();
+                            return 'Plano de Chamada - DCEM - ' + dd + '/' + mm + '/' + yyyy;
+                        },
+                        exportOptions: {
+                            columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                        },
+                        orientation: 'landscape',
+                        init: function(api, node, config) {
+                            $(node).hide();
+                            api.on('draw', function() {
+                                if (userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                                    $(node).show();
+                                } 
+                            });
+                        }
+                    }
+                ],
+                initComplete: function() {
+                    var api = this.api();
+                    api.buttons().container().appendTo($('.dataTables_wrapper .col-md-6:eq(0)'));
+                }
             });
 
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
