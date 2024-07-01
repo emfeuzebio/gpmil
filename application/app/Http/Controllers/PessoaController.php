@@ -59,18 +59,27 @@ class PessoaController extends Controller
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
             // Admin, Cmt e Enc Pes vem todos registros da OM
+            $secaos = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->orderBy('nome_guerra')->get();
+
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '>=';
             $arrFiltro['valor'] = '1';
 
         } elseif(in_array($this->userNivelAcessoID,[4,5])) {
             // Ch Seç e Sgtte vem todos registros da Seção
+            $secaos = $this->Secao->where('ativo','=','SIM')->where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa::where('ativo','=','SIM')->where('secao_id','=',$this->userSecaoID)->orderBy('nome_guerra')->get();
+
             $arrFiltro['coluna'] = 'pessoas.secao_id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userSecaoID;
 
         } else {
             // Usuário vê apenas seus registro id', '=', $userID
+            $secaos = $this->Secao->where('ativo','=','SIM')->where('id','=',$this->userSecaoID)->orderBy('descricao')->get();
+            $pessoas = $this->Pessoa->where('ativo','=','SIM')->where('id','=',$this->userID)->orderBy('nome_guerra')->get();
+
             $arrFiltro['coluna'] = 'pessoas.id';
             $arrFiltro['operador'] = '=';
             $arrFiltro['valor'] = $this->userID;
@@ -96,10 +105,8 @@ class PessoaController extends Controller
         }
 
         $pgrads = $this->Pgrad->all()->sortBy('id');
-        $pessoas = $this->Pessoa->all()->sortBy('id');
         $qualificacaos = $this->Qualificacao->all()->sortBy('sigla');
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
-        $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
         $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
 
