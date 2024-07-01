@@ -86,7 +86,7 @@ class PlanoChamadaController extends Controller
 
         // dd($user->pessoa->secao_id);
 
-        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'pessoas' => $pessoas, 'pgrads' => $pgrads, 'user' => $user]);
+        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'secao' => $this->userSecaoID, 'pessoas' => $pessoas, 'pgrads' => $pgrads, 'user' => $user]);
     }
 
     protected function getActionColumn($row): string
