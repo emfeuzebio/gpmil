@@ -72,14 +72,17 @@ class HomeController extends Controller
         if (in_array($this->userNivelAcessoID, [1, 2, 3])) {
             // Admin, Cmt e Enc Pes veem todos os registros da OM
             $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])
+                ->whereNull('apresentacao_id')
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])
+            ->whereNull('apresentacao_id')
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasAfasSede = Apresentacao::where('destino_id', 1)
+                ->whereNull('apresentacao_id')
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();
     
@@ -90,6 +93,7 @@ class HomeController extends Controller
             $secaoId = $this->userSecaoID;
     
             $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])
+                ->whereNull('apresentacao_id')
                 ->whereHas('pessoa', function($query) use ($secaoId) {
                     $query->where('secao_id', $secaoId);
                 })
@@ -97,6 +101,7 @@ class HomeController extends Controller
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])
+                ->whereNull('apresentacao_id')
                 ->whereHas('pessoa', function($query) use ($secaoId) {
                     $query->where('secao_id', $secaoId);
                 })
@@ -104,6 +109,7 @@ class HomeController extends Controller
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasAfasSede = Apresentacao::where('destino_id', 1)
+                ->whereNull('apresentacao_id')
                 ->whereHas('pessoa', function($query) use ($secaoId) {
                     $query->where('secao_id', $secaoId);
                 })
@@ -119,16 +125,19 @@ class HomeController extends Controller
             $pessoaId = $this->userID;
     
             $qtdPessoasFerias = Apresentacao::whereIn('destino_id', [2, 3, 4])
+                ->whereNull('apresentacao_id')
                 ->where('pessoa_id', $pessoaId)
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasDispensa = Apresentacao::whereIn('destino_id', [5, 6])
+                ->whereNull('apresentacao_id')
                 ->where('pessoa_id', $pessoaId)
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();
     
             $qtdPessoasAfasSede = Apresentacao::where('destino_id', 1)
+                ->whereNull('apresentacao_id')
                 ->where('pessoa_id', $pessoaId)
                 ->where('dt_inicial', '<=', $now)
                 ->where('dt_final', '>=', $now)->count();

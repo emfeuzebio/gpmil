@@ -41,6 +41,7 @@ class PessoaController extends Controller
         $this->Religiao = new Religiao();
         $this->Funcao = new Funcao();
         $this->NivelAcesso = new NivelAcesso();
+        $this->Pessoa = new Pessoa();
     }
     
     public function index() {
@@ -95,13 +96,14 @@ class PessoaController extends Controller
         }
 
         $pgrads = $this->Pgrad->all()->sortBy('id');
+        $pessoas = $this->Pessoa->all()->sortBy('id');
         $qualificacaos = $this->Qualificacao->all()->sortBy('sigla');
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $secaos = $this->Secao->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
         $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads,'pessoas' => $pessoas, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
     }
 
     protected function getActionColumn($row): string

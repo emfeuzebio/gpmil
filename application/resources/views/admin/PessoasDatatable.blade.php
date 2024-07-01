@@ -47,6 +47,49 @@
                     </div>
                 </div>
 
+                <div class="card-header">
+                    <!--área de Filtros-->
+                    <div class="row">
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Militar</label>
+                                <select id="filtro_pessoa" name="filtro_pessoa" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Todas os Militares </option>
+                                    @foreach( $pessoas as $pessoa )
+                                    <option value="{{$pessoa->nome_guerra}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro pela Seção</label>
+                                <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Todas Seções </option>
+                                    @foreach( $secaos as $secao )
+                                    <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro pelos P/Graduações</label>
+                                <select id="filtro_pgrad" name="filtro_pgrad" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <option value=""> Todos os P/Graduações</option>
+                                    @foreach( $pgrads as $pgrad )
+                                    <option value="{{$pgrad->sigla}}">{{$pgrad->sigla}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Ativos</label>
+                                <select id="filtro_ativo" name="filtro_ativo" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Publicados ou não </option>
+                                    <option value="SIM" selected>SIM</option>
+                                    <option value="NÃO">NÃO</option>
+                                </select>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
+
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
                     <table id="datatables-pessoas" class="table table-striped table-bordered table-hover table-sm compact" style="width:100%">
@@ -352,6 +395,30 @@
                     {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "auto", "sortable": false},
                 ]
             });
+
+            // https://www.youtube.com/watch?v=e-HA2YQUoi0
+            // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
+            $('#filtro_pessoa').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-pessoas').DataTable().column('2').search( $(this).val() ).draw();
+            });
+
+            $('#filtro_secao').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-pessoas').DataTable().column('6').search( $(this).val() ).draw();
+            });    
+            
+            // Filtro - Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
+            $('#filtro_pgrad').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-pessoas').DataTable().column('1').search( $(this).val() ).draw();
+            });        
+            
+            // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
+            $('#filtro_ativo').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-pessoas').DataTable().column('7').search( $(this).val() ).draw();
+            });    
 
             function getSegmentoValue() {
                 return $('input[name="segmento"]:checked').val();
