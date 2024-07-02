@@ -263,7 +263,7 @@
                         {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left font-weight-bold", "title": "Pessoa"},
                         {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                         {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
-                        {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Compl"},
+                        {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Comple"},
                         {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
                         {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "F. Contato"},
                         {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "F. Emergência"},
@@ -338,32 +338,58 @@
                                     margin: [30, 30, 30, 0]
 
                                 }
-                            });                         
+                                });                         
 
-                            // Adicionar linha horizontal
-                            doc.content.splice(0, 0, {
-                                canvas: [
-                                    {
-                                        type: 'line',
-                                        x1: 0, y1: 0,
-                                        x2: 595 + 3 * 40, y2: 0, // largura do documento A4 em pontos menos as margens
-                                        lineWidth: 1,
-                                        linecolor: '#003d66',
-                                        // dash: {length: 3, space: 3}
-                                    }
-                                ],
-                                margin: [30,10, 30, 10] // Ajusta a margem para alinhar horizontalmente
-                            });
-                            
-                            doc['footer']=(function(page, pages) {              //seta o rodapé do documento com duas colunas
-                                return {
-                                    columns: [
-                                        { text: ['Impresso por ' + userLogado + ', em : ' + dataAtual + ' ' + horaAtual + ''], alignment: 'left'},
-                                        { text: ['página ', { text: page.toString() }, ' de ', { text: pages.toString() }], alignment: 'right' }
+                                // Adicionar linha horizontal
+                                doc.content.splice(0, 0, {
+                                    canvas: [
+                                        {
+                                            type: 'line',
+                                            x1: 0, y1: 0,
+                                            x2: 595 + 3 * 40, y2: 0, // largura do documento A4 em pontos menos as margens
+                                            lineWidth: 1,
+                                        }
                                     ],
-                                    margin: [30,5,30,5] 
-                                }
-                            });
+                                    margin: [30,10, 30, 10] // Ajusta a margem para alinhar horizontalmente
+                                });
+                            
+                                doc['footer']=(function(page, pages) {              //seta o rodapé do documento com duas colunas
+                                    return {
+                                        columns: [
+                                            { text: ['Impresso por ' + userLogado + ', em : ' + dataAtual + ' ' + horaAtual + ''], alignment: 'left'},
+                                            { text: ['página ', { text: page.toString() }, ' de ', { text: pages.toString() }], alignment: 'right' }
+                                        ],
+                                        margin: [30,5,30,5] 
+                                    }
+                                });
+
+                                // Adicionar bordas sutis às células da tabela
+                                doc.content[2].layout = {
+                                    hLineWidth: function(i, node) {
+                                        return (i === 0 || i === node.table.body.length) ? 1 : 0;
+                                    },
+                                    vLineWidth: function(i) {
+                                        return 0.1; // Adiciona linhas verticais sutis
+                                    },
+                                    hLineColor: function(i) {
+                                        return '#aaa';
+                                    },
+                                    vLineColor: function(i) {
+                                        return '#ddd'; // Cor das linhas verticais
+                                    },
+                                    paddingLeft: function(i) {
+                                        return 1;
+                                    },
+                                    paddingRight: function(i, node) {
+                                        return 1;
+                                    },
+                                    paddingTop: function() {
+                                        return 1;
+                                    },
+                                    paddingBottom: function() {
+                                        return 1;
+                                    }
+                                };
                             
                             },
                             init: function(api, node, config) {
