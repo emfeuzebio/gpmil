@@ -17,12 +17,14 @@ class PlanoChamadaController extends Controller
 {
     protected $Pessoa = null;
     protected $Secao = null;
+    protected $Pgrad = null;
     protected $userID = 0;
     protected $userSecaoID = 0;
     protected $userNivelAcessoID = 0;    
 
-    public function __construct() {
-
+    public function __construct() 
+    {
+        $this->middleware('auth');
         $this->Pessoa = new Pessoa();
         $this->Secao = new Secao();
         $this->Pgrad = new Pgrad();
@@ -35,14 +37,11 @@ class PlanoChamadaController extends Controller
 
         // dd(Auth::user()->id);
         $user = User::with('pessoa')->find(Auth::user()->id);
+        $pessoaAuth = Pessoa::with('pgrad')->find($user->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;
         $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
         $pgrads = $this->Pgrad->all()->sortBy('id');
-
-        // echo "userNivelAcessoID = " . $user->pessoa->nivelacesso_id . "<br/>";
-        // echo "userSecaoID > " . $user->pessoa->secao_id . "<br/>";
-        // dd($user->pessoa);
 
         // filtros aplicados segundo o níve de acesso
         if(in_array($this->userNivelAcessoID,[1,2,3])) {
@@ -84,7 +83,15 @@ class PlanoChamadaController extends Controller
                 ->make(true);        
         }
 
-        return view('negocio/PlanoChamadasDatatable',['nivelAcesso' => $this->userNivelAcessoID, 'secoes' => $secoes, 'pessoas' => $pessoas, 'pgrads' => $pgrads]);
+        return view('negocio/PlanoChamadasDatatable',[
+            'nivelAcesso' => $this->userNivelAcessoID, 
+            'secoes' => $secoes, 
+            'secao' => $this->userSecaoID, 
+            'pessoas' => $pessoas, 
+            'pessoaAuth' => $pessoaAuth, 
+            'pgrads' => $pgrads, 
+            'user' => $user
+        ]);
     }
 
     protected function getActionColumn($row): string

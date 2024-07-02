@@ -202,35 +202,211 @@
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
             });
 
-            /*
-            * Definitios of DataTables render
-            */
-            $('#datatables-plano-chamada').DataTable({
-                processing: true,
-                serverSide: true,
-                ajax: {
-                    url: "{{url("planochamada")}}",
-                    data: {"paramFixo": "1" },
-                },
-                responsive: true,
-                autoWidth: true,
-                order: [3, 'desc'],
-                lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
-                pageLength: 10,
-                language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
-                columns: [
-                    {"data": "id", "name": "pessoas.id", "class": "dt-right", "title": "#"},
-                    {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P/Grad"},                    
-                    {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left font-weight-bold", "title": "Pessoa"},
-                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
-                    {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
-                    {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Compl"},
-                    {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
-                    {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "Fone Contato"},
-                    {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "Fone Emergência"},
-                    {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "60px", "sortable": false},
-                ]
+            function getUsuario() {
+                var pgrad = "{{ $pessoaAuth->pgrad->sigla }}";
+                var nome_guerra = "{{ $pessoaAuth->nome_guerra }}";
+                var userLogado = pgrad + " " + nome_guerra; // Adicione um espaço entre pgrad e nome_guerra se necessário
+                return userLogado;
+            }
+
+            function getSecaoUsuario() {
+                var secao_id = {{$user->pessoa->secao_id}};
+                var secoes = {!! json_encode($secoes) !!}; // Supondo que $secoes seja uma variável PHP com todas as seções disponíveis
+                
+                var secaoUser = '';
+                secoes.forEach(function(secao) {
+                    if (secao.id === secao_id) {
+                        secaoUser = secao.sigla;
+                        return false; // Para sair do loop quando encontrar a correspondência
+                    }
+                });
+                
+                return secaoUser;
+            }
+
+            function getBase64Image(imgUrl, callback) {
+                var img = new Image();
+                img.crossOrigin = 'Anonymous';
+                img.onload = function() {
+                    var canvas = document.createElement('CANVAS');
+                    var ctx = canvas.getContext('2d');
+                    var dataURL;
+                    canvas.height = this.naturalHeight;
+                    canvas.width = this.naturalWidth;
+                    ctx.drawImage(this, 0, 0);
+                    dataURL = canvas.toDataURL('image/png');
+                    callback(dataURL);
+                };
+                img.src = imgUrl;
+            }
+
+            getBase64Image('vendor/adminlte/dist/img/dcemlogo.png', function(base64image) {
+                /*
+                * Definitios of DataTables render
+                */
+                $('#datatables-plano-chamada').DataTable({
+                    processing: true,
+                    serverSide: true,
+                    ajax: {
+                        url: "{{url("planochamada")}}",
+                        data: {"paramFixo": "1" },
+                    },
+                    responsive: true,
+                    autoWidth: true,
+                    order: [3, 'desc'],
+                    lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
+                    pageLength: 10,
+                    language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
+                    columns: [
+                        {"data": "id", "name": "pessoas.id", "class": "dt-right", "title": "#"},
+                        {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P/Grad"},                    
+                        {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left font-weight-bold", "title": "Pessoa"},
+                        {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
+                        {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
+                        {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Comple"},
+                        {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
+                        {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "F. Contato"},
+                        {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "F. Emergência"},
+                        {"data": "pessoa_emergencia", "name": "pessoas.pessoa_emergencia ", "class": "dt-left", "title": "Pessoa Emergência"},
+                        {"data": "acoes", "name": "acoes", "class": "dt-center", "title": "Ações", "orderable": false, "width": "60px", "sortable": false},
+                    ],
+                    dom: '<"d-flex"<"col-sm-12 col-md-6 d-flex align-items-center"<"mr-2"l>B><"ml-auto p-2"f>>tipr',
+                    buttons: [
+                        {
+                            extend: 'pdfHtml5',
+                            text: '<i class="fa fa-file-pdf"></i> Exportar para PDF',
+                            className: 'btn btn-danger',
+                            filename: 'planodechamada_' + new Date().toLocaleDateString(),
+                            title: function() {
+                                var today = new Date();
+                                var dd = String(today.getDate()).padStart(2, '0');
+                                var mm = String(today.getMonth() + 1).padStart(2, '0'); // January is 0!
+                                var yyyy = today.getFullYear();
+                                if(userNivelAcessoID == 5) {
+                                    var secaoUser = getSecaoUsuario();
+                                    return 'Plano de Chamada - DCEM - ' + secaoUser + ' ' + dd + '/' + mm + '/' + yyyy;
+                                }
+                                return 'Plano de Chamada - DCEM - ' + dd + '/' + mm + '/' + yyyy;
+                            },
+                            exportOptions: {
+                                columns: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+                            },
+                            orientation: 'landscape',
+                            customize: function(doc) {
+                                /*
+                                * definição das variáveis para o cabeçalho e rodapé do documento
+                                */
+                                var d = new Date();
+                                var dataAtual = d.toLocaleDateString('pt-BR');
+                                var horaAtual = d.toLocaleTimeString('pt-BR');
+                                var userLogado = getUsuario();
+                                doc.pageMargins = [30, 50, 30, 30]; //[esq,sup,dir,inf] - considerar que o header fica dentro dos (120) e o footer fica dentro dos (60)
+                                doc.defaultStyle.fontSize = 8;                      //seta o tamanho do fonte de todo o documento
+                                doc.styles.tableBodyOdd.margin =[5, 5, 5, 5];
+                                doc.styles.tableBodyEven.margin = [5, 5, 5, 5];      
+                                doc.pageMargins = [30,60,30,30];                    //[esq,sup,dir,inf] - considerar que o header fica dentro dos (120) e o footer fica dentro dos (60)
+                                doc.defaultStyle.fontSize = 8;                      //seta o tamanho do fonte de todo o documento
+                                doc.defaultStyle.alignment = 'left';                //alinhamento do texto em todo o documento    
+
+                                doc['header'] = ( function(currentPage, pageCount, pageSize) {
+                                return {
+
+                                    columns:[
+                                        { image: base64image, width: 25 },
+                                        { 
+                                            text: 'Diretoria de Controle de Efetivos e Movimentações', 
+                                            alignment: 'center', 
+                                            width: '*', 
+                                            bold: true, 
+                                            fontSize: 12
+                                        }
+                                    ],
+                                    margin: [30, 0, 30, 10],
+
+                                    table: {
+                                        widths: ['100%'],
+                                        headerRows: 1,
+                                        body: [
+
+                                            [ 
+                                                {text: 'Título Relatório\n', bold: true, fontSize: 11, alignment: 'center', border: [false, false, false, false] },
+                                                {text: 'Ano: 2023 - Mês: Março - Tipo: J,S - Qtd Presenças: pelo menos: 2', bold: false, fontSize: 10 , alignment: 'center', border: [false, false, false, false]},
+                                            ]
+
+                                        ]
+                                    }, 
+                                    margin: [30, 30, 30, 0]
+
+                                }
+                                });                         
+
+                                // Adicionar linha horizontal
+                                doc.content.splice(0, 0, {
+                                    canvas: [
+                                        {
+                                            type: 'line',
+                                            x1: 0, y1: 0,
+                                            x2: 595 + 3 * 40, y2: 0, // largura do documento A4 em pontos menos as margens
+                                            lineWidth: 1,
+                                        }
+                                    ],
+                                    margin: [30,10, 30, 10] // Ajusta a margem para alinhar horizontalmente
+                                });
+                            
+                                doc['footer']=(function(page, pages) {              //seta o rodapé do documento com duas colunas
+                                    return {
+                                        columns: [
+                                            { text: ['Impresso por ' + userLogado + ', em : ' + dataAtual + ' ' + horaAtual + ''], alignment: 'left'},
+                                            { text: ['página ', { text: page.toString() }, ' de ', { text: pages.toString() }], alignment: 'right' }
+                                        ],
+                                        margin: [30,5,30,5] 
+                                    }
+                                });
+
+                                // Adicionar bordas sutis às células da tabela
+                                doc.content[2].layout = {
+                                    hLineWidth: function(i, node) {
+                                        return (i === 0 || i === node.table.body.length) ? 1 : 0;
+                                    },
+                                    vLineWidth: function(i) {
+                                        return 0.1; // Adiciona linhas verticais sutis
+                                    },
+                                    hLineColor: function(i) {
+                                        return '#aaa';
+                                    },
+                                    vLineColor: function(i) {
+                                        return '#ddd'; // Cor das linhas verticais
+                                    },
+                                    paddingLeft: function(i) {
+                                        return 1;
+                                    },
+                                    paddingRight: function(i, node) {
+                                        return 1;
+                                    },
+                                    paddingTop: function() {
+                                        return 1;
+                                    },
+                                    paddingBottom: function() {
+                                        return 1;
+                                    }
+                                };
+                            
+                            },
+                            init: function(api, node, config) {
+                                $(node).hide();
+                                api.on('draw', function() {
+                                    if (userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                                        $(node).show();
+                                    } 
+                                });
+                            }
+                        }
+                    ],
+                    initComplete: function() {
+                        var api = this.api();
+                        api.buttons().container().appendTo($('.dataTables_wrapper .col-md-6:eq(0)'));
+                    }
+                });
             });
 
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
