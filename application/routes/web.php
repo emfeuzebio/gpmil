@@ -76,7 +76,6 @@ Route::get('/auth/callback/dgpde', function () {
                 'nome_guerra' => $DGPUser->nickname,
                 'idt' => $DGPUser->idt,
                 'user_id' => $user->id
-                
                 // adicione outras colunas da tabela 'pessoa' conforme necessário
             ]);
 

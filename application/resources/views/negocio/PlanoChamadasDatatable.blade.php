@@ -275,7 +275,7 @@
                         {
                             extend: 'pdfHtml5',
                             text: '<i class="fa fa-file-pdf"></i> Exportar para PDF',
-                            className: 'btn btn-danger',
+                            className: 'btn btn-sm',
                             filename: 'planodechamada_' + new Date().toLocaleDateString(),
                             title: function() {
                                 var today = new Date();
@@ -431,7 +431,7 @@
             */
             @if($user_id)
                 var userId = {{ $user_id }};
-                $.ajax({
+                $.ajax({tables.butt
                         type: "POST",
                         url: "{{url("planochamada/edit")}}",
                         data: {"id": userId},

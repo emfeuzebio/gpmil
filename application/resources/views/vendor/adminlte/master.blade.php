@@ -28,21 +28,8 @@
         <link rel="stylesheet" href="{{ asset('vendor/overlayScrollbars/css/OverlayScrollbars.min.css') }}">
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
-        <!-- EUZ para DataTables Funcionar é necessário estes abaixo, implementar no vendor -->
-        <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"> -->
-
-        <!-- <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" > -->
-             <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" >
-
-
-        <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-        <!-- EUZ DataTables Button naõ foi necessário estes abaixo -->
-        <!-- <link href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.bootstrap5.min.css" rel="stylesheet"> -->
-        <!-- <link href="https://cdn.datatables.net/v/dt/dt-2.0.3/datatables.min.css" rel="stylesheet"> -->
-        <!-- Ver https://cdn.datatables.net/ -->
-
+        <!-- Implementa DataTables -->
+        <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" >
         <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
         <link href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
 
@@ -50,6 +37,10 @@
         <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
 
         <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+
+
+        <!-- JS -->
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
 
         @if(config('adminlte.google_fonts.allowed', true))
             <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
@@ -128,15 +119,8 @@
         <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
 
-        <!-- EUZ terminar, colocar no vendor como os outros -->
-        <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script> -->
-
-        <!-- <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>      
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-C6RzsynM9kWDrMNeT87bh95OGNyZPhcTNXj1NW7RuBCsyN/o0jlpcV8Qyq46cDfL" crossorigin="anonymous"></script> -->
-
         <!-- EUZ DataTables Buttons  -->
         <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
-        <!-- <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap5.min.js"></script> -->
 
         <!-- EUZ DataTables Buttons - https://cdn.datatables.net/ -->
         <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
@@ -155,19 +139,10 @@
 
         <!-- Latest compiled and minified JavaScript -->
         <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-
-        <!-- (Optional) Latest compiled and minified JavaScript translation files -->
-        <!-- EUZ <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/i18n/defaults-*.min.js"></script> -->
-
         <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-
         <script src="https://kit.fontawesome.com/ee8c259d94.js" crossorigin="anonymous"></script>
-
-
-        {{-- <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"> --}}
-
+        
         <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-        <script src="https://cdn.datatables.net/buttons/2.2.3/js/dataTables.buttons.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
         <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
@@ -186,11 +161,7 @@
             });
 
             //ativa o tooltip nas páginas
-            //FAZER tooltip ser acionado no Checkbox ATIVO e nos buttons que parou de funcionar ao incluir os selectpicker
-
-            $('body').tooltip({ selector: '[data-toggle="tooltip"]'});  //Original - Tudo OK menos selectpicker
-            // $('body').tooltip({ selector: '[data-toggle="tooltip"], [data-toggle="dropdown"]'});
-            // $('[data-toggle="tooltip"], [data-toggle="dropdown"], [data-toggle="tooltip"] + .bootstrap-select > button').tooltip({ container: 'body' });
+            $('body').tooltip({ selector: '[data-toggle="tooltip"]'});
 
             // ativa autofocus automático sempre no primeiro input dentro do modal
             $(document).on('shown.bs.modal', function (e) {
@@ -230,7 +201,7 @@
     
                 //hotkey tecla Alt+S - Salvar Registro
                 if (event.altKey && event.code === "KeyS") {
-                    // alert('Alt + S pressed!');
+                    // alert('Alt + S pressed!');Mov
                     $("button.btnSalvar").trigger('click');
                     event.preventDefault();
                 }
@@ -248,7 +219,7 @@
                     $(".btnCancelar").trigger('click');
                     event.preventDefault();
                 }
-    
+                Mov
                 //hotkey tecla Alt+N - Incluir Novo Registro
                 if (event.altKey && event.code === "KeyN") {
                     // alert('Alt + N pressed!');

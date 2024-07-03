@@ -38,9 +38,6 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('is_admin', function (User $user) {
             //carrega o usuário e a pessoa correspondente
             $user = User::with('pessoa')->find(Auth::user()->id);
-            // dd($user->pessoa);
-            // dd($user->pessoa->nome_completo);
-            // dd($user->pessoa->nivelacesso_id);
             return ( $user->pessoa->nivelacesso_id == 1 ? true : false );
         });        
 

@@ -724,7 +724,7 @@
                             $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
                         } else {
                             $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
-                        }
+                        })
 
                         if (data.segmento === "Masculino") {
                             $('#segmentoM').prop('checked', true);

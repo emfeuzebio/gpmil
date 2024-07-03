@@ -54,7 +54,6 @@ class ApresentacaoController extends Controller
         // $destinos = $this->Destino->all()->sortBy('descricao');
         $boletins = $this->Boletim->where('ativo','=','SIM')->orderBy('id')->get();
         $destinos = $this->Destino->where('ativo','=','SIM')->orderBy('descricao')->get();
-        // $apresentacoes = Apresentacao::select(['id', 'apresentacao_id'])->get();
         $apresentacoes = Apresentacao::all();
 
         $temDestinoDiferenteDe1 = $destinos->contains(function ($destino) {

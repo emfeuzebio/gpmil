@@ -5,11 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Pessoa;
-use App\Models\Apresentacao;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {

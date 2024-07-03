@@ -30,7 +30,7 @@ class PlanoChamadaController extends Controller
         $this->Pgrad = new Pgrad();
     }
     
-    public function index() {
+    public function index($user_id = null) {
 
         // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
@@ -90,7 +90,8 @@ class PlanoChamadaController extends Controller
             'pessoas' => $pessoas, 
             'pessoaAuth' => $pessoaAuth, 
             'pgrads' => $pgrads, 
-            'user' => $user
+            'user' => $user,
+            'user_id' => $user_id            
         ]);
     }
 
