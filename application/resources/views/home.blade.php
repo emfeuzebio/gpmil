@@ -21,6 +21,73 @@
 
 @section('content')
 
+@if(session('incomplete_data_alert'))
+  <!-- Modal -->
+  <div class="modal fade" id="incompleteDataModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabel">Dados Incompletos</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  @if(session('incomplete_data_alert')['address'] && session('incomplete_data_alert')['personal'])
+                      <p>Há informações que ainda precisam ser preechidas. Gostaria de preenche-los?</p>
+                      <button type="button" class="btn btn-primary mb-2" onclick="window.location.href='{{ url('planochamada', ['user_id' => Auth::user()->id]) }}'">Plano de Chamada</button>
+                      <button type="button" class="btn btn-primary mb-2" onclick="window.location.href='{{ url('pessoas', ['user_id' => Auth::user()->id]) }}'">Dados Pessoais</button>
+                  @elseif(session('incomplete_data_alert')['address'])
+                      <p>Seu plano de chamada está incompleto. Gostaria de preeche-lo agora?</p>
+                      <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('planochamada', ['user_id' => Auth::user()->id]) }}'">Preencher Plano de Chamada</button>
+                  @elseif(session('incomplete_data_alert')['personal'])
+                      <p>Parece que seus dados pessoais estão incompletos. Gostaria de preeche-los agora?</p>
+                      <button type="button" class="btn btn-primary" onclick="window.location.href='{{ url('pessoas', ['user_id' => Auth::user()->id]) }}'">Preencher Dados Pessoais</button>
+                  @endif
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Preencher Depois</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+  $(document).ready(function() {
+      $('#incompleteDataModal').modal('show');
+  });
+  </script>
+  @endif
+
+  @if(session('incomplete_apresentacao_alert'))
+  <!-- Modal para apresentação incompleta -->
+  <div class="modal fade" id="incompleteApresentacaoModal" tabindex="-1" role="dialog" aria-labelledby="incompleteApresentacaoLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+          <div class="modal-content">
+              <div class="modal-header">
+                  <h5 class="modal-title" id="incompleteApresentacaoLabel">Apresentação Incompleta</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                      <span aria-hidden="true">&times;</span>
+                  </button>
+              </div>
+              <div class="modal-body">
+                  <p>{{ session('incomplete_apresentacao_alert')['mensagem'] }}</p>
+                  <button type="button" class="btn btn-primary mb-2" onclick="window.location.href='{{ url('apresentacaos') }}'">Inserir Apresentação de Término</button>
+              </div>
+              <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Preencher Depois</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <script>
+  $(document).ready(function() {
+      $('#incompleteApresentacaoModal').modal('show');
+  });
+  </script>
+@endif
+
     <div class="row">
         <div class="col-12">
             <div class="card">

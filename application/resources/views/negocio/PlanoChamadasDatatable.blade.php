@@ -424,7 +424,49 @@
             $('#filtro_pgrad').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-plano-chamada').DataTable().column('1').search( $(this).val() ).draw();
-            });        
+            }); 
+
+            /*
+            * Edit vindo do pup-up da home
+            */
+            @if($user_id)
+                var userId = {{ $user_id }};
+                $.ajax({
+                        type: "POST",
+                        url: "{{url("planochamada/edit")}}",
+                        data: {"id": userId},
+                        dataType: 'json',
+                        success: function (data) {
+                            // console.log(data);
+                            $('#modalLabel').html('Editar Plano de Chamada');
+                            $(".invalid-feedback").text('').hide();     
+                            $('#form-group-id').show();
+                            $('#editarModal').modal('show');         
+
+                            // implementar que seja automático foreach   
+                            $('#id').val(data.id);
+                            $('#cep').val(data.cep);
+                            $('#bairro').val(data.bairro);
+                            $('#cidade').val(data.cidade);
+                            $('#endereco').val(data.endereco);
+                            $('#complemento').val(data.complemento);
+                            $('#municipio_id').val(data.municipio_id);
+                            $('#uf').val(data.uf);
+                            $('#fone_emergencia').val(data.fone_emergencia);
+                            $('#fone_celular').val(data.fone_celular);
+                            $('#pessoa_emergencia').val(data.pessoa_emergencia);
+
+                            // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                            if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                                $('.editable').prop('disabled', false);
+                                $('#btnSave').show();
+                            } else {
+                                $('.editable').prop('disabled', true);
+                                $('#btnSave').hide();
+                            }
+                        }
+                    }); 
+            @endif
 
             /*
             * Edit button action

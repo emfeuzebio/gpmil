@@ -61,28 +61,28 @@ class User extends Authenticatable
         $pessoa = $this->hasOne(Pessoa::class)->first();
         $image_blob = $pessoa->foto;
     
-        // // Verifique se o arquivo de imagem existe
-        // if ($image_blob) {
-        //     // Decodifique os dados base64
-        //     $decoded_data = base64_decode($image_blob);
+        // Verifique se o arquivo de imagem existe
+        if ($image_blob) {
+            // Decodifique os dados base64
+            $decoded_data = base64_decode($image_blob);
     
-        //     // Crie uma imagem a partir dos dados decodificados
-        //     $image = imagecreatefromstring($decoded_data);
+            // Crie uma imagem a partir dos dados decodificados
+            $image = imagecreatefromstring($decoded_data);
     
-        //     if ($image !== false) {
-        //         // Salve a imagem em um buffer
-        //         ob_start();
-        //         imagepng($image);
-        //         $data = ob_get_contents();
-        //         ob_end_clean();
+            if ($image !== false) {
+                // Salve a imagem em um buffer
+                ob_start();
+                imagepng($image);
+                $data = ob_get_contents();
+                ob_end_clean();
     
-        //         return 'data:image/png;base64,' . base64_encode($data);
-        //     } else {
-        //         return 'Erro ao criar a imagem.';
-        //     }
-        // } else {
-        //     return 'vendor/adminlte/dist/img/avatar.png';
-        // }
+                return 'data:image/png;base64,' . base64_encode($data);
+            } else {
+                return 'Erro ao criar a imagem.';
+            }
+        } else {
+            return 'vendor/adminlte/dist/img/avatar.png';
+        }
 
         return 'vendor/adminlte/dist/img/avatar.png';
     

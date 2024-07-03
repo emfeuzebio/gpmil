@@ -505,7 +505,7 @@
             $("#datatables-pessoas tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();
 
-                id = $(this).data("id")
+                id = $(this).data("id");
 
                 $.ajax({
                     type: "POST",
@@ -682,6 +682,93 @@
                 }); 
 
             });
+
+            /*
+            * Edit vindo do pup-up da home
+            */
+            @if($user_id)
+                var userId = {{ $user_id }};
+                $.ajax({
+                    type: "POST",
+                    url: "{{ url('pessoas/edit') }}",
+                    data: {"id": userId},
+                    dataType: 'json',
+                    success: function (data) {
+                        $('#modalLabel').html('Editar Pessoa');
+                        $(".invalid-feedback").text('').hide();     // hide and clen all erros messages on the form
+                        $('#form-group-id').show();                 // show edit form
+                        $('#editarModal').modal('show');            // show the modal
+
+                        // implementar que seja automático foreach   
+                        $('#id').val(data.id);
+                        $('#pgrad_id').selectpicker('val', data.pgrad_id);
+                        $('#qualificacao_id').selectpicker('val', data.qualificacao_id);
+                        $('#lem').selectpicker('val', data.lem);
+                        $('#nome_completo').val(data.nome_completo);
+                        $('#nome_guerra').val(data.nome_guerra);
+                        $('#cpf').val(data.cpf);
+                        $('#idt').val(data.idt);
+                        $('#status').selectpicker('val', data.status);
+                        $('#email').val(data.email);
+                        $('#preccp').val(data.preccp);
+                        $('#dt_nascimento').val(data.dt_nascimento);
+                        $('#dt_praca').val(data.dt_praca);
+                        $('#dt_apres_gu').val(data.dt_apres_gu);
+                        $('#dt_apres_om').val(data.dt_apres_om);
+                        $('#dt_ult_promocao').val(data.dt_ult_promocao);
+                        $('#pronto_sv').val(data.pronto_sv);
+                        $('#secao_id').selectpicker('val', data.secao_id);
+                        $('#religiao_id').selectpicker('val', data.religiao_id);
+                        $('#funcao_id').selectpicker('val', data.funcao_id);
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                        } else {
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        }
+
+                        if (data.segmento === "Masculino") {
+                            $('#segmentoM').prop('checked', true);
+                        } else if (data.segmento === "Feminino") {
+                            $('#segmentoF').prop('checked', true);
+                        } else {
+                            $('#segmentoM').prop('checked', false);
+                            $('#segmentoF').prop('checked', false);
+                        }
+
+                        $('#ativo').prop('disabled', false);
+                        if (data.ativo === "SIM") {
+                            $('#ativo').bootstrapToggle('on');
+                        } else if (data.ativo === "NÃO") {
+                            $('#ativo').bootstrapToggle('off');
+                        }
+                        if (userNivelAcessoID == 1 || userNivelAcessoID == 3) {
+                            $('#ativo').prop('disabled', false);
+                        } else {
+                            $('#ativo').prop('disabled', true);
+                        }
+
+                        if (data.foto) {
+                            $('#imagem-exibida').attr('src', data.foto);
+                        }
+
+                        if (data.foto) {
+                            var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
+                            var url = URL.createObjectURL(blob);
+                            $('#foto').attr('src', url);
+                        }
+
+                        // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
+                        if( data.id == {{ Auth::user()->id }} || userNivelAcessoID == 1 || userNivelAcessoID == 3 || userNivelAcessoID == 5) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
+                        $('.selectpicker').selectpicker('refresh');  
+                    }
+                });
+            @endif
             
 
             /*

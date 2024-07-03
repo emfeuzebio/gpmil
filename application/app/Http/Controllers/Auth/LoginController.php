@@ -4,6 +4,12 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Pessoa;
+use App\Models\Apresentacao;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Session;
 
 class LoginController extends Controller
 {
@@ -35,5 +41,48 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+    }
+
+    public function authenticated(Request $request, $user)
+    {
+        $pessoa = Pessoa::where('user_id', $user->id)->first();
+
+        $hasIncompleteAddressData = $pessoa && $pessoa->hasIncompleteAddressData();
+        $hasIncompletePersonalData = $pessoa && $pessoa->hasIncompletePersonalData();
+
+        if ($hasIncompletePersonalData && $hasIncompleteAddressData) {
+            session()->flash('incomplete_data_alert', [
+                'address' => $hasIncompleteAddressData,
+                'personal' => $hasIncompletePersonalData,
+            ]);
+        }
+
+        $sql = "
+            SELECT a.*, destinos.sigla AS motivo
+            FROM apresentacaos a 
+                LEFT JOIN destinos ON destinos.id = a.destino_id
+            WHERE a.pessoa_id = ?
+              AND a.apresentacao_id IS NULL
+              AND a.boletim_id IS NOT NULL
+              AND NOT EXISTS (
+                  SELECT * 
+                  FROM apresentacaos ae 
+                  WHERE ae.pessoa_id = a.pessoa_id
+                    AND ae.apresentacao_id = a.id
+            )
+        ";
+        $apresentacaoSemTermino = DB::select($sql, [$pessoa->id]);
+
+        if (!empty($apresentacaoSemTermino)) {
+            $apresentacaoSemTermino[0]->apresentacao_id = $apresentacaoSemTermino[0]->id;
+            $apresentacaoSemTermino[0]->id = null;
+
+            session()->flash('incomplete_apresentacao_alert', [
+                'codigo' => 2,
+                'registro' => $apresentacaoSemTermino[0],
+                'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "' sem Término. Deseja inclui-ĺá agora? ID " . $apresentacaoSemTermino[0]->apresentacao_id,
+            ]);
+            return;
+        }
     }
 }
