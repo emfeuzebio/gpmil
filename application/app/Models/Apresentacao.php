@@ -71,6 +71,11 @@ class Apresentacao extends Model
     //     return $this->belongsTo(Situacao::class);
     // }    
 
+    public function terminoApresentacao()
+    {
+        return $this->hasOne(Apresentacao::class, 'apresentacao_id');
+    }
+
 
     // https://pt.linkedin.com/pulse/relacionamentos-laravel-um-guia-definitivo-para-dominar-de-paula-lvnwf#:~:text=No%20Laravel%2C%20o%20relacionamento%20%22One%20to%20Many%22%20(um,v%C3%A1rias%20correspond%C3%AAncias%20em%20outra%20tabela.
 

@@ -20,6 +20,7 @@ class PessoaController extends Controller
 {
     protected $Circulo = null;
     protected $Pgrad = null;
+    protected $Pessoa = null;
     protected $Qualificacao = null;
     protected $Secao = null;
     protected $Religiao = null;
@@ -44,7 +45,7 @@ class PessoaController extends Controller
         $this->Pessoa = new Pessoa();
     }
     
-    public function index() {
+    public function index($user_id = null) {
 
         // se não autenticado faz logout  // Auth::logout();
         if (! Auth::check()) return redirect('/home');
@@ -110,7 +111,7 @@ class PessoaController extends Controller
         $funcaos = $this->Funcao->all()->sortBy('sigla');
         $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads,'pessoas' => $pessoas, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos]);
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'pessoas' => $pessoas, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos, 'user_id' => $user_id]);
     }
 
     protected function getActionColumn($row): string

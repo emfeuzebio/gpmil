@@ -125,6 +125,7 @@ Route::post('pgrads/edit', [PgradController::class, 'edit'])->name('home');
 Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home');
 
 Route::get('/pessoas', [PessoaController::class, 'index'])->name('home');
+Route::get('/pessoas/{user_id?}', [PessoaController::class, 'index'])->middleware('checkUserAccess')->name('home');
 Route::post('pessoas/store', [PessoaController::class, 'store'])->name('home');
 Route::post('pessoas/edit', [PessoaController::class, 'edit'])->name('home');
 Route::post('pessoas/destroy', [PessoaController::class, 'destroy'])->name('home');
@@ -168,6 +169,7 @@ Route::post('situacaos/edit', [SituacaoController::class, 'edit'])->name('home')
 Route::post('situacaos/destroy', [SituacaoController::class, 'destroy'])->name('home');
 
 Route::get('/planochamada', [PlanoChamadaController::class, 'index'])->name('home');
+Route::get('/planochamada/{user_id?}', [PlanoChamadaController::class, 'index'])->middleware('checkUserAccess')->name('home');
 Route::post('planochamada/store', [PlanoChamadaController::class, 'store'])->name('home');
 Route::post('planochamada/edit', [PlanoChamadaController::class, 'edit'])->name('home');
 

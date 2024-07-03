@@ -32,7 +32,7 @@ class Pessoa extends Model
         'pronto_sv', 
         // 'user_id', 
         'ativo', 
-        'antiguidade', 
+        // 'antiguidade', 
         'secao_id',
         'religiao_id',
         'municipio_id', // ??????????
@@ -92,5 +92,76 @@ class Pessoa extends Model
         $this->attributes['nome_completo'] = mb_strtoupper($value);
     }
 
+    /**
+     * Check if the pessoa has incomplete address data.
+     *
+     * @return bool
+     */
+    public function hasIncompleteAddressData()
+    {
+        $addressFields = [
+            'municipio_id',
+            'uf', 
+            'cep', 
+            'endereco',
+            'bairro',
+            'cidade', 
+            'complemento', 
+            // 'fone_ramal', 
+            'fone_celular', 
+            'fone_emergencia',
+            'pessoa_emergencia'
+        ];
+
+        foreach ($addressFields as $field) {
+            if (empty($this->{$field})) {
+                return true; // Retorna true se algum campo de endereço estiver vazio ou null
+            }
+        }
+
+        return false; // Retorna false se todos os campos de endereço estiverem preenchidos
+    }
+
+    /**
+     * Check if the pessoa has incomplete personal data.
+     *
+     * @return bool
+     */
+    public function hasIncompletePersonalData()
+    {
+        $personalFields = [
+            'pgrad_id', 
+            'qualificacao_id', 
+            'lem', 
+            'nome_completo', 
+            'nome_guerra', 
+            'cpf', 
+            'idt', 
+            'email', 
+            'segmento', 
+            'preccp', 
+            'dt_nascimento', 
+            // 'dt_praca', 
+            'dt_apres_gu', 
+            'dt_apres_om', 
+            'dt_ult_promocao', 
+            'status', 
+            'pronto_sv', 
+            'ativo', 
+            'secao_id',
+            'religiao_id',
+            'funcao_id',
+            'nivelacesso_id',
+            'foto'
+        ];
+
+        foreach ($personalFields as $field) {
+            if (empty($this->{$field})) {
+                return true; // Retorna true se algum campo pessoal estiver vazio ou null
+            }
+        }
+
+        return false; // Retorna false se todos os campos pessoais estiverem preenchidos
+    }
 
 }
