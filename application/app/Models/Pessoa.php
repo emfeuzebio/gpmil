@@ -34,15 +34,8 @@ class Pessoa extends Model
         'ativo', 
         // 'antiguidade', 
         'secao_id',
-        'religiao_id',
-        'municipio_id', // ??????????
-        'uf', 
-        'cep', 
-        'endereco',
-        'cidade', 
-        'fone_ramal', 
-        'fone_celular', 
-        'fone_emergencia', 
+        'religiao_id', 
+        'fone_ramal',  
         'foto',
         'funcao_id',
         'nivelacesso_id'
@@ -80,6 +73,11 @@ class Pessoa extends Model
     public function setIdtAttribute($value)
     {
         $this->attributes['idt'] = preg_replace('/[^0-9]/', '', $value);
+    }
+
+    public function setCepAttribute($value)
+    {
+        $this->attributes['cep'] = preg_replace('/[^0-9]/', '', $value);
     }
 
     public function setNomeGuerraAttribute($value)

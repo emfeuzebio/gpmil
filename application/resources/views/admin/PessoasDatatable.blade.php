@@ -8,7 +8,6 @@
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
                 <li class="breadcrumb-item"><a href="/home">Home</a></li>
-                <li class="breadcrumb-item">Administração</li>
                 <li class="breadcrumb-item active">Pessoal</li>
             </ol>
         </div>
@@ -49,9 +48,9 @@
 
                 <div class="card-header">
                     <!--área de Filtros-->
-                    <div class="row">
+                    <div class="row justify-content-between">
                         <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
-                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                            <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Militar</label>
                                 <select id="filtro_pessoa" name="filtro_pessoa" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas os Militares </option>
@@ -60,7 +59,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                            <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pela Seção</label>
                                 <select id="filtro_secao" name="filtro_secao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Todas Seções </option>
@@ -69,7 +68,7 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                            <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro pelos P/Graduações</label>
                                 <select id="filtro_pgrad" name="filtro_pgrad" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                 <option value=""> Todos os P/Graduações</option>
@@ -78,7 +77,16 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                            <div class="custom-col form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Status</label>
+                                <select id="filtro_status" name="filtro_status" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <option value=""> Todos os Status</option>
+                                <option value="Ativa">Ativa</option>
+                                <option value="Reserva">Reserva</option>
+                                <option value="Civil">Civil</option>
+                                </select>
+                            </div>
+                            <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Ativos</label>
                                 <select id="filtro_ativo" name="filtro_ativo" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Publicados ou não </option>
@@ -244,7 +252,7 @@
                                 </div>
                                 <div class="form-check">
                                     <label class="form-check-label" for="segmentoF" data-toggle="tooltip" title="Masque se for do segmento Feminino">
-                                        <input class="form-check-input  editable" type="radio" id="segmentoF" value="Feminino" name="segmento" >Feminino
+                                        <input class="form-check-input editable" type="radio" id="segmentoF" value="Feminino" name="segmento" >Feminino
                                     </label>
                                 </div>
                             </div>
@@ -305,6 +313,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <p></p>
+                    <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+
                     <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
                     @can('podeSalvarPessoa')
                     <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
@@ -369,19 +380,13 @@
                 serverSide: true,
                 responsive: true,
                 autoWidth: true,
-                // order: [ 0, 'desc' ],
+                // order: [ 1, 'desc' ],
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 10,
                 ajax: "{{url("pessoas")}}",
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     
                 columns: [
-                    // { data: 'DT_RowIndex', name: 'DT_RowIndex' }, 
                     {"data": "id", "name": "pessoas.id", "class": "dt-right", "title": "#"},
-                    /*
-                    *   o parâmetro "name": "xxx" deve conter o nome do método Model->'belongsTo' que criou o relacionamento 
-                    *                       seguido da coluna a que se deseja fazer a pesquisa
-                    *                       no Controller deve estar o mesmo nome de coluna
-                    */
                     {"data": "pgrad", "name": "pgrad.sigla", "class": "dt-left font-weight-bold", "title": "P/Grad"},
                     {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left", "title": "Nome de Guerra",
                         render: function (data) { return '<b>' + data + '</b>';}},
@@ -389,6 +394,7 @@
                     {"data": "nome_completo", "name": "pessoas.nome_completo", "class": "dt-left", "title": "Nome Completo" },
                     {"data": "funcao.sigla", "name": "funcao.sigla", "class": "dt-left", "title": "Função"},
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
+                    {"data": "status", "name": "pessoas.status", "class": "dt-left", "title": "Status"},
                     {"data": "ativo", "name": "pessoas.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
@@ -412,12 +418,18 @@
             $('#filtro_pgrad').on("change", function (e) {
                 e.stopImmediatePropagation();
                 $('#datatables-pessoas').DataTable().column('1').search( $(this).val() ).draw();
-            });        
+            });    
+            
+            // Filtro - Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
+            $('#filtro_status').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables-pessoas').DataTable().column('7').search( $(this).val() ).draw();
+            });  
             
             // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
             $('#filtro_ativo').on("change", function (e) {
                 e.stopImmediatePropagation();
-                $('#datatables-pessoas').DataTable().column('7').search( $(this).val() ).draw();
+                $('#datatables-pessoas').DataTable().column('8').search( $(this).val() ).draw();
             });    
 
             function getSegmentoValue() {
@@ -455,6 +467,39 @@
                         imagemExibida.show();
                     };
                     reader.readAsDataURL(inputFoto.files[0]);
+                }
+            });
+
+            function adjustBirthDateRange() {
+                var today = new Date();
+                var maxDate = today.toISOString().split('T')[0];
+                
+                var minDate = new Date(today);
+                minDate.setFullYear(minDate.getFullYear() - 99);
+                var minDateStr = minDate.toISOString().split('T')[0];
+
+                $('#dt_nascimento').attr('max', maxDate);
+                $('#dt_nascimento').attr('min', minDateStr);
+            }
+
+            // Adjust birth date range on page load
+            adjustBirthDateRange();
+
+            $('#dt_nascimento').on('change', function() {
+                var dtNascimento = $('#dt_nascimento').val();
+                var errorElement = $('#error-dt_nascimento');
+                var today = new Date();
+                var birthDate = new Date(dtNascimento);
+
+                var maxDate = new Date(today);
+                var minDate = new Date(today);
+                minDate.setFullYear(minDate.getFullYear() - 99);
+
+                if (birthDate > maxDate || birthDate < minDate) {
+                    errorElement.show().text('A data de nascimento deve estar entre ' + minDate.toISOString().split('T')[0] + ' e ' + maxDate.toISOString().split('T')[0]);
+                    $('#dt_nascimento').val('');
+                } else {
+                    errorElement.hide();
                 }
             });
 
@@ -585,6 +630,27 @@
                             $('.editable').prop('disabled', true);
                             $('#btnSave').hide();
                         }
+
+                        // Adjust birth date range on page load
+                        adjustBirthDateRange();
+
+                        $('#dt_nascimento').on('change', function() {
+                            var dtNascimento = $('#dt_nascimento').val();
+                            var errorElement = $('#error-dt_nascimento');
+                            var today = new Date();
+                            var birthDate = new Date(dtNascimento);
+
+                            var maxDate = new Date(today);
+                            var minDate = new Date(today);
+                            minDate.setFullYear(minDate.getFullYear() - 99);
+
+                            if (birthDate > maxDate || birthDate < minDate) {
+                                errorElement.show().text('A data de nascimento deve estar entre ' + minDate.toISOString().split('T')[0] + ' e ' + maxDate.toISOString().split('T')[0]);
+                                $('#dt_nascimento').val('');
+                            } else {
+                                errorElement.hide();
+                            }
+                        });
                         $('.selectpicker').selectpicker('refresh');                        
                     }
                 }); 
@@ -677,6 +743,27 @@
                             $('.editable').prop('disabled', true);
                             $('#btnSave').hide();
                         }
+
+                        // Adjust birth date range on page load
+                        adjustBirthDateRange();
+
+                        $('#dt_nascimento').on('change', function() {
+                            var dtNascimento = $('#dt_nascimento').val();
+                            var errorElement = $('#error-dt_nascimento');
+                            var today = new Date();
+                            var birthDate = new Date(dtNascimento);
+
+                            var maxDate = new Date(today);
+                            var minDate = new Date(today);
+                            minDate.setFullYear(minDate.getFullYear() - 99);
+
+                            if (birthDate > maxDate || birthDate < minDate) {
+                                errorElement.show().text('A data de nascimento deve estar entre ' + minDate.toISOString().split('T')[0] + ' e ' + maxDate.toISOString().split('T')[0]);
+                                $('#dt_nascimento').val('');
+                            } else {
+                                errorElement.hide();
+                            }
+                        });
                         $('.selectpicker').selectpicker('refresh');                        
                     }
                 }); 
@@ -724,7 +811,7 @@
                             $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
                         } else {
                             $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
-                        })
+                        }
 
                         if (data.segmento === "Masculino") {
                             $('#segmentoM').prop('checked', true);
@@ -765,6 +852,27 @@
                             $('.editable').prop('disabled', true);
                             $('#btnSave').hide();
                         }
+
+                        // Adjust birth date range on page load
+                        adjustBirthDateRange();
+
+                        $('#dt_nascimento').on('change', function() {
+                            var dtNascimento = $('#dt_nascimento').val();
+                            var errorElement = $('#error-dt_nascimento');
+                            var today = new Date();
+                            var birthDate = new Date(dtNascimento);
+
+                            var maxDate = new Date(today);
+                            var minDate = new Date(today);
+                            minDate.setFullYear(minDate.getFullYear() - 99);
+
+                            if (birthDate > maxDate || birthDate < minDate) {
+                                errorElement.show().text('A data de nascimento deve estar entre ' + minDate.toISOString().split('T')[0] + ' e ' + maxDate.toISOString().split('T')[0]);
+                                $('#dt_nascimento').val('');
+                            } else {
+                                errorElement.hide();
+                            }
+                        });
                         $('.selectpicker').selectpicker('refresh');  
                     }
                 });
@@ -814,6 +922,7 @@
                         setTimeout(function() {
                             $('#alert').fadeOut('slow');
                         }, 2000);
+                        window.location.href = "{{ url('pessoas') }}";
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador. como o dataType não é JSON, precisa do responseJSON
@@ -821,9 +930,20 @@
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
                         // exibe mensagem sobre sucesso da operação
-                        if(data.responseJSON.message.indexOf("1062") != -1) {
-                            $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
-                        } else if(data.responseJSON.exception) {
+                        if (data.responseJSON.message.indexOf("1062") !== -1) {
+                            let campoDuplicado = "Campo";
+
+                            // Mapeia os nomes dos campos de erro conhecidos para mensagens mais amigáveis
+                            if (data.responseJSON.message.includes("pessoa_cpf_ukey")) {
+                                campoDuplicado = "CPF";
+                            } else if (data.responseJSON.message.includes("pessoa_idt_ukey")) {
+                                campoDuplicado = "Identidade";
+                            } else if (data.responseJSON.message.includes("pessoa_nome_completo_ukey")) {
+                                campoDuplicado = "Nome Completo";
+                            } 
+
+                            $('#msgOperacaoEditar').text(`Impossível SALVAR! O ${campoDuplicado} digitado já existe.`).show();
+                        } else if (data.responseJSON.exception) {
                             $('#msgOperacaoEditar').text(data.responseJSON.message).show();
                         }
                     }
@@ -843,6 +963,27 @@
                 $('#modalLabel').html('Nova Pessoa');           //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                // show modal 
+
+                // Adjust birth date range on page load
+                adjustBirthDateRange();
+
+                $('#dt_nascimento').on('change', function() {
+                    var dtNascimento = $('#dt_nascimento').val();
+                    var errorElement = $('#error-dt_nascimento');
+                    var today = new Date();
+                    var birthDate = new Date(dtNascimento);
+
+                    var maxDate = new Date(today);
+                    var minDate = new Date(today);
+                    minDate.setFullYear(minDate.getFullYear() - 99);
+
+                    if (birthDate > maxDate || birthDate < minDate) {
+                        errorElement.show().text('A data de nascimento deve estar entre ' + minDate.toISOString().split('T')[0] + ' e ' + maxDate.toISOString().split('T')[0]);
+                        $('#dt_nascimento').val('');
+                    } else {
+                        errorElement.hide();
+                    }
+                });
             });
 
             // put the focus on de name field
