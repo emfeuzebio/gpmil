@@ -18,7 +18,7 @@ class CheckTime
     {
         $now = Carbon::now();
         $closingTime = Carbon::createFromTime(17, 0, 0); // Horário de fechamento (17:00)
-        $openingTime = Carbon::createFromTime(9, 0, 0);
+        $openingTime = Carbon::createFromTime(8, 0, 0);
 
         if ($now->lessThan($openingTime) || $now->greaterThanOrEqualTo($closingTime)) {
             $nextOpening = $now->diffInSeconds($openingTime);
