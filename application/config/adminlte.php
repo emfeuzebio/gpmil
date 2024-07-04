@@ -310,10 +310,17 @@ return [
         ],
 
         // Sidebar items:
+        // Pesquisar p/ admin
         [
             'type' => 'sidebar-menu-search',
             'text' => 'procurar por ...',
             'can' => 'is_encpes',
+        ],
+        // Pesquisar p/ enc_pes
+        [
+            'type' => 'sidebar-menu-search',
+            'text' => 'procurar por ...',
+            'can' => 'is_admin',
         ],
         [
             'text' => 'blog',

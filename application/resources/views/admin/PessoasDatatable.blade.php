@@ -45,7 +45,7 @@
                         </div>
                     </div>
                 </div>
-
+                @cannot('is_usuario')
                 <div class="card-header">
                     <!--área de Filtros-->
                     <div class="row justify-content-between">
@@ -97,6 +97,7 @@
                         <!-- </div> -->
                     </div>
                 </div>
+                @endcannot
 
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
@@ -291,8 +292,14 @@
                             <div class="form-group">
                                 <label class="form-label">Nível Acesso</span></label>
                                 <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
-                                    @foreach( $nivel_acessos as $nivel_acesso )
-                                        <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
+                                    @foreach($nivel_acessos as $nivel_acesso)
+                                        @if($nivel_acesso->id == 6)
+                                            <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
+                                        @elseif($nivel_acesso->id == 1)
+                                            <option value="{{$nivel_acesso->id}}" disabled>{{$nivel_acesso->nome}}</option>
+                                        @else
+                                            <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
+                                        @endif
                                     @endforeach
                                 </select>
                                 <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
