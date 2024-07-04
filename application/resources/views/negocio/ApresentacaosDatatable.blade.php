@@ -235,8 +235,8 @@
                     <form id="formHomologar" name="formHomologar"  action="javascript:void(0)" class="form-horizontal" method="post">
 
                         <div class="form-group">
-                            <label class="form-label">Selecione o Boletim de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione o Boletim">
+                            <label class="form-label">Selecione a opção de Publicação</label>
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione a opção de Publicação">
                                 {{-- @foreach($boletins as $boletim)
                                     <option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>
                                 @endforeach --}}
@@ -369,10 +369,10 @@
                 pageLength: 15,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
-                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#"},
-                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     // se a secao_id estiver na prórpria apresentacao
-                    {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa"},
-                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo",
+                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#", "sWidth": "40px"},
+                    {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     
+                    {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa", "sWidth": "220px"},
+                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo", "sWidth": "160px",
                         render: function (data, type, row) { 
                             let color = 'success';
                             let texto = 'Início';
@@ -381,18 +381,19 @@
                                 texto = 'Término';
                             } 
                             return '<span class="badge badge-pill badge-' + color + '">' + texto + '</span>' + ' <b>' + data + '</b>';
-                            // return '<span class="badge badge-' + color + '">' + data + '</span>';
                         }},
-                    {"data": "dt_apres", "name": "apresentacaos.dt_apres", "class": "dt-center", "title": "Dt Apresentação"},
-                    {"data": "dt_inicial", "name": "apresentacaos.dt_inicial", "class": "dt-center", "title": "Dt Início"},
-                    {"data": "dt_final", "name": "apresentacaos.dt_final", "class": "dt-center", "title": "Dt Fim"},
-                    {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local"},
-                    {"data": "celular", "name": "apresentacaos.celular", "class": "dt-left", "title": "Contato"},
-                    {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ",
+                    {"data": "dt_apres", "name": "apresentacaos.dt_apres", "class": "dt-center", "title": "Dt Apres", "sWidth": "90px"},
+                    {"data": "dt_inicial", "name": "apresentacaos.dt_inicial", "class": "dt-center", "title": "Dt Início", "sWidth": "90px"},
+                    {"data": "dt_final", "name": "apresentacaos.dt_final", "class": "dt-center", "title": "Dt Fim", "sWidth": "90px"},
+                    {"data": "local_destino", "name": "apresentacaos.local_destino", "class": "dt-left", "title": "Local", "sWidth": "auto",
+                        render: function (data) { return '<span style="font-size: 11px;">' + data + '</span>';}
+                    },                    
+                    {"data": "celular", "name": "apresentacaos.celular", "class": "dt-left", "title": "Contato", "sWidth": "120px"},
+                    {"data": "publicado", "name": "apresentacaos.publicado", "class": "dt-center", "title": "Publ", "sWidth": "60px",
                         render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
-                    {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub"},
-                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "190px", "sortable": false},
+                    {"data": "boletim", "name": "boletim.descricao", "class": "dt-left", "title": "Bol Pub", "sWidth": "150px"},
+                    {"data": "acoes", "name": "acoes", "class": "dt-left", "title": "Ações", "orderable": false, "width": "170px", "sortable": false},
                 ]
             });
 
@@ -471,15 +472,15 @@
 
             });      
 
-            var apresentacoes = @json($apresentacoes);
-
             // Limpa os dados da modal sempre que a mesma é fechada
             $('#confirmahomologarModal').on('hidden.bs.modal', function () {
-                $('#formHomologar')[0].reset();
-                $('#boletim_id').selectpicker('refresh'); // Para limpar o selectpicker
-                $('#error-sigla').hide(); // Esconder mensagem de erro
-                $('#btnHomologar').off('click'); // Remover todos os eventos de clique antigos do botão salvar
+                $('#formHomologar')[0].reset();             // limpa inputs do form
+                $('#boletim_id').selectpicker('val', '');   // limpa selectpicker                
+                $('#error-sigla').hide();                   // Esconder mensagem de erro
+                $('#btnHomologar').off('click');            // Remover todos os eventos de clique antigos do botão salvar
             });
+
+            var apresentacoes = @json($apresentacoes);
 
             /*
             * Homologar button action
@@ -498,8 +499,9 @@
 
                 if (apresentacao && apresentacao.apresentacao_id !== null) {
                     // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
-                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
+                    $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
                 }
+                $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
 
                 // Adicionar os boletins
                 @foreach($boletins as $boletim)
@@ -518,6 +520,10 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
+                    if(! boletim_id) {
+                        alert('NECESSÁRIO selecionar uma opção de publicação.');
+                        return false;
+                    }
 
                     $.ajax({
                         type: "POST",
@@ -576,7 +582,6 @@
                         // implementar que seja automático foreach   
                         $('#id').val(data.id);
                         $('#pessoa_id').selectpicker('val', data.pessoa_id);
-
                         $('#destino_id').selectpicker('val', data.destino_id);
                         $('#destino_input').val(data.destino_id);
                         $('#boletim_id').val(data.boletim_id);
@@ -704,18 +709,14 @@
             */
             $('#editarModal').on('hidden.bs.modal', function () {
                 if(!isNovoClicked || isNovoClicked) {
-                    // Limpar todos os campos do formulário
-                    $(this).find('form')[0].reset();
-                    //Diferencia modal novo do editar no
+                    $(this).find('form')[0].reset();        // Limpar todos os campos do formulário
+                    // Diferencia modal novo do editar no
                     $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
-                    $('.selectpicker').prop('disabled', false).selectpicker('refresh');
-
-                    // // Limpar campos específicos
-                    $('#nota').removeClass('alert-danger alert-success alert-warning').html('');
-
+                    $('.selectpicker').prop('disabled', false);
+                    $('.selectpicker').selectpicker('refresh');
+                    $('#nota').removeClass('alert-danger alert-success alert-warning').html('');    // Limpar campos específicos
                     // Ocultar mensagens de erro
                     $('.error.invalid-feedback').hide();
-
                     $('#dadosForm').hide();
                 }
             });
@@ -738,18 +739,18 @@
             $("#pessoa_id").on("hidden.bs.select", function(e, clickedIndex, newValue, oldValue) {
                 e.stopImmediatePropagation();
 
-                if (!isNovoClicked) {
+                if (! isNovoClicked) {
                     return;
                 }
 
                 // Limpar todos os campos do formulário
                 $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
-                $('.selectpicker').prop('disabled', false).selectpicker('refresh');
+                // $('.selectpicker').prop('disabled', false).selectpicker('refresh');
 
                 $('#dt_apres').val(today);     
                 $('#dt_inicial').val('');
                 $('#dt_final').val('').attr('readonly', true);
-                $('#destino_id').selectpicker('val','');        // reset selectpicker    
+                $('#destino_id').selectpicker('val','');        
                 $('#destino_input').val('').prop('disabled', true);
                 $('#local_destino').val('');
                 $('#celular').val('');
@@ -758,7 +759,9 @@
 
                 // Função para atualizar os campos de formulário
                 function updateFormFields(registro, readonly) {
-                    $('#destino_id').selectpicker('val', registro.destino_id).prop('disabled', readonly).selectpicker('refresh');
+                    // $('#destino_id').selectpicker('val', registro.destino_id).selectpicker('refresh');
+                    // EUZ false isso acima qu dá erro  .prop('disabled', false)
+
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
@@ -774,9 +777,7 @@
                 function updateUI(showSaveButton, showHideElements, alertClass, message) {
                     $('#btnSave').toggle(showSaveButton);
                     $('#dadosForm').toggle(showHideElements);
-                    $('#nota').removeClass('alert-danger alert-success alert-warning')
-                                .addClass(alertClass)
-                                .html('<span>' + message + '</span> <i class="fa-solid fa-arrow-down"></i>');
+                    $('#nota').removeClass('alert-danger alert-success alert-warning').addClass(alertClass).html('<span>' + message + '</span> <i class="fa-solid fa-arrow-down"></i>');
                 }
 
                 $.ajax({
@@ -800,7 +801,9 @@
                         } else {
                             updateUI(true, true, 'alert-success', data.mensagem);
                             updateFormFields(data.registro, false);
-                            $('#destino_id').selectpicker('val', data.destino_id).prop('disabled', false).selectpicker('refresh');
+                            $('#destino_id').selectpicker('val', data.destino_id);
+                            $('#destino_id').selectpicker('refresh');
+                            // falta .prop('disabled', false) no selectpicker .selectpicker('refresh')
                             $('#destino_input').val(data.destino_id).prop('disabled', false);
                         }
 

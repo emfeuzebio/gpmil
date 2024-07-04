@@ -224,7 +224,7 @@ class ApresentacaoController extends Controller
                 'id' => $request->id,
             ],
             [
-                'boletim_id' => $request->boletim_id,
+                'boletim_id' => ( $request->boletim_id == 'null' ? false : $request->boletim_id ),
                 'publicado' => ( $request->boletim_id ? 'SIM' : 'NÃO' ),
             ]
         );  
