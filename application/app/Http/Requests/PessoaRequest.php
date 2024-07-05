@@ -25,6 +25,7 @@ class PessoaRequest extends FormRequest
             'pgrad_id' => 'required',
             'nome_completo' => 'required',
             'nome_guerra' => 'required',
+            'qualificacao_id' => 'required',
             'cpf' => 'required',            //|unique
             'idt' => 'required',            //|unique
             'status' => ['required','in:"Ativa","Reserva","Civil"'],

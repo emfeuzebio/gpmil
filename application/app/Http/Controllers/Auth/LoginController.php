@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Http\Request;
 use App\Models\Pessoa;
-use App\Models\Apresentacao;
 use Illuminate\Support\Facades\DB;
 
 class LoginController extends Controller
@@ -55,26 +54,32 @@ class LoginController extends Controller
             ]);
         }
 
-        // Realiza a consulta usando Eloquent
-        $apresentacoesSemTermino = Apresentacao::semTermino()
-            ->where('pessoa_id', $pessoa->id)
-            ->get();
+        $sql = "
+            SELECT a.*, destinos.sigla AS motivo
+            FROM apresentacaos a 
+                LEFT JOIN destinos ON destinos.id = a.destino_id
+            WHERE a.pessoa_id = ?
+              AND a.apresentacao_id IS NULL
+              AND a.boletim_id IS NOT NULL
+              AND NOT EXISTS (
+                  SELECT * 
+                  FROM apresentacaos ae 
+                  WHERE ae.pessoa_id = a.pessoa_id
+                    AND ae.apresentacao_id = a.id
+            )
+        ";
+        $apresentacaoSemTermino = DB::select($sql, [$pessoa->id]);
 
-        // Verifica se há apresentações sem término
-        if ($apresentacoesSemTermino->isNotEmpty()) {
-        // Configura a flash message na sessão
-        $apresentacaoSemTermino = $apresentacoesSemTermino->first();
-        session()->flash('incomplete_apresentacao_alert', [
-            'codigo' => 2,
-            'registro' => [
-                'apresentacao_id' => $apresentacaoSemTermino->id,
-                'id' => null,
-                'motivo' => $apresentacaoSemTermino->motivo,
-            ],
-            'mensagem' => "Há uma Apresentação de Início de '{$apresentacaoSemTermino->motivo}' sem Término. Deseja inclui-lá agora? ID {$apresentacaoSemTermino->id}",
-        ]);
-        return;
+        if (!empty($apresentacaoSemTermino)) {
+            $apresentacaoSemTermino[0]->apresentacao_id = $apresentacaoSemTermino[0]->id;
+            $apresentacaoSemTermino[0]->id = null;
+
+            session()->flash('incomplete_apresentacao_alert', [
+                'codigo' => 2,
+                'registro' => $apresentacaoSemTermino[0],
+                'mensagem' => "Há uma Apresentação de Início de '" . $apresentacaoSemTermino[0]->motivo . "' sem Término. Deseja inclui-ĺá agora? ID " . $apresentacaoSemTermino[0]->apresentacao_id,
+            ]);
+            return;
         }
-
     }
 }

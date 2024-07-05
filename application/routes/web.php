@@ -35,7 +35,6 @@ use Illuminate\Support\Facades\DB;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Route::group(['middleware' => 'check.time'], function () {
 
 Route::get('/', function () { return view('/auth/login'); });
 
@@ -180,6 +179,6 @@ Route::post('organizacaos/destroy', [OrganizacaoController::class, 'destroy'])->
 
 
 // Auth::routes();
-});
+
 
 

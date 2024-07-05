@@ -429,33 +429,7 @@
                 $('#btnExcluir').off('click'); // Remover todos os eventos de clique antigos do botão salvar
             });
 
-            function calculaDias() {
-                var dtInicial = $('#dt_inicial').val();
-                var dtFinal = $('#dt_final').val();
-                if (dtInicial && dtFinal) {
-                    var diffTime = Math.abs(new Date(dtFinal) - new Date(dtInicial));
-                    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24)) + 1;
-                    $('#qtd_dias').val(diffDays).attr('readonly', true);
-                }
-            }
-
-            function ajustaRangeDatas() {
-                var dtApres = $('#dt_apres').val();
-                
-                if (dtApres) {
-                    var dtApresDate = new Date(dtApres);
-                    var minDate = new Date(dtApresDate);
-                    var maxDate = new Date(dtApresDate);
-                    maxDate.setDate(maxDate.getDate() + 5);
-
-                    var minDateStr = minDate.toISOString().split('T')[0];
-                    var maxDateStr = maxDate.toISOString().split('T')[0];
-                    
-                    $('#dt_inicial').attr('min', minDateStr);
-                    $('#dt_inicial').attr('max', maxDateStr);
-                }
-            }
-        /*
+            /*
             * Delete button action
             */
             $("#datatables-apresentacao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
@@ -582,6 +556,7 @@
             });
 
 
+
             /*
             * Edit button action
             */
@@ -613,6 +588,7 @@
                         $('#dt_apres').val(today);
                         $('#dt_inicial').val(data.dt_inicial);
                         $('#dt_final').val(data.dt_final).attr('readonly', true);
+                        $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                         $('#local_destino').val(data.local_destino);
                         $('#celular').val(data.celular);
                         $('#observacao').val(data.observacao);
@@ -620,28 +596,6 @@
 
                         $('#dadosForm').show();
                         $('#btnSave').show();
-
-                        ajustaRangeDatas();
-                        $('#dt_inicial').on('change', function() {
-                            var dtApres = $('#dt_apres').val();
-                            var dtInicial = $('#dt_inicial').val();
-                            var errorElement = $('#error-dt_inicial');
-                            
-                            if (dtApres && dtInicial) {
-                                var dtApresDate = new Date(dtApres);
-                                var dtInicialDate = new Date(dtInicial);
-                                var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                
-                                if (diffDays > 5) {
-                                    errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                                    $('#dt_inicial').val('');
-                                } else {
-                                    errorElement.hide();
-                                }
-                            }
-                        });
-                        calculaDias();
                     }
                 }); 
 
@@ -670,11 +624,11 @@
                             // implementar que seja automático foreach   
                             $('#id').val(data.id);
                             $('#pessoa_id').selectpicker('val', data.pessoa_id);
-                            $('#destino_id').selectpicker('val', data.destino_id);
                             $('#destino_input').val(data.destino_id);
                             $('#boletim_id').val(data.boletim_id);
                             $('#dt_inicial').val(data.dt_inicial);
                             $('#dt_final').val(data.dt_final).attr('readonly', true);
+                            $('#qtd_dias').val((new Date(data.dt_final) - new Date(data.dt_inicial)) / (1000 * 60 * 60 * 24));
                             $('#dt_apres').val(today);
                             $('#local_destino').val(data.local_destino);
                             $('#celular').val(data.celular);
@@ -683,29 +637,8 @@
 
                             $('#dadosForm').show();
                             $('#btnSave').show();
-
-                            ajustaRangeDatas();
-                            $('#dt_inicial').on('change', function() {
-                                var dtApres = $('#dt_apres').val();
-                                var dtInicial = $('#dt_inicial').val();
-                                var errorElement = $('#error-dt_inicial');
-                                
-                                if (dtApres && dtInicial) {
-                                    var dtApresDate = new Date(dtApres);
-                                    var dtInicialDate = new Date(dtInicial);
-                                    var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                                    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                    
-                                    if (diffDays > 5) {
-                                        errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                                        $('#dt_inicial').val('');
-                                    } else {
-                                        errorElement.hide();
-                                    }
-                                }
-                            });
-                            calculaDias();
                         }
+
                     }
                 }); 
 
@@ -718,6 +651,7 @@
                 e.stopImmediatePropagation();
                 $(".invalid-feedback").text('').hide();    // hide and clean all erros messages on the form
 
+                // to use a button as submit button, is necesary use de .get(0) after: console.log(formData);
                 const formData = new FormData($('#formEntity').get(0));
 
                 $.ajax({
@@ -750,7 +684,6 @@
                 });                
             });
 
-
             /*
             * New Record button action
             */
@@ -769,31 +702,6 @@
                 $('#modalLabel').html('Nova Apresentação');     //
                 $(".invalid-feedback").text('').hide();         // hide all error displayed
                 $('#editarModal').modal('show');                // show modal 
-
-                // Adjust date range on page load
-                ajustaRangeDatas();
-
-                $('#dt_inicial').on('change', function() {
-                    var dtApres = $('#dt_apres').val();
-                    var dtInicial = $('#dt_inicial').val();
-                    var errorElement = $('#error-dt_inicial');
-                    
-                    if (dtApres && dtInicial) {
-                        var dtApresDate = new Date(dtApres);
-                        var dtInicialDate = new Date(dtInicial);
-                        var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                        
-                        if (diffDays > 5) {
-                            errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                            $('#dt_inicial').val('');
-                        } else {
-                            errorElement.hide();
-                        }
-                    }
-                });
-
-                calculaDias();
             });
 
             /*
@@ -857,13 +765,12 @@
                     $('#destino_input').val(registro.destino_id).prop('disabled', false);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
+                    $('#qtd_dias').val((new Date(registro.dt_final) - new Date(registro.dt_inicial)) / (1000 * 60 * 60 * 24) + 1).attr('readonly', readonly);
                     $('#dt_apres').val(today);
                     $('#local_destino').val(registro.local_destino).attr('readonly', readonly);
                     $('#celular').val(registro.celular).attr('readonly', readonly);
                     $('#observacao').val(registro.observacao).attr('readonly', readonly);
                     $('#apresentacao_id').val(registro.apresentacao_id);
-                    calculaDias();
-                    ajustaRangeDatas();
                 }
 
                 // Função para mostrar ou esconder elementos e ajustar classes de alerta
@@ -902,7 +809,7 @@
 
                     },
                     error: function (error) {
-                        // console.log(error);
+                        console.log(error);
                     }
                 });                
             });
