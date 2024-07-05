@@ -138,7 +138,7 @@ return [
     'usermenu_header_class' => 'bg-light',
     'usermenu_image' => true,
     'usermenu_desc' => true,
-    'usermenu_profile_url' => false,
+    'usermenu_profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -263,7 +263,7 @@ return [
     'register_url' => 'register',
     'password_reset_url' => 'password/reset',
     'password_email_url' => 'password/email',
-    'profile_url' => false,
+    'profile_url' => true,
 
     /*
     |--------------------------------------------------------------------------
@@ -310,9 +310,17 @@ return [
         ],
 
         // Sidebar items:
+        // Pesquisar p/ admin
         [
             'type' => 'sidebar-menu-search',
             'text' => 'procurar por ...',
+            'can' => 'is_encpes',
+        ],
+        // Pesquisar p/ enc_pes
+        [
+            'type' => 'sidebar-menu-search',
+            'text' => 'procurar por ...',
+            'can' => 'is_admin',
         ],
         [
             'text' => 'blog',

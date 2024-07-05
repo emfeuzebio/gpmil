@@ -21,5 +21,10 @@ class PlanoChamada extends Model
         return $this->hasOne(Secao::class, 'id', 'secao_id');
     }
 
+    public function setCepAttribute($value)
+    {
+        $this->attributes['cep'] = preg_replace('/[^0-9]/', '', $value);
+    }
+
 
 }

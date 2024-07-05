@@ -40,6 +40,7 @@
                     </div>
                 </div>
 
+                @cannot('is_usuario')
                 <div class="card-header">
                     <!--área de Filtros-->
                     <div class="row">
@@ -74,6 +75,7 @@
                         </div>
                     </div>
                 </div>
+                @endcannot
 
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
@@ -118,7 +120,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Complemento</label>
-                            <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência">
+                            <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="100">
                             <div id="error-complemento" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
 
@@ -160,7 +162,7 @@
                         
                         <div class="form-group">
                             <label class="form-label">Pessoa para Emergência</label>
-                            <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Nome da Pessoa para caso de emergência (parentesco)" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" >
+                            <input class="form-control" value="" type="text" id="pessoa_emergencia" name="pessoa_emergencia" placeholder="Nome da Pessoa para caso de emergência (parentesco)" data-toggle="tooltip" data-placement="top" title="Nome da Pessoa para caso de emergência" maxlength="100">
                             <div id="error-pessoa_emergencia" class="error invalid-feedback" style="display: none;"></div>
                         </div>
                         
@@ -253,7 +255,7 @@
                     },
                     responsive: true,
                     autoWidth: true,
-                    order: [3, 'desc'],
+                    order: [[1, 'asc'], [2, 'asc']],
                     lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                     pageLength: 10,
                     language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },     

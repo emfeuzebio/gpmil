@@ -12,6 +12,7 @@ use App\Models\Pgrad;
 use App\Models\Secao;
 use Illuminate\Http\Response as HttpResponse;
 use Yajra\DataTables\Facades\DataTables;
+use Illuminate\Support\Facades\Log;
 
 class PlanoChamadaController extends Controller
 {
@@ -72,6 +73,7 @@ class PlanoChamadaController extends Controller
 
         if(request()->ajax()) {
             return DataTables::eloquent(PlanoChamada::select(['pessoas.*'])->with('pgrad')->with('secao')
+                    ->orderBy('pgrad_id')->orderBy('nome_guerra')
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
                 ->setRowId( function($param) { return $param->id; })
@@ -129,6 +131,7 @@ class PlanoChamadaController extends Controller
 
     public function store(PlanoChamadaRequest $request)
     {
+        Log::info('Dados recebidos no request: ', $request->all());
         // verifica se o User tem permissão via Policy, retornar HTTP 422-Unprocesable Content que bloqueia o fechar do modal
         if($request->user()->cannot('PodeAtualizarPlanoChamada',PlanoChamada::class)) {
             //terminar o retorno JSON para bloquear o fechamento do Form e mostrar mensagem de erro
@@ -136,24 +139,31 @@ class PlanoChamadaController extends Controller
             return Response()->json($PlanoChamada, HttpResponse::HTTP_UNPROCESSABLE_ENTITY); //422
         }
 
-        $PlanoChamada = PlanoChamada::updateOrCreate(
-            [
-                'id' => $request->id,
-            ],
-            [
-                'uf' => $request->uf,
-                'cep' => $request->cep,
-                'bairro' => $request->bairro,
-                'cidade' => $request->cidade,
-                'municipio_id' => $request->municipio_id,
-                'endereco' => $request->endereco,
-                'complemento' => $request->complemento,
-                'fone_celular' => $request->fone_celular,
-                'fone_emergencia' => $request->fone_emergencia,
-                'pessoa_emergencia' => $request->pessoa_emergencia,
-            ]
-        );  
-        return Response()->json($PlanoChamada);
+        try{
+            $PlanoChamada = PlanoChamada::updateOrCreate(
+                [
+                    'id' => $request->id,
+                ],
+                [
+                    'uf' => $request->uf,
+                    'cep' => $request->cep,
+                    'bairro' => $request->bairro,
+                    'cidade' => $request->cidade,
+                    'municipio_id' => $request->municipio_id,
+                    'endereco' => $request->endereco,
+                    'complemento' => $request->complemento,
+                    'fone_celular' => $request->fone_celular,
+                    'fone_emergencia' => $request->fone_emergencia,
+                    'pessoa_emergencia' => $request->pessoa_emergencia,
+                ]
+            );  
+            Log::info('Dados salvos com sucesso: ', $PlanoChamada->toArray());
+            return Response()->json($PlanoChamada);
+        } catch(\Exception $e) {
+            Log::error('Erro ao salvar dados: ', ['error' => $e->getMessage()]);
+            return Response()->json(['error' => 'Erro ao salvar dados'], 500);
+        }
+
     }     
 
 }
