@@ -265,10 +265,6 @@ class ApresentacaoController extends Controller
         ";
         $apresentacaoSemTermino = DB::select($sql, [$request->pessoa_id]);  //retorna um array de objetos
 
-        // $apresentacaoSemTermino = Apresentacao::semTermino()
-        //     ->where('pessoa_id', $request->pessoa_id)
-        //     ->get();
-
         if(! empty($apresentacaoSemTermino)) {
 
             $apresentacaoSemTermino[0]->apresentacao_id = $apresentacaoSemTermino[0]->id;

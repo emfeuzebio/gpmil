@@ -6,7 +6,6 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
-use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -68,7 +67,7 @@ class User extends Authenticatable
             $decoded_data = base64_decode($image_blob);
     
             // Crie uma imagem a partir dos dados decodificados
-            $image = @imagecreatefromstring($decoded_data);
+            $image = imagecreatefromstring($decoded_data);
     
             if ($image !== false) {
                 // Salve a imagem em um buffer
@@ -78,12 +77,18 @@ class User extends Authenticatable
                 ob_end_clean();
     
                 return 'data:image/png;base64,' . base64_encode($data);
-            } 
+            } else {
+                return 'Erro ao criar a imagem.';
+            }
+        } else {
+            return 'vendor/adminlte/dist/img/avatar.png';
         }
 
-        return '/vendor/adminlte/dist/img/avatar.png';
+        return 'vendor/adminlte/dist/img/avatar.png';
+    
     }
     
+
     public function adminlte_name() {
         $pessoa = $this->hasOne(Pessoa::class)->with('pgrad')->first();
         $nome = $pessoa->pgrad->sigla . ' ' . $pessoa->nome_guerra;
@@ -99,7 +104,7 @@ class User extends Authenticatable
     }
 
     public function adminlte_profile_url() {
-        return '/pessoas/' . Auth::user()->id;
+        return 'pessoas/username';
     }
 
 }
