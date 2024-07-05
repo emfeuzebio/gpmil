@@ -207,6 +207,7 @@
                       <th>Data Inicial</th>
                       <th>Data Final</th>
                       <th>Publicado</th>
+                      <th>Destino</th>
                       <th>Observação</th>
                     </tr>
                   </thead>
@@ -224,6 +225,7 @@
                             <span class="text-danger">{{ $apresentacao->publicado }}</span>
                           @endif
                         </td>
+                        <td>{{ $apresentacao->destino->sigla }}</td>
                         <td>{{ $apresentacao->observacao }}</td>
                       </tr>
                     @endforeach
