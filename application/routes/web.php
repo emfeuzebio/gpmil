@@ -127,7 +127,7 @@ Route::post('pgrads/destroy', [PgradController::class, 'destroy'])->name('home')
 Route::get('/pessoas', [PessoaController::class, 'index'])->name('home');
 Route::get('/pessoas/{user_id?}', [PessoaController::class, 'index'])->middleware('checkUserAccess')->name('home');
 Route::post('pessoas/store', [PessoaController::class, 'store'])->name('home');
-Route::post('pessoas/edit', [PessoaController::class, 'edit'])->name('home');
+Route::post('pessoas/edit', [PessoaController::class, 'edit'])->middleware('checkUserAccess')->name('home');
 Route::post('pessoas/destroy', [PessoaController::class, 'destroy'])->name('home');
 
 Route::get('/secaos', [SecaoController::class, 'index'])->name('home');

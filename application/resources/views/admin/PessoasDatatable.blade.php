@@ -121,8 +121,8 @@
                 </div>
 
                 <div class="container modal-body" style="padding: 20px">
-                    <form id="formEntity" name="formEntity" action="javascript:void(0)" 
-                        class="form-horizontal col-12" method="post" style=" padding: 1vh">
+                    <form id="formEntity" name="formEntity" action="javascript:void(0)" class="form-horizontal col-12" method="post" style="padding: 1vh">
+                        @csrf
                         <div class="row">
                         <div class="col-md-6">
                             <div class="form-group" id="form-group-id">
