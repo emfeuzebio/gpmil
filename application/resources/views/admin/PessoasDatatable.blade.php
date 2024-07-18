@@ -250,9 +250,9 @@
                                 <div id="error-dt_ult_promocao" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
-                            <div class="form-group" style="display: flex;">
-                                <label class="form-label" style="margin-right: 20px;">Segmento</label>
-                                <div class="form-check" style="margin-right: 20px;" >
+                            <div class="form-group">
+                                <label class="form-label">Segmento</label>
+                                <div class="form-check">
                                     <label class="form-check-label" for="segmentoM" data-toggle="tooltip" title="Masque se for do segmento Masculino">
                                         <input class="form-check-input  editable" type="radio" id="segmentoM" value="Masculino" name="segmento" >Masculino
                                     </label>
@@ -262,6 +262,7 @@
                                         <input class="form-check-input editable" type="radio" id="segmentoF" value="Feminino" name="segmento" >Feminino
                                     </label>
                                 </div>
+                                <div id="error-segmento" class="error invalid-feedback" style="display: none;"></div>
                             </div>
                             
                             <div class="form-group">
@@ -308,7 +309,7 @@
                                         @endif
                                     @endforeach
                                 </select>
-                                <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
+                                <div id="error-nivelacesso_id" class="error invalid-feedback" style="display: none;"></div>
                                 <input value="" type="hidden" id="nivelacesso_input" name="nivelacesso_id" disabled>
                             </div>
 
