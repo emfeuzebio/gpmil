@@ -120,9 +120,15 @@
 
                         <div class="form-group">
                             <label class="form-label">Complemento</label>
-                            <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="100">
+                            <input class="form-control" value="" type="text" id="complemento" name="complemento" placeholder="Digite o complemento" data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="100">
                             <div id="error-complemento" class="error invalid-feedback" style="display: none;"></div>
                         </div>    
+
+                        <div class="form-group">
+                            <label class="form-label">Numero</label>
+                            <input class="form-control" value="" type="text" id="numero" name="numero" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="100">
+                            <div id="error-numero" class="error invalid-feedback" style="display: none;"></div>
+                        </div>   
 
                         <div class="form-group">
                             <label class="form-label">Bairro</label>
@@ -265,7 +271,8 @@
                         {"data": "nome_guerra", "name": "pessoas.nome_guerra", "class": "dt-left font-weight-bold", "title": "Pessoa"},
                         {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},
                         {"data": "endereco", "name": "pessoas.endereco", "class": "dt-left", "title": "Endereço"},
-                        {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Comple"},
+                        {"data": "complemento", "name": "pessoas.complemento", "class": "dt-left", "title": "Complemento"},
+                        {"data": "numero", "name": "pessoas.numero", "class": "dt-left", "title": "Numero"},
                         {"data": "bairro", "name": "pessoas.bairro", "class": "dt-left", "title": "Bairro"},
                         {"data": "fone_celular", "name": "pessoas.fone_celular ", "class": "dt-left", "title": "F. Contato"},
                         {"data": "fone_emergencia", "name": "pessoas.fone_emergencia ", "class": "dt-left", "title": "F. Emergência"},
@@ -452,6 +459,7 @@
                             $('#cidade').val(data.cidade);
                             $('#endereco').val(data.endereco);
                             $('#complemento').val(data.complemento);
+                            $('#numero').val(data.numero);
                             $('#municipio_id').val(data.municipio_id);
                             $('#uf').val(data.uf);
                             $('#fone_emergencia').val(data.fone_emergencia);
@@ -497,6 +505,7 @@
                         $('#cidade').val(data.cidade);
                         $('#endereco').val(data.endereco);
                         $('#complemento').val(data.complemento);
+                        $('#numero').val(data.numero);
                         $('#municipio_id').val(data.municipio_id);
                         $('#uf').val(data.uf);
                         $('#fone_emergencia').val(data.fone_emergencia);
@@ -543,6 +552,7 @@
                         $('#cidade').val(data.cidade);
                         $('#endereco').val(data.endereco);
                         $('#complemento').val(data.complemento);
+                        $('#numero').val(data.numero);
                         $('#municipio_id').val(data.municipio_id);
                         $('#uf').val(data.uf);
                         $('#fone_emergencia').val(data.fone_emergencia);
@@ -631,6 +641,7 @@
                     //Preenche os campos com "..." enquanto consulta webservice.
                     $("#endereco").val("...");
                     $("#complemento").val("...");
+                    $("#numero").val("...");
                     $("#bairro").val("...");
                     $("#cidade").val("...");
                     $("#uf").val("...");
@@ -643,6 +654,7 @@
                             //Atualiza os campos com os valores da consulta.
                             $("#endereco").val(dados.logradouro);
                             $("#complemento").val(dados.complemento);
+                            $("#numero").val(dados.unidade);
                             $("#bairro").val(dados.bairro);
                             $("#cidade").val(dados.localidade);
                             $("#uf").val(dados.uf);

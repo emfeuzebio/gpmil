@@ -152,6 +152,7 @@ class PlanoChamadaController extends Controller
                     'municipio_id' => $request->municipio_id,
                     'endereco' => $request->endereco,
                     'complemento' => $request->complemento,
+                    'numero' => $request->numero,
                     'fone_celular' => $request->fone_celular,
                     'fone_emergencia' => $request->fone_emergencia,
                     'pessoa_emergencia' => $request->pessoa_emergencia,

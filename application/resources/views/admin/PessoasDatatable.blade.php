@@ -227,6 +227,12 @@
                             </div>
 
                             <div class="form-group">
+                                <label class="form-label">Data de Praça</label>
+                                <input class="form-control editable" value="" type="date" id="dt_praca" name="dt_praca" placeholder="Digite a sua data de Praça" data-toggle="tooltip"  title="Informe a Data de Praça" >
+                                <div id="error-dt_praca" class="error invalid-feedback" style="display: none;"></div>
+                            </div>
+
+                            <div class="form-group">
                                 <label class="form-label">Data de Apresentação na OM</label>
                                 <input class="form-control editable" value="" type="date" id="dt_apres_om" name="dt_apres_om" placeholder="Digite a data de apresentação na OM" data-toggle="tooltip"  title="Informe a Data de apresentação na OM" >
                                 <div id="error-dt_apres_om" class="error invalid-feedback" style="display: none;"></div>
@@ -291,11 +297,11 @@
 
                             <div class="form-group">
                                 <label class="form-label">Nível Acesso</span></label>
-                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
+                                <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') @endcannot @endcannot>
                                     @foreach($nivel_acessos as $nivel_acesso)
                                         @if($nivel_acesso->id == 6)
                                             <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
-                                        @elseif($nivel_acesso->id == 1)
+                                        @elseif($nivel_acesso->id == 1 && Auth::user()->Pessoa->nivelacesso_id != 1)
                                             <option value="{{$nivel_acesso->id}}" disabled>{{$nivel_acesso->nome}}</option>
                                         @else
                                             <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
@@ -303,6 +309,7 @@
                                     @endforeach
                                 </select>
                                 <div id="error-qm" class="error invalid-feedback" style="display: none;"></div>
+                                <input value="" type="hidden" id="nivelacesso_input" name="nivelacesso_id" disabled>
                             </div>
 
                             <div class="form-group">
@@ -460,7 +467,11 @@
             }
 
             function getNivelAcessoValue() {
-                return $('#nivelacesso_id').val();
+                if($('#nivelacesso_id').prop('disabled', true)) {
+                    return $('#nivelacesso_input').val();
+                } else {
+                    return $('#nivelacesso_id').val();
+                }
             }
 
             $('#foto').change(function() {
@@ -592,10 +603,14 @@
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
+
+                        $('#nivelacesso_input').val(data.nivelacesso_id);
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         } else {
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', true)
                         }
 
                         if (data.segmento === "Masculino") {
@@ -705,10 +720,14 @@
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
+
+                        $('#nivelacesso_input').val(data.nivelacesso_id).prop('disabled', true);
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         } else {
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', true)
                         }
 
                         if (data.segmento === "Masculino") {
@@ -814,10 +833,14 @@
                         $('#secao_id').selectpicker('val', data.secao_id);
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
+
+                        $('#nivelacesso_input').val(data.nivelacesso_id).prop('disabled', true);
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).val(data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         } else {
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', true)
                         }
 
                         if (data.segmento === "Masculino") {
@@ -955,6 +978,21 @@
                         }
                     }
                 });                
+            });
+
+            /*
+            * Limpa o modal ao fechar
+            */
+            $('#editarModal').on('hidden.bs.modal', function () {
+                $(this).find('form')[0].reset();        // Limpar todos os campos do formulário
+                // Diferencia modal novo do editar no
+                $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
+                $('.selectpicker').prop('disabled', false);
+                $('.selectpicker').selectpicker('refresh');
+                $('#nota').removeClass('alert-danger alert-success alert-warning').html('');    // Limpar campos específicos
+                // Ocultar mensagens de erro
+                $('.error.invalid-feedback').hide();
+                $('#dadosForm').hide();
             });
 
             /*
