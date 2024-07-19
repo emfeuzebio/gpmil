@@ -49,11 +49,16 @@ class CheckUserAccess
 
         if (Gate::allows('is_cmt') || Gate::allows('is_chsec')) {
             $requestedUser = User::with('pessoa')->find($request->id);
-            if ($request->id !== $user->id && (Gate::allows('is_chsec') && User::find($requestedUser)->secao_id !== $user->pessoa->secao_id)) {
-                return redirect('/home')->withErrors(['error' => 'Acesso não autorizado.']);
+            // Verifica se o usuário requisitado não é o próprio usuário logado
+            if ($request->id !== $user->id) {
+                // Se for 'is_chsec', verifica se os 'secao_id' são diferentes
+                if (Gate::allows('is_chsec') && $requestedUser->pessoa->secao_id !== $user->pessoa->secao_id) {
+                    return redirect('/home')->withErrors(['error' => 'Acesso não autorizado.']);
+                }
             }
             return $next($request);
         }
+        
 
         if (Gate::allows('is_usuario') && $request->id == Auth::id()) {
             return $next($request);
