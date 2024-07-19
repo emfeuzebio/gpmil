@@ -94,8 +94,7 @@ class PessoaController extends Controller
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
                 ->setRowId( function($param) { return $param->id; })
-                ->addColumn('pgrad', function($param) { 
-                    return $param->status == 'Reserva' ? $param->pgrad->sigla . ' R1' : $param->pgrad->sigla; })
+                ->addColumn('pgrad', function($param) { return $param->status == 'Reserva' ? $param->pgrad->sigla . ' R1' : $param->pgrad->sigla; })
                 ->addColumn('qualificacao', function($param) { return $param->qualificacao ? $param->qualificacao->sigla : ''; })
                 ->addColumn('nivel_acesso', function($param) { return $param->nivel_acesso->nome; })
                 ->addColumn('secao', function($param) { return $param->secao->sigla; })

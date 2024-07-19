@@ -35,7 +35,7 @@ class Pessoa extends Model
         // 'antiguidade', 
         'secao_id',
         'religiao_id', 
-        'fone_ramal',  
+        // 'fone_ramal',  
         'foto',
         'funcao_id',
         'nivelacesso_id'

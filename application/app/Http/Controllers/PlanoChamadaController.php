@@ -77,7 +77,7 @@ class PlanoChamadaController extends Controller
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
                 ->setRowId( function($param) { return $param->id; })
-                ->addColumn('pgrad', function($param) { return $param->pgrad->sigla; })
+                ->addColumn('pgrad', function($param) { return $param->status == 'Reserva' ? $param->pgrad->sigla . ' R1' : $param->pgrad->sigla; })
                 ->addColumn('secao', function($param) { return $param->secao->sigla; })
                 ->addColumn('acoes', function ($param) {return $this->getActionColumn($param); })
                 ->rawColumns(['acoes'])
@@ -152,6 +152,7 @@ class PlanoChamadaController extends Controller
                     'municipio_id' => $request->municipio_id,
                     'endereco' => $request->endereco,
                     'complemento' => $request->complemento,
+                    'numero' => $request->numero,
                     'fone_celular' => $request->fone_celular,
                     'fone_emergencia' => $request->fone_emergencia,
                     'pessoa_emergencia' => $request->pessoa_emergencia,

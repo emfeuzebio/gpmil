@@ -219,7 +219,7 @@
                     $(".btnCancelar").trigger('click');
                     event.preventDefault();
                 }
-                
+
                 //hotkey tecla Alt+N - Incluir Novo Registro
                 if (event.altKey && event.code === "KeyN") {
                     // alert('Alt + N pressed!');
