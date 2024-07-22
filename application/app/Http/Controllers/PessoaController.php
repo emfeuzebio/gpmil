@@ -47,9 +47,6 @@ class PessoaController extends Controller
     
     public function index($user_id = null) {
 
-        // se não autenticado faz logout  // Auth::logout();
-        if (! Auth::check()) return redirect('/home');
-
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;
         $this->userSecaoID = $user->pessoa->secao_id;

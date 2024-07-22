@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Pessoa;
 use App\Models\User;
 use App\Models\Pgrad;
@@ -12,7 +11,6 @@ use App\Models\Organizacao;
 use App\Models\Funcao;
 use App\Models\NivelAcesso;
 use Carbon\Carbon;
-use Illuminate\Contracts\Session\Session;
 use Illuminate\Support\Facades\Auth;
 
 
@@ -37,7 +35,6 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('auth');
         $this->Pessoa = new Pessoa();
         $this->Pgrad = new Pgrad();
         $this->Secao = new Secao();

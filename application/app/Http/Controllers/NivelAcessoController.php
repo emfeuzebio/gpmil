@@ -11,9 +11,6 @@ class NivelAcessoController extends Controller
 {
     public function index(NivelAcessosDataTable $dataTable)
     {
-        // se não autenticado faz logout  // Auth::logout();          
-        if (! Auth::check()) return redirect('/home');
-
         // somente Admin têm permissão
         if (Gate::none(['is_admin'], new NivelAcesso())) {
             abort(403, 'Usuário não autorizado!');

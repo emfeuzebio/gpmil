@@ -12,13 +12,10 @@ use Yajra\DataTables\Facades\DataTables;
 class BoletimController extends Controller
 {
     public function __construct() {
-
+        // WEB controla para que todo controler somente será acessível se usuário logado
     }
 
     public function index() {
-
-        // se não autenticado faz logout  // Auth::logout();          
-        if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Boletim())) {

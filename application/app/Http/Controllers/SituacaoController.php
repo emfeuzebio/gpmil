@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use App\Http\Requests\SituacaoRequest;
@@ -12,13 +11,10 @@ use Yajra\DataTables\Facades\DataTables;
 class SituacaoController extends Controller
 {
     public function __construct() {
-
+        // WEB controla para que todo controler somente será acessível se usuário logado
     }
 
     public function index() {
-
-        // se não autenticado faz logout  // Auth::logout();
-        if (! Auth::check()) return redirect('/home');
 
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Situacao())) {

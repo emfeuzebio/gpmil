@@ -248,7 +248,9 @@
                 img.src = imgUrl;
             }
 
-            getBase64Image('vendor/adminlte/dist/img/dcemlogo.png', function(base64image) {
+            // getBase64Image('vendor/adminlte/dist/img/dcemlogo.png', function(base64image) {           
+            // });
+
                 /*
                 * Definitios of DataTables render
                 */
@@ -309,44 +311,40 @@
                                 var dataAtual = d.toLocaleDateString('pt-BR');
                                 var horaAtual = d.toLocaleTimeString('pt-BR');
                                 var userLogado = getUsuario();
-                                doc.pageMargins = [30, 50, 30, 30]; //[esq,sup,dir,inf] - considerar que o header fica dentro dos (120) e o footer fica dentro dos (60)
+                                doc.pageMargins = [30, 50, 30, 30];                 //[esq,sup,dir,inf] - considerar que o header fica dentro dos (120) e o footer fica dentro dos (60)
                                 doc.defaultStyle.fontSize = 8;                      //seta o tamanho do fonte de todo o documento
-                                doc.styles.tableBodyOdd.margin =[5, 5, 5, 5];
+                                doc.styles.tableBodyOdd.margin =  [5, 5, 5, 5];
                                 doc.styles.tableBodyEven.margin = [5, 5, 5, 5];      
                                 doc.pageMargins = [30,60,30,30];                    //[esq,sup,dir,inf] - considerar que o header fica dentro dos (120) e o footer fica dentro dos (60)
                                 doc.defaultStyle.fontSize = 8;                      //seta o tamanho do fonte de todo o documento
                                 doc.defaultStyle.alignment = 'left';                //alinhamento do texto em todo o documento    
 
                                 doc['header'] = ( function(currentPage, pageCount, pageSize) {
-                                return {
+                                    return {
 
-                                    columns:[
-                                        { image: base64image, width: 25 },
-                                        { 
-                                            text: 'Diretoria de Controle de Efetivos e Movimentações', 
-                                            alignment: 'center', 
-                                            width: '*', 
-                                            bold: true, 
-                                            fontSize: 12
-                                        }
-                                    ],
-                                    margin: [30, 0, 30, 10],
-
-                                    table: {
-                                        widths: ['100%'],
-                                        headerRows: 1,
-                                        body: [
-
-                                            [ 
-                                                {text: 'Título Relatório\n', bold: true, fontSize: 11, alignment: 'center', border: [false, false, false, false] },
-                                                {text: 'Ano: 2023 - Mês: Março - Tipo: J,S - Qtd Presenças: pelo menos: 2', bold: false, fontSize: 10 , alignment: 'center', border: [false, false, false, false]},
+                                        columns:[
+                                            { text: '', width: 25 },
+                                            { 
+                                                text: 'Diretoria de Controle de Efetivos e Movimentações', 
+                                                alignment: 'center', 
+                                                width: '*', 
+                                                bold: true, 
+                                                fontSize: 12
+                                            }
+                                        ],
+                                        margin: [30, 0, 30, 10],
+                                        table: {
+                                            widths: ['100%'],
+                                            headerRows: 1,
+                                            body: [
+                                                [ 
+                                                    {text: 'Título Relatório\n', bold: true, fontSize: 11, alignment: 'center', border: [false, false, false, false] },
+                                                    {text: 'Ano: 2023 - Mês: Março - Tipo: J,S - Qtd Presenças: pelo menos: 2', bold: false, fontSize: 10 , alignment: 'center', border: [false, false, false, false]},
+                                                ]
                                             ]
-
-                                        ]
-                                    }, 
-                                    margin: [30, 30, 30, 0]
-
-                                }
+                                        }, 
+                                        margin: [30, 30, 30, 0]
+                                    }
                                 });                         
 
                                 // Adicionar linha horizontal
@@ -355,11 +353,11 @@
                                         {
                                             type: 'line',
                                             x1: 0, y1: 0,
-                                            x2: 595 + 3 * 40, y2: 0, // largura do documento A4 em pontos menos as margens
+                                            x2: 780, y2: 0, // largura do documento A4 landscape em pontos menos as margens
                                             lineWidth: 1,
                                         }
                                     ],
-                                    margin: [30,10, 30, 10] // Ajusta a margem para alinhar horizontalmente
+                                    margin: [0, 10, 30, 10] // Ajusta a margem para alinhar horizontalmente
                                 });
                             
                                 doc['footer']=(function(page, pages) {              //seta o rodapé do documento com duas colunas
@@ -371,6 +369,10 @@
                                         margin: [30,5,30,5] 
                                     }
                                 });
+
+                                // largura da tabela de dados
+                                // doc.content[2].table.widths = '*';               // distribui as colunas automaticamente até 100% largura       
+                                doc.content[2].table.widths = ['5%','*','*','20%','*','6%','*','10%','10%' ];
 
                                 // Adicionar bordas sutis às células da tabela
                                 doc.content[2].layout = {
@@ -415,8 +417,7 @@
                         var api = this.api();
                         api.buttons().container().appendTo($('.dataTables_wrapper .col-md-6:eq(0)'));
                     }
-                });
-            });
+                });            
 
             // Filtro - Ao mudar a Seção em filtro_secao, aplica filtro pela coluna 1
             $('#filtro_secao').on("change", function (e) {
@@ -626,53 +627,55 @@
                 $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);    
             });
 
+            // se usuário pode editar o Plano de Chamada
             @can('podeEditarPlanoChamada') 
-            // busca endereço pelo CEP se o campo cep foi alterado
-            $("#cep").change(function() {
-                //Nova variável "cep" somente com dígitos.
-                var cep = $(this).val().replace(/\D/g, '');
 
-                //Expressão regular para validar o CEP.
-                var validacep = /^[0-9]{8}$/;
+                // busca endereço pelo CEP se o campo cep foi alterado
+                $("#cep").change(function() {
+                    //Nova variável "cep" somente com dígitos.
+                    var cep = $(this).val().replace(/\D/g, '');
 
-                //Valida o formato do CEP.
-                if(validacep.test(cep)) {
+                    //Expressão regular para validar o CEP.
+                    var validacep = /^[0-9]{8}$/;
 
-                    //Preenche os campos com "..." enquanto consulta webservice.
-                    $("#endereco").val("...");
-                    $("#complemento").val("...");
-                    $("#numero").val("...");
-                    $("#bairro").val("...");
-                    $("#cidade").val("...");
-                    $("#uf").val("...");
-                    $("#municipio_id").val("...");
+                    //Valida o formato do CEP.
+                    if(validacep.test(cep)) {
 
-                    //Consulta o webservice viacep.com.br/
-                    $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
+                        //Preenche os campos com "..." enquanto consulta webservice.
+                        $("#endereco").val("...");
+                        $("#complemento").val("...");
+                        $("#numero").val("...");
+                        $("#bairro").val("...");
+                        $("#cidade").val("...");
+                        $("#uf").val("...");
+                        $("#municipio_id").val("...");
 
-                        if (!("erro" in dados)) {
-                            //Atualiza os campos com os valores da consulta.
-                            $("#endereco").val(dados.logradouro);
-                            $("#complemento").val(dados.complemento);
-                            $("#numero").val(dados.unidade);
-                            $("#bairro").val(dados.bairro);
-                            $("#cidade").val(dados.localidade);
-                            $("#uf").val(dados.uf);
-                            $("#municipio_id").val(dados.ibge);
-                        } //end if.
-                        else {
-                            //CEP pesquisado não foi encontrado.
-                            alert("CEP não encontrado.");   
-                            $('#cep').focus();
-                        }
-                    });
-                } else {
-                    //cep é inválido.
-                    alert("Formato de CEP inválido.");
-                    $('#cep').focus();
-                }
+                        //Consulta o webservice viacep.com.br/
+                        $.getJSON("https://viacep.com.br/ws/"+ cep +"/json/?callback=?", function(dados) {
 
-            });
+                            if (!("erro" in dados)) {
+                                //Atualiza os campos com os valores da consulta.
+                                $("#endereco").val(dados.logradouro);
+                                $("#complemento").val(dados.complemento);
+                                $("#numero").val(dados.unidade);
+                                $("#bairro").val(dados.bairro);
+                                $("#cidade").val(dados.localidade);
+                                $("#uf").val(dados.uf);
+                                $("#municipio_id").val(dados.ibge);
+                            } //end if.
+                            else {
+                                //CEP pesquisado não foi encontrado.
+                                alert("CEP não encontrado.");   
+                                $('#cep').focus();
+                            }
+                        });
+                    } else {
+                        //cep é inválido.
+                        alert("Formato de CEP inválido.");
+                        $('#cep').focus();
+                    }
+
+                });
             @endcan
 
         });

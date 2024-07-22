@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use Yajra\DataTables\Facades\DataTables;
 use Illuminate\Http\Request;
@@ -14,13 +13,11 @@ class SecaoController extends Controller
 {
     
     public function __construct() {
-
+        // WEB controla para que todo controler somente será acessível se usuário logado
     }
 
-    public function index() {
 
-        // se não autenticado faz logout  // Auth::logout();
-        if (! Auth::check()) return redirect('/home');
+    public function index() {
 
         // somente Admin e EncPes têm permissão
         if (Gate::none(['is_admin','is_encpes'], new Secao())) {
