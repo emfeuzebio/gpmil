@@ -193,8 +193,7 @@ Route::group(['middleware' => 'check.time'], function () {
 
             Route::get('/circulos', [CirculoController::class, 'index'])->name('circulos.index');
 
-            Route::get('/nivelacessos', [NivelAcessoController::class, 'index'])->name('nivelacessos.index');use Laravel\Socialite\Facades\Socialite;
-
+            Route::get('/nivelacessos', [NivelAcessoController::class, 'index'])->name('nivelacessos.index');
 
             Route::get('/municipios', [MunicipioController::class, 'index'])->name('municipios.index');
 
