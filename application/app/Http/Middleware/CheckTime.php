@@ -16,12 +16,12 @@ class CheckTime
      */
     public function handle(Request $request, Closure $next): Response
     {
-        $now = Carbon::now();
-        $closingTime = Carbon::createFromTime(8, 0, 0); // Horário de fechamento (17:00)
+        // $now = Carbon::now();
+        // $closingTime = Carbon::createFromTime(8, 0, 0); // Horário de fechamento (17:00)
 
-        if ($now->greaterThanOrEqualTo($closingTime)) {
-            // return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
-        }
+        // if ($now->greaterThanOrEqualTo($closingTime)) {
+        //     // return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
+        // }
 
         return $next($request);
     }

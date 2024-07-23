@@ -61,48 +61,49 @@
     <div class="modal fade" id="editarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog">
             <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="modalLabel">Modal title</h4>
-                <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
-            </div>
-            <div class="modal-body">
-
-                <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
-                    <div class="form-group" id="form-group-id">
-                        <label class="form-label">ID</label>
-                        <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
-                    </div>                         
-                    <div class="form-group">
-                        <label class="form-label">Sigla</label>
-                        <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Disp" data-toggle="tooltip" title="Digite a sigla da Situação" >
-                        <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Descrição</label>
-                        <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Férias" data-toggle="tooltip" title="Digite a Situação" >
-                        <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Ativo</label>
-                        <div class="form-check">
-                            <label class="form-label" for="ativo">
-                                <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
-                            </label>
-                        </div>
-                        <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
-                    </div>
-                </form>        
-
-            </div>
-            <div class="modal-footer">
-                <div class="col-md-5 text-left">
-                    <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                <div class="modal-header">
+                    <h4 class="modal-title" id="modalLabel">Modal title</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">&times;</button>
                 </div>
-                <div class="col-md-5 text-right">
-                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                        @can('is_admin')
-                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                        @endcan
+                <div class="modal-body">
+
+                    <form id="formEntity" name="formEntity"  action="javascript:void(0)" class="form-horizontal" method="post">
+                        <div class="form-group" id="form-group-id">
+                            <label class="form-label">ID</label>
+                            <input class="form-control" value="" type="text" id="id" name="id" placeholder="" readonly>
+                        </div>                         
+                        <div class="form-group">
+                            <label class="form-label">Sigla</label>
+                            <input class="form-control" value="" type="text" id="sigla" name="sigla" placeholder="Disp" data-toggle="tooltip" title="Digite a sigla da Situação" >
+                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Descrição</label>
+                            <input class="form-control" value="" type="text" id="descricao" name="descricao" placeholder="Ex.: Férias" data-toggle="tooltip" title="Digite a Situação" >
+                            <div id="error-descricao" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Ativo</label>
+                            <div class="form-check">
+                                <label class="form-label" for="ativo">
+                                    <input class="form-check-input" type="checkbox" data-toggle="toggle" id="ativo" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO">
+                                </label>
+                            </div>
+                            <div id="error-ativo" class="invalid-feedback" style="display: none;"></div>
+                        </div>
+                    </form>        
+
+                </div>
+                <div class="modal-footer">
+                    <div class="col-md-5 text-left">
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                            <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                            @can('is_admin')
+                            <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                            @endcan
+                    </div>
                 </div>
             </div>
         </div>

@@ -39,7 +39,12 @@ use App\Models\User;
 
 Route::group(['middleware' => 'check.time'], function () {
 
-    Route::get('/', function () { return view('/auth/login'); });
+    Route::get('/', function () { 
+        if(Auth::check()){
+            return redirect('/home');
+        }
+        return view('/auth/login'); 
+    });
 
     // remete para Socialite DGP autenticação
     Route::get('/auth/redirect', function () {
