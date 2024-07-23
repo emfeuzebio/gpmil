@@ -70,6 +70,7 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('podeEditarPlanoChamada', function (User $user) {
             $user = User::with('pessoa')->find(Auth::user()->id);
             return in_array($user->pessoa->nivelacesso_id,[1,3,5,6]);
+            // return in_array($user->pessoa->nivelacesso_id,[1]);
         });                        
 
         Gate::define('podeSalvarPessoa', function (User $user) {

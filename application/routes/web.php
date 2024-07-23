@@ -116,8 +116,8 @@ Route::group(['middleware' => 'check.time'], function () {
         // acesso para todos os Gates: 'is_admin','is_encpes','is_cmt', 'is_chsec, 'is_sgtte', 'is_usuario'
         Route::controller(PessoaController::class)->group(function () {
             Route::get('/pessoas', 'index')->name('pessoa.index');
-            Route::get('/pessoas/{user_id?}','index')->middleware('checkUserAccess')->name('home');
-            Route::post('pessoas/store', 'store')->name('pessoa.store');
+            Route::get('/pessoas/{user_id?}','index')->name('home')->middleware('checkUserAccess');
+            Route::post('pessoas/store', 'store')->name('pessoa.store')->middleware('can:podeSalvarPessoa');
             Route::post('pessoas/edit', 'edit')->name('pessoa.edit');
             Route::post('pessoas/destroy', 'destroy')->name('pessoa.destroy');            
         });        
@@ -133,8 +133,8 @@ Route::group(['middleware' => 'check.time'], function () {
 
         Route::controller(PlanoChamadaController::class)->group(function () {
             Route::get('/planochamada', 'index')->name('planochamada.index');
-            Route::get('/planochamada/{user_id?}', 'index')->middleware('checkUserAccess')->name('planochamada.user');
-            Route::post('planochamada/store', 'store')->name('planochamada.store');
+            Route::get('/planochamada/{user_id?}', 'index')->name('planochamada.user')->middleware('checkUserAccess');
+            Route::post('planochamada/store', 'store')->name('planochamada.store')->middleware('can:podeEditarPlanoChamada');
             Route::post('planochamada/edit', 'edit')->name('planochamada.edit');
         });        
 
@@ -142,9 +142,9 @@ Route::group(['middleware' => 'check.time'], function () {
         // Gestão
             Route::controller(SecaoController::class)->group(function () {
                 Route::get('/secaos', 'index')->name('secao.index');
-                Route::post('secaos/store', 'store')->name('secao.store');
+                Route::post('secaos/store', 'store')->name('secao.store')->middleware('can:podeSalvarSecao'); 
                 Route::post('secaos/edit', 'edit')->name('secao.edit');
-                Route::post('secaos/destroy', 'destroy')->name('secao.destroy');            
+                Route::post('secaos/destroy', 'destroy')->name('secao.destroy');
             });        
 
             Route::controller(FuncaoController::class)->group(function () {

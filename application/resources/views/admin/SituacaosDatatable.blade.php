@@ -193,7 +193,7 @@
             $("#datatables-situacao tbody").delegate('tr td .btnExcluir', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
+                let id = $(this).parents('tr').attr("id");
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
                 $("#confirmaExcluirModal .modal-body p").text('Você está certo que deseja Excluir este registro ID: ' + id + '?');
@@ -233,7 +233,7 @@
             $("#datatables-situacao tbody").delegate('tr td .btnEditar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
-                id = $(this).data("id")
+                let id = $(this).parents('tr').attr("id");
 
                 $.ajax({
                     type: "POST",

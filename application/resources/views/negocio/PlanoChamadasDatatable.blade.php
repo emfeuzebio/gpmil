@@ -176,7 +176,7 @@
 
                 </div>
                 <div class="modal-footer">
-                    <div class="col-md-5 text-left">
+                    <div class="col-md-6 text-left">
                         <label id="msgOperacao" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
                     <div class="col-md-5 text-right">
@@ -610,6 +610,7 @@
                         });
                         // mostra mensagens de erro de Roles e Persistência em Banco
                         $('#msgOperacao').text(data.responseJSON.policyError).show();
+                        $('#msgOperacao').text(data.responseJSON.message).show();
                     }
                 });                
             });

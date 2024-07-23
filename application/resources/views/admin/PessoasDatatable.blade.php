@@ -328,14 +328,16 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <p></p>
-                    <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
-
-                    <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
-                    @can('podeSalvarPessoa')
-                    <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
-                    @endcan
-                    <button type="button" class="btn btn-primary btnSalvar editable" style="display: none;" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    <div class="col-md-6 text-left">
+                        <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
+                    </div>
+                    <div class="col-md-5 text-right">
+                        <button type="button" class="btn btn-secondary btnCancelar" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#editarModal').modal('hide');">Cancelar</button>
+                        @can('podeSalvarPessoa')
+                        <button type="button" class="btn btn-primary btnSalvar" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                        @endcan
+                        <button type="button" class="btn btn-primary btnSalvar editable" style="display: none;" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
+                    </div>
                 </div>
             </div>
             
@@ -953,7 +955,7 @@
                         setTimeout(function() {
                             $('#alert').fadeOut('slow');
                         }, 2000);
-                        window.location.href = "{{ url('pessoas') }}";
+                        //window.location.href = "{{ url('pessoas') }}";
                     },
                     error: function (data) {
                         // validator: vamos exibir todas as mensagens de erro do validador. como o dataType não é JSON, precisa do responseJSON
@@ -975,6 +977,7 @@
 
                             $('#msgOperacaoEditar').text(`Impossível SALVAR! O ${campoDuplicado} digitado já existe.`).show();
                         } else if (data.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
                             $('#msgOperacaoEditar').text(data.responseJSON.message).show();
                         }
                     }
