@@ -139,7 +139,7 @@ class Pessoa extends Model
             'segmento', 
             'preccp', 
             'dt_nascimento', 
-            // 'dt_praca', 
+            'dt_praca', 
             'dt_apres_gu', 
             'dt_apres_om', 
             'dt_ult_promocao', 

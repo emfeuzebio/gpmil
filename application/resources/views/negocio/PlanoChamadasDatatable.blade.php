@@ -441,9 +441,9 @@
             */
             @if($user_id)
                 var userId = {{ $user_id }};
-                $.ajax({tables.butt
+                $.ajax({
                         type: "POST",
-                        url: "{{url("planochamada/edit")}}",
+                        url: "{{url('planochamada/edit')}}",
                         data: {"id": userId},
                         dataType: 'json',
                         success: function (data) {

@@ -371,7 +371,7 @@
 
             $('#cpf').inputmask('999.999.999-99');  // máscara para CPF
             $('#idt').inputmask('999999999-9');     // máscara para Idt  
-            $('#preccp').inputmask('999999999-99'); // máscara para Prec-CP
+            $('#preccp').inputmask('99999999-9'); // máscara para Prec-CP
 
             $('.upper').on('input', function() {
                 $(this).val($(this).val().toUpperCase());
