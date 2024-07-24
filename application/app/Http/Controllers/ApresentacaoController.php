@@ -43,7 +43,7 @@ class ApresentacaoController extends Controller
     
     public function index() {
 
-        if (! Auth::check()) return redirect('/home');
+        if (! Auth::check()) return redirect('/');
 
         $user = User::with('pessoa')->find(Auth::user()->id);
         $this->userID = $user->id;

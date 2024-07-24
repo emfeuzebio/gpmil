@@ -132,7 +132,7 @@ Route::group(['middleware' => 'check.time'], function () {
             Route::post('apresentacaos/store', 'store')->name('apresentacao.store');
             Route::post('apresentacaos/edit', 'edit')->name('apresentacao.edit');
             Route::post('apresentacaos/destroy', 'destroy')->name('apresentacao.destroy');            
-            Route::post('apresentacaos/homologar', 'destroy')->name('apresentacao.homologar');            
+            Route::post('apresentacaos/homologar', 'homologar')->name('apresentacao.homologar');            
             Route::post('apresentacaos/getApresentacoesAbertas', 'getApresentacoesAbertas')->name('apresentacao.getApresentacoesAbertas');            
         });        
 

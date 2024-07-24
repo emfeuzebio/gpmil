@@ -302,17 +302,21 @@
                         case '2':
                             qtdDias = 10;
                             $('#qtd_dias').prop('readonly', true);
+                            $('#dt_final').prop('readonly', true);
                             break;
                         case '3':
                             qtdDias = 15;
                             $('#qtd_dias').prop('readonly', true);
+                            $('#dt_final').prop('readonly', true);
                             break;
                         case '4':
                             qtdDias = 30;
                             $('#qtd_dias').prop('readonly', true);
+                            $('#dt_final').prop('readonly', true);
                             break;
                         default:
                         $('#qtd_dias').prop('readonly', false);
+                        $('#dt_final').prop('readonly', false);
                         break;
                     }
 
@@ -344,11 +348,10 @@
             // Obtém a data atual no formato YYYY-MM-DD
             const today = new Date().toISOString().slice(0, 10);
             
-
-
             // token da página
             $.ajaxSetup({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                statusCode: { 401: function() { window.location.href = "/";} }
             });
 
             /*
@@ -478,19 +481,19 @@
                         dataType: 'json',
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                             $('#confirmaExcluirModal').modal('hide');            
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
-
-                            setTimeout(function() {
-                                $('#alert').fadeOut('slow');
-                            }, 2000);
                         },
-                        error: function (data) {
-                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                        error: function (error) {
+                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                                window.location.href = "/";
+                            }
+
+                            if(error.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
-                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                                $('#msgOperacaoExcluir').text(error.responseJSON.message).show();
                             }
                         }
                     });
@@ -560,20 +563,19 @@
                         cache: false,                        
                         success: function (data) {
                             $("#alert .alert-content").text('Publicou a Apresentação ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                             $('#boletim_id').selectpicker('val', data.boletim_id);
                             $('#confirmahomologarModal').modal('hide');      
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
-
-                            setTimeout(function() {
-                                $('#alert').fadeOut('slow');
-                            }, 2000);
                         },
-                        error: function (data) {
-                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                        error: function (error) {
+                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                                window.location.href = "{{ url('/') }}";
+                            }
+                            if(error.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
-                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                                $('#msgOperacaoExcluir').text(error.responseJSON.message).show();
                             }
                         }
                     });
@@ -642,7 +644,13 @@
                             }
                         });
                         calculaDias();
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
+
                 }); 
 
             });           
@@ -683,7 +691,7 @@
 
                             $('#dadosForm').show();
                             $('#btnSave').show();
-
+                            calculaDias();
                             ajustaRangeDatas();
                             $('#dt_inicial').on('change', function() {
                                 var dtApres = $('#dt_apres').val();
@@ -704,7 +712,11 @@
                                     }
                                 }
                             });
-                            calculaDias();
+                        }
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "/";
                         }
                     }
                 }); 
@@ -729,23 +741,22 @@
                     processData: false,
                     success: function (data) {
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
-                        $('#alert').removeClass().addClass('alert alert-success').show();
+                        $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                         $('#editarModal').modal('hide');
                         $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
-
-                        setTimeout(function() {
-                            $('#alert').fadeOut('slow');
-                        }, 2000);
                     },
-                    error: function (data) {
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                         // validator: vamos exibir todas as mensagens de erro do validador
                         // como o dataType não é JSON, precisa do responseJSON
-                        $.each( data.responseJSON.errors, function( key, value ) {
+                        $.each( error.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show();
                         });
                         // mostra mensagens de erro de Roles e Persistência em Banco
-                        $('#msgOperacao').text(data.responseJSON.policyError).show();
-                        $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                        $('#msgOperacao').text(error.responseJSON.policyError).show();
+                        $('#msgOperacaoExcluir').text(error.responseJSON.message).show();
                     }
                 });                
             });
@@ -837,7 +848,6 @@
 
                 // Limpar todos os campos do formulário
                 $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
-                // $('.selectpicker').prop('disabled', false).selectpicker('refresh');
 
                 $('#dt_apres').val(today);     
                 $('#dt_inicial').val('');
@@ -851,10 +861,11 @@
 
                 // Função para atualizar os campos de formulário
                 function updateFormFields(registro, readonly) {
-                    // $('#destino_id').selectpicker('val', registro.destino_id).selectpicker('refresh');
-                    // EUZ false isso acima qu dá erro  .prop('disabled', false)
+                    $('#destino_id').selectpicker('val', registro.destino_id)
+                    $('#destino_id').prop('disabled', readonly);
+                    $('#destino_id').selectpicker('refresh');
 
-                    $('#destino_input').val(registro.destino_id).prop('disabled', false);
+                    $('#destino_input').val(registro.destino_id).prop('disabled', !readonly);
                     $('#dt_inicial').val(registro.dt_inicial).attr('readonly', readonly);
                     $('#dt_final').val(registro.dt_final).attr('readonly', readonly);
                     $('#dt_apres').val(today);
@@ -862,6 +873,7 @@
                     $('#celular').val(registro.celular).attr('readonly', readonly);
                     $('#observacao').val(registro.observacao).attr('readonly', readonly);
                     $('#apresentacao_id').val(registro.apresentacao_id);
+
                     calculaDias();
                     ajustaRangeDatas();
                 }
@@ -882,27 +894,30 @@
                     cache: false,                        
                     success: function (data) {
                         if (data.codigo === 1) {
+                            // caso 1/3 - Apresentação Ini sem publicação - Aberta sem publicação
                             updateUI(false, false, 'alert-danger', data.mensagem);
                         } else if (data.codigo === 2) {
+                            // caso 2/3 - Apresentação Ini com publicação mas sem linha de término - Aberta com publicação mas sem Termino
                             updateUI(true, true, 'alert-success', data.mensagem);
                             updateFormFields(data.registro, true);
                         } else if (data.codigo === 3) {
+                            // caso 3/3 - Apresentação Fim sem publicação - Fechada faltando bol de publicação
                             updateUI(false, false, 'alert-danger', data.mensagem);
                         } else if ($('#pessoa_id').val() == '') {
+                            // Caso a pessoa não seja selecionada
                             $('#nota').addClass('alert alert-success').text('Selecione a Pessoa');
                             $('#dadosForm').hide();
                         } else {
+                            // Para inserir uma nova apresentação de Ini.
                             updateUI(true, true, 'alert-success', data.mensagem);
                             updateFormFields(data.registro, false);
-                            $('#destino_id').selectpicker('val', data.destino_id);
-                            $('#destino_id').selectpicker('refresh');
-                            // falta .prop('disabled', false) no selectpicker .selectpicker('refresh')
-                            $('#destino_input').val(data.destino_id).prop('disabled', false);
+                            calculaDias();
                         }
-
                     },
                     error: function (error) {
-                        // console.log(error);
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "/";
+                        }
                     }
                 });                
             });
