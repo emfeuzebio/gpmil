@@ -5915,7 +5915,7 @@ CREATE TABLE `pessoas` (
   `dt_nascimento` date DEFAULT NULL,
   `endereco` varchar(255) DEFAULT NULL,
   `complemento` varchar(30) DEFAULT NULL,
-  `numero` int(10) UNSIGNED DEFAULT NULL,
+  `numero` varchar(6) DEFAULT NULL,
   `bairro` varchar(100) DEFAULT NULL,
   `cidade` varchar(100) DEFAULT NULL,
   `municipio_id` int(10) UNSIGNED DEFAULT NULL,
