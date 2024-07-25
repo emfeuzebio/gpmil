@@ -255,7 +255,7 @@
                         $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');                        
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                     }
@@ -289,7 +289,7 @@
                         $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                     }
@@ -321,7 +321,7 @@
                         $('#datatables').DataTable().ajax.reload(null, false);
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                         $.each( error.responseJSON.errors, function( key, value ) {

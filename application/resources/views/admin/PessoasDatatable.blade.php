@@ -680,7 +680,7 @@
                         $('.selectpicker').selectpicker('refresh');                        
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                     }
@@ -802,7 +802,7 @@
                         $('.selectpicker').selectpicker('refresh');                        
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                     }
@@ -921,7 +921,7 @@
                         $('.selectpicker').selectpicker('refresh');  
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                     }
@@ -970,7 +970,7 @@
                         $('#datatables-pessoas').DataTable().ajax.reload(null, false);
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                             window.location.href = "{{ url('/') }}";
                         }
                         // validator: vamos exibir todas as mensagens de erro do validador. como o dataType não é JSON, precisa do responseJSON
