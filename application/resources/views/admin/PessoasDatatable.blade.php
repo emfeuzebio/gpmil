@@ -1019,6 +1019,16 @@
             */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
 
                 $('#formEntity').trigger('reset');              // clean de form data
                 $('#formEntityR').trigger('reset');             // clean de form data
@@ -1062,6 +1072,16 @@
         */
         $('#btnRefresh').on("click", function (e) {
             e.stopImmediatePropagation();
+            $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
             $('#datatables-pessoas').DataTable().ajax.reload(null, false);    
         });
 

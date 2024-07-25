@@ -34,7 +34,7 @@ use App\Models\User;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-// Auth::logout();    
+Auth::logout();    
 // Auth::loginUsingId(6);
 
 Route::group(['middleware' => 'check.time'], function () {
@@ -115,6 +115,9 @@ Route::group(['middleware' => 'check.time'], function () {
 
     // rotas acessíveis somente após autenticado
     Route::middleware('auth')->group(function () {
+        Route::get('/isAuthenticated', function () {
+            return response()->json(['authenticated' => Auth::check()]);
+        });
 
         Route::get('/home', [HomeController::class, 'index'])->name('home');
 

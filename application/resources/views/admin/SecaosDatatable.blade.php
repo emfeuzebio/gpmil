@@ -341,6 +341,17 @@
             */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
+                
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
                 $('#id').val('');                               // reset ID field
@@ -359,6 +370,16 @@
             */
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
                 $('#datatables').DataTable().ajax.reload(null, false);    
             });        
 
