@@ -207,7 +207,8 @@
 
             // send token
             $.ajaxSetup({
-                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                statusCode: { 401: function() { window.location.href = "/";} }
             });
 
             function getUsuario() {
@@ -441,9 +442,9 @@
             */
             @if($user_id)
                 var userId = {{ $user_id }};
-                $.ajax({tables.butt
+                $.ajax({
                         type: "POST",
-                        url: "{{url("planochamada/edit")}}",
+                        url: "{{url('planochamada/edit')}}",
                         data: {"id": userId},
                         dataType: 'json',
                         success: function (data) {
@@ -475,7 +476,12 @@
                                 $('.editable').prop('disabled', true);
                                 $('#btnSave').hide();
                             }
+                        },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
                         }
+                    }
                     }); 
             @endif
 
@@ -520,6 +526,11 @@
                         } else {
                             $('.editable').prop('disabled', true);
                             $('#btnSave').hide();
+                        }
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
                         }
                     }
                 }); 
@@ -568,6 +579,11 @@
                             $('.editable').prop('disabled', true);
                             $('#btnSave').hide();
                         }
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
 
@@ -594,23 +610,22 @@
                     success: function (data) {
                         //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
-                        $('#alert').removeClass().addClass('alert alert-success').show();
+                        $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                         $('#editarModal').modal('hide');
                         $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);
-
-                        setTimeout(function() {
-                            $('#alert').fadeOut('slow');
-                        }, 2000);
                     },
-                    error: function (data) {
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                         // validator: vamos exibir todas as mensagens de erro do validador de campos
                         // como o dataType não é JSON, precisa do responseJSON
-                        $.each( data.responseJSON.errors, function( key, value ) {
+                        $.each( error.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show(); //mostra todas as messagens de erros dos campos do form
                         });
                         // mostra mensagens de erro de Roles e Persistência em Banco
-                        $('#msgOperacao').text(data.responseJSON.policyError).show();
-                        $('#msgOperacao').text(data.responseJSON.message).show();
+                        $('#msgOperacao').text(error.responseJSON.policyError).show();
+                        $('#msgOperacao').text(error.responseJSON.message).show();
                     }
                 });                
             });
@@ -625,6 +640,16 @@
             */
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
                 $('#datatables-plano-chamada').DataTable().ajax.reload(null, false);    
             });
 

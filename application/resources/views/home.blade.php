@@ -252,7 +252,7 @@
                     @else
                         <ul>
                             @foreach ($aniversariantes as $aniversariante)
-                                <li>{{ $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
+                                <li>{{ $aniversariante->status == 'Reserva' ? $aniversariante->pgrad->sigla . ' R1' : $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
                             @endforeach
                         </ul>
                     @endif

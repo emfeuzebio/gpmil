@@ -143,9 +143,8 @@
             let id = '';
 
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                statusCode: { 401: function() { window.location.href = "/";} }
             });
 
             /*
@@ -210,16 +209,18 @@
                         dataType: 'json',
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                             $('#confirmaExcluirModal').modal('hide');
                             $('#datatables').DataTable().ajax.reload(null, false);
-                            setTimeout(function() { $('#alert').fadeOut('slow'); }, 2000);
                         },
-                        error: function (data) {
-                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                        error: function (error) {
+                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                                window.location.href = "{{ url('/') }}";
+                            }
+                            if(error.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
-                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                                $('#msgOperacaoExcluir').text(error.responseJSON.message).show();
                             }
                         }
                     });
@@ -252,6 +253,11 @@
                         $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');                        
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
             });           
@@ -281,6 +287,11 @@
                         $('#data').val(data.data);
                         $('#descricao').val(data.descricao);
                         $('#ativo').bootstrapToggle(data.ativo == "SIM" ? 'on' : 'off');
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
 
@@ -308,21 +319,23 @@
                     processData: false,
                     success: function (data) {
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
-                        $('#alert').removeClass().addClass('alert alert-success').show();
+                        $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
-                        setTimeout(function() {$('#alert').fadeOut('slow');}, 2000);
                     },
-                    error: function (data) {
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                         // validator: vamos exibir todas as mensagens de erro do validador, como dataType não é JSON, precisa do responseJSON
-                        $.each( data.responseJSON.errors, function( key, value ) {
+                        $.each( error.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
                         // exibe mensagem sobre sucesso da operação
-                        if(data.responseJSON.message.indexOf("1062") != -1) {
+                        if(error.responseJSON.message.indexOf("1062") != -1) {
                             $('#msgOperacaoEditar').text("Impossível SALVAR! Registro já existe. (SQL-1062)").show();
-                        } else if(data.responseJSON.exception) {
-                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        } else if(error.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(error.responseJSON.message).show();
                         }
                     }
                 });                
@@ -333,6 +346,16 @@
             */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
 
                 $('#formEntity').trigger('reset');              //clean de form data
                 $('#form-group-id').hide();                     //hide ID field
@@ -352,6 +375,16 @@
             */
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
                 $('#datatables').DataTable().ajax.reload(null, false);
                 $('#alert').trigger('reset').hide();
             });        

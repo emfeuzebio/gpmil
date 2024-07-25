@@ -143,9 +143,8 @@
             var id = '';
 
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                statusCode: { 401: function() { window.location.href = "/";} }
             });
 
             /*
@@ -217,6 +216,11 @@
                         } else if (data.ativo === "NÃO") {
                             $('#ativo').bootstrapToggle('off');
                         }
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
 
@@ -246,22 +250,21 @@
                     success: function (data) {
                         //console.log(data);
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
-                        $('#alert').removeClass().addClass('alert alert-success').show();
+                        $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                         $('#editarModal').modal('hide');
                         $('#datatables').DataTable().ajax.reload(null, false);
-
-                        setTimeout(function() {
-                            $('#alert').fadeOut('slow');
-                        }, 2000);
                     },
-                    error: function (data) {
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                         // validator: vamos exibir todas as mensagens de erro do validador
                         // como o dataType não é JSON, precisa do responseJSON
-                        $.each( data.responseJSON.errors, function( key, value ) {
+                        $.each( error.responseJSON.errors, function( key, value ) {
                             //console.log( key + '>' + value );
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
-                        $('#msgOperacao').text(data.responseJSON.message).show();
+                        $('#msgOperacao').text(error.responseJSON.message).show();
                     }
                 });                
             });
@@ -276,6 +279,16 @@
             */
             $('#btnRefresh').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
                 $('#datatables').DataTable().ajax.reload(null, false);    
                 $('#alert').trigger('reset').hide();
             });        

@@ -371,7 +371,7 @@
 
             $('#cpf').inputmask('999.999.999-99');  // máscara para CPF
             $('#idt').inputmask('999999999-9');     // máscara para Idt  
-            $('#preccp').inputmask('999999999-99'); // máscara para Prec-CP
+            $('#preccp').inputmask('99999999-9'); // máscara para Prec-CP
 
             $('.upper').on('input', function() {
                 $(this).val($(this).val().toUpperCase());
@@ -381,9 +381,8 @@
             const userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
             $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') 
-                }
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                statusCode: { 401: function() { window.location.href = "/"; } }
             });
 
             /*
@@ -547,16 +546,18 @@
                         dataType: 'json',
                         success: function (data) {
                             $("#alert .alert-content").text('Excluiu o registro ID ' + id + ' com sucesso.');
-                            $('#alert').removeClass().addClass('alert alert-success').show();
+                            $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                             $('#confirmaExcluirModal').modal('hide');
                             $('#datatables-pessoas').DataTable().ajax.reload(null, false);
-                            setTimeout(function() { $('#alert').fadeOut('slow'); }, 2000);
                         },
-                        error: function (data) {
-                            if(data.responseJSON.message.indexOf("1451") != -1) {
+                        error: function (error) {
+                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                                window.location.href = "{{ url('/') }}";
+                            }
+                            if(error.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
-                                $('#msgOperacaoExcluir').text(data.responseJSON.message).show();
+                                $('#msgOperacaoExcluir').text(error.responseJSON.message).show();
                             }
                         }
                     });
@@ -677,6 +678,11 @@
                             }
                         });
                         $('.selectpicker').selectpicker('refresh');                        
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
 
@@ -794,6 +800,11 @@
                             }
                         });
                         $('.selectpicker').selectpicker('refresh');                        
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 }); 
 
@@ -869,12 +880,13 @@
 
                         if (data.foto) {
                             $('#imagem-exibida').attr('src', data.foto);
-                        }
-
-                        if (data.foto) {
                             var blob = new Blob([new Uint8Array(data.foto.data)], { type: 'image/jpeg' });
                             var url = URL.createObjectURL(blob);
                             $('#foto').attr('src', url);
+                            // Optional: Revoke URL after use if not needed anymore
+                            URL.revokeObjectURL(url);
+                        } else {
+                            $('#imagem-exibida').attr('src', '/vendor/adminlte/dist/img/avatar.png');
                         }
 
                         // se o Usuário for o dono do registro, ou '1-is_admin', ou '3-is_encpes', ou '5-is_sgtte' permite editar e Salvar
@@ -907,6 +919,11 @@
                             }
                         });
                         $('.selectpicker').selectpicker('refresh');  
+                    },
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                     }
                 });
             @endif
@@ -948,37 +965,35 @@
                     processData: false,
                     success: function (data) {
                         $("#alert .alert-content").text('Salvou registro ID ' + data.id + ' com sucesso.');
-                        $('#alert').removeClass().addClass('alert alert-success').show();
+                        $('#alert').removeClass().addClass('alert alert-success').show().delay(5000).fadeOut(1000);
                         $('#editarModal').modal('hide');
                         $('#datatables-pessoas').DataTable().ajax.reload(null, false);
-
-                        setTimeout(function() {
-                            $('#alert').fadeOut('slow');
-                        }, 2000);
-                        //window.location.href = "{{ url('pessoas') }}";
                     },
-                    error: function (data) {
+                    error: function (error) {
+                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                         // validator: vamos exibir todas as mensagens de erro do validador. como o dataType não é JSON, precisa do responseJSON
-                        $.each( data.responseJSON.errors, function( key, value ) {
+                        $.each( error.responseJSON.errors, function( key, value ) {
                             $("#error-" + key ).text(value).show(); //show all error messages
                         });
                         // exibe mensagem sobre sucesso da operação
-                        if (data.responseJSON.message.indexOf("1062") !== -1) {
+                        if (error.responseJSON.message.indexOf("1062") !== -1) {
                             let campoDuplicado = "Campo";
 
                             // Mapeia os nomes dos campos de erro conhecidos para mensagens mais amigáveis
-                            if (data.responseJSON.message.includes("pessoa_cpf_ukey")) {
+                            if (error.responseJSON.message.includes("pessoa_cpf_ukey")) {
                                 campoDuplicado = "CPF";
-                            } else if (data.responseJSON.message.includes("pessoa_idt_ukey")) {
+                            } else if (error.responseJSON.message.includes("pessoa_idt_ukey")) {
                                 campoDuplicado = "Identidade";
-                            } else if (data.responseJSON.message.includes("pessoa_nome_completo_ukey")) {
+                            } else if (error.responseJSON.message.includes("pessoa_nome_completo_ukey")) {
                                 campoDuplicado = "Nome Completo";
                             } 
 
                             $('#msgOperacaoEditar').text(`Impossível SALVAR! O ${campoDuplicado} digitado já existe.`).show();
-                        } else if (data.responseJSON.exception) {
-                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
-                            $('#msgOperacaoEditar').text(data.responseJSON.message).show();
+                        } else if (error.responseJSON.exception) {
+                            $('#msgOperacaoEditar').text(error.responseJSON.message).show();
+                            $('#msgOperacaoEditar').text(error.responseJSON.message).show();
                         }
                     }
                 });                
@@ -1004,6 +1019,16 @@
             */
             $('#btnNovo').on("click", function (e) {
                 e.stopImmediatePropagation();
+                $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
 
                 $('#formEntity').trigger('reset');              // clean de form data
                 $('#formEntityR').trigger('reset');             // clean de form data
@@ -1047,6 +1072,16 @@
         */
         $('#btnRefresh').on("click", function (e) {
             e.stopImmediatePropagation();
+            $.ajax({
+                    url: '/isAuthenticated',
+                    method: 'GET',
+                    success: function(response) {
+                        if (!response.authenticated) window.location.href = "{{ url('/') }}";
+                    },
+                    error: function(jqXHR) {
+                        if (jqXHR.status === 401) window.location.href = "{{ url('/') }}";
+                    }
+                });
             $('#datatables-pessoas').DataTable().ajax.reload(null, false);    
         });
 
