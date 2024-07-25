@@ -34,7 +34,7 @@ use App\Models\User;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
-Auth::logout();    
+// Auth::logout();    
 // Auth::loginUsingId(6);
 
 Route::group(['middleware' => 'check.time'], function () {
