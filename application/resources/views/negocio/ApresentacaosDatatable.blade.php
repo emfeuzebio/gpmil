@@ -237,9 +237,6 @@
                         <div class="form-group">
                             <label class="form-label">Selecione a opção de Publicação</label>
                             <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione a opção de Publicação">
-                                {{-- @foreach($boletins as $boletim)
-                                    <option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>
-                                @endforeach --}}
                             </select>
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
@@ -486,7 +483,7 @@
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            if (error.responseJSON === 401 || error.responseJSON.message || error.statusText === 'Unauthenticated') {
                                 window.location.href = "/";
                             }
 
@@ -528,9 +525,9 @@
 
                 if (apresentacao && apresentacao.apresentacao_id !== null) {
                     // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
-                    $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
+                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
                 }
-                $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
+                $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
 
                 // Adicionar os boletins
                 @foreach($boletins as $boletim)
@@ -549,10 +546,6 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
-                    if(! boletim_id) {
-                        alert('NECESSÁRIO selecionar uma opção de publicação.');
-                        return false;
-                    }
 
                     $.ajax({
                         type: "POST",
@@ -569,7 +562,7 @@
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                                 window.location.href = "{{ url('/') }}";
                             }
                             if(error.responseJSON.message.indexOf("1451") != -1) {
@@ -715,7 +708,7 @@
                         }
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message || error.statusText === 'Unauthenticated') {
                             window.location.href = "/";
                         }
                     }
@@ -935,9 +928,9 @@
                         }
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
-                            window.location.href = "/";
-                        }
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
+                                window.location.href = "{{ url('/') }}";
+                            }
                     }
                 });                
             });

@@ -174,9 +174,13 @@
                     {"data": "ativo", "name": "boletins.ativo", "class": "dt-center", "title": "Ativo",  
                         render: function (data) { return '<span class="' + ( data == 'SIM' ? 'text-primary' : 'text-danger') + '">' + data + '</span>';}
                     },
-                    {"data": "id", "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
-                        render: function (data, type) { 
-                            return '<button data-id="' + data + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button>\n<button data-id="' + data + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>'; 
+                    {"data": null, "botoes": "", "orderable": false, "class": "dt-center", "title": "Ações", 
+                        render: function (data, type, row) { 
+                            let buttons = '';
+                            if (data.id != 1 && data.descricao != 'Sem Boletim') {
+                                buttons += '<button data-id="' + data.id + '" class="btnEditar btn btn-primary btn-sm" data-toggle="tooltip" title="Editar o registro atual">Editar</button> <button data-id="' + data.id + '" class="btnExcluir btn btn-danger btn-sm" data-toggle="tooltip" title="Excluir o registro atual">Excluir</button>';
+                            }
+                            return buttons; 
                         }
                     },
                 ]
@@ -214,7 +218,7 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                                 window.location.href = "{{ url('/') }}";
                             }
                             if(error.responseJSON.message.indexOf("1451") != -1) {
