@@ -17,11 +17,30 @@ class CheckTime
     public function handle(Request $request, Closure $next): Response
     {
         // $now = Carbon::now();
-        // $closingTime = Carbon::createFromTime(8, 0, 0); // Horário de fechamento (17:00)
+        $now = Carbon::now();
+        $dayOfWeek = $now->dayOfWeek;
 
-        // if ($now->greaterThanOrEqualTo($closingTime)) {
-        //     // return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
-        // }
+        // Horários de funcionamento
+        $weekdaysStart = Carbon::createFromTime(9, 0, 0);
+        $weekdaysEnd = Carbon::createFromTime(17, 0, 0);
+        $fridayStart = Carbon::createFromTime(8, 0, 0);
+        $fridayEnd = Carbon::createFromTime(12, 0, 0);
+
+        // Verificar se é fim de semana
+        if ($dayOfWeek == Carbon::SATURDAY || $dayOfWeek == Carbon::SUNDAY) {
+            return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
+        }
+
+        // Verificar se é sexta-feira
+        if ($dayOfWeek == Carbon::FRIDAY) {
+            if ($now->lt($fridayStart) || $now->gt($fridayEnd)) {
+                return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
+            }
+        } else { // Segunda a quinta
+            if ($now->lt($weekdaysStart) || $now->gt($weekdaysEnd)) {
+                return response()->view('errors.closed', [], 403); // Página de erro ou manutenção
+            }
+        }
 
         return $next($request);
     }

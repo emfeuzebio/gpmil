@@ -48,6 +48,61 @@
                         </div>
                     </div>
                 </div>
+                <div class="card-header">
+                    <!--área de Filtros-->
+                    <div class="row">
+                    {{-- <div class="row justify-content-between"> --}}
+                        <!-- <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12" style="padding: 0px; background-color: transparent;"> -->
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Descrição</label>
+                                <select id="filtro_descricao" name="filtro_descricao" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                    <option value=""> Todas os Boletins </option>
+                                    @foreach( $boletins as $boletim )
+                                    <option value="{{$boletim->descricao}}">{{$boletim->descricao}}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Mês</label>
+                                <select id="filtro_mes" name="filtro_mes" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione o mês para filtrar">
+                                    <option value=""> Todos os Meses </option>
+                                    <option value="01">Janeiro</option>
+                                    <option value="02">Fevereiro</option>
+                                    <option value="03">Março</option>
+                                    <option value="04">Abril</option>
+                                    <option value="05">Maio</option>
+                                    <option value="06">Junho</option>
+                                    <option value="07">Julho</option>
+                                    <option value="08">Agosto</option>
+                                    <option value="09">Setembro</option>
+                                    <option value="10">Outubro</option>
+                                    <option value="11">Novembro</option>
+                                    <option value="12">Dezembro</option>
+                                </select>
+                            </div>
+                            
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Ano</label>
+                                <select id="filtro_ano" name="filtro_ano" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione o ano para filtrar">
+                                    <option value=""> Todos os Anos </option>
+                                    <option value="2022">2022</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <!-- Adicione mais opções de anos conforme necessário -->
+                                </select>
+                            </div>                            
+                            
+                            <div class="col-md-3 form-group" style="margin-bottom: 0px;">
+                                <label class="form-label">Filtro por Ativo</label>
+                                <select id="filtro_ativo" name="filtro_ativo" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
+                                <option value="">Ativos ou Não</option>
+                                <option value="SIM">SIM</option>
+                                <option value="NÃO">NÃO</option>
+                                </select>
+                            </div>
+                        <!-- </div> -->
+                    </div>
+                </div>
 
                 <div class="card-body">
                     <!-- compact | stripe | order-column | hover | cell-border | row-border | table-dark-->
@@ -158,7 +213,7 @@
             */
             $('#datatables').DataTable({
                 processing: true,
-                serverSide: true,
+                serverSide: false,
                 responsive: true,
                 autoWidth: true,
                 order: [ 2, 'asc' ],
@@ -185,6 +240,36 @@
                     },
                 ]
             });
+
+            $('#filtro_descricao').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().column('1').search( $(this).val() ).draw();
+            });
+
+            $.fn.dataTable.ext.search.push(
+                function(settings, data, dataIndex) {
+                    var mes = $('#filtro_mes').val();
+                    var ano = $('#filtro_ano').val();
+                    var dataTabela = data[2]; // A coluna com a data no formato dd/mm/yyyy
+
+                    if ((mes === "" || dataTabela.includes('/' + mes + '/')) &&
+                        (ano === "" || dataTabela.includes('/' + ano))) {
+                        return true;
+                    }
+                    return false;
+                }
+            );
+
+            $('#filtro_mes, #filtro_ano').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().draw();
+            });
+
+            // Filtro - Ao mudar o Motivo em filtro_destino, aplica filtro pela coluna 1
+            $('#filtro_ativo').on("change", function (e) {
+                e.stopImmediatePropagation();
+                $('#datatables').DataTable().column('3').search( $(this).val() ).draw();
+            });    
 
             function getAtivoValue() {
                 return $('#ativo:checked').val() ? 'SIM': 'NÃO';
