@@ -1,3 +1,23 @@
+#   1. Instalando a Aplicação
+    1.1 Entre na pasta de seus projetos em seu computador local
+    1.2 Clone o repositório do projeto: git clone git@github.com:emfeuzebio/gpmil.git
+    1.3 Acessar a pasta do projeto via terminal
+    1.4 Abrir o VSCode via terminal: code .
+
+#   2. Configurando a Aplicação
+##  2.1 Configuração do ENV
+### 2.1.1 Banco de Dados
+    2.1.1.1 MySQL        
+    2.1.1.1 MySQL            
+
+#   3. Configurando a Aplicação
+##  3.1 Configuração do ENV
+### 3.1.1 Banco de Dados
+    3.1.1.1 MySQL        
+    3.1.1.1 MySQL     
+
+
+
 ### Instalando o Laravel mais atual
 
 ## Preparação
