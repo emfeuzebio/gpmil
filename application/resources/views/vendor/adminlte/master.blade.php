@@ -29,22 +29,33 @@
         <link rel="stylesheet" href="{{ asset('vendor/adminlte/dist/css/adminlte.min.css') }}">
 
         <!-- Implementa DataTables -->
-        <link href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css" rel="stylesheet" >
-        <link href="https://cdn.datatables.net/2.0.3/css/dataTables.bootstrap4.min.css" rel="stylesheet">
-        <link href="https://cdn.datatables.net/buttons/3.0.1/css/buttons.bootstrap4.min.css" rel="stylesheet">
-
+        <link href="{{ asset('vendor/css/app.css') }} " rel="stylesheet" >
+        {{-- <link href="{{ asset('vendor/css/jquery.dataTables.min.css') }} " rel="stylesheet" >
+        <link href="{{ asset('vendor/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendor/css/buttons.dataTables.min.css') }}" rel="stylesheet">
+        <link href="{{ asset('vendor/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
+        
         <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
-
-        <link href="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/css/bootstrap4-toggle.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ asset('vendor/css/bootstrap-select.min.css') }}">
+        
+        <link href="{{ asset('vendor/css/bootstrap4-toggle.min.css') }}" rel="stylesheet"> --}}
 
 
         <!-- JS -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-        @if(config('adminlte.google_fonts.allowed', true))
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <script src="{{ asset('vendor/js/jquery-3.7.1.min.js') }}" ></script>
+        @if(config('adminlte.plugins.Datatables.active'))
+            @foreach(config('adminlte.plugins.Datatables.files') as $file)
+                @if($file['type'] == 'css' && $file['asset'])
+                    <link rel="stylesheet" href="{{ asset($file['location']) }}">
+                @elseif($file['type'] == 'css')
+                    <link rel="stylesheet" href="{{ $file['location'] }}">
+                @endif
+            @endforeach
         @endif
+
+        {{-- @if(config('adminlte.google_fonts.allowed', true))
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        @endif --}}
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
     @endif
@@ -108,7 +119,7 @@
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
-
+@section('plugins.Datatables', true)
     {{-- Body Content --}}
     @yield('body')
 
@@ -118,34 +129,6 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-
-        <!-- EUZ DataTables Buttons  -->
-        <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
-
-        <!-- EUZ DataTables Buttons - https://cdn.datatables.net/ -->
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.2.7/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/2.0.3/js/dataTables.min.js"></script>
-        <script src="https://cdn.datatables.net/2.0.3/js/dataTables.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.1/js/dataTables.buttons.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.bootstrap4.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.colVis.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.html5.min.js"></script>
-        <script src="https://cdn.datatables.net/buttons/3.0.1/js/buttons.print.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.inputmask/5.0.6/jquery.inputmask.min.js"></script>
-        <script src="https://cdn.datatables.net/responsive/3.0.2/js/dataTables.responsive.js"></script>
-        <script src="https://cdn.datatables.net/responsive/3.0.2/js/responsive.dataTables.js"></script>
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/js/bootstrap-select.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/gh/gitbrent/bootstrap4-toggle@3.6.1/js/bootstrap4-toggle.min.js"></script>
-        <script src="https://kit.fontawesome.com/ee8c259d94.js" crossorigin="anonymous"></script>
-        
-        <link rel="stylesheet" href="https://cdn.datatables.net/buttons/2.2.3/css/buttons.dataTables.min.css">
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
-        <script src="https://cdn.datatables.net/buttons/2.2.3/js/buttons.html5.min.js"></script>
 
 
     <!-- EUZ javascript com configurações iniciais -->

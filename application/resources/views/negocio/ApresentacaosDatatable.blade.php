@@ -223,6 +223,7 @@
     </div>
 
     <!-- Modal Homologar Registro -->
+    <!-- Modal Homologar Registro -->
     <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -232,14 +233,17 @@
                 </div>
                 <div class="modal-body">
                     <p></p>
-                    <form id="formHomologar" name="formHomologar"  action="javascript:void(0)" class="form-horizontal" method="post">
+                    <form id="formHomologar" name="formHomologar" action="javascript:void(0)" class="form-horizontal" method="post">
 
                         <div class="form-group">
-                            <label class="form-label">Selecione a opção de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione a opção de Publicação">
-                                {{-- @foreach($boletins as $boletim)
-                                    <option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>
-                                @endforeach --}}
+                            <label class="form-label">Selecione o Ano do Boletim</label>
+                            <select name="ano_boletim" id="ano_boletim" class="form-control selectpicker" data-style="form-control" title="Selecione o Ano do Boletim">
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="form-label">Selecione o Boletim</label>
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione o Boletim">
                             </select>
                             <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
                         </div>
@@ -253,7 +257,36 @@
                 </div>
             </div>
         </div>
-    </div>   
+    </div>
+
+    {{-- <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
+        <div class="modal-dialog modal-md">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Publicar Apresentação</h4>
+                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');" aria-label="Cancelar">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <p></p>
+                    <form id="formHomologar" name="formHomologar"  action="javascript:void(0)" class="form-horizontal" method="post">
+
+                        <div class="form-group">
+                            <label class="form-label">Selecione a opção de Publicação</label>
+                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione a opção de Publicação">
+                            </select>
+                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
+                        </div>
+
+                    </form>                      
+
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');">Cancelar</button>
+                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Publicar a Apresentação atual (Alt+S)">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>    --}}
 
     <!-- modal excluir registro -->
     <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
@@ -486,7 +519,7 @@
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            if (error.responseJSON === 401 || error.responseJSON.message || error.statusText === 'Unauthenticated') {
                                 window.location.href = "/";
                             }
 
@@ -514,6 +547,25 @@
             /*
             * Homologar button action
             */
+            // Função para extrair o ano da data no formato yyyy-mm-dd
+            function obterAno(data) {
+                return new Date(data).getFullYear();
+            }
+
+            // Lista para armazenar os anos disponíveis
+            var anosDisponiveis = [];
+
+            // Preencher a lista de anos disponíveis
+            @foreach($boletins as $boletim)
+                @php
+                    $ano = \Carbon\Carbon::parse($boletim->data)->format('Y');
+                @endphp
+                anosDisponiveis.push({{ $ano }});
+            @endforeach
+
+            // Remover duplicatas da lista de anos
+            anosDisponiveis = [...new Set(anosDisponiveis)];
+
             $("#datatables-apresentacao tbody").delegate('tr td .btnHomologar', 'click', function (e) {
                 e.stopImmediatePropagation();            
 
@@ -523,21 +575,43 @@
                     return apresentacao.id == id;
                 });
 
-                // Limpa o select antes de adicionar opções
+                // Limpa os selects antes de adicionar opções
+                $('#ano_boletim').empty();
                 $('#boletim_id').empty();
 
-                if (apresentacao && apresentacao.apresentacao_id !== null) {
-                    // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
-                    $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
-                }
-                $('#boletim_id').append('<option value="null"> Cancelar a Publicação </option>');
-
-                // Adicionar os boletins
-                @foreach($boletins as $boletim)
-                    $('#boletim_id').append('<option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ $boletim->data }}</option>');
-                @endforeach
+                // Adiciona opções de anos
+                anosDisponiveis.forEach(function(ano) {
+                    $('#ano_boletim').append('<option value="' + ano + '">' + ano + '</option>');
+                });
 
                 // Atualiza o selectpicker para refletir as mudanças
+                $('#ano_boletim').selectpicker('refresh');
+
+                // Adiciona o evento de mudança para o select de ano
+                $('#ano_boletim').on('change', function() {
+                    var anoSelecionado = $(this).val();
+                    
+                    // Filtra os boletins com base no ano selecionado
+                    $('#boletim_id').empty();
+                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
+                    
+                    @foreach($boletins as $boletim)
+                        @php
+                            $ano = \Carbon\Carbon::parse($boletim->data)->format('Y');
+                        @endphp
+                        if ('{{$ano}}' == anoSelecionado) {
+                            $('#boletim_id').append('<option value="{{ $boletim->id }}">{{ $boletim->descricao }}, de {{ \Carbon\Carbon::parse($boletim->data)->format('d/m/Y') }}</option>');
+                        }
+                    @endforeach
+                    
+                    // Atualiza o selectpicker para refletir as mudanças
+                    $('#boletim_id').selectpicker('refresh');
+                });
+
+                // Adiciona a opção "Cancelar a Publicação" se a apresentação tiver apresentacao_id nulo
+                if (apresentacao && apresentacao.apresentacao_id !== null) {
+                    $('#boletim_id').append('<option value=""> Cancelar a Publicação </option>');
+                }
                 $('#boletim_id').selectpicker('refresh');
 
                 //abre Form Modal Bootstrap e pede confirmação da Exclusão do Registro
@@ -549,10 +623,6 @@
                     e.stopImmediatePropagation();
 
                     let boletim_id = $("#boletim_id").val();
-                    if(! boletim_id) {
-                        alert('NECESSÁRIO selecionar uma opção de publicação.');
-                        return false;
-                    }
 
                     $.ajax({
                         type: "POST",
@@ -569,7 +639,7 @@
                             $('#datatables-apresentacao').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                            if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
                                 window.location.href = "{{ url('/') }}";
                             }
                             if(error.responseJSON.message.indexOf("1451") != -1) {
@@ -580,7 +650,6 @@
                         }
                     });
                 });                     
-                
             });
 
 
@@ -715,7 +784,7 @@
                         }
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
+                        if (error.responseJSON === 401 || error.responseJSON.message || error.statusText === 'Unauthenticated') {
                             window.location.href = "/";
                         }
                     }
@@ -935,9 +1004,9 @@
                         }
                     },
                     error: function (error) {
-                        if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
-                            window.location.href = "/";
-                        }
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
+                                window.location.href = "{{ url('/') }}";
+                            }
                     }
                 });                
             });

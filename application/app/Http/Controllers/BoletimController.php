@@ -29,7 +29,8 @@ class BoletimController extends Controller
                 ->editColumn('data', function ($param) { return date("d/m/Y", strtotime($param->data)); })
                 ->make(true);        
         }
-        return view('admin/BoletimDatatable');
+        $boletins = Boletim::where('ativo','=','SIM')->orderBy('id')->get();
+        return view('admin/BoletimDatatable', ['boletins' => $boletins]);
     }
 
     public function edit(Request $request)

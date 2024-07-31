@@ -214,9 +214,9 @@
                             $('#datatables').DataTable().ajax.reload(null, false);
                         },
                         error: function (error) {
-                            if (error.responseJSON || error.responseJSON.message || error.statusText === 'Unauthenticated') {
-                                window.location.href = "{{ url('/') }}";
-                            }
+                        if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
+                            window.location.href = "{{ url('/') }}";
+                        }
                             if(error.responseJSON.message.indexOf("1451") != -1) {
                                 $('#msgOperacaoExcluir').text('Impossível EXCLUIR porque há registros relacionados. (SQL-1451)').show();
                             } else {
