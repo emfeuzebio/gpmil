@@ -42,11 +42,20 @@
 
 
         <!-- JS -->
-        <script src="https://code.jquery.com/jquery-3.7.1.min.js" integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo=" crossorigin="anonymous"></script>
-
-        @if(config('adminlte.google_fonts.allowed', true))
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        <script src="{{ asset('vendor/js/jquery-3.7.1.min.js') }}" ></script>
+        @if(config('adminlte.plugins.Datatables.active'))
+            @foreach(config('adminlte.plugins.Datatables.files') as $file)
+                @if($file['type'] == 'css' && $file['asset'])
+                    <link rel="stylesheet" href="{{ asset($file['location']) }}">
+                @elseif($file['type'] == 'css')
+                    <link rel="stylesheet" href="{{ $file['location'] }}">
+                @endif
+            @endforeach
         @endif
+
+        {{-- @if(config('adminlte.google_fonts.allowed', true))
+            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
+        @endif --}}
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
     @endif
@@ -110,7 +119,7 @@
 </head>
 
 <body class="@yield('classes_body')" @yield('body_data')>
-
+@section('plugins.Datatables', true)
     {{-- Body Content --}}
     @yield('body')
 
@@ -120,30 +129,6 @@
         <script src="{{ asset('vendor/bootstrap/js/bootstrap.bundle.min.js') }}"></script>
         <script src="{{ asset('vendor/overlayScrollbars/js/jquery.overlayScrollbars.min.js') }}"></script>
         <script src="{{ asset('vendor/adminlte/dist/js/adminlte.min.js') }}"></script>
-
-        <!-- EUZ DataTables Buttons  -->
-        <script src="{{ asset('vendor/js/dataTables.min.js') }}"></script>
-
-        <!-- EUZ DataTables Buttons - https://cdn.datatables.net/ -->
-        <script src="{{ asset('vendor/js/jszip.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/dataTables.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/dataTables.buttons.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/buttons.bootstrap4.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/buttons.colVis.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/buttons.html5.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/buttons.print.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/jquery.inputmask.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/dataTables.responsive.js') }}"></script>
-        <script src="{{ asset('vendor/js/responsive.dataTables.js') }}"></script>
-
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="{{ asset('vendor/js/bootstrap-select.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/bootstrap4-toggle.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/fontawesome.js') }}" crossorigin="anonymous"></script>
-
-        <script src="{{ asset('vendor/js/pdfmake.min.js') }}"></script>
-        <script src="{{ asset('vendor/js/vfs_fonts.js') }}"></script>
-        <script src="{{ asset('vendor/js/buttons2.html5.min.js') }}"></script>
 
 
     <!-- EUZ javascript com configurações iniciais -->
