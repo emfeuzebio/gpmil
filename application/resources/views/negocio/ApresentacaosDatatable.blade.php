@@ -154,7 +154,7 @@
                                 <div class="col-md-6">
                                     <div class="form-group">
                                         <label class="form-label">Data Inicial</label>
-                                        <input class="form-control" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
+                                        <input class="form-control editable" value="" type="date" id="dt_inicial" name="dt_inicial" maxlength="10" data-toggle="tooltip" title="Informe a Data Inicial">
                                         <div id="error-dt_inicial" class="error invalid-feedback" style="display: none;"></div>
                                     </div>
                                 </div>
@@ -175,19 +175,19 @@
 
                             <div class="form-group">
                                 <label class="form-label">Local de Destino</label>
-                                <input class="form-control" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
+                                <input class="form-control editable" value="" type="text" id="local_destino" name="local_destino" placeholder="Ex.: Salvador-BA" data-toggle="tooltip" title="Informe o Local de Destino">
                                 <div id="error-local_destino" class="error invalid-feedback" style="display: none;"></div>
                             </div>    
 
                             <div class="form-group">
                                 <label class="form-label">Fone para Contato</label>
-                                <input class="form-control" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
+                                <input class="form-control editable" value="" type="text" id="celular" name="celular" placeholder="Ex.: (61) 90000-0000" data-toggle="tooltip" title="Informe um celular para contato">
                                 <div id="error-celular" class="error invalid-feedback" style="display: none;"></div>
                             </div>                          
                             
                             <div class="form-group">
                                 <label class="form-label">Observação</label>                    
-                                <input class="form-control" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
+                                <input class="form-control editable" value="" type="text" id="observacao" name="observacao" placeholder="Ex.: visita à família" data-toggle="tooltip" title="Informe alguma observação pertinente">
                                 <div id="error-observacao" class="invalid-feedback" style="display: none;"></div>
                             </div>
 
@@ -223,7 +223,6 @@
     </div>
 
     <!-- Modal Homologar Registro -->
-    <!-- Modal Homologar Registro -->
     <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
         <div class="modal-dialog modal-md">
             <div class="modal-content">
@@ -258,35 +257,6 @@
             </div>
         </div>
     </div>
-
-    {{-- <div class="modal fade" id="confirmahomologarModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
-        <div class="modal-dialog modal-md">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">Publicar Apresentação</h4>
-                    <button type="button" class="close" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');" aria-label="Cancelar">&times;</button>
-                </div>
-                <div class="modal-body">
-                    <p></p>
-                    <form id="formHomologar" name="formHomologar"  action="javascript:void(0)" class="form-horizontal" method="post">
-
-                        <div class="form-group">
-                            <label class="form-label">Selecione a opção de Publicação</label>
-                            <select name="boletim_id" id="boletim_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" title="Selecione a opção de Publicação">
-                            </select>
-                            <div id="error-sigla" class="error invalid-feedback" style="display: none;"></div>
-                        </div>
-
-                    </form>                      
-
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" data-toggle="tooltip" title="Cancelar a operação (Esc ou Alt+C)" onClick="$('#confirmahomologarModal').modal('hide');">Cancelar</button>
-                    <button type="button" class="btn btn-primary" id="btnHomologar" data-toggle="tooltip" title="Publicar a Apresentação atual (Alt+S)">Salvar</button>
-                </div>
-            </div>
-        </div>
-    </div>    --}}
 
     <!-- modal excluir registro -->
     <div class="modal fade" id="confirmaExcluirModal" tabindex="-1" aria-hidden="true" data-backdrop="static">
@@ -692,6 +662,14 @@
                         $('#dadosForm').show();
                         $('#btnSave').show();
 
+                        if (data.apresentacao_id == null) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('#btnSave').hide();
+                        }
+
                         ajustaRangeDatas();
                         $('#dt_inicial').on('change', function() {
                             var dtApres = $('#dt_apres').val();
@@ -750,7 +728,7 @@
                             $('#destino_id').selectpicker('val', data.destino_id);
                             $('#destino_input').val(data.destino_id);
                             $('#boletim_id').val(data.boletim_id);
-                            $('#dt_inicial').val(data.dt_inicial);
+                            $('#dt_inicial').val(data.dt_inicial).attr('readonly', false);
                             $('#dt_final').val(data.dt_final).attr('readonly', true);
                             $('#dt_apres').val(today);
                             $('#local_destino').val(data.local_destino);
@@ -760,6 +738,14 @@
 
                             $('#dadosForm').show();
                             $('#btnSave').show();
+
+                            if (data.apresentacao_id == null) {
+                                $('.editable').prop('disabled', false);
+                                $('#btnSave').show();
+                            } else {
+                                $('.editable').prop('disabled', true);
+                                $('#btnSave').hide();
+                            }
                             calculaDias();
                             ajustaRangeDatas();
                             $('#dt_inicial').on('change', function() {
@@ -939,7 +925,7 @@
                 $('#editarModal :input').not('#id').not('#dt_apres').prop('disabled', false).prop('readonly', false);
 
                 $('#dt_apres').val(today);     
-                $('#dt_inicial').val('');
+                $('#dt_inicial').val('').attr('readonly', false);
                 $('#dt_final').val('').attr('readonly', true);
                 $('#destino_id').selectpicker('val','');        
                 $('#destino_input').val('').prop('disabled', true);
@@ -982,6 +968,7 @@
                     async: false,
                     cache: false,                        
                     success: function (data) {
+                        console.log(data.codigo);
                         if (data.codigo === 1) {
                             // caso 1/3 - Apresentação Ini sem publicação - Aberta sem publicação
                             updateUI(false, false, 'alert-danger', data.mensagem);
