@@ -968,7 +968,6 @@
                     async: false,
                     cache: false,                        
                     success: function (data) {
-                        console.log(data.codigo);
                         if (data.codigo === 1) {
                             // caso 1/3 - Apresentação Ini sem publicação - Aberta sem publicação
                             updateUI(false, false, 'alert-danger', data.mensagem);
