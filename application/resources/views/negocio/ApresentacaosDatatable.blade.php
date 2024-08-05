@@ -745,10 +745,10 @@
                                 $('#btnSave').show();
                             } else {
                                 $('.editable').prop('disabled', true);
-                                $('.editable').selectpicker('refresh');
+                                $('.selectpicker').attr('disabled', true);
+                                $('.selectpicker').attr('disabled', true);
                                 $('#btnSave').hide();
                             }
-                            
                             calculaDias();
                             ajustaRangeDatas();
                             $('#dt_inicial').on('change', function() {
