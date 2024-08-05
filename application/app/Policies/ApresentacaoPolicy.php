@@ -28,7 +28,7 @@ class ApresentacaoPolicy
     public function PodeInserirApresentacao(User $user) {
 
         $user = User::with('pessoa')->find($user->id);
-        return in_array($user->pessoa->nivelacesso_id,[1,3,5,6]);
+        return in_array($user->pessoa->nivelacesso_id,[1,3,4,5,6]);
     }
 
     public function show() {

@@ -192,7 +192,7 @@
           <div class="col-12">
             <div class="card">
               <div class="card-header">
-                <h3 class="card-title">Minhas Apresentações</h3>
+                <h3 class="card-title"><strong>Minhas Apresentações</strong></h3>
               </div>
               <!-- /.card-header -->
               <div class="card-body table-responsive p-0">
@@ -244,7 +244,7 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title">Aniversariantes da Semana</h3>
+                    <h3 class="card-title"><strong>Aniversariantes da Semana</strong></h3>
                 </div>
                 <div class="card-body">
                     @if ($aniversariantes->isEmpty())

@@ -3,7 +3,7 @@
         <div class="row">
             <!-- Contact Information -->
             <div class="col-md-6">
-                <h5><strong class="text-secondary">DCEM - Diretoria de Controle de Efetivos e Movimentações</strong></h5>
+                <h5><strong class="text-muted">DCEM - Diretoria de Controle de Efetivos e Movimentações</strong></h5>
                 <address>
                     Avenida do Exército, QGEx - Bloco D, 3º Piso, SMU Brasília DF, 70630-901
                 </address>
@@ -11,9 +11,9 @@
             <!-- Useful Links -->
             <div class="col-md-6">
                 <p>
-                    <strong class="text-secondary">Acessoria de Tecnologia da Informação</strong><br>
+                    <strong class="text-muted">Acessoria de Tecnologia da Informação</strong><br>
                     Sub-Acessoria de Desenvolvimento de Sistemas<br>
-                    Caso haja alguma dúvida ou sugestão em relação ao sistema, entre em contato pelo ramal <strong class="text-secondary">5811</strong>
+                    Caso haja alguma dúvida ou sugestão em relação ao sistema, entre em contato pelo ramal <strong class="text-muted">5811</strong>
                      {{-- <a href="mailto:dcem@dcem.eb.mil.br">dcem@dcem.eb.mil.br</a> --}}
                 </p>
             </div>
@@ -21,7 +21,7 @@
         <hr>
         <div class="row">
             <div class="col-md-6">
-                <h5><strong class="text-secondary">Links Úteis</strong></h5>
+                <h5><strong class="text-muted">Links Úteis</strong></h5>
                 <ul class="list-unstyled">
                     <li><a href="https://intranet.dcem.eb.mil.br/" target="_blank" class="text-muted">Nossa página na EB Net</a></li>
                     <li><a href="https://www.dcem.eb.mil.br/" target="_blank" class="text-muted">Nossa página na internet</a></li>
@@ -32,7 +32,7 @@
                 </ul>
             </div>
             <div class="col-md-">
-                <p><strong class="text-secondary">Gestão de Pessoal Militar</strong><br>
+                <p><strong class="text-muted">Gestão de Pessoal Militar</strong><br>
                 © 2024 DCEM. Todos os direitos reservados.</p>
                 <p>Desenvolvido por <strong><a href="mailto:emfeuzebio72@gmail.com" class="text-muted">Cap Euzébio</a></strong> e <strong><a href="mailto:lucas9360@gmail.com" class="text-muted">Cb Lopes</a></strong></p>
             </div>
