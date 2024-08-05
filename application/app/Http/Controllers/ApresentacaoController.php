@@ -126,9 +126,9 @@ class ApresentacaoController extends Controller
     {
         $actions = '';
         $btnEditar  = '<button class="btnEditar  btn btn-primary btn-xs" data-toggle="tooltip" title="Editar este registro">Editar</button> ';
+        $btnVer     = '<button class="btnEditar  btn btn-info    btn-xs btn-sm mr-1" data-toggle="tooltip" title="Ver os detalhes deste registro">Ver</button>';
         $btnExcluir = '<button class="btnExcluir btn btn-danger  btn-xs" data-toggle="tooltip" title="Excluir este registro">Excluir</button> ';
         $btnHomolg  = '<button class="btnHomologar  btn btn-info btn-xs" data-toggle="tooltip" title="Publicar este registro">Publi</button> ';
-
         // btn Homologar disponível apenas ao Admin ou Enc Pes e Apresentação por 1-Afastamento da Sede  não requer publicação
         if(in_array($this->userNivelAcessoID,[1,3,]) AND $row->destino_id != 1) {
             $actions = $btnHomolg;
@@ -139,7 +139,12 @@ class ApresentacaoController extends Controller
 
             // btn Editar e Excluir disponível apenas se ainda não Homologado
             if($row->publicado == 'NÃO') {
-                $actions .= $btnEditar . $btnExcluir;
+                if (!empty($row->apresentacao_id)) {
+                    $actions .= $btnVer . $btnExcluir;
+                } else {
+                    $actions .= $btnEditar . $btnExcluir;
+                }
+                
             }
         }
         return $actions;

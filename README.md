@@ -1,8 +1,8 @@
-### Instalando o Laravel mais atual
+# Instalando o Laravel mais atual
 
 ## Preparação
-# remova a pasta public da pasta application
-# entre na pasta application
+### remova a pasta public da pasta application
+### entre na pasta application
 
 # inslale a versão mais atual do Laravel com o comando abaixo
 composer create-project --prefer-dist laravel/laravel:^10.0 application

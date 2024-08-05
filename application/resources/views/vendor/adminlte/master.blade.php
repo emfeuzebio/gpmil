@@ -30,16 +30,6 @@
 
         <!-- Implementa DataTables -->
         <link href="{{ asset('vendor/css/app.css') }} " rel="stylesheet" >
-        {{-- <link href="{{ asset('vendor/css/jquery.dataTables.min.css') }} " rel="stylesheet" >
-        <link href="{{ asset('vendor/css/dataTables.bootstrap4.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('vendor/css/buttons.dataTables.min.css') }}" rel="stylesheet">
-        <link href="{{ asset('vendor/css/buttons.bootstrap4.min.css') }}" rel="stylesheet">
-        
-        <!-- Latest compiled and minified CSS -->
-        <link rel="stylesheet" href="{{ asset('vendor/css/bootstrap-select.min.css') }}">
-        
-        <link href="{{ asset('vendor/css/bootstrap4-toggle.min.css') }}" rel="stylesheet"> --}}
-
 
         <!-- JS -->
         <script src="{{ asset('vendor/js/jquery-3.7.1.min.js') }}" ></script>
@@ -53,9 +43,6 @@
             @endforeach
         @endif
 
-        {{-- @if(config('adminlte.google_fonts.allowed', true))
-            <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,700,300italic,400italic,600italic">
-        @endif --}}
     @else
         <link rel="stylesheet" href="{{ mix(config('adminlte.laravel_mix_css_path', 'css/app.css')) }}">
     @endif
