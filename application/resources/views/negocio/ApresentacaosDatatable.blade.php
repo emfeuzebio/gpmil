@@ -117,7 +117,7 @@
 
                         <div class="form-group">
                             <label class="form-label"><span style="color:red">Selecione a Pessoa</span></label>
-                            <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
+                            <select name="pessoa_id" id="pessoa_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe a Pessoa que esta se Apresentando">
                                 <option value=""> Selecione a Pessoa </option>
                                 @foreach( $pessoas as $pessoa )
                                 <option value="{{$pessoa->id}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
@@ -135,7 +135,7 @@
                         <div id="dadosForm" style="display: none">
                             <div class="form-group">
                                 <label class="form-label">Motivo</label>
-                                <select name="destino_id" id="destino_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
+                                <select name="destino_id" id="destino_id" class="form-control selectpicker editable" data-style="form-control" data-live-search="true" data-toggle="tooltip" title="Informe o Motivo da Apresentação">
                                     @foreach( $destinos as $destino )
                                     <option value="{{$destino->id}}">{{$destino->descricao}}</option>
                                     @endforeach
@@ -692,6 +692,15 @@
                         $('#dadosForm').show();
                         $('#btnSave').show();
 
+                        if (data.apresentacao_id == null) {
+                            $('.editable').prop('disabled', false);
+                            $('#btnSave').show();
+                        } else {
+                            $('.editable').prop('disabled', true);
+                            $('.editable').selectpicker('refresh');
+                            $('#btnSave').hide();
+                        }
+
                         ajustaRangeDatas();
                         $('#dt_inicial').on('change', function() {
                             var dtApres = $('#dt_apres').val();
@@ -760,6 +769,16 @@
 
                             $('#dadosForm').show();
                             $('#btnSave').show();
+
+                            if (data.apresentacao_id == null) {
+                                $('.editable').prop('disabled', false);
+                                $('#btnSave').show();
+                            } else {
+                                $('.editable').prop('disabled', true);
+                                $('.selectpicker').attr('disabled', true);
+                                $('.selectpicker').attr('disabled', true);
+                                $('#btnSave').hide();
+                            }
                             calculaDias();
                             ajustaRangeDatas();
                             $('#dt_inicial').on('change', function() {

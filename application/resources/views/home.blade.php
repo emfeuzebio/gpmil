@@ -262,5 +262,9 @@
     </div>
 
     </section>
+<br>    
+@stop
 
+@section('footer')
+  @include('adminlte::partials.footer.footer')
 @stop
