@@ -33,6 +33,7 @@
 
         <!-- JS -->
         <script src="{{ asset('vendor/js/jquery-3.7.1.min.js') }}" ></script>
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @if(config('adminlte.plugins.Datatables.active'))
             @foreach(config('adminlte.plugins.Datatables.files') as $file)
                 @if($file['type'] == 'css' && $file['asset'])
@@ -88,17 +89,32 @@
     <style>
         /*  Classe customizada para exibir o Efetivo na home  */
         .custom-col {
-          flex: 0 0 19%;
-          max-width: 19%;
-          margin-right: 1%;
-          position: relative;
-          width: 100%;
-          padding-right: 7.5px;
-          padding-left: 7.5px;
+            flex: 0 0 19%;
+            max-width: 19%;
+            margin-right: 1%;
+            position: relative;
+            width: 100%;
+            padding-right: 7.5px;
+            padding-left: 7.5px;
         }
       
         .custom-col:last-child {
-          margin-right: 0;
+            margin-right: 0;
+        }
+
+        .wrapper {
+            min-height: 100%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .content-wrapper {
+            flex: 1;
+        }
+
+        .footer {
+            padding: 20px;
+            display: block;
         }
       
       </style>

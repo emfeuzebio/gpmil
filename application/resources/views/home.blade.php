@@ -185,7 +185,27 @@
       </div>
       <!-- /.row -->
       @endcannot
-
+      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+        <!-- Gráficos -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <canvas id="sectionChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <canvas id="gradChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
+      
+      <!-- Fim dos Gráficos -->
       <!-- Show presentations if user is a common user -->
       {{-- @can('user') --}}
         <div class="row">
@@ -268,3 +288,58 @@
 @section('footer')
   @include('adminlte::partials.footer.footer')
 @stop
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gráfico por Seção
+    const sectionData = {
+      labels: @json($sectionLabels),
+      datasets: [{
+        label: 'Quantidade por Seção',
+        data: @json($sectionQuantities),
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    const sectionChartContext = document.getElementById('sectionChart').getContext('2d');
+    new Chart(sectionChartContext, {
+      type: 'bar',
+      data: sectionData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+
+    // Gráfico por Graduação
+    const gradData = {
+      labels: @json($gradLabels),
+      datasets: [{
+        label: 'Quantidade por P/Graduação',
+        data: @json($gradQuantities),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    const gradChartContext = document.getElementById('gradChart').getContext('2d');
+    new Chart(gradChartContext, {
+      type: 'bar',
+      data: gradData,
+      options: {
+        scales: {
+          y: {
+            beginAtZero: true
+          }
+        }
+      }
+    });
+  });
+</script>
