@@ -658,6 +658,11 @@ return [
                     'location' => 'vendor/js/buttons2.html5.min.js',
                 ],
                 [
+                    'type' => 'js',
+                    'asset' => true,
+                    'location' => 'vendor/js/chart.js',
+                ],
+                [
                     'type' => 'css',
                     'asset' => true,
                     'location' => 'vendor/css/dataTables.bootstrap4.min.css',

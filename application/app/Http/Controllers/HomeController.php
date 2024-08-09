@@ -157,6 +157,17 @@ class HomeController extends Controller
             ->sortBy(function($aniversariantes) {
                 return Carbon::createFromFormat('Y-m-d', $aniversariantes->dt_nascimento)->format('m-d');
             });
+
+        // Dados para gráficos
+        $sectionLabels = Secao::where('ativo', 'SIM')->pluck('sigla'); // Substitua com os dados reais
+        $sectionQuantities = Secao::where('ativo', 'SIM')->get()->map(function($secao) {
+            return Pessoa::where('secao_id', $secao->id)->count(); // Substitua com o cálculo real
+        });
+
+        $gradLabels = Pgrad::where('ativo', 'SIM')->pluck('sigla'); // Substitua com os dados reais
+        $gradQuantities = Pgrad::where('ativo', 'SIM')->get()->map(function($pgrad) {
+            return Pessoa::where('pgrad_id', $pgrad->id)->count(); // Substitua com o cálculo real
+        });
     
         return view('home', [
             'qtdPessoasProntas' => $qtdPessoasProntas, 
@@ -169,7 +180,11 @@ class HomeController extends Controller
             'apresentacoes' => $apresentacoes,
             'organizacao' => $organizacao,
             'secaos' => $secaos,
-            'aniversariantes' => $aniversariantes
+            'aniversariantes' => $aniversariantes,
+            'sectionLabels' => $sectionLabels,
+            'sectionQuantities' => $sectionQuantities,
+            'gradLabels' => $gradLabels,
+            'gradQuantities' => $gradQuantities
         ]);
     }
     

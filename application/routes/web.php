@@ -55,6 +55,10 @@ Route::group(['middleware' => 'check.time'], function () {
     Route::get('/auth/callback/dgpde', function () {
         $DGPUser = Socialite::driver('DGP')->user();
 
+        if($DGPUser->om_codom != '045575') {
+            return redirect('/')->withErrors(['msg' => 'Usuário não é ou ainda não está apresentado na DCEM']);
+        }
+
         // dd($DGPUser);
         DB::beginTransaction();
     
@@ -92,6 +96,16 @@ Route::group(['middleware' => 'check.time'], function () {
                     'pessoa_id' => $user->id 
                     // adicione outras colunas da tabela 'preferencias' conforme necessário
                 ]);
+            } else {
+                if($DGPUser->om_codom != '045575') {
+                    return redirect('/')->withErrors(['msg' => 'Usuário não é mais da DCEM']);
+                }
+
+                // Verifica o status ativo do usuário na tabela 'pessoas'
+                $pessoa = DB::table('pessoas')->where('id', $user->id)->first();
+                if ($pessoa->ativo === 'NÃO') {
+                    return redirect('/')->withErrors(['msg' => 'Usuário não está ativo']);
+                }
             }
 
             // Faz o login do usuário (existente ou recém-criado)
