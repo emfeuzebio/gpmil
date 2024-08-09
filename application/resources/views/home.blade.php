@@ -3,18 +3,26 @@
 
 @section('content_header')
     <!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
-    <div class="row mb-2">
-      <div class="m-0 text-dark col-sm-6">
+    <div class="row ">
+      <div class="col-sm-4 text-dark">
         <h1>GPmil <small>Version 2.0</small></h1>
           <ol class="breadcrumb">
             <li class="active">Gestão de Pessoal Militar</li>
           </ol>
       </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            </ol>
+      <div class="col-sm-8">
+        <div class="float-left">
+          @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+            <h1 class="text-dark">{{$organizacao->descricao}}!</h1> 
+            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
+          @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
+          <h1 class="text-dark">{{$secaos->descricao}}!</h1> 
+          @endif
         </div>
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        </ol>
+      </div>
     </div>
 
 @stop
@@ -99,21 +107,6 @@
     </div>
 
     <section class="content">
-
-      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
-        <div class="card">
-          <div class="card-body">
-            <p class="mb-0"><strong>{{$organizacao->descricao}}</strong>!</p> 
-            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
-          </div>
-        </div>
-      @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
-        <div class="card">
-          <div class="card-body">
-            <p class="mb-0"><strong>{{$secaos->descricao}}</strong>!</p> 
-          </div>
-        </div>
-      @endif
 
       @cannot('is_usuario')
       <!-- Info boxes -->
