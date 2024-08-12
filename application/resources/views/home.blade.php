@@ -3,18 +3,26 @@
 
 @section('content_header')
     <!-- <h1 class="m-0 text-dark">Dashboard</h1> -->
-    <div class="row mb-2">
-      <div class="m-0 text-dark col-sm-6">
+    <div class="row ">
+      <div class="col-sm-4 text-dark">
         <h1>GPmil <small>Version 2.0</small></h1>
           <ol class="breadcrumb">
             <li class="active">Gestão de Pessoal Militar</li>
           </ol>
       </div>
-        <div class="col-sm-6">
-            <ol class="breadcrumb float-sm-right">
-                <li class="breadcrumb-item"><a href="/home">Home</a></li>
-            </ol>
+      <div class="col-sm-8">
+        <div class="float-left">
+          @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+            <h1 class="text-dark">{{$organizacao->descricao}}!</h1> 
+            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
+          @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
+          <h1 class="text-dark">{{$secaos->descricao}}!</h1> 
+          @endif
         </div>
+        <ol class="breadcrumb float-sm-right">
+            <li class="breadcrumb-item"><a href="/home">Home</a></li>
+        </ol>
+      </div>
     </div>
 
 @stop
@@ -100,21 +108,6 @@
 
     <section class="content">
 
-      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
-        <div class="card">
-          <div class="card-body">
-            <p class="mb-0"><strong>{{$organizacao->descricao}}</strong>!</p> 
-            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
-          </div>
-        </div>
-      @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
-        <div class="card">
-          <div class="card-body">
-            <p class="mb-0"><strong>{{$secaos->descricao}}</strong>!</p> 
-          </div>
-        </div>
-      @endif
-
       @cannot('is_usuario')
       <!-- Info boxes -->
       <div class="row justify-content-around">
@@ -185,7 +178,27 @@
       </div>
       <!-- /.row -->
       @endcannot
-
+      @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
+        <!-- Gráficos -->
+        <div class="row">
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <canvas id="sectionChart"></canvas>
+              </div>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="card">
+              <div class="card-body">
+                <canvas id="gradChart"></canvas>
+              </div>
+            </div>
+          </div>
+        </div>
+      @endif
+      
+      <!-- Fim dos Gráficos -->
       <!-- Show presentations if user is a common user -->
       {{-- @can('user') --}}
         <div class="row">
@@ -268,3 +281,70 @@
 @section('footer')
   @include('adminlte::partials.footer.footer')
 @stop
+
+
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    // Gráfico por Seção
+    const sectionData = {
+      labels: @json($sectionLabels),
+      datasets: [{
+        label: 'Quantidade por Seção',
+        data: @json($sectionQuantities),
+        backgroundColor: 'rgba(54, 162, 235, 0.2)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    const sectionChartContext = document.getElementById('sectionChart').getContext('2d');
+    new Chart(sectionChartContext, {
+      type: 'bar',
+      data: sectionData,
+      options: {
+        responsive :true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return Number.isInteger(value) ? value : '';
+              }
+            }
+          }
+        }
+      }
+    });
+
+    // Gráfico por Graduação
+    const gradData = {
+      labels: @json($gradLabels),
+      datasets: [{
+        label: 'Quantidade por P/Graduação',
+        data: @json($gradQuantities),
+        backgroundColor: 'rgba(255, 99, 132, 0.2)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 1
+      }]
+    };
+
+    const gradChartContext = document.getElementById('gradChart').getContext('2d');
+    new Chart(gradChartContext, {
+      type: 'bar',
+      data: gradData,
+      options: {
+        responsive :true,
+        scales: {
+          y: {
+            beginAtZero: true,
+            ticks: {
+              callback: function(value) {
+                return Number.isInteger(value) ? value : '';
+              }
+            }
+          }
+        }
+      }
+    });
+  });
+</script>
