@@ -300,9 +300,7 @@
                                 <label class="form-label">Nível Acesso</span></label>
                                 <select name="nivelacesso_id" id="nivelacesso_id" class="form-control selectpicker" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Nível de Acesso" @cannot('is_admin') @cannot('is_encpes') @endcannot @endcannot>
                                     @foreach($nivel_acessos as $nivel_acesso)
-                                        @if($nivel_acesso->id == 6)
-                                            <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
-                                        @elseif($nivel_acesso->id == 1 && Auth::user()->Pessoa->nivelacesso_id != 1)
+                                        @if($nivel_acesso->id == 1 && Auth::user()->Pessoa->nivelacesso_id != 1)
                                             <option value="{{$nivel_acesso->id}}" disabled>{{$nivel_acesso->nome}}</option>
                                         @else
                                             <option value="{{$nivel_acesso->id}}">{{$nivel_acesso->nome}}</option>
@@ -448,34 +446,6 @@
                 $('#datatables-pessoas').DataTable().column('8').search( $(this).val() ).draw();
             });    
 
-            function getSegmentoValue() {
-                return $('input[name="segmento"]:checked').val();
-            }
-
-            function getAtivoValue() {
-                return $('#ativo:checked').val() ? 'SIM': 'NÃO';
-            }
-
-            function getStatusValue() {
-                return $('#status').val();
-            }
-
-            function getSecaoValue() {
-                return $('#secao_id').val();
-            }
-
-            function getFuncaoValue() {
-                return $('#funcao_id').val();
-            }
-
-            function getNivelAcessoValue() {
-                if($('#nivelacesso_id').prop('disabled', true)) {
-                    return $('#nivelacesso_input').val();
-                } else {
-                    return $('#nivelacesso_id').val();
-                }
-            }
-
             $('#foto').change(function() {
                 const inputFoto = this;
                 const imagemExibida = $('#imagem-exibida');
@@ -608,13 +578,31 @@
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
 
+                        // Define o valor inicial de #nivelacesso_input
                         $('#nivelacesso_input').val(data.nivelacesso_id);
+                        
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita o #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+
+                        } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
+                            // Se for Enc Pes ou Admin habilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita e define o valor de #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_input').prop('disabled', true)
+                            // Se for outros, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Desabilita o #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -677,7 +665,7 @@
                                 errorElement.hide();
                             }
                         });
-                        $('.selectpicker').selectpicker('refresh');                        
+                        // $('.selectpicker').selectpicker('refresh');                        
                     },
                     error: function (error) {
                         if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
@@ -730,13 +718,31 @@
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
 
-                        $('#nivelacesso_input').val(data.nivelacesso_id).prop('disabled', true);
+                        // Define o valor inicial de #nivelacesso_input
+                        $('#nivelacesso_input').val(data.nivelacesso_id);
+                        
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita o #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+
+                        } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
+                            // Se for Enc Pes ou Admin habilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita e define o valor de #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_input').prop('disabled', true)
+                            // Se for outros, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Desabilita o #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -848,13 +854,31 @@
                         $('#religiao_id').selectpicker('val', data.religiao_id);
                         $('#funcao_id').selectpicker('val', data.funcao_id);
 
-                        $('#nivelacesso_input').val(data.nivelacesso_id).prop('disabled', true);
+                        // Define o valor inicial de #nivelacesso_input
+                        $('#nivelacesso_input').val(data.nivelacesso_id);
+                        
                         if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            $('#nivelacesso_id').prop('disabled', true).selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita o #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+
+                        } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
+                            // Se for Enc Pes ou Admin habilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', false);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Habilita e define o valor de #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            $('#nivelacesso_id').prop('disabled', false).selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_input').prop('disabled', true)
+                            // Se for outros, desabilita o campo
+                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_id').selectpicker('refresh');
+                            // Desabilita o #nivelacesso_input
+                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -927,8 +951,37 @@
                     }
                 });
             @endif
-            
 
+            function getSegmentoValue() {
+                return $('input[name="segmento"]:checked').val();
+            }
+
+            function getAtivoValue() {
+                return $('#ativo:checked').val() ? 'SIM': 'NÃO';
+            }
+
+            function getStatusValue() {
+                return $('#status').val();
+            }
+
+            function getSecaoValue() {
+                return $('#secao_id').val();
+            }
+
+            function getFuncaoValue() {
+                return $('#funcao_id').val();
+            }
+
+            function getNivelAcessoValue() {
+                if(userNivelAcessoID == 3 && $('#nivelacesso_input').val() == 1) {
+                    return $('#nivelacesso_input').val();
+                } else if (userNivelAcessoID == 1 || userNivelAcessoID == 3){
+                    return $('#nivelacesso_id').val();
+                } else {
+                    return $('#nivelacesso_input').val();
+                }
+            }
+            
             /*
             * Save button action
             */
