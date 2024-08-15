@@ -14,7 +14,6 @@
         <div class="float-left">
           @if (Auth::user()->can('is_encpes') || Auth::user()->can('is_admin') || Auth::user()->can('is_cmt'))
             <h1 class="text-dark">{{$organizacao->descricao}}!</h1> 
-            {{-- <p class="mb-0"><strong>DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</strong>!</p>  --}}
           @elseif (!Auth::user()->can('is_encpes') || !Auth::user()->can('is_admin') || !Auth::user()->can('is_cmt'))
           <h1 class="text-dark">{{$secaos->descricao}}!</h1> 
           @endif

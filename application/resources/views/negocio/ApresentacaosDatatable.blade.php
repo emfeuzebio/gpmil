@@ -370,7 +370,7 @@
                 },
                 responsive: true,
                 autoWidth: true,
-                // order: [ [8, 'desc'],[4, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
+                order: [ [9, 'desc'],[5, 'asc'] ],  // não publicados acima, depois em ordem de dt inicial
                 lengthMenu: [[5, 10, 15, 30, 50, -1], [5, 10, 15, 30, 50, "Todos"]], 
                 pageLength: 15,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
