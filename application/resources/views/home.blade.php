@@ -283,67 +283,94 @@
 
 
 <script>
-  document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function() {
+    // Função para adicionar rótulos acima das barras
+    function addLabels(chart) {
+        const ctx = chart.ctx;
+        chart.data.datasets.forEach((dataset, i) => {
+            const meta = chart.getDatasetMeta(i);
+            meta.data.forEach((bar, index) => {
+                const value = dataset.data[index];
+                ctx.fillStyle = '#767676'; // Cor do texto (branco)
+                ctx.font = '12px Arial'; // Estilo do texto
+                ctx.textAlign = 'center';
+                ctx.fillText(value, bar.x, bar.y - 5); // Posição do texto
+            });
+        });
+    }
+
     // Gráfico por Seção
     const sectionData = {
-      labels: @json($sectionLabels),
-      datasets: [{
-        label: 'Quantidade por Seção',
-        data: @json($sectionQuantities),
-        backgroundColor: 'rgba(54, 162, 235, 0.2)',
-        borderColor: 'rgba(54, 162, 235, 1)',
-        borderWidth: 1
-      }]
+        labels: @json($sectionLabels),
+        datasets: [{
+            label: 'Quantidade de militares por Seção',
+            data: @json($sectionQuantities),
+            backgroundColor: 'rgba(54, 162, 235, 0.2)',
+            borderColor: 'rgba(54, 162, 235, 1)',
+            borderWidth: 1
+        }]
     };
 
     const sectionChartContext = document.getElementById('sectionChart').getContext('2d');
-    new Chart(sectionChartContext, {
-      type: 'bar',
-      data: sectionData,
-      options: {
-        responsive :true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return Number.isInteger(value) ? value : '';
-              }
+    const sectionChart = new Chart(sectionChartContext, {
+        type: 'bar',
+        data: sectionData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : '';
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
+        },
+        plugins: [{
+            afterDatasetsDraw: function(chart) {
+                addLabels(chart);
+            }
+        }]
     });
 
     // Gráfico por Graduação
     const gradData = {
-      labels: @json($gradLabels),
-      datasets: [{
-        label: 'Quantidade por P/Graduação',
-        data: @json($gradQuantities),
-        backgroundColor: 'rgba(255, 99, 132, 0.2)',
-        borderColor: 'rgba(255, 99, 132, 1)',
-        borderWidth: 1
-      }]
+        labels: @json($gradLabels),
+        datasets: [{
+            label: 'Quantidade de militares por P/Graduação',
+            data: @json($gradQuantities),
+            backgroundColor: 'rgba(255, 99, 132, 0.2)',
+            borderColor: 'rgba(255, 99, 132, 1)',
+            borderWidth: 1
+        }]
     };
 
     const gradChartContext = document.getElementById('gradChart').getContext('2d');
-    new Chart(gradChartContext, {
-      type: 'bar',
-      data: gradData,
-      options: {
-        responsive :true,
-        scales: {
-          y: {
-            beginAtZero: true,
-            ticks: {
-              callback: function(value) {
-                return Number.isInteger(value) ? value : '';
-              }
+    const gradChart = new Chart(gradChartContext, {
+        type: 'bar',
+        data: gradData,
+        options: {
+            responsive: true,
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    ticks: {
+                        callback: function(value) {
+                            return Number.isInteger(value) ? value : '';
+                        }
+                    }
+                }
             }
-          }
-        }
-      }
+        },
+        plugins: [{
+            afterDatasetsDraw: function(chart) {
+                addLabels(chart);
+            }
+        }]
     });
-  });
+});
+
+
 </script>
