@@ -296,6 +296,23 @@ return [
     'menu' => [
         // Navbar items:
         [
+            'type' => 'navbar-notification',
+            'id' => 'my-notification',                // An ID attribute (required).
+            'icon' => 'fas fa-bell',                  // A font awesome icon (required).
+            'icon_color' => 'false',                // The initial icon color (optional).
+            'label' => 0,                             // The initial label for the badge (optional).
+            'label_color' => 'danger',                // The initial badge color (optional).
+            'url' => 'solicitar-troca',            // The url to access all notifications/elements (required).
+            'topnav_right' => true,                   // Or "topnav => true" to place on the left (required).
+            'dropdown_mode' => true,                  // Enables the dropdown mode (optional).
+            'dropdown_flabel' => 'Todas as notificações', // The label for the dropdown footer link (optional).
+            'update_cfg' => [
+                'url' => 'encpes/notifications/update',         // The url to periodically fetch new data (optional).
+                'period' => 10,                       // The update period for get new data (in seconds, optional).
+            ],
+            'can' => 'is_encpes'
+        ],
+        [
             'type' => 'navbar-search',
             'text' => 'procurar por ...',
             'topnav_right' => false,

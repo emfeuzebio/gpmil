@@ -286,6 +286,17 @@
                                 <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
+                            <!-- Botão para solicitar a troca de seção -->
+                            @cannot('is_encpes')
+                                <div class="form-group mt-3">
+                                    <label class="form-label">Solicitar troca de seção</label>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitacaoModal">
+                                        Solicitar Troca
+                                    </button>
+                                </div>
+                            @endcannot
+
+
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
                                 <select class="form-control selectpicker" name="status" id="status" data-style="form-control" data-live-search="true" placeholder="" data-toggle="tooltip"  title="Selecione o Status" @cannot('is_admin') @cannot('is_encpes') disabled @endcannot @endcannot>
@@ -362,6 +373,33 @@
             </div>
         </div>
     </div>   
+
+    <!-- Modal para solicitação -->
+    <div class="modal fade" id="solicitacaoModal" tabindex="-1" aria-labelledby="solicitacaoModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title" id="solicitacaoModalLabel">Solicitar Troca de Seção</h5>
+            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
+            </div>
+            <div class="modal-body">
+            <form id="solicitacaoForm" action="{{ route('solicitar-troca') }}" method="POST">
+                @csrf
+                <div class="mb-3">
+                    <label for="solicitacao" class="form-label">Motivo da Solicitação</label>
+                    {{-- <textarea class="form-control" id="solicitacao" name="solicitacao" rows="3" required></textarea> --}}
+                    <select class="form-control selectpicker" name="solicitacao" id="solicitacao" data-style="form-control" data-live-search="true">
+                        @foreach( $solicitarSecaos as $secao )
+                        <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
 
     <script type="text/javascript">
 
@@ -535,6 +573,61 @@
                 });
 
             });        
+
+            // Abrir a modal ao clicar no botão
+            $('button[data-bs-target="#solicitacaoModal"]').on('click', function() {
+                $('#solicitacaoModal').modal('show');
+            });
+
+            // Fechar a modal ao clicar no botão de fechar ou fora da modal
+            $('#solicitacaoModal').on('click', '[data-bs-dismiss="modal"]', function() {
+                $('#solicitacaoModal').modal('hide');
+            });
+
+            // Fechar a modal quando clicar fora dela
+            $(document).on('click', function(event) {
+                if ($(event.target).hasClass('modal')) {
+                    $('#solicitacaoModal').modal('hide');
+                }
+            });
+
+            $('#solicitacaoForm').on('submit', function(e) {
+                e.preventDefault(); // Previne o envio padrão do formulário
+
+                $.ajax({
+                    type: 'POST',
+                    url: $(this).attr('action'), // A URL de destino do formulário
+                    data: $(this).serialize(), // Serializa os dados do formulário
+                    success: function(response) {
+                        // Fechar a modal
+                        $('#solicitacaoModal').modal('hide');
+
+                        // Exibir mensagem de sucesso
+                        $('<div class="alert alert-success alert-dismissible fade show" role="alert">')
+                            .text('Solicitação enviada com sucesso.')
+                            .append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+                            .appendTo('body')
+                            .delay(5000)
+                            .fadeOut(400, function() {
+                                $(this).remove();
+                            });
+                    },
+                    error: function(response) {
+                        // Fechar a modal
+                        $('#solicitacaoModal').modal('hide');
+
+                        // Exibir mensagem de erro
+                        $('<div class="alert alert-danger alert-dismissible fade show" role="alert">')
+                            .text('Ocorreu um erro ao enviar a solicitação.')
+                            .append('<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>')
+                            .appendTo('body')
+                            .delay(5000)
+                            .fadeOut(400, function() {
+                                $(this).remove();
+                            });
+                    }
+                });
+            });
 
             /*
             * Edit button action

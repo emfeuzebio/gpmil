@@ -108,8 +108,9 @@ class PessoaController extends Controller
         $nivel_acessos = $this->NivelAcesso->all()->sortBy('id');
         $funcaos = $this->Funcao->all()->sortBy('sigla');
         $religiaos = $this->Religiao->all()->sortBy('religiao_seq');
+        $solicitarSecaos = $this->Secao->where('ativo','=','SIM')->orderBy('descricao')->get();
 
-        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'pessoas' => $pessoas, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos, 'user_id' => $user_id]);
+        return view('admin/PessoasDatatable', ['pgrads'=> $pgrads, 'pessoas' => $pessoas, 'qualificacaos'=> $qualificacaos, 'nivel_acessos'=> $nivel_acessos, 'secaos'=> $secaos, 'funcaos' => $funcaos, 'religiaos' => $religiaos, 'user_id' => $user_id, 'solicitarSecaos' => $solicitarSecaos]);
     }
 
     protected function getActionColumn($row): string
