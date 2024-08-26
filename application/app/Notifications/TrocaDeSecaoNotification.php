@@ -21,6 +21,11 @@ class TrocaDeSecaoNotification extends Notification
     {
         $this->user = $user;
         $this->motivo = $motivo;
+
+        // Buscando o nome_guerra e pgrad_sigla do usuário
+        $pessoa = $this->user->pessoa;
+        $this->user->nome_guerra = $pessoa->nome_guerra;
+        $this->user->pgrad_sigla = $pessoa->pgrad->sigla;
     }
 
     /**
@@ -53,10 +58,9 @@ class TrocaDeSecaoNotification extends Notification
     {
         return [
             'user_id' => $this->user->id,
-            'user_name' => $this->user->name,
+            'user_name' => $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra,
             'secao' => $this->motivo,
-            'message' => 'O usuário ' . $this->user->name . ' pediu para ser trocado para a seção de ' . $this->motivo . '.',
+            'message' => 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' pediu para ser trocado para a seção de ' . $this->motivo . '.',
         ];
-    }
-
+    }    
 }

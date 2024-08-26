@@ -25,12 +25,11 @@
     @else
         <div class="list-group">
             @foreach($notifications as $notification)
-                <div class="list-group-item list-group-item-action">
+                <div class="list-group-item list-group-item-action text-dark">
                     <div class="d-flex w-100 justify-content-between">
-                        <h5 class="mb-1">{{ $notification->data['title'] ?? 'Notificação' }}</h5>
+                        <p class="mb-1">{{ $notification->data['message'] ?? 'Você tem uma nova solicitação.' }}</p>
                         <small>{{ $notification->created_at->diffForHumans() }}</small>
                     </div>
-                    <p class="mb-1">{{ $notification->data['message'] ?? 'Você tem uma nova solicitação.' }}</p>
                     <form action="{{ url('pessoas/' . $notification->data['user_id']) }}" method="GET" style="display: inline;">
                         @csrf
                         <button type="submit" class="btn btn-sm btn-primary">Editar seção do usuário</button>
