@@ -146,16 +146,17 @@ class HomeController extends Controller
     
         $apresentacoes = Apresentacao::where('pessoa_id', $this->userID)->get();
     
-        $startOfWeek = $now->startOfWeek(Carbon::SUNDAY)->format('m-d');
-        $endOfWeek = $now->endOfWeek(Carbon::SATURDAY)->format('m-d');
-    
+        $startOfMonth = Carbon::now()->startOfMonth()->format('m-d');
+        $endOfMonth = Carbon::now()->endOfMonth()->format('m-d');
+        
+        // Busca os aniversariantes do mês corrente
         $aniversariantes = Pessoa::whereRaw("
             DATE_FORMAT(dt_nascimento, '%m-%d') >= ? 
             AND DATE_FORMAT(dt_nascimento, '%m-%d') <= ?
-        ", [$startOfWeek, $endOfWeek])
+        ", [$startOfMonth, $endOfMonth])
             ->get()
-            ->sortBy(function($aniversariantes) {
-                return Carbon::createFromFormat('Y-m-d', $aniversariantes->dt_nascimento)->format('m-d');
+            ->sortBy(function($aniversariante) {
+                return Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('m-d');
             });
 
         // Dados para gráficos
