@@ -146,7 +146,7 @@ Route::group(['middleware' => 'check.time'], function () {
         // acesso para todos os Gates: 'is_admin','is_encpes','is_cmt', 'is_chsec, 'is_sgtte', 'is_usuario'
         Route::controller(PessoaController::class)->group(function () {
             Route::get('/pessoas', 'index')->name('pessoa.index');
-            Route::get('/pessoas/{user_id?}','index')->name('home')->middleware('checkUserAccess');
+            Route::get('/pessoas/{user_id?}','index')->name('pessoa.editar')->middleware('checkUserAccess');
             Route::post('pessoas/store', 'store')->name('pessoa.store')->middleware('can:podeSalvarPessoa');
             Route::post('pessoas/edit', 'edit')->name('pessoa.edit');
             Route::post('pessoas/destroy', 'destroy')->name('pessoa.destroy');            

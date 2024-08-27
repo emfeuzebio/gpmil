@@ -18,7 +18,7 @@ class TrocaDeSecaoController extends Controller
         // Obter todas as notificações não lidas
         $notifications = $user->unreadNotifications;
 
-        return view('admin/solicitar-troca', ['notifications' => $notifications]);
+        return view('notificacoes/solicitar-troca', ['notifications' => $notifications]);
     }
 
     public function solicitar(Request $request)
