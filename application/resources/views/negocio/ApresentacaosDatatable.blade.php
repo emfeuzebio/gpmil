@@ -376,10 +376,10 @@
                 pageLength: 15,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
-                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#", "sWidth": "40px"},
+                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#", "sWidth": "10px"},
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     
                     {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa", "sWidth": "220px"},
-                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo", "sWidth": "160px",
+                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo", "sWidth": "140px",
                         render: function (data, type, row) { 
                             let color = 'success';
                             let texto = 'Início';
@@ -447,7 +447,7 @@
             }
 
             function ajustaRangeDatas() {
-                if (userNivelAcessoID != 3) {
+                if (userNivelAcessoID != 3 && userNivelAcessoID != 1) {
                     var dtApres = $('#dt_apres').val();
                     
                     if (dtApres) {
@@ -462,7 +462,7 @@
                         $('#dt_inicial').attr('min', minDateStr);
                         $('#dt_inicial').attr('max', maxDateStr);
                     }
-                }
+                } 
             }
         /*
             * Delete button action
@@ -675,27 +675,27 @@
                         }
 
                         ajustaRangeDatas();
-                        if(userNivelAcessoID != 3 || userNivelAcessoID != 1) {
-                                $('#dt_inicial').on('change', function() {
-                                    var dtApres = $('#dt_apres').val();
-                                    var dtInicial = $('#dt_inicial').val();
-                                    var errorElement = $('#error-dt_inicial');
+                        if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
+                            $('#dt_inicial').on('change', function() {
+                                var dtApres = $('#dt_apres').val();
+                                var dtInicial = $('#dt_inicial').val();
+                                var errorElement = $('#error-dt_inicial');
+                                
+                                if (dtApres && dtInicial) {
+                                    var dtApresDate = new Date(dtApres);
+                                    var dtInicialDate = new Date(dtInicial);
+                                    var diffTime = Math.abs(dtInicialDate - dtApresDate);
+                                    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
                                     
-                                    if (dtApres && dtInicial) {
-                                        var dtApresDate = new Date(dtApres);
-                                        var dtInicialDate = new Date(dtInicial);
-                                        var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                                        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-                                        
-                                        if (diffDays > 5) {
-                                            errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                                            $('#dt_inicial').val('');
-                                        } else {
-                                            errorElement.hide();
-                                        }
+                                    if (diffDays > 5) {
+                                        errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
+                                        $('#dt_inicial').val('');
+                                    } else {
+                                        errorElement.hide();
                                     }
-                                });
-                            }
+                                }
+                            });
+                        }
                         calculaDias();
                     },
                     error: function (error) {
@@ -756,7 +756,7 @@
                             }
                             calculaDias();
                             ajustaRangeDatas();
-                            if(userNivelAcessoID != 3 || userNivelAcessoID != 1) {
+                            if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
                                 $('#dt_inicial').on('change', function() {
                                     var dtApres = $('#dt_apres').val();
                                     var dtInicial = $('#dt_inicial').val();
@@ -859,7 +859,7 @@
                 // Adjust date range on page load
                 ajustaRangeDatas();
 
-                if(userNivelAcessoID != 3 || userNivelAcessoID != 1) {
+                if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
                     $('#dt_inicial').on('change', function() {
                         var dtApres = $('#dt_apres').val();
                         var dtInicial = $('#dt_inicial').val();

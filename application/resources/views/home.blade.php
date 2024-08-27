@@ -219,6 +219,7 @@
                       <th>Data Inicial</th>
                       <th>Data Final</th>
                       <th>Publicado</th>
+                      <th>Início/Término</th>
                       <th>Destino</th>
                       <th>Observação</th>
                     </tr>
@@ -237,6 +238,11 @@
                             <span class="text-danger">{{ $apresentacao->publicado }}</span>
                           @endif
                         </td>
+                        @if(!$apresentacao->apresentacao_id)
+                          <td><span class="badge badge-pill badge-success">Início</span></td>
+                        @else
+                          <td><span class="badge badge-pill badge-danger">Término</span></td>
+                        @endif
                         <td>{{ $apresentacao->destino->sigla }}</td>
                         <td>{{ $apresentacao->observacao }}</td>
                       </tr>

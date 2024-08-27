@@ -33,7 +33,6 @@
 
         <!-- JS -->
         <script src="{{ asset('vendor/js/jquery-3.7.1.min.js') }}" ></script>
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
         @if(config('adminlte.plugins.Datatables.active'))
             @foreach(config('adminlte.plugins.Datatables.files') as $file)
                 @if($file['type'] == 'css' && $file['asset'])
