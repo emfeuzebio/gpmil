@@ -90,7 +90,7 @@
                                 <label class="form-label">Filtro por Ativos</label>
                                 <select id="filtro_ativo" name="filtro_ativo" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
                                     <option value=""> Ativos ou não </option>
-                                    <option value="SIM">SIM</option>
+                                    <option value="SIM" selected>SIM</option>
                                     <option value="NÃO">NÃO</option>
                                 </select>
                             </div>
@@ -288,14 +288,13 @@
 
                             <!-- Botão para solicitar a troca de seção -->
                             @cannot('is_encpes')
-                                <div class="form-group mt-3">
+                                <div id="solicitacao-section" class="form-group mt-3" style="display:none;">
                                     <label class="form-label">Solicitar troca de seção</label>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitacaoModal">
                                         Solicitar Troca
                                     </button>
-                                </div>
+                                </div>                            
                             @endcannot
-
 
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
@@ -679,29 +678,26 @@
 
                         // Define o valor inicial de #nivelacesso_input
                         $('#nivelacesso_input').val(data.nivelacesso_id);
-                        
-                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
 
+                        // Define o valor de #nivelacesso_id e atualiza o selectpicker
+                        $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        $('#nivelacesso_id').selectpicker('refresh');
+
+                        // Verifica o nível de acesso do usuário para habilitar/desabilitar os campos
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            // Se for Enc Pes e o formulário for de um Adm, desabilita o campo #nivelacesso_id
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_input').prop('disabled', false);
                         } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
-                            // Se for Enc Pes ou Admin habilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes ou Admin, habilita o campo #nivelacesso_id
                             $('#nivelacesso_id').prop('disabled', false);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita e define o valor de #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            // Se for outros, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Para outros usuários, desabilita o campo #nivelacesso_id
+                            $('#secao_id').prop('disabled', true);
+                            $('#status').prop('disabled', true);
                             $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Desabilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -764,7 +760,13 @@
                                 errorElement.hide();
                             }
                         });
-                        // $('.selectpicker').selectpicker('refresh');                        
+
+                        if ({{ Auth::user()->id }} == data.id) {
+                            $('#solicitacao-section').show(); // Mostrar a seção
+                        } else {
+                            $('#solicitacao-section').hide(); // Esconder a seção
+                        }
+                        $('.selectpicker').selectpicker('refresh');                        
                     },
                     error: function (error) {
                         if (error.responseJSON === 401 || error.responseJSON.message && error.statusText === 'Unauthenticated') {
@@ -819,29 +821,26 @@
 
                         // Define o valor inicial de #nivelacesso_input
                         $('#nivelacesso_input').val(data.nivelacesso_id);
-                        
-                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
 
+                        // Define o valor de #nivelacesso_id e atualiza o selectpicker
+                        $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        $('#nivelacesso_id').selectpicker('refresh');
+
+                        // Verifica o nível de acesso do usuário para habilitar/desabilitar os campos
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            // Se for Enc Pes e o formulário for de um Adm, desabilita o campo #nivelacesso_id
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_input').prop('disabled', false);
                         } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
-                            // Se for Enc Pes ou Admin habilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes ou Admin, habilita o campo #nivelacesso_id
                             $('#nivelacesso_id').prop('disabled', false);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita e define o valor de #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            // Se for outros, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Para outros usuários, desabilita o campo #nivelacesso_id
+                            $('#secao_id').prop('disabled', true);
+                            $('#status').prop('disabled', true);
                             $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Desabilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -904,6 +903,12 @@
                                 errorElement.hide();
                             }
                         });
+
+                        if ({{ auth()->user()->id }} == data.id) {
+                            $('#solicitacao-section').show(); // Mostrar a seção
+                        } else {
+                            $('#solicitacao-section').hide(); // Esconder a seção
+                        }
                         $('.selectpicker').selectpicker('refresh');                        
                     },
                     error: function (error) {
@@ -955,29 +960,26 @@
 
                         // Define o valor inicial de #nivelacesso_input
                         $('#nivelacesso_input').val(data.nivelacesso_id);
-                        
-                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
-                            // Se for Enc Pes e o formulario for de um Adm, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
-                            $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
 
+                        // Define o valor de #nivelacesso_id e atualiza o selectpicker
+                        $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                        $('#nivelacesso_id').selectpicker('refresh');
+
+                        // Verifica o nível de acesso do usuário para habilitar/desabilitar os campos
+                        if (userNivelAcessoID == 3 && data.nivelacesso_id == 1) {
+                            // Se for Enc Pes e o formulário for de um Adm, desabilita o campo #nivelacesso_id
+                            $('#nivelacesso_id').prop('disabled', true);
+                            $('#nivelacesso_input').prop('disabled', false);
                         } else if (userNivelAcessoID == 3 || userNivelAcessoID == 1) {
-                            // Se for Enc Pes ou Admin habilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Se for Enc Pes ou Admin, habilita o campo #nivelacesso_id
                             $('#nivelacesso_id').prop('disabled', false);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Habilita e define o valor de #nivelacesso_input
                             $('#nivelacesso_input').prop('disabled', true);
                         } else {
-                            // Se for outros, desabilita o campo
-                            $('#nivelacesso_id').selectpicker('val', data.nivelacesso_id);
+                            // Para outros usuários, desabilita o campo #nivelacesso_id
+                            $('#secao_id').prop('disabled', true);
+                            $('#status').prop('disabled', true);
                             $('#nivelacesso_id').prop('disabled', true);
-                            $('#nivelacesso_id').selectpicker('refresh');
-                            // Desabilita o #nivelacesso_input
-                            $('#nivelacesso_input').prop('disabled', false).val(data.nivelacesso_id);
+                            $('#nivelacesso_input').prop('disabled', false);
                         }
 
                         if (data.segmento === "Masculino") {
@@ -1041,6 +1043,12 @@
                                 errorElement.hide();
                             }
                         });
+
+                        if ({{ auth()->user()->id }} == data.id) {
+                            $('#solicitacao-section').show(); // Mostrar a seção
+                        } else {
+                            $('#solicitacao-section').hide(); // Esconder a seção
+                        }
                         $('.selectpicker').selectpicker('refresh');  
                     },
                     error: function (error) {
