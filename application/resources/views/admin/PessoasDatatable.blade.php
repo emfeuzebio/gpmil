@@ -89,8 +89,8 @@
                             <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Ativos</label>
                                 <select id="filtro_ativo" name="filtro_ativo" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
-                                    <option value=""> Publicados ou não </option>
-                                    <option value="SIM" selected>SIM</option>
+                                    <option value=""> Ativos ou não </option>
+                                    <option value="SIM">SIM</option>
                                     <option value="NÃO">NÃO</option>
                                 </select>
                             </div>
@@ -477,6 +477,12 @@
                 e.stopImmediatePropagation();
                 $('#datatables-pessoas').DataTable().column('7').search( $(this).val() ).draw();
             });  
+
+            // Define o valor padrão do filtro como "NÃO"
+            $('#filtro_ativo').val('SIM');
+
+            // Aplica o filtro automaticamente com o valor "NÃO"
+            $('#datatables-pessoas').DataTable().column('8').search('SIM').draw();
             
             // Filtro - Ao mudar o Publicado em filtro_publicado, aplica filtro pela coluna 1
             $('#filtro_ativo').on("change", function (e) {
