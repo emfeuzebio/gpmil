@@ -286,15 +286,6 @@
                                 <div id="error-secao_id" class="error invalid-feedback" style="display: none;"></div>
                             </div>
 
-                            <!-- Botão para solicitar a troca de seção -->
-                            @cannot('is_encpes')
-                                <div id="solicitacao-section" class="form-group mt-3" style="display:none;">
-                                    <label class="form-label">Solicitar troca de seção</label>
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#solicitacaoModal">
-                                        Solicitar Troca
-                                    </button>
-                                </div>                            
-                            @endcannot
 
                             <div class="form-group">
                                 <label class="form-label">Status <span style="color: red">*</span></label>
@@ -336,6 +327,9 @@
                     </form>
                 </div>
                 <div class="modal-footer">
+                    <div class="alert alert-warning text-left">
+                        <p>Caso precise alterar Seção, Status ou seu Nivel de Acesso você pode abrir uma solicitação.</p>
+                    </div>
                     <div class="col-md-6 text-left">
                         <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
@@ -373,32 +367,6 @@
         </div>
     </div>   
 
-    <!-- Modal para solicitação -->
-    <div class="modal fade" id="solicitacaoModal" tabindex="-1" aria-labelledby="solicitacaoModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h5 class="modal-title" id="solicitacaoModalLabel">Solicitar Troca de Seção</h5>
-            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">&times;</button>
-            </div>
-            <div class="modal-body">
-            <form id="solicitacaoForm" action="{{ route('solicitar-troca') }}" method="POST">
-                @csrf
-                <div class="mb-3">
-                    <label for="solicitacao" class="form-label">Motivo da Solicitação</label>
-                    {{-- <textarea class="form-control" id="solicitacao" name="solicitacao" rows="3" required></textarea> --}}
-                    <select class="form-control selectpicker" name="solicitacao" id="solicitacao" data-style="form-control" data-live-search="true">
-                        @foreach( $solicitarSecaos as $secao )
-                        <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
-                        @endforeach
-                    </select>
-                </div>
-                <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
-            </form>
-            </div>
-        </div>
-        </div>
-    </div>
 
     <script type="text/javascript">
 

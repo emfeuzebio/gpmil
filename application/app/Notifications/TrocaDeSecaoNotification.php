@@ -13,14 +13,16 @@ class TrocaDeSecaoNotification extends Notification
     use Queueable;
     private $user;
     private $motivo;
+    private $tipo;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct($user, $motivo)
+    public function __construct($user, $motivo, $tipo)
     {
         $this->user = $user;
         $this->motivo = $motivo;
+        $this->tipo = $tipo;
 
         // Buscando o nome_guerra e pgrad_sigla do usuário
         $pessoa = $this->user->pessoa;
@@ -38,29 +40,33 @@ class TrocaDeSecaoNotification extends Notification
         return ['database'];
     }
 
-    /**
-     * Get the mail representation of the notification.
-     */
-    public function toMail(object $notifiable): MailMessage
-    {
-        return (new MailMessage)
-                    ->line('The introduction to the notification.')
-                    ->action('Notification Action', url('/'))
-                    ->line('Thank you for using our application!');
-    }
-
-    /**
-     * Get the array representation of the notification.
-     *
-     * @return array<string, mixed>
-     */
     public function toArray(object $notifiable): array
     {
+        $message = $this->generateMessage();
+    
         return [
             'user_id' => $this->user->id,
             'user_name' => $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra,
-            'secao' => $this->motivo,
-            'message' => 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' pediu para ser trocado para a seção de ' . $this->motivo . '.',
+            'tipo' => $this->tipo,
+            'motivo' => $this->motivo,
+            'message' => $message,
         ];
-    }    
+    }
+    
+    /**
+     * Generate the message based on the tipo of alteration.
+     */
+    private function generateMessage(): string
+    {
+        switch ($this->tipo) {
+            case 'secao':
+                return 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' pediu para ser trocado para a seção de ' . $this->motivo . '.';
+            case 'status':
+                return 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' pediu para mudar seu status para ' . $this->motivo . '.';
+            case 'nivel_acesso':
+                return 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' pediu para mudar seu nível de acesso para ' . $this->motivo . '.';
+            default:
+                return 'O ' . $this->user->pgrad_sigla . ' ' . $this->user->nome_guerra . ' fez uma solicitação de alteração.';
+        }
+    }
 }

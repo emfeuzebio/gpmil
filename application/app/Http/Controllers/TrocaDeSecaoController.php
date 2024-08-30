@@ -13,7 +13,7 @@ class TrocaDeSecaoController extends Controller
 {
     public function index()
     {
-        $user = auth()->user();
+        $user = Auth::user();
 
         // Obter todas as notificações não lidas
         $notifications = $user->unreadNotifications;
@@ -26,28 +26,34 @@ class TrocaDeSecaoController extends Controller
         // Validação do formulário
         $request->validate([
             'solicitacao' => 'required|string|max:255',
+            'tipo' => 'required|string',
         ]);
-
+    
         // Obter o usuário autenticado
-        $user = auth()->user();
-
-        $encPesId = 3;
-
-        // Encontrar o encarregado de pessoal (enc pes) responsável
-        $pessoa = Pessoa::where('nivelacesso_id', $encPesId)->first();
-
-        if ($pessoa) {
-
-            $encPes = User::find($pessoa->id);
-            // Enviar notificação ao encarregado de pessoal
-            $encPes->notify(new TrocaDeSecaoNotification($user, $request->input('solicitacao')));
-
-            // Redirecionar com mensagem de sucesso
-            return redirect()->back()->with('success', 'Solicitação enviada com sucesso.');
+        $user = Auth::user();
+    
+        // IDs dos níveis de acesso para administrador e encarregado de pessoal
+        $accessLevels = [1, 3];
+    
+        // Encontrar todos os usuários com nivelacesso_id = 1 ou = 3
+        $responsaveis = Pessoa::whereIn('nivelacesso_id', $accessLevels)->get();
+    
+        if ($responsaveis->isEmpty()) {
+            return redirect()->back()->with('error', 'Nenhum encarregado de pessoal ou administrador encontrado.');
         }
-
-        return redirect()->back()->with('error', 'Nenhum encarregado de pessoal encontrado.');
+    
+        // Enviar notificação para cada responsável
+        foreach ($responsaveis as $responsavel) {
+            $pessoa = User::find($responsavel->id);
+            if ($pessoa) {
+                $pessoa->notify(new TrocaDeSecaoNotification($user, $request->input('solicitacao'), $request->input('tipo')));
+            }
+        }
+    
+        // Redirecionar com mensagem de sucesso
+        return redirect()->back()->with('success', 'Solicitação enviada com sucesso.');
     }
+    
 
     public function update()
     {

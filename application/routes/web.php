@@ -17,6 +17,7 @@ use App\Http\Controllers\DestinoController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Http\Controllers\SolicitacoesController;
 use App\Http\Controllers\TrocaDeSecaoController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -135,6 +136,8 @@ Route::group(['middleware' => 'check.time'], function () {
         });
 
         Route::get('/home', [HomeController::class, 'index'])->name('home');
+        
+        Route::get('/solicitacoes', [SolicitacoesController::class, 'index'])->name('solicitacoes');
 
         Route::controller(TrocaDeSecaoController::class)->group(function () {
             Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');

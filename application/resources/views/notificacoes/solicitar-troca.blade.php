@@ -3,7 +3,7 @@
 @section('content_header')
     <div class="row mb-2">
         <div class="m-0 text-dark col-sm-6">
-        <h1 class="m-0 text-dark"></h1>
+            <h1 class="m-0 text-dark"><i class="fas fa-bell"></i> Notificações</h1>
         </div>
         <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
@@ -16,7 +16,6 @@
 
 @section('content')
 <div class="container">
-    <h1>Notificações</h1>
 
     @if($notifications->isEmpty())
         <div class="alert alert-info">
