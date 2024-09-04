@@ -69,7 +69,8 @@ class TrocaDeSecaoController extends Controller
                    {$not->created_at->diffForHumans()}
                  </span>";
 
-            $dropdownHtml .= "<a href='" . url('pessoas/' . $not->data['user_id']) . "' class='dropdown-item'>
+            // $dropdownHtml .= "<a href='" . url('pessoas/' . $not->data['user_id']) . "' class='dropdown-item'>
+            $dropdownHtml .= "<a href='" . url('solicitar-troca') . "' class='dropdown-item'>
                                 {$icon}{$text}{$time}
                             </a>";
 

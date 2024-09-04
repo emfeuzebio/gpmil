@@ -327,9 +327,6 @@
                     </form>
                 </div>
                 <div class="modal-footer">
-                    <div class="alert alert-warning text-left">
-                        <p>Caso precise alterar Seção, Status ou seu Nivel de Acesso você pode abrir uma solicitação.</p>
-                    </div>
                     <div class="col-md-6 text-left">
                         <label id="msgOperacaoEditar" class="error invalid-feedback" style="color: red; display: none; font-size: 12px;"></label> 
                     </div>
@@ -341,8 +338,6 @@
                         <button type="button" class="btn btn-primary btnSalvar editable" style="display: none;" id="btnSave" data-toggle="tooltip" title="Salvar o registro (Alt+S)">Salvar</button>
                     </div>
                 </div>
-            </div>
-            
             </div>
         </div>
     </div>

@@ -29,7 +29,7 @@
             {{ session('error') }}
         </div>
     @endif
-
+{{-- Colocar o input: name="tipo" --}}
     <!-- Cards de Solicitação -->
     <div class="card mb-4">
         <div class="card-header bg-light">
@@ -38,6 +38,7 @@
         <div class="card-body">
             <form id="solicitacaoFormSecao" action="{{ route('solicitar-troca') }}" method="POST">
                 @csrf
+                <input type="hidden" name="tipo" value="secao">
                 <div class="mb-3">
                     <label for="solicitacaoSecao" class="form-label">Motivo da Solicitação</label>
                     <select class="form-control selectpicker" name="solicitacao" id="solicitacaoSecao" data-style="form-control" data-live-search="true" title="Selecione a Seção">
@@ -58,6 +59,7 @@
         <div class="card-body">
             <form id="solicitacaoFormStatus" action="{{ route('solicitar-troca') }}" method="POST">
                 @csrf
+                <input type="hidden" name="tipo" value="status">
                 <div class="mb-3">
                     <label for="solicitacaoStatus" class="form-label">Motivo da Solicitação</label>
                     <select class="form-control selectpicker" name="solicitacao" id="solicitacaoStatus" data-style="form-control" data-live-search="true" title="Selecione o Status">
@@ -78,6 +80,7 @@
         <div class="card-body">
             <form id="solicitacaoFormNivelAcesso" action="{{ route('solicitar-troca') }}" method="POST">
                 @csrf
+                <input type="hidden" name="tipo" value="nivel_acesso">
                 <div class="mb-3">
                     <label for="solicitacaoNivelAcesso" class="form-label">Motivo da Solicitação</label>
                     <select class="form-control selectpicker" name="solicitacao" id="solicitacaoNivelAcesso" data-style="form-control" data-live-search="true" title="Selecione o Nível de Acesso">
