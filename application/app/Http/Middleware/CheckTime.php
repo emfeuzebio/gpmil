@@ -21,10 +21,10 @@ class CheckTime
         $dayOfWeek = $now->dayOfWeek;
 
         // Horários de funcionamento
-        $weekdaysStart = Carbon::createFromTime(9, 0, 0);
-        $weekdaysEnd = Carbon::createFromTime(17, 0, 0);
-        $fridayStart = Carbon::createFromTime(8, 0, 0);
-        $fridayEnd = Carbon::createFromTime(12, 0, 0);
+        $weekdaysStart = Carbon::createFromTime(8, 0, 0);
+        $weekdaysEnd = Carbon::createFromTime(18, 0, 0);
+        $fridayStart = Carbon::createFromTime(7, 0, 0);
+        $fridayEnd = Carbon::createFromTime(13, 0, 0);
 
         // Verificar se é fim de semana
         if ($dayOfWeek == Carbon::SATURDAY || $dayOfWeek == Carbon::SUNDAY) {

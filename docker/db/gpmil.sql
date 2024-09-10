@@ -5859,6 +5859,23 @@ INSERT INTO `nivel_acessos` (`id`, `nome`, `sigla`, `descricao`, `ativo`, `creat
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `notifications`
+--
+
+CREATE TABLE `notifications` (
+  `id` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_type` varchar(255) COLLATE utf8mb4_unicode_ci NOT NULL,
+  `notifiable_id` bigint UNSIGNED NOT NULL,
+  `data` json NOT NULL,
+  `read_at` timestamp NULL DEFAULT NULL,
+  `created_at` timestamp NULL DEFAULT NULL,
+  `updated_at` timestamp NULL DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura da tabela `organizacaos`
 --
 
@@ -6378,6 +6395,12 @@ ALTER TABLE `nivel_acessos`
   ADD PRIMARY KEY (`id`),
   ADD UNIQUE KEY `nivelacessos_nome_ukey` (`nome`) USING BTREE,
   ADD UNIQUE KEY `nivelacessos_sigla_ukey` (`sigla`);
+
+--
+-- Índices de tabela `notifications`
+--
+ALTER TABLE `notifications`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices para tabela `organizacaos`

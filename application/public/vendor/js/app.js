@@ -1,0 +1,23 @@
+// Importando todos os arquivos JavaScript
+import './dataTables.min.js';
+import './jszip.min.js';
+import './pdfmake.min.js';
+import './vfs_fonts.js';
+import './dataTables.bootstrap4.min.js';
+import './dataTables.buttons.min.js';
+import './buttons.bootstrap4.min.js';
+import './buttons.colVis.min.js';
+import './buttons.html5.min.js';
+import './buttons.print.min.js';
+import './jquery.inputmask.min.js';
+import './dataTables.responsive.js';
+import './responsive.dataTables.js';
+import './bootstrap.js';
+import './bootstrap-select.min.js';
+import './bootstrap4-toggle.min.js';
+import './fontawesome.js';
+import './pdfmake.min.js';
+import './vfs_fonts.js';
+import './buttons2.html5.min.js';
+import './chart.js';
+// import './jquery-3.7.1.min.js';

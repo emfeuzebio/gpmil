@@ -14,9 +14,11 @@ use App\Http\Controllers\FuncaoController;
 use App\Http\Controllers\OrganizacaoController;
 use App\Http\Controllers\SituacaoController;
 use App\Http\Controllers\DestinoController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Http\Controllers\SolicitacoesController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -134,6 +136,15 @@ Route::group(['middleware' => 'check.time'], function () {
         });
 
         Route::get('/home', [HomeController::class, 'index'])->name('home');
+        
+        Route::get('/solicitacoes', [SolicitacoesController::class, 'index'])->name('solicitacoes');
+
+        Route::controller(NotificationController::class)->group(function () {
+            Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');
+            Route::post('/solicitar-troca/solicitar', 'solicitar')->name('solicitar-troca');
+            Route::post('/encpes/notifications/{id}/mark-as-read', 'markAsRead')->name('encpes.markAsRead');
+            Route::get('/encpes/notifications/update', 'update')->name('encpes.notifications.update');
+        });
 
         // acesso para todos os Gates: 'is_admin','is_encpes','is_cmt', 'is_chsec, 'is_sgtte', 'is_usuario'
         Route::controller(PessoaController::class)->group(function () {

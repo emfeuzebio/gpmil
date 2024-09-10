@@ -87,7 +87,7 @@ class PessoaController extends Controller
 
             return FacadesDataTables::eloquent(Pessoa::select(['pessoas.*'])
                     ->with('pgrad','qualificacao','secao','funcao','nivel_acesso')
-                    ->orderBy('pgrad_id')->orderBy('nome_completo')
+                    ->orderBy('pgrad_id')->orderBy('dt_ult_promocao')->orderBy('dt_nascimento')->orderBy('nome_completo')
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
                 ->setRowId( function($param) { return $param->id; })
