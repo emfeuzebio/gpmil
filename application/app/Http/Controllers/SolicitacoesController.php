@@ -10,6 +10,7 @@ use App\Models\Secao;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 
 class SolicitacoesController extends Controller
 {
@@ -35,6 +36,12 @@ class SolicitacoesController extends Controller
     {
         $user = User::with('pessoa')->find(Auth::user()->id);
 
+        // Verificações para cada tipo de notificação
+        $temSolicitacaoSecao = Gate::allows('temSolicitacaoSecao', $user);
+        $temSolicitacaoNivelAcesso = Gate::allows('temSolicitacaoNivelAcesso', $user);
+        $temSolicitacaoStatus = Gate::allows('temSolicitacaoStatus', $user);
+
+
         // Obter todas as notificações não lidas
         // $notifications = $user->unreadNotifications;
         // dd($this->Pessoa->status);
@@ -42,6 +49,12 @@ class SolicitacoesController extends Controller
         // $solicitarStatus = $this->Pessoa->status->where('ativo','=','SIM')->orderBy('descricao')->get();
         $solicitarNivelAcesso = $this->NivelAcesso->where('ativo','=','SIM')->orderBy('descricao')->get();
 
-        return view('admin/Solicitacoes', ['solicitarSecaos' => $solicitarSecaos, 'solicitarNivelAcesso' => $solicitarNivelAcesso]);
+        return view('admin/Solicitacoes', [
+            'solicitarSecaos' => $solicitarSecaos, 
+            'solicitarNivelAcesso' => $solicitarNivelAcesso, 
+            'temSolicitacaoSecao' => $temSolicitacaoSecao,
+            'temSolicitacaoNivelAcesso' => $temSolicitacaoNivelAcesso,
+            'temSolicitacaoStatus' => $temSolicitacaoStatus
+        ]);
     }
 }

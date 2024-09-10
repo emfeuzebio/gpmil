@@ -53,7 +53,7 @@
                             <div class="custom-col form-group" style="margin-bottom: 0px;">
                                 <label class="form-label">Filtro por Militar</label>
                                 <select id="filtro_pessoa" name="filtro_pessoa" class="form-control selectpicker" data-live-search="true" data-style="form-control" data-toggle="tooltip" title="Selecione para filtrar">
-                                    <option value=""> Todas os Militares </option>
+                                    <option value=""> Todos os Militares </option>
                                     @foreach( $pessoas as $pessoa )
                                     <option value="{{$pessoa->nome_guerra}}">{{$pessoa->pgrad->sigla}} {{$pessoa->nome_guerra}}</option>
                                     @endforeach

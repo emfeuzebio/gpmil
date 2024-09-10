@@ -5,6 +5,7 @@ namespace App\Providers;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Gate;
 use App\Models\User;
+use Illuminate\Support\Facades\DB;
 
 
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
@@ -87,6 +88,33 @@ class AuthServiceProvider extends ServiceProvider
             $user = User::with('pessoa')->find(Auth::user()->id);
             return in_array($user->pessoa->nivelacesso_id,[2,4]);
         });
+
+        Gate::define('temSolicitacaoSecao', function (User $user) {
+
+            return DB::table('notifications')
+                        ->where('read_at', null)
+                        ->where('data->tipo', 'secao')
+                        ->where('data->user_id', $user->id)
+                        ->exists();
+
+        });
+
+        Gate::define('temSolicitacaoNivelAcesso', function ($user) {
+            return DB::table('notifications')
+                        ->where('read_at', null)
+                        ->where('data->tipo', 'nivel_acesso')
+                        ->where('data->user_id', $user->id)
+                        ->exists();
+        });
+        
+        Gate::define('temSolicitacaoStatus', function ($user) {
+            return DB::table('notifications')
+                        ->where('read_at', null)
+                        ->where('data->tipo', 'status')
+                        ->where('data->user_id', $user->id)
+                        ->exists();
+        });
+        
 
     }
 }

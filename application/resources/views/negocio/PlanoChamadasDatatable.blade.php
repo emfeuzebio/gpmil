@@ -126,7 +126,7 @@
 
                         <div class="form-group">
                             <label class="form-label">Numero</label>
-                            <input class="form-control" value="" type="text" id="numero" name="numero" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="100">
+                            <input class="form-control" value="" type="text" id="numero" name="numero" placeholder="Ex. Quadra/Lote/Casa/Apto nº ..." data-toggle="tooltip" title="Complemento do Endereço de residência" maxlength="10">
                             <div id="error-numero" class="error invalid-feedback" style="display: none;"></div>
                         </div>   
 

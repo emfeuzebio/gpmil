@@ -161,12 +161,12 @@ class HomeController extends Controller
         // Dados para gráficos
         $sectionLabels = Secao::where('ativo', 'SIM')->pluck('sigla'); // Substitua com os dados reais
         $sectionQuantities = Secao::where('ativo', 'SIM')->get()->map(function($secao) {
-            return Pessoa::where('secao_id', $secao->id)->count(); // Substitua com o cálculo real
+            return Pessoa::where('secao_id', $secao->id)->where('ativo', 'SIM')->count(); // Substitua com o cálculo real
         });
 
         $gradLabels = Pgrad::where('ativo', 'SIM')->pluck('sigla'); // Substitua com os dados reais
         $gradQuantities = Pgrad::where('ativo', 'SIM')->get()->map(function($pgrad) {
-            return Pessoa::where('pgrad_id', $pgrad->id)->count(); // Substitua com o cálculo real
+            return Pessoa::where('pgrad_id', $pgrad->id)->where('ativo', 'SIM')->count(); // Substitua com o cálculo real
         });
     
         return view('home', [

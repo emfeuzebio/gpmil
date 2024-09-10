@@ -5,11 +5,11 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Pessoa;
-use App\Notifications\TrocaDeSecaoNotification;
+use App\Notifications\SolicitacaoNotification;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Str;
 
-class TrocaDeSecaoController extends Controller
+class NotificationController extends Controller
 {
     public function index()
     {
@@ -33,10 +33,10 @@ class TrocaDeSecaoController extends Controller
         $user = Auth::user();
     
         // IDs dos níveis de acesso para administrador e encarregado de pessoal
-        $accessLevels = [1, 3];
+        $accessLevels = 3;
     
-        // Encontrar todos os usuários com nivelacesso_id = 1 ou = 3
-        $responsaveis = Pessoa::whereIn('nivelacesso_id', $accessLevels)->get();
+        // Encontrar todos os usuários com nivelacesso_id = 3
+        $responsaveis = Pessoa::where('nivelacesso_id', $accessLevels)->get();
     
         if ($responsaveis->isEmpty()) {
             return redirect()->back()->with('error', 'Nenhum encarregado de pessoal ou administrador encontrado.');
@@ -46,7 +46,7 @@ class TrocaDeSecaoController extends Controller
         foreach ($responsaveis as $responsavel) {
             $pessoa = User::find($responsavel->id);
             if ($pessoa) {
-                $pessoa->notify(new TrocaDeSecaoNotification($user, $request->input('solicitacao'), $request->input('tipo')));
+                $pessoa->notify(new SolicitacaoNotification($user, $request->input('solicitacao'), $request->input('tipo')));
             }
         }
     
@@ -91,7 +91,7 @@ class TrocaDeSecaoController extends Controller
 
     public function markAsRead($id)
     {
-        $user = auth()->user();
+        $user = Auth::user();
         $notification = $user->unreadNotifications->where('id', $id)->first();
 
         if ($notification) {

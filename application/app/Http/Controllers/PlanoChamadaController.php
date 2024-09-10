@@ -73,7 +73,8 @@ class PlanoChamadaController extends Controller
 
         if(request()->ajax()) {
             return DataTables::eloquent(PlanoChamada::select(['pessoas.*'])->with('pgrad')->with('secao')
-                    ->orderBy('pgrad_id')->orderBy('nome_guerra')
+                    ->orderBy('pgrad_id')->orderBy('dt_ult_promocao')->orderBy('dt_nascimento')->orderBy('nome_completo')
+                    ->where('pessoas.ativo', 'SIM')
                     ->where($arrFiltro['coluna'], $arrFiltro['operador'], $arrFiltro['valor'])
                 )
                 ->setRowId( function($param) { return $param->id; })

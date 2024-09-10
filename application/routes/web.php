@@ -14,11 +14,11 @@ use App\Http\Controllers\FuncaoController;
 use App\Http\Controllers\OrganizacaoController;
 use App\Http\Controllers\SituacaoController;
 use App\Http\Controllers\DestinoController;
+use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
 use App\Http\Controllers\SolicitacoesController;
-use App\Http\Controllers\TrocaDeSecaoController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -139,7 +139,7 @@ Route::group(['middleware' => 'check.time'], function () {
         
         Route::get('/solicitacoes', [SolicitacoesController::class, 'index'])->name('solicitacoes');
 
-        Route::controller(TrocaDeSecaoController::class)->group(function () {
+        Route::controller(NotificationController::class)->group(function () {
             Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');
             Route::post('/solicitar-troca/solicitar', 'solicitar')->name('solicitar-troca');
             Route::post('/encpes/notifications/{id}/mark-as-read', 'markAsRead')->name('encpes.markAsRead');

@@ -41,11 +41,17 @@
                 <input type="hidden" name="tipo" value="secao">
                 <div class="mb-3">
                     <label for="solicitacaoSecao" class="form-label">Motivo da Solicitação</label>
-                    <select class="form-control selectpicker" name="solicitacao" id="solicitacaoSecao" data-style="form-control" data-live-search="true" title="Selecione a Seção">
-                        @foreach($solicitarSecaos as $secao)
-                            <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
-                        @endforeach
-                    </select>
+                    @if($temSolicitacaoSecao)
+                        <div class="alert alert-warning">
+                            Você já possui uma solicitação de seção pendente. Por favor, aguarde até que ela seja processada.
+                        </div>
+                    @else
+                        <select class="form-control selectpicker" name="solicitacao" id="solicitacaoSecao" data-style="form-control" data-live-search="true" title="Selecione a Seção">
+                            @foreach($solicitarSecaos as $secao)
+                                <option value="{{$secao->sigla}}">{{$secao->sigla}}</option>
+                            @endforeach
+                        </select>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
             </form>
@@ -62,11 +68,17 @@
                 <input type="hidden" name="tipo" value="status">
                 <div class="mb-3">
                     <label for="solicitacaoStatus" class="form-label">Motivo da Solicitação</label>
-                    <select class="form-control selectpicker" name="solicitacao" id="solicitacaoStatus" data-style="form-control" data-live-search="true" title="Selecione o Status">
-                        <option value="Ativa">Ativa</option>
-                        <option value="Reserva">Reserva</option>
-                        <option value="Civil">Civil</option>
-                    </select>
+                    @if($temSolicitacaoStatus)
+                        <div class="alert alert-warning">
+                            Você já possui uma solicitação de status pendente.
+                        </div>
+                    @else
+                        <select class="form-control selectpicker" name="solicitacao" id="solicitacaoStatus" data-style="form-control" data-live-search="true" title="Selecione o Status">
+                            <option value="Ativa">Ativa</option>
+                            <option value="Reserva">Reserva</option>
+                            <option value="Civil">Civil</option>
+                        </select>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
             </form>
@@ -83,15 +95,21 @@
                 <input type="hidden" name="tipo" value="nivel_acesso">
                 <div class="mb-3">
                     <label for="solicitacaoNivelAcesso" class="form-label">Motivo da Solicitação</label>
-                    <select class="form-control selectpicker" name="solicitacao" id="solicitacaoNivelAcesso" data-style="form-control" data-live-search="true" title="Selecione o Nível de Acesso">
-                        @foreach($solicitarNivelAcesso as $nivelAcesso)
-                            @if($nivelAcesso->id == 1 && Auth::user()->Pessoa->nivelacesso_id != 1)
-                                <option value="{{$nivelAcesso->sigla}}" disabled>{{$nivelAcesso->nome}}</option>
-                            @else
-                                <option value="{{$nivelAcesso->sigla}}">{{$nivelAcesso->nome}}</option>
-                            @endif
-                        @endforeach
-                    </select>
+                    @if($temSolicitacaoNivelAcesso)
+                        <div class="alert alert-warning">
+                            Você já possui uma solicitação de nível de acesso pendente.
+                        </div>
+                    @else
+                        <select class="form-control selectpicker" name="solicitacao" id="solicitacaoNivelAcesso" data-style="form-control" data-live-search="true" title="Selecione o Nível de Acesso">
+                            @foreach($solicitarNivelAcesso as $nivelAcesso)
+                                @if($nivelAcesso->id == 1 && Auth::user()->Pessoa->nivelacesso_id != 1)
+                                    <option value="{{$nivelAcesso->sigla}}" disabled>{{$nivelAcesso->nome}}</option>
+                                @else
+                                    <option value="{{$nivelAcesso->sigla}}">{{$nivelAcesso->nome}}</option>
+                                @endif
+                            @endforeach
+                        </select>
+                    @endif
                 </div>
                 <button type="submit" class="btn btn-primary">Enviar Solicitação</button>
             </form>
