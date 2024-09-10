@@ -219,6 +219,7 @@
                       <th>Data Inicial</th>
                       <th>Data Final</th>
                       <th>Publicado</th>
+                      <th>Início/Término</th>
                       <th>Destino</th>
                       <th>Observação</th>
                     </tr>
@@ -237,6 +238,11 @@
                             <span class="text-danger">{{ $apresentacao->publicado }}</span>
                           @endif
                         </td>
+                        @if(!$apresentacao->apresentacao_id)
+                          <td><span class="badge badge-pill badge-success">Início</span></td>
+                        @else
+                          <td><span class="badge badge-pill badge-danger">Término</span></td>
+                        @endif
                         <td>{{ $apresentacao->destino->sigla }}</td>
                         <td>{{ $apresentacao->observacao }}</td>
                       </tr>
@@ -256,16 +262,16 @@
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h3 class="card-title"><strong>Aniversariantes da Semana</strong></h3>
+                    <h3 class="card-title"><strong>Aniversariantes do Mês</strong></h3>
                 </div>
                 <div class="card-body">
                     @if ($aniversariantes->isEmpty())
-                        <p>Não há aniversariantes esta semana.</p>
+                        <p>Não há aniversariantes nesse mês.</p>
                     @else
                         <ul>
-                            @foreach ($aniversariantes as $aniversariante)
-                                <li>{{ $aniversariante->status == 'Reserva' ? $aniversariante->pgrad->sigla . ' R1' : $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
-                            @endforeach
+                          @foreach ($aniversariantes as $aniversariante)
+                            <li>{{ $aniversariante->status == 'Reserva' ? $aniversariante->pgrad->sigla . ' R1' : $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d/m') }}</li>
+                          @endforeach
                         </ul>
                     @endif
                 </div>

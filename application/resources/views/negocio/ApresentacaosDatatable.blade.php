@@ -283,6 +283,7 @@
         // variável global que recebe o ID do registro
         var id = '';
         var descricao = '';        
+        var userNivelAcessoID = {{ Auth::user()->Pessoa->nivelacesso_id }};
 
         $(document).ready(function () {
 
@@ -375,10 +376,10 @@
                 pageLength: 15,
                 language: { url: "{{ asset('vendor/datatables/DataTables.pt_BR.json') }}" },
                 columns: [
-                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#", "sWidth": "40px"},
+                    {"data": "id", "name": "apresentacaos.id", "class": "dt-right", "title": "#", "sWidth": "10px"},
                     {"data": "secao", "name": "secao.sigla", "class": "dt-left", "title": "Seção"},     
                     {"data": "pessoa", "name": "pessoa.nome_guerra", "class": "dt-left", "title": "P/G Pessoa", "sWidth": "220px"},
-                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo", "sWidth": "160px",
+                    {"data": "destino", "name": "destino.sigla", "class": "dt-left", "title": "Motivo", "sWidth": "140px",
                         render: function (data, type, row) { 
                             let color = 'success';
                             let texto = 'Início';
@@ -446,20 +447,22 @@
             }
 
             function ajustaRangeDatas() {
-                var dtApres = $('#dt_apres').val();
-                
-                if (dtApres) {
-                    var dtApresDate = new Date(dtApres);
-                    var minDate = new Date(dtApresDate);
-                    var maxDate = new Date(dtApresDate);
-                    maxDate.setDate(maxDate.getDate() + 5);
-
-                    var minDateStr = minDate.toISOString().split('T')[0];
-                    var maxDateStr = maxDate.toISOString().split('T')[0];
+                if (userNivelAcessoID != 3 && userNivelAcessoID != 1) {
+                    var dtApres = $('#dt_apres').val();
                     
-                    $('#dt_inicial').attr('min', minDateStr);
-                    $('#dt_inicial').attr('max', maxDateStr);
-                }
+                    if (dtApres) {
+                        var dtApresDate = new Date(dtApres);
+                        var minDate = new Date(dtApresDate);
+                        var maxDate = new Date(dtApresDate);
+                        maxDate.setDate(maxDate.getDate() + 5);
+
+                        var minDateStr = minDate.toISOString().split('T')[0];
+                        var maxDateStr = maxDate.toISOString().split('T')[0];
+                        
+                        $('#dt_inicial').attr('min', minDateStr);
+                        $('#dt_inicial').attr('max', maxDateStr);
+                    }
+                } 
             }
         /*
             * Delete button action
@@ -672,25 +675,27 @@
                         }
 
                         ajustaRangeDatas();
-                        $('#dt_inicial').on('change', function() {
-                            var dtApres = $('#dt_apres').val();
-                            var dtInicial = $('#dt_inicial').val();
-                            var errorElement = $('#error-dt_inicial');
-                            
-                            if (dtApres && dtInicial) {
-                                var dtApresDate = new Date(dtApres);
-                                var dtInicialDate = new Date(dtInicial);
-                                var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                                var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                        if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
+                            $('#dt_inicial').on('change', function() {
+                                var dtApres = $('#dt_apres').val();
+                                var dtInicial = $('#dt_inicial').val();
+                                var errorElement = $('#error-dt_inicial');
                                 
-                                if (diffDays > 5) {
-                                    errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                                    $('#dt_inicial').val('');
-                                } else {
-                                    errorElement.hide();
+                                if (dtApres && dtInicial) {
+                                    var dtApresDate = new Date(dtApres);
+                                    var dtInicialDate = new Date(dtInicial);
+                                    var diffTime = Math.abs(dtInicialDate - dtApresDate);
+                                    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                    
+                                    if (diffDays > 5) {
+                                        errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
+                                        $('#dt_inicial').val('');
+                                    } else {
+                                        errorElement.hide();
+                                    }
                                 }
-                            }
-                        });
+                            });
+                        }
                         calculaDias();
                     },
                     error: function (error) {
@@ -751,25 +756,27 @@
                             }
                             calculaDias();
                             ajustaRangeDatas();
-                            $('#dt_inicial').on('change', function() {
-                                var dtApres = $('#dt_apres').val();
-                                var dtInicial = $('#dt_inicial').val();
-                                var errorElement = $('#error-dt_inicial');
-                                
-                                if (dtApres && dtInicial) {
-                                    var dtApresDate = new Date(dtApres);
-                                    var dtInicialDate = new Date(dtInicial);
-                                    var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                                    var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                            if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
+                                $('#dt_inicial').on('change', function() {
+                                    var dtApres = $('#dt_apres').val();
+                                    var dtInicial = $('#dt_inicial').val();
+                                    var errorElement = $('#error-dt_inicial');
                                     
-                                    if (diffDays > 5) {
-                                        errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                                        $('#dt_inicial').val('');
-                                    } else {
-                                        errorElement.hide();
+                                    if (dtApres && dtInicial) {
+                                        var dtApresDate = new Date(dtApres);
+                                        var dtInicialDate = new Date(dtInicial);
+                                        var diffTime = Math.abs(dtInicialDate - dtApresDate);
+                                        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                                        
+                                        if (diffDays > 5) {
+                                            errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
+                                            $('#dt_inicial').val('');
+                                        } else {
+                                            errorElement.hide();
+                                        }
                                     }
-                                }
-                            });
+                                });
+                            }
                         }
                     },
                     error: function (error) {
@@ -852,25 +859,27 @@
                 // Adjust date range on page load
                 ajustaRangeDatas();
 
-                $('#dt_inicial').on('change', function() {
-                    var dtApres = $('#dt_apres').val();
-                    var dtInicial = $('#dt_inicial').val();
-                    var errorElement = $('#error-dt_inicial');
-                    
-                    if (dtApres && dtInicial) {
-                        var dtApresDate = new Date(dtApres);
-                        var dtInicialDate = new Date(dtInicial);
-                        var diffTime = Math.abs(dtInicialDate - dtApresDate);
-                        var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                if(userNivelAcessoID != 1 && userNivelAcessoID != 3) {
+                    $('#dt_inicial').on('change', function() {
+                        var dtApres = $('#dt_apres').val();
+                        var dtInicial = $('#dt_inicial').val();
+                        var errorElement = $('#error-dt_inicial');
                         
-                        if (diffDays > 5) {
-                            errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
-                            $('#dt_inicial').val('');
-                        } else {
-                            errorElement.hide();
+                        if (dtApres && dtInicial) {
+                            var dtApresDate = new Date(dtApres);
+                            var dtInicialDate = new Date(dtInicial);
+                            var diffTime = Math.abs(dtInicialDate - dtApresDate);
+                            var diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
+                            
+                            if (diffDays > 5) {
+                                errorElement.show().text('A Data Inicial deve ser no máximo 5 dias após a Data da Apresentação.');
+                                $('#dt_inicial').val('');
+                            } else {
+                                errorElement.hide();
+                            }
                         }
-                    }
-                });
+                    });
+                }
 
                 calculaDias();
             });
