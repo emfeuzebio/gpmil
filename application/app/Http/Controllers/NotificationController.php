@@ -33,7 +33,7 @@ class NotificationController extends Controller
         $user = Auth::user();
     
         // IDs dos níveis de acesso para administrador e encarregado de pessoal
-        $accessLevels = 3;
+        $accessLevels = [1, 3];
     
         // Encontrar todos os usuários com nivelacesso_id = 3
         $responsaveis = Pessoa::where('nivelacesso_id', $accessLevels)->get();
@@ -93,12 +93,25 @@ class NotificationController extends Controller
     {
         $user = Auth::user();
         $notification = $user->unreadNotifications->where('id', $id)->first();
-
+    
         if ($notification) {
-            $notification->markAsRead();
+            // Pegue todos os usuários que possuem essa notificação não lida
+            $usersWithNotification = User::whereHas('unreadNotifications', function ($query) use ($notification) {
+                $query->where('data->tipo', $notification->data['tipo'])
+                      ->where('data->user_id', $notification->data['user_id']);
+            })->get();
+    
+            // Marque todas as notificações correspondentes como lidas para esses usuários
+            foreach ($usersWithNotification as $user) {
+                $user->unreadNotifications
+                    ->where('data.tipo', $notification->data['tipo'])
+                    ->where('data.user_id', $notification->data['user_id'])
+                    ->each->markAsRead();
+            }
         }
-
+    
         return redirect()->back();
     }
+    
 
 }
