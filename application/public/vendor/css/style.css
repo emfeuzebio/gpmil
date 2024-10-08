@@ -1,0 +1,425 @@
+body,
+html {
+    height: 100%;
+    width: 100%;
+    font-family: 'Open Sans', sans-serif;
+    color: #404156;
+    font-size: 14px;
+    font-weight: 400;
+}
+
+.outer {
+    min-height: 100%;
+    position: relative;
+}
+
+/* HEADER */
+
+header {
+    width: 100%;
+    height: auto;
+    padding: 10px 0;
+    text-align: center;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+}
+
+header figure {
+    width: 25px;
+    height: auto;
+    display: inline-block;
+    margin: 0 !important;
+}
+
+header figure img {
+    width: 30px;
+    border-radius: 0;
+}
+
+header h3 {
+    font-family: Raleway;
+    font-size: 30px;
+    line-height: 30px;
+    font-weight: 700;
+    color: #ffffff;
+    display: inline-block;
+    margin: 0;
+    padding: 0;
+    margin-left: 10px;
+    position: relative;
+    top: 8px;
+}
+
+/* CONTEUDO */
+
+.content {
+    padding: 20px 0;
+}
+
+.content .principal {
+    margin-bottom: 50px;
+}
+
+/* ANIVERSARIANTES */
+
+.content .aniversariante {
+    width: auto;
+    min-height: 10px;
+    border-radius: 5px;
+    padding: 10px;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+}
+
+.content .aniversariante .icone {
+    position: absolute;
+    left: 20px;
+    top: -15px;
+    width: 60px;
+    height: auto;
+}
+
+.content .aniversariante h4 {
+    width: 271px;
+    height: 55px;
+    background-image: url('../img/titulos.png');
+    background-size: 271px 55px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 10px;
+    margin: 0;
+    padding: 8px 0 0 12px;
+    text-align: left;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: Raleway;
+    font-weight: 600;
+}
+
+.content .aniversariante ul.datas {
+    position: relative;
+    color: #ffffff;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+    list-style-type: none;
+    
+}
+
+.content .aniversariante ul.datas li {
+    margin: 0;
+    padding: 0;
+    font-size: 21px;
+}
+
+.content .aniversariante ul.datas li span {
+    font-family: Raleway;
+    font-weight: 700;
+}
+
+/*AUTORIDADES*/
+
+.content .autoridade {
+    width: auto;
+    min-height: 180px;
+    border-radius: 5px;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+    margin-top: 17px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+.content .autoridade:first-child {
+    margin-top: 0;
+}
+
+.content .autoridade .icone {
+    position: absolute;
+    left: -10px;
+    top: 20px;
+    width: 100px;
+    height: auto;
+    transform: rotate(90deg);
+}
+
+.content .autoridade figure {
+    width: 180px;
+    height: 180px;
+    overflow: hidden;
+    border-radius: 90px;
+    text-align: center;
+    display: inline-block;
+}
+
+.content .autoridade figure img {
+    width: 180px;
+    height: auto;
+    margin: 0 auto;
+}
+
+.content .autoridade .grad {
+    font-size: 25px;
+    font-family: Raleway;
+    font-weight: 800;
+    margin-top: 15px;
+    color: #ffffff;
+}
+
+.content .autoridade .militar {
+    font-size: 30px;
+    font-family: Raleway;
+    color: #ffffff;
+    font-weight: 500;
+    margin: 0;
+    padding: 0;
+}
+
+.content .autoridade .cargo {
+    font-size: 20px;
+    font-family: Raleway;
+    color: #ffffff;
+    font-weight: 300;
+}
+
+.content .autoridade hr {
+    border-style: dashed;
+    margin: 5px 0 5px 0;
+}
+
+.content .autoridade .destino {
+    font-size: 16px;
+    font-family: Raleway;
+    font-weight: 600;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.content .autoridade select {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    font-size: 20px;
+    font-family: Raleway;
+    font-weight: 600;
+    text-align: center;
+}
+
+.content .autoridade select option {
+    color: #000000;
+    font-size: 20px;
+    font-family: Raleway;
+    text-align: center;
+    font-weight: 600;
+}
+
+/*DATA HORA*/
+
+.content .datahora {
+    width: auto;
+    min-height: 180px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 30px;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+}
+
+.content .datahora .icone {
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    width: 60px;
+    height: auto;
+}
+
+.content .datahora h4 {
+    width: 251px;
+    height: 55px;
+    background-image: url('../img/titulos.png');
+    background-size: 251px 55px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    margin: 0;
+    padding: 8px 0 0 12px;
+    text-align: left;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: Raleway;
+    font-weight: 600;
+}
+
+.content .datahora hr {
+    border-style: dashed;
+    width: 80%;
+    margin: 8px auto;
+}
+
+.content .datahora .hora {
+    font-size: 60px;
+    line-height: 60px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: #ffffff;
+    margin: 0;
+    padding: 0;
+}
+
+.content .datahora .dia {
+    font-size: 30px;
+    line-height: 30px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: #ffffff;
+}
+
+.content .datahora .data {
+    font-size: 18px;
+    line-height: 20px;
+    font-family: 'Open Sans', sans-serif;
+    font-weight: 800;
+    text-align: center;
+    color: #ffffff;
+}
+
+/*GUARNIÇÃO*/
+
+.content .guarnicao, .content .atividade {
+    width: auto;
+    min-height: 180px;
+    border-radius: 5px;
+    padding: 20px;
+    margin-top: 30px;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+}
+
+.content .guarnicao .icone, .content .atividade .icone {
+    position: absolute;
+    left: 20px;
+    top: 15px;
+    width: 60px;
+    height: auto;
+}
+
+.content .guarnicao h4, .content .atividade h4 {
+    width: 251px;
+    height: 55px;
+    background-image: url('../img/titulos.png');
+    background-size: 251px 55px;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 0;
+    top: 50px;
+    margin: 0;
+    padding: 8px 0 0 12px;
+    text-align: left;
+    color: #ffffff;
+    font-size: 18px;
+    font-family: Raleway;
+    font-weight: 600;
+}
+
+.content .guarnicao .titulo, .content .atividade .titulo {
+    font-size: 20px;
+    font-weight: 600;
+    color: #ffffff;
+    margin-top: 5px;
+    font-family: Raleway;
+}
+
+.content .guarnicao select.militares {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 20px;
+    font-family: Raleway;
+    font-weight: 600;
+    text-align: center;
+}
+
+.content .guarnicao select.militares option {
+    color: #000000;
+    font-size: 20px;
+    font-family: Raleway;
+    text-align: center;
+    font-weight: 600;
+}
+
+.content .guarnicao select.militares-menor {
+    width: 100%;
+    height: 40px;
+    border-radius: 5px;
+    color: #000000;
+    font-size: 14px;
+    font-family: Raleway;
+    font-weight: 600;
+}
+
+.content .guarnicao select.militares-menor option {
+    color: #000000;
+    font-size: 14px;
+    font-family: Raleway;
+    text-align: center;
+    font-weight: 600;
+}
+
+/* RODAPE */
+
+footer {
+    width: 100%;
+    background-image: radial-gradient(ellipse at center, #0088cc 1%, #114cbb 100%);
+    bottom: 0;
+    left: 0;
+    height: 50px;
+    position: fixed;
+    z-index: 999;
+}
+
+footer p {
+    text-align: center;
+    font-family: Raleway;
+    font-weight: 600;
+    font-size: 24px;
+    height: 100%;
+    margin-top: 10px;
+    color: #ffffff;
+}
+
+/*Alterar a cor do 'select' conforme a opção */
+.despacho{
+
+    background-color: red;
+    color: white;
+
+}
+
+.prontonaom {
+    background-color: green;
+    color: white;
+}
+
+option {
+    background-color: white;
+}
+
+ul.lista {
+    list-style-type: square;
+    color: #ffffff;
+    margin-top: 34px;
+    padding: 15px;
+    font-family: Raleway;
+}
+
+.lista li {
+    font-size: 1.6vh;
+    line-height: 18px;
+    font-family: Raleway;
+    font-weight: 700;
+    text-align: left;
+    color: #ffffff;
+    /* margin-bottom: 9px; */
+}
