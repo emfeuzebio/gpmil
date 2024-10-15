@@ -43,35 +43,22 @@ class CelotexController extends Controller
 
     public function index()
     {
-        // $user = User::with('pessoa')->find(Auth::user()->id);
-        // $pessoa = Pessoa::with('pgrad')->find($user->id);
-        // $secaos = Secao::find($user->pessoa->secao_id);
-        // $organizacao = Organizacao::find($user->pessoa->organizacao_id);
-    
-        // $this->userID = $user->id;
-        // $this->userSecaoID = $user->pessoa->secao_id;
-        // $this->userFuncaoID = $user->pessoa->funcao_id;
-        // $this->userNivelAcessoID = $user->pessoa->nivelacesso_id;
-    
-        // $now = Carbon::now();
-
-        $startOfMonth = Carbon::now()->startOfMonth()->format('m-d');
-        $endOfMonth = Carbon::now()->endOfMonth()->format('m-d');
-        
-        // Busca os aniversariantes do mês corrente
-        $aniversariantes = Pessoa::whereRaw("
-            DATE_FORMAT(dt_nascimento, '%m-%d') >= ? 
-            AND DATE_FORMAT(dt_nascimento, '%m-%d') <= ?
-        ", [$startOfMonth, $endOfMonth])
-            ->get()
-            ->sortBy(function($aniversariante) {
-                return Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('m-d');
-            });
-
-        // dd($aniversariantes);
-
-        return view('celotex', [
-            'aniversariantes' => $aniversariantes
-        ]);
+        return view('celotex');
     }
+
+    public function getAniversariantes()
+    {
+        $startOfMonth = Carbon::now()->startOfWeek()->format('m-d');
+        $endOfMonth = Carbon::now()->endOfWeek()->format('m-d');
+    
+        // Busca os aniversariantes do mês corrente com a sigla da graduação
+        $aniversariantes = Pessoa::select('id', 'nome_guerra', 'pgrad_id', 'dt_nascimento', 'status')
+            ->whereRaw("DATE_FORMAT(dt_nascimento, '%m-%d') BETWEEN ? AND ?", [$startOfMonth, $endOfMonth])
+            ->with('pgrad')  // Carrega a relação com 'pgrad' para obter a sigla
+            ->orderByRaw("DATE_FORMAT(dt_nascimento, '%m-%d')")
+            ->get();
+    
+        return response()->json($aniversariantes);
+    }
+    
 }

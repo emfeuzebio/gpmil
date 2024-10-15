@@ -1,17 +1,23 @@
 <template>
     <div class="container">
         <h1 class="my-4">Gerenciar Atividades</h1>
-
         <!-- Exibir mensagens de sucesso ou erro -->
-        <div v-if="message" class="alert" :class="messageClass" role="alert">
-            {{ message }}
+        <div v-if="atividadesHelper.message" class="alert" :class="atividadesHelper.messageClass" role="alert">
+            {{ atividadesHelper.message }}
         </div>
 
         <!-- Botão para adicionar uma nova atividade -->
         <button class="btn btn-success mb-3" @click="showAddModal()">Adicionar Nova Atividade</button>
 
+        <div v-if="atividadesHelper.loading.value" class="text-center">
+            <p>Carregando slides...</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
+        </div>
+
         <!-- Tabela para listar as atividades -->
-        <table class="table table-bordered">
+        <table v-else class="table table-bordered">
             <thead>
                 <tr>
                     <th>Nome</th>
@@ -25,7 +31,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="atividade in atividades" :key="atividade.id" @dblclick="editAtividade(atividade)">
+                <tr v-for="atividade in atividadesHelper.atividades.value" :key="atividade.id" @dblclick="atividadesHelper.edit(atividade)">
                     <td>{{ atividade.nome }}</td>
                     <td>{{ atividade.local }}</td>
                     <td>{{ formatDataHora(atividade.data_hora) }}</td>
@@ -38,8 +44,8 @@
                         </span>
                     </td>
                     <td>
-                        <button class="btn btn-primary btn-sm" @click="editAtividade(atividade)">Editar</button>
-                        <button class="btn btn-danger btn-sm" @click="deleteAtividade(atividade.id)">Excluir</button>
+                        <button class="btn btn-primary btn-sm" @click="atividadesHelper.edit(atividade)">Editar</button>
+                        <button class="btn btn-danger btn-sm" @click="atividadesHelper.remove(atividade.id)">Excluir</button>
                     </td>
                 </tr>
             </tbody>
@@ -50,43 +56,43 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title" v-if="isEditing">Editar Atividade</h5>
+                        <h5 class="modal-title" v-if="atividadesHelper.isEditing">Editar Atividade</h5>
                         <h5 class="modal-title" v-else>Adicionar Nova Atividade</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="saveAtividade">
+                        <form @submit.prevent="atividadesHelper.save">
                             <div class="form-group">
                                 <label for="nome">Nome:</label>
-                                <input type="text" class="form-control" data-toggle="tooltip" title="Nome da atividade" v-model="form.nome" required>
+                                <input type="text" class="form-control" data-toggle="tooltip" title="Nome da atividade" v-model="atividadesHelper.form.value.nome" required>
                             </div>
                             <div class="form-group">
                                 <label for="local">Local:</label>
-                                <input type="text" class="form-control" data-toggle="tooltip" title="Local da atividade" v-model="form.local" required>
+                                <input type="text" class="form-control" data-toggle="tooltip" title="Local da atividade" v-model="atividadesHelper.form.value.local" required>
                             </div>
                             <div class="form-group">
                                 <label for="data_hora">Data-Hora:</label>
-                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora da atividade" v-model="form.data_hora" required>
+                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora da atividade" v-model="atividadesHelper.form.value.data_hora" required>
                             </div>
                             <div class="form-group">
                                 <label for="descricao">Descrição:</label>
-                                <textarea class="form-control" data-toggle="tooltip" title="Descrição e/ou orientações para atividade" v-model="form.descricao" rows="3" required></textarea>
+                                <textarea class="form-control" data-toggle="tooltip" title="Descrição e/ou orientações para atividade" v-model="atividadesHelper.form.value.descricao" rows="3" required></textarea>
                             </div>
                             <div class="form-group">
                                 <label for="dh_ini">Início:</label>
-                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora para o inicio da publicação" v-model="form.dh_ini" required>
+                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora para o inicio da publicação" v-model="atividadesHelper.form.value.dh_ini" required>
                             </div>
                             <div class="form-group">
                                 <label for="dh_fim">Fim:</label>
-                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora para o fim da publicação" v-model="form.dh_fim" required>
+                                <input type="datetime-local" class="form-control" data-toggle="tooltip" title="Data e Hora para o fim da publicação" v-model="atividadesHelper.form.value.dh_fim" required>
                             </div>
-                            <div class="form-group">
+                            <div class="form-group" style="display: none;">
                                 <label for="status">Ativo:</label>
-                                <input type="checkbox" class="form-check-input" data-toggle="toggle" data-style="ios" data-onstyle="primary" data-on="SIM" data-off="NÃO" id="status">
+                                <input type="checkbox" class="form-check-input" v-model="atividadesHelper.form.ativo" data-on="SIM" data-off="NÃO" id="status">
                             </div>
-                            <button type="submit" class="btn btn-primary" @click.prevent="saveAtividade">Salvar</button>
+                            <button type="submit" class="btn btn-primary" @click.prevent="atividadesHelper.save">Salvar</button>
                         </form>
                     </div>
                 </div>
@@ -96,116 +102,37 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            atividades: window.atividades || [], // Passando atividades do Laravel para Vue.js
-            form: {
-                nome: '',
-                local: '',
-                data_hora: '',
-                descricao: '',
-                dh_ini: '',
-                dh_fim: '',
-                ativo: true,
-                id: null,
-            },
-            isEditing: false,
-            message: '',
-            messageClass: '',
-        }
-    },
-    mounted() {
-        $('#status').change(() => {
-            this.form.ativo = $('#status').prop('checked');
-        });
-    },
-    methods: {
-        showAddModal() {
-            this.isEditing = false;
-            this.form = { nome: '', local: '', data_hora: '', descricao: '', dh_ini: '', dh_fim: '', ativo: true, id: null }; // Inicia com valores padrão
-            $('#atividadeModal').modal('show');
-            $('#status').bootstrapToggle('on'); // Define o toggle como "SIM" por padrão
-        },
-        editAtividade(atividade) {
-            this.isEditing = true;
-            this.form = { ...atividade };
+<script setup>
+import { ref, onMounted } from 'vue';
+import axios from 'axios';
+import { useAtividades } from '../composables/useAtividades';
 
-            this.form.ativo = atividade.ativo === 'SIM';
+const atividadesHelper = useAtividades();
 
-            $('#atividadeModal').modal('show');
-            $('#status').bootstrapToggle(atividade.ativo === 'SIM' ? 'on' : 'off'); // Ajusta o estado do toggle
-        },
-        saveAtividade() {
-            let formData = new FormData();
-            this.form.ativo = $('#status:checked').val() ? 'SIM': 'NÃO';
-            formData.append('nome', this.form.nome);
-            formData.append('local', this.form.local);
-            formData.append('data_hora', this.form.data_hora);
-            formData.append('descricao', this.form.descricao);
-            formData.append('dh_ini', this.form.dh_ini);
-            formData.append('dh_fim', this.form.dh_fim);
-            formData.append('ativo', this.form.ativo); // "SIM" ou "NÃO"
 
-            if (this.isEditing) {
-                formData.append('_method', 'PUT');
-                axios.post(`/atividades/update/${this.form.id}`, formData)
-                    .then(response => {
-                        this.message = 'Atividade atualizada com sucesso!';
-                        this.messageClass = 'alert-success';
-                        this.refreshAtividades();
-                        $('#atividadeModal').modal('hide');
-                    })
-                    .catch(error => {
-                        this.message = 'Erro ao atualizar a atividade.';
-                        this.messageClass = 'alert-danger';
-                    });
-            } else {
-                axios.post('/atividades/store', formData)
-                    .then(response => {
-                        this.message = 'Atividade adicionada com sucesso!';
-                        this.messageClass = 'alert-success';
-                        this.refreshAtividades();
-                        $('#atividadeModal').modal('hide');
-                    })
-                    .catch(error => {
-                        this.message = 'Erro ao adicionar a atividade.';
-                        this.messageClass = 'alert-danger';
-                    });
-            }
-        },
-        deleteAtividade(id) {
-            if (confirm('Tem certeza que deseja excluir esta atividade?')) {
-                axios.post(`/atividades/delete/${id}`)
-                    .then(response => {
-                        this.message = 'Atividade excluída com sucesso!';
-                        this.messageClass = 'alert-success';
-                        this.refreshAtividades();
-                    })
-                    .catch(error => {
-                        this.message = 'Erro ao excluir a atividade.';
-                        this.messageClass = 'alert-danger';
-                    });
-            }
-        },
-        refreshAtividades() {
-            axios.get('/atividades/getAtividades')
-                .then(response => {
-                    this.atividades = response.data;                        
-                });
-        },
-        formatDataHora(dataHora) {
-            if (!dataHora) return '';
-            const date = new Date(dataHora);
-            const day = String(date.getDate()).padStart(2, '0');
-            const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
-            const year = date.getFullYear();
-            const hours = String(date.getHours()).padStart(2, '0');
-            const minutes = String(date.getMinutes()).padStart(2, '0');
-
-            return `${day}/${month}/${year} - ${hours}:${minutes}`;
-        }
-    }
+const showAddModal = () => {
+    atividadesHelper.isEditing = true;
+    atividadesHelper.form.value = { nome: '', local: '', data_hora: '', descricao: '', dh_ini: '', dh_fim: '', ativo: true, id: null }; // Inicia com valores padrão
+    $('#atividadeModal').modal('show');
+    $('#status').bootstrapToggle('on'); // Define o toggle como "SIM" por padrão
 };
+
+const formatDataHora = (dataHora) => {
+    if (!dataHora) return '';
+    const date = new Date(dataHora);
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0'); // Mês começa em 0
+    const year = date.getFullYear();
+    const hours = String(date.getHours()).padStart(2, '0');
+    const minutes = String(date.getMinutes()).padStart(2, '0');
+    
+    return `${day}/${month}/${year} - ${hours}:${minutes}`;
+}
+
+onMounted(() => {
+    $('#status').change(() => {
+        atividadesHelper.form.value.ativo = $('#status').prop('checked');
+    });
+    atividadesHelper.loadAtividades();
+});
 </script>

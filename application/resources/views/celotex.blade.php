@@ -17,10 +17,9 @@
 
     <link rel="stylesheet" href="{{ asset('vendor/css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('vendor/css/owl.carousel.min.css') }}">
-    <link rel="stylesheet"
-        href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300|Raleway:100,300,400,500,600,700,800'
-        rel='stylesheet' type='text/css'>
+    {{-- <link rel="stylesheet" href='https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,800,300|Raleway:100,300,400,500,600,700,800' rel='stylesheet' type='text/css'> --}}
     <link rel="stylesheet" href="{{ asset('vendor/css/style.css') }}">
+    <link rel="stylesheet" href="{{ asset('vendor/css/googlefont.css') }}" type="text/css">
 
     <!--[if lt IE 9]>
             <script src="js/html5shiv.js"></script>
@@ -46,150 +45,18 @@
             </div>
         </header>
 
-        <div class="content">
+        <div class="content"  id="app">
             <div class="container-fluid principal">
-                <div class="row">
+                <dikv class="row">
                     <div class="col-md-7">
-                        <div class="row">
+                        <div class="row" >
+                            {{-- ************************** AUTORIDADES ************************** --}}
                             <div class="col-md-8">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="autoridade" id="autoridade-2">
-                                            <img id="autoridade2img" src="" class="icone">
-                                            <div class="conteudo-autoridade" id="conteudo-autoridade-2">
-                                                <figure>
-                                                    <img id="autoridade2foto" src="" alt="">
-                                                </figure>
-                                                <p id="autoridade2grad" class="grad"></p>
-                                                <p id="autoridade2nome" class="militar"></p>
-                                                <p id="autoridade2cargo" class="cargo"></p>
-                                                <hr/>
-                                                <p class="destino">
-                                                    DESTINO
-                                                </p>
-                                                <select name="" id="selectdir" class="destsubdiretor">
-                                                    <option>--</option>
-                                                    <option class="prontonaom" value="pronto">PRONTO NO QGEX</option>
-                                                    <option class="despacho" value="despachoexterno">DESPACHO EXTERNO</option>
-                                                    <option class="despacho" value="despachointerno">DESPACHO INTERNO</option>
-                                                    <option>ALMOÇO</option>
-                                                    <option>SOLENIDADE EXTERNA</option>
-                                                    <option>FORMATURA</option>
-                                                    <option>VOT CMA</option>
-                                                    <option>VOT CML</option>
-                                                    <option>VOT CMN</option>
-                                                    <option>VOT CMNE</option>
-                                                    <option>VOT CMS</option>
-                                                    <option>VOT CMSE</option>
-                                                    <option>VOT CMO</option>
-                                                    <option>VOT CMP</option>
-                                                    <option>VOT RM</option>
-                                                    <option>GAB CMT EX</option>
-                                                    <option>CIE</option>
-                                                    <option>CCOMSEX</option>
-                                                    <option>SGEX</option>
-                                                    <option>EME</option>
-                                                    <option>DGP</option>
-                                                    <option>DEC</option>
-                                                    <option>DCT</option>
-                                                    <option>COTER</option>
-                                                    <option>SEF</option>
-                                                    <option>COLOG</option>
-                                                    <option>DSM</option>
-                                                    <option>DAPROM</option>
-                                                    <option>DAP</option>
-                                                    <option>DSAU</option>
-                                                    <option>DOM</option>
-                                                    <option>DGO</option>
-                                                    <option>DPGO</option> 
-                                                    <option>D CONT</option>
-                                                    <option>CPEX</option>
-                                                    <option>D ABST</option>
-                                                    <option>D MNT</option>
-                                                    <option>D MAVEX</option>
-                                                    <option>DFPC</option>
-                                                    <option>MD</option>
-                                                    <option>EsSA</option>
-                                                    <option>PCI OM</option>
-                                                    <option>PCI EE</option>
-                                                    <option>FÉRIAS</option>
-                                                    <option>DISPENSA
-                                                    <option>PASSAGEM DE FUNÇÃO</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="autoridade" id="autoridade-1">
-                                            <img id="autoridade1img" src="" class="icone">
-                                            <div class="conteudo-autoridade" id="conteudo-autoridade-1">
-                                                <figure>
-                                                    <img id="autoridade1foto" src="" alt="">
-                                                </figure>
-                                                <p id="autoridade1grad" class="grad"></p>
-                                                <p id="autoridade1nome" class="militar"></p>
-                                                <p id="autoridade1cargo" class="cargo"></p>
-                                                <hr/>
-                                                <p class="destino">
-                                                    DESTINO
-                                                </p>
-                                                <select name="" id="select" class="destdiretor">
-                                                    <option>--</option>
-                                                    <option class="prontonaom" value="pronto">PRONTO NO QGEX</option>
-                                                    <option class="despacho" value="despachoexterno">DESPACHO EXTERNO</option>
-                                                    <option class="despacho" value="despachointerno">DESPACHO INTERNO</option>
-                                                    <option>ALMOÇO</option>
-                                                    <option>INSTALAÇÃO</option>
-                                                    <option>SOLENIDADE EXTERNA</option>
-                                                    <option>FORMATURA</option>
-                                                    <option>VOT CMA</option>
-                                                    <option>VOT CML</option>
-                                                    <option>VOT CMN</option>
-                                                    <option>VOT CMNE</option>
-                                                    <option>VOT CMS</option>
-                                                    <option>VOT CMSE</option>
-                                                    <option>VOT CMO</option>
-                                                    <option>VOT CMP</option>
-                                                    <option>VOT RM</option>
-                                                    <option>GAB CMT EX</option>
-                                                    <option>CIE</option>
-                                                    <option>CCOMSEX</option>
-                                                    <option>SGEX</option>
-                                                    <option>EME</option>
-                                                    <option>DGP</option>
-                                                    <option>DEC</option>
-                                                    <option>DCT</option>
-                                                    <option>COTER</option>
-                                                    <option>SEF</option>
-                                                    <option>COLOG</option>
-                                                    <option>DSM</option>
-                                                    <option>DAPROM</option>
-                                                    <option>DAP</option>
-                                                    <option>DSAU</option>
-                                                    <option>DOM</option>
-                                                    <option>DGO</option>
-                                                    <option>DPGO</option> 
-                                                    <option>D CONT</option>
-                                                    <option>CPEX</option>
-                                                    <option>D ABST</option>
-                                                    <option>D MNT</option>
-                                                    <option>D MAVEX</option>
-                                                    <option>DFPC</option>
-                                                    <option>MD</option>
-                                                    <option>EsSA</option>
-                                                    <option>PCI OM</option>
-                                                    <option>PCI EE</option>
-                                                    <option>FÉRIAS</option>
-                                                    <option>DISPENSA
-                                                    <option>PASSAGEM DE FUNÇÃO</option>
-                                                </select>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+                                <Celotex />
                             </div>
                             <div class="col-md-4">
-                                <div class="aniversariante" id="aniversariante">
+                                <Aniversariantes />
+                                {{-- <div class="aniversariante" id="aniversariante">
                                     <img src="{{ asset('vendor/img/celotex/figuras/aniversariantes.png') }}" class="icone">
                                     <h4>Aniversariantes da Semana</h4>
                                     <div class="conteudo-aniversariante" id="conteudo-aniversariante">
@@ -207,7 +74,7 @@
                                             </ul>
                                         @endif
                                     </div>
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                         <div class="row">
@@ -224,7 +91,7 @@
                                                             Permanência
                                                         </p>
                                                         <select id="permanencia" class="militares">
-                                                        <?php
+                                                            <?php
                                                             $listas = DB::table('pessoas')
                                                                 ->join('pgrads', 'pessoas.pgrad_id', '=', 'pgrads.id')
                                                                 ->select('pessoas.nome_guerra', 'pgrads.sigla')
@@ -294,9 +161,8 @@
                                             <h4>Atividades Internas</h4>
                                             <div class="conteudo-atividade" id="conteudo-atividade">
                                                 <div class="row">
-                                                    <div class="col-md-12">
+                                                    <div id="scroll-infinito" class="col-md-12">
                                                         <ul id="lista" class="lista">
-                                                            
                                                         </ul>
                                                     </div>
                                                 </div>
@@ -327,6 +193,11 @@
         </footer>
 
     </div>
+    
+</body>
+
+</html>
+@vite('resources/js/app.js')
     <script>
         var informativosUrl = "{{ asset('vendor/img/informativos.txt') }}";
         var baseImageUrl = "{{ asset('vendor/img/') }}";
@@ -336,7 +207,25 @@
     <script src="{{ asset('vendor/js/bootstrap.min.js') }}"></script>
     <script src="{{ asset('vendor/js/owl.carousel.min.js') }}"></script>
     <script src="{{ asset('vendor/js/config.js') }}"></script>
-
-</body>
-
-</html>
+    <script>
+        var tempo;
+        function rolar(e){
+            if(e){
+                tempo = setInterval(function(){
+                    var doc_scrl = document.documentElement.scrollTop;
+                    var maxScroll = document.documentElement.scrollHeight - window.innerHeight;
+                    
+                    if (doc_scrl >= maxScroll) {
+                        // Se a rolagem chegar ao final, volta para o topo
+                        window.scrollTo(0, 0);
+                    } else {
+                        // Continua rolando a página
+                        window.scroll(0, doc_scrl + 2);
+                    }
+                }, 50);
+            } else {
+                clearInterval(tempo);
+            }
+        }
+    </script>
+    

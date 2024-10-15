@@ -45,7 +45,7 @@ class SlideShowController extends Controller
     
             // Faz o upload da nova imagem
             $caminho = 'vendor/img/celotex/informativos';
-            $nomeArquivo = time() . '.' . $request->imagem->extension();
+            $nomeArquivo = 'slide_' . time() . '.' . $request->imagem->extension();
             $request->imagem->move(public_path($caminho), $nomeArquivo);
             $slide->caminho_imagem = $caminho . '/' . $nomeArquivo;
         }
@@ -77,7 +77,7 @@ class SlideShowController extends Controller
             $caminho = 'vendor/img/celotex/informativos';
 
             // Gera um nome único para a imagem
-            $nomeArquivo = time() . '.' . $request->imagem->extension();
+            $nomeArquivo = 'slide_' . time() . '.' . $request->imagem->extension();
 
             // Move o arquivo para o diretório especificado
             $request->imagem->move(public_path($caminho), $nomeArquivo);

@@ -53,8 +53,10 @@ Route::group(['middleware' => 'check.time'], function () {
     });
 
     Route::get('/celotex', [CelotexController::class, 'index'])->name('celotex');
+    Route::get('/celotex/getAniversariantes', [CelotexController::class, 'getAniversariantes']);
     Route::get('/atividades/ativos', [AtividadesController::class, 'getAtividadesAtivas']);
     Route::get('/slides/ativos', [SlideShowController::class, 'getActiveSlides']);
+    Route::get('/autoridades/getAutoridades', [AutoridadesController::class, 'getAutoridades']);
 
     // remete para Socialite DGP autenticação
     Route::get('/auth/redirect', function () {
@@ -159,7 +161,8 @@ Route::group(['middleware' => 'check.time'], function () {
         Route::put('/atividades/update/{id}', [AtividadesController::class, 'update'])->name('atividades.update');
         Route::post('/atividades/delete/{id}', [AtividadesController::class, 'destroy'])->name('atividades.destroy');
 
-
+        Route::get('/autoridades', [AutoridadesController::class, 'index'])->name('autoridades.index');
+        Route::post('/autoridade/{tipo}/update', [AutoridadesController::class, 'updateAutoridade']);
 
         Route::controller(NotificationController::class)->group(function () {
             Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');
