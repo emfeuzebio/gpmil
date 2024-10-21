@@ -561,6 +561,11 @@ return [
             'can' => 'is_admin',
             'submenu' => [
                 [
+                    'text' => 'Autoridades',
+                    'icon' => 'fas fa-user',
+                    'url' => 'autoridades',
+                ],
+                [
                     'text' => 'Slides',
                     'icon' => 'fas fa-image',
                     'url' => 'slides',

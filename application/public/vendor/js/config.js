@@ -66,7 +66,8 @@ $(document).ready(function () {
             $('.guarnicao').animate({ height: (painel - 30) + 'px' }, 500);
             $('.atividade').animate({ height: (painel - 30) + 'px' }, 100);
 
-        }        
+        }
+                
         function alinhaOsDemaisConteudos() {
 
             setTimeout(function () {
@@ -98,52 +99,6 @@ $(document).ready(function () {
 
     }
 
-    function carregaAutoridades() {
-
-        var autoridades = [];
-        var destdiretor = [];
-        var destsubdiretor = [];
-        var htmldir = '';
-        var htmlsdir = '';
-
-        $.get('autoridades/autoridades.txt', function (txt) {
-
-            var lines = txt.split("\n");
-            for (var i = 0, len = lines.length; i < len; i++) {
-
-                autoridades.push(lines[i]);
-
-            }
-            $.each(autoridades, function (i, val) {
-
-                var dado = val.split("-");
-                $('#autoridade' + (i + 1) + 'img').attr('src', 'autoridades/' + dado[0] + '.png');
-                $('#autoridade' + (i + 1) + 'foto').attr('src', 'autoridades/' + dado[1]);
-                $('#autoridade' + (i + 1) + 'grad').text(dado[2]);
-                $('#autoridade' + (i + 1) + 'nome').text(dado[3]);
-                $('#autoridade' + (i + 1) + 'cargo').text(dado[4]);
-
-            })
-
-        });
-
-            //Alterar a cor do 'select' conforme a opção 
-            var select = document.getElementById('select');
-
-            select.onchange = function () {
-                select.className = this.options[this.selectedIndex].className;
-            }
-
-            //Alterar a cor do 'select' conforme a opção 
-            var selectdir = document.getElementById('selectdir');
-
-            selectdir.onchange = function () {
-                selectdir.className = this.options[this.selectedIndex].className;
-            }
-    }
-
-    carregaAutoridades();
-
     function formatDataHora(dataHora) {
         if (!dataHora) return '';
         const date = new Date(dataHora);
@@ -163,10 +118,25 @@ $(document).ready(function () {
     
         $.get('/atividades/ativos', function (atividades) {
             atividades.forEach(function (atividade) {
-                html += '<li>' + '<strong class="text-warning">' +  atividade.nome + '</strong>'  + '<br>' + '<strong>Local: </strong>' + atividade.local + '<br><strong>Data Hora: </strong>' + formatDataHora(atividade.data_hora) + '<br>' + atividade.descricao + '</li>';
+                html += '<li class="item">' + '<strong class="text-warning">' + atividade.nome + '</strong>' + '<br>' + '<strong>Local: </strong>' + atividade.local + '<br><strong>Data Hora: </strong>' + formatDataHora(atividade.data_hora) + '<br>' + atividade.descricao + '</li>';
             });
     
             $('#lista').html(html);
+
+                        // Verifica se há mais de 3 itens
+            if ($('#lista .item').length > 2) {
+                $('#lista .item').each(function() {
+                    let duplicado = $(this).clone(); // Clona o item
+                    $('#lista').append(duplicado); // Adiciona o item clonado de volta à lista
+                });
+
+                $('#lista').addClass('scroll-infinito'); // Adiciona a classe que ativa a animação
+                $('#scroll-infinito').addClass('scroll'); // Adiciona a classe que ativa a animação
+
+            } else {
+                $('#lista').removeClass('scroll-infinito'); // Remove a classe se não houver mais de 3 itens
+                $('#scroll-infinito').removeClass('scroll'); // Remove a classe se não houver mais de 3 itens
+            }
         });
     }
     
