@@ -554,6 +554,59 @@ return [
 
             ],
         ],
+        [
+            'text' => 'Admin Celotex',
+            'icon' => 'fas fa-fw fa-cog',
+            'url' => 'celotex',
+            'can' => 'is_admin',
+            'submenu' => [
+                [
+                    'text' => 'Autoridades',
+                    'icon' => 'fas fa-user',
+                    'url' => 'autoridades',
+                ],
+                [
+                    'text' => 'Slides',
+                    'icon' => 'fas fa-image',
+                    'url' => 'slides',
+                ],
+                [
+                    'text' => 'Atividades',
+                    'icon' => 'fas fa-id-card',
+                    'url' => 'atividades',
+                ],
+                [
+                    'text' => 'Celotex',
+                    'icon' => 'fas fa-id-card',
+                    'target' => '_blank',
+                    'url' => 'celotex',
+                ]
+            ],
+        ],
+        [
+            'text' => 'Admin Celotex',
+            'icon' => 'fas fa-fw fa-cog',
+            'url' => 'celotex',
+            'can' => 'is_encpes',
+            'submenu' => [
+                [
+                    'text' => 'Slides',
+                    'icon' => 'fas fa-image',
+                    'url' => 'slides',
+                ],
+                [
+                    'text' => 'Atividades',
+                    'icon' => 'fas fa-id-card',
+                    'url' => 'atividades',
+                ],
+                [
+                    'text' => 'Celotex',
+                    'icon' => 'fas fa-id-card',
+                    'target' => '_blank',
+                    'url' => 'celotex',
+                ]
+            ],
+        ],
 
         // ['header' => 'labels'],
         // [

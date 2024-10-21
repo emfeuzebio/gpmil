@@ -19,6 +19,17 @@ services:
     depends_on:
       - db
       - redis
+    networks:
+      - rede-compartilhada
+
+  vite:
+    image: node:latest
+    working_dir: /var/www/application
+    volumes:
+      - ./application:/var/www/application
+    command: npm run dev
+    depends_on:
+      - app
 
   nginx:
     image: nginx:1.25.1-alpine-slim
@@ -29,7 +40,9 @@ services:
     volumes:
       - ./:/var/www
       - ./application:/var/www/application
-      - ./docker/nginx:/etc/nginx/conf.d      
+      - ./docker/nginx:/etc/nginx/conf.d
+    networks:
+      - rede-compartilhada      
 
   redis:
     build:
@@ -40,7 +53,9 @@ services:
     ports:
       - "6379:6379"
     volumes:
-      - redis:/data      
+      - redis:/data
+    networks:
+      - rede-compartilhada      
 
   db:
     build:
@@ -58,22 +73,30 @@ services:
       # MYSQL_PASSWORD: "gpmil"
     ports:
       - "3306:3306"
+    networks:
+      - rede-compartilhada
 
   pma:
-      image: phpmyadmin:latest
-      container_name: euz-pma
-      restart: always
-      environment:
-        PMA_HOST: db
-        PMA_PORT: 3306
-        MYSQL_ROOT_PASSWORD: "root"
-        UPLOAD_LIMIT: 128M
-        PMA_ARBITRARY: 1
-      ports:
-        - 8001:80
-      links:
-        - db:db      
+    image: phpmyadmin:latest
+    container_name: euz-pma
+    restart: always
+    environment:
+      PMA_HOST: db
+      PMA_PORT: 3306
+      MYSQL_ROOT_PASSWORD: "root"
+      UPLOAD_LIMIT: 128M
+      PMA_ARBITRARY: 1
+    ports:
+      - "8001:80"
+    links:
+      - db:db
+    networks:
+      - rede-compartilhada      
 
 volumes:
   redis:
   db:
+
+networks:
+  rede-compartilhada:
+    external: true

@@ -2,6 +2,9 @@
 
 use App\Http\Controllers\BoletimController;
 use App\Http\Controllers\ApresentacaoController;
+use App\Http\Controllers\AtividadesController;
+use App\Http\Controllers\AutoridadesController;
+use App\Http\Controllers\CelotexController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use App\Http\Controllers\CirculoController;
@@ -18,6 +21,7 @@ use App\Http\Controllers\NotificationController;
 use App\Http\Controllers\PessoaController;
 use App\Http\Controllers\PlanoChamadaController;
 use App\Http\Controllers\QualificacaoController;
+use App\Http\Controllers\SlideShowController;
 use App\Http\Controllers\SolicitacoesController;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Support\Facades\Auth;
@@ -47,6 +51,13 @@ Route::group(['middleware' => 'check.time'], function () {
         }
         return view('/auth/login'); 
     });
+
+    Route::get('/celotex', [CelotexController::class, 'index'])->name('celotex');
+    Route::get('/celotex/getAniversariantes', [CelotexController::class, 'getAniversariantes']);
+    Route::get('/celotex/getGuarnicao', [CelotexController::class, 'getGuarnicao']);
+    Route::get('/atividades/ativos', [AtividadesController::class, 'getAtividadesAtivas']);
+    Route::get('/slides/ativos', [SlideShowController::class, 'getActiveSlides']);
+    Route::get('/autoridades/getAutoridades', [AutoridadesController::class, 'getAutoridades']);
 
     // remete para Socialite DGP autenticação
     Route::get('/auth/redirect', function () {
@@ -138,6 +149,22 @@ Route::group(['middleware' => 'check.time'], function () {
         Route::get('/home', [HomeController::class, 'index'])->name('home');
         
         Route::get('/solicitacoes', [SolicitacoesController::class, 'index'])->name('solicitacoes');
+
+        Route::get('/slides', [SlideShowController::class, 'index'])->name('slides.index');
+        Route::get('/slides/getSlides', [SlideShowController::class, 'getSlides']);
+        Route::post('/slides/store', [SlideShowController::class, 'store'])->name('slides.store');
+        Route::put('/slides/update/{id}', [SlideShowController::class, 'update'])->name('slides.update');
+        Route::post('/slides/delete/{id}', [SlideShowController::class, 'destroy'])->name('slides.destroy');
+
+        Route::get('/atividades', [AtividadesController::class, 'index'])->name('atividades.index');
+        Route::get('/atividades/getAtividades', [AtividadesController::class, 'getAtividades']);
+        Route::post('/atividades/store', [AtividadesController::class, 'store'])->name('atividades.store');
+        Route::put('/atividades/update/{id}', [AtividadesController::class, 'update'])->name('atividades.update');
+        Route::post('/atividades/delete/{id}', [AtividadesController::class, 'destroy'])->name('atividades.destroy');
+
+        Route::get('/autoridades', [AutoridadesController::class, 'index'])->name('autoridades.index');
+        Route::put('/autoridade/{id}/update', [AutoridadesController::class, 'update']);
+        Route::put('/autoridades/edit', [AutoridadesController::class, 'edit']);
 
         Route::controller(NotificationController::class)->group(function () {
             Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');
