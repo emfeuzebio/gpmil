@@ -54,6 +54,7 @@ Route::group(['middleware' => 'check.time'], function () {
 
     Route::get('/celotex', [CelotexController::class, 'index'])->name('celotex');
     Route::get('/celotex/getAniversariantes', [CelotexController::class, 'getAniversariantes']);
+    Route::get('/celotex/getGuarnicao', [CelotexController::class, 'getGuarnicao']);
     Route::get('/atividades/ativos', [AtividadesController::class, 'getAtividadesAtivas']);
     Route::get('/slides/ativos', [SlideShowController::class, 'getActiveSlides']);
     Route::get('/autoridades/getAutoridades', [AutoridadesController::class, 'getAutoridades']);
@@ -162,7 +163,8 @@ Route::group(['middleware' => 'check.time'], function () {
         Route::post('/atividades/delete/{id}', [AtividadesController::class, 'destroy'])->name('atividades.destroy');
 
         Route::get('/autoridades', [AutoridadesController::class, 'index'])->name('autoridades.index');
-        Route::post('/autoridade/{tipo}/update', [AutoridadesController::class, 'updateAutoridade']);
+        Route::put('/autoridade/{id}/update', [AutoridadesController::class, 'update']);
+        Route::put('/autoridades/edit', [AutoridadesController::class, 'edit']);
 
         Route::controller(NotificationController::class)->group(function () {
             Route::get('/solicitar-troca', 'index')->name('solicitar-troca.index');

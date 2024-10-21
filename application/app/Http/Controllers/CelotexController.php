@@ -60,5 +60,26 @@ class CelotexController extends Controller
     
         return response()->json($aniversariantes);
     }
+
+    public function getGuarnicao()
+    {
+        $permanencia = Pessoa::join('pgrads', 'pessoas.pgrad_id', '=', 'pgrads.id')
+            ->select('pessoas.nome_guerra', 'pgrads.sigla')
+            ->where('pessoas.ativo', 'SIM')
+            ->whereIn('pgrad_id', [22, 23, 24])
+            ->get();
+    
+        $auxiliar = Pessoa::join('pgrads', 'pessoas.pgrad_id', '=', 'pgrads.id')
+            ->select('pessoas.nome_guerra', 'pgrads.sigla')
+            ->where('pessoas.ativo', 'SIM')
+            ->whereIn('pgrad_id', [42, 44, 49])
+            ->get();
+    
+        return response()->json([
+            'permanencia' => $permanencia,
+            'auxiliar' => $auxiliar,
+        ]);
+    }
+    
     
 }

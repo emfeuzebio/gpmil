@@ -7,53 +7,38 @@ use App\Models\Autoridades;
 use App\Models\Funcao;
 use App\Models\Pessoa;
 use App\Models\Pgrad;
+use Illuminate\Support\Facades\Gate;
 
 class AutoridadesController extends Controller
 {
     public function index()
     {
-        $diretor = Pessoa::where('funcao_id', 1)->with('pgrad')->with('funcao')->first();
-        $subdiretor = Pessoa::where('funcao_id', 2)->with('pgrad')->with('funcao')->first();
+        if (Gate::none(['is_admin','is_encpes'], new Pessoa())) {
+            abort(403, 'Usuário não autorizado!');
+        }      
 
-        // Converte a foto (BLOB) para base64
-        if ($diretor && $diretor->foto) {
-            $decoded_data = base64_decode($diretor->foto);
-            $image = @imagecreatefromstring($decoded_data);
-
-            if ($image !== false) {
-                ob_start();
-                imagepng($image);
-                $data = ob_get_contents();
-                ob_end_clean();
-
-                $diretor->foto = 'data:image/png;base64,' . base64_encode($data);
-            }
-            // $diretor->foto = base64_encode($diretor->foto);
-        }
-
-        if ($subdiretor && $subdiretor->foto) {
-            $decoded_data = base64_decode($subdiretor->foto);
-            $image = @imagecreatefromstring($decoded_data);
-
-            if ($image !== false) {
-                ob_start();
-                imagepng($image);
-                $data = ob_get_contents();
-                ob_end_clean();
-
-                $subdiretor->foto = 'data:image/png;base64,' . base64_encode($data);
-            }
-            // $subdiretor->foto = base64_encode($subdiretor->foto);
-        }
-
-        return view('celotex/autoridades', compact('diretor', 'subdiretor'));
+        return view('celotex/autoridades');
+        // return view('celotex/autoridades');
     }
 
     public function getAutoridades()
     {
         // Obtém o Diretor e o Sub-Diretor da tabela 'pessoas'
-        $diretor = Pessoa::where('funcao_id', 1)->with('pgrad')->with('funcao')->first();
-        $subDiretor = Pessoa::where('funcao_id', 2)->with('pgrad')->with('funcao')->first();
+        $diretor = Pessoa::where('funcao_id', 1)
+            ->with(['pgrad:id,sigla', 'funcao:id,descricao'])
+            ->select('nome_guerra', 'pgrad_id', 'funcao_id', 'foto')
+            ->first();
+
+        $subDiretor = Pessoa::where('funcao_id', 20)
+            ->with(['pgrad:id,sigla', 'funcao:id,descricao'])
+            ->select('nome_guerra', 'pgrad_id', 'funcao_id', 'foto')
+            ->first();
+        if (!$subDiretor) {
+            $subDiretor = Pessoa::where('funcao_id', 2)
+            ->with(['pgrad:id,sigla', 'funcao:id,descricao'])
+            ->select('nome_guerra', 'pgrad_id', 'funcao_id', 'foto')
+            ->first();
+        }
     
         // Array para armazenar as autoridades
         $autoridades = [];
@@ -107,24 +92,18 @@ class AutoridadesController extends Controller
         return response()->json($autoridades);
     }
     
-
-    public function updateAutoridade(Request $request, $tipo)
+    public function getPessoas()
     {
-        $request->validate([
-            'id' => 'required|integer|exists:pessoas,id',
-        ]);
+        $pessoas = Pessoa::where('ativo', 'SIM')
+            ->with(['pgrad:id,sigla', 'funcao:id,descricao'])
+            ->select('nome_guerra', 'pgrad_id', 'funcao_id', 'foto')
+            ->first();
 
-        $autoridade = Pessoa::find($request->id);
+        return response()->json($pessoas);
+    }
+
+    public function update(Request $request, $id)
+    {
         
-        // Atualiza a função conforme o tipo
-        if ($tipo === 'diretor') {
-            $autoridade->funcao_id = 1; // Atualiza para Diretor
-        } elseif ($tipo === 'sub_diretor') {
-            $autoridade->funcao_id = 2; // Atualiza para Sub-Diretor
-        }
-
-        $autoridade->save();
-
-        return response()->json(['message' => 'Autoridade atualizada com sucesso!']);
     }
 }

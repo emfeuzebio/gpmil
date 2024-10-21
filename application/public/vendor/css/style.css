@@ -3,6 +3,7 @@ html {
     height: 100%;
     width: 100%;
     font-family: 'Open Sans', sans-serif;
+    /* font-family: Raleway; */
     color: #404156;
     font-size: 14px;
     font-weight: 400;
@@ -80,7 +81,7 @@ header h3 {
 .content .aniversariante h4 {
     width: 271px;
     height: 55px;
-    background-image: url('../img/titulos.png');
+    background-image: url('../img/celotex/figuras/titulos.png');
     background-size: 271px 55px;
     background-repeat: no-repeat;
     position: absolute;
@@ -91,7 +92,7 @@ header h3 {
     text-align: left;
     color: #ffffff;
     font-size: 18px;
-    font-family: Raleway;
+    font-family: 'Times New Roman', Times, serif;
     font-weight: 600;
 }
 
@@ -108,7 +109,7 @@ header h3 {
 .content .aniversariante ul.datas li {
     margin: 0;
     padding: 0;
-    font-size: 21px;
+    font-size: 1.6vh;
 }
 
 .content .aniversariante ul.datas li span {
@@ -143,42 +144,45 @@ header h3 {
 }
 
 .content .autoridade figure {
-    width: 180px;
-    height: 180px;
+    width: 18vh;
+    height: 18vh;
     overflow: hidden;
-    border-radius: 90px;
+    border-radius: 90vh;
     text-align: center;
     display: inline-block;
 }
 
 .content .autoridade figure img {
-    width: 180px;
+    width: 18vh;
     height: auto;
     margin: 0 auto;
 }
 
 .content .autoridade .grad {
-    font-size: 25px;
+    font-size: 2vh;
     font-family: Raleway;
     font-weight: 800;
-    margin-top: 15px;
+    margin-top: 1px;
+    margin-bottom: 1px;
     color: #ffffff;
 }
 
 .content .autoridade .militar {
-    font-size: 30px;
+    font-size: 2vh;
     font-family: Raleway;
     color: #ffffff;
     font-weight: 500;
     margin: 0;
     padding: 0;
+    margin-bottom: 1px;
 }
 
 .content .autoridade .cargo {
-    font-size: 20px;
+    font-size: 2vh;
     font-family: Raleway;
     color: #ffffff;
     font-weight: 300;
+    margin-bottom: 0;
 }
 
 .content .autoridade hr {
@@ -187,7 +191,7 @@ header h3 {
 }
 
 .content .autoridade .destino {
-    font-size: 16px;
+    font-size: 1.6vh;
     font-family: Raleway;
     font-weight: 600;
     color: #ffffff;
@@ -197,7 +201,7 @@ header h3 {
 
 .content .autoridade select {
     width: 100%;
-    height: 40px;
+    height: 4vh;
     border-radius: 5px;
     font-size: 20px;
     font-family: Raleway;
@@ -235,7 +239,7 @@ header h3 {
 .content .datahora h4 {
     width: 251px;
     height: 55px;
-    background-image: url('../img/titulos.png');
+    background-image: url('../img/celotex/figuras/titulos.png');
     background-size: 251px 55px;
     background-repeat: no-repeat;
     position: absolute;
@@ -307,7 +311,7 @@ header h3 {
 .content .guarnicao h4, .content .atividade h4 {
     width: 251px;
     height: 55px;
-    background-image: url('../img/titulos.png');
+    background-image: url('../img/celotex/figuras/titulos.png');
     background-size: 251px 55px;
     background-repeat: no-repeat;
     position: absolute;
@@ -409,9 +413,10 @@ option {
 ul.lista {
     list-style-type: square;
     color: #ffffff;
-    margin-top: 34px;
-    padding: 15px;
+    padding: 1.5vh;
     font-family: Raleway;
+    position: relative;
+
 }
 
 .lista li {
@@ -421,5 +426,30 @@ ul.lista {
     font-weight: 700;
     text-align: left;
     color: #ffffff;
-    /* margin-bottom: 9px; */
+}
+
+@keyframes scrollInfinito {
+    from {
+        transform: translateY(0);
+    }
+    to {
+        transform: translateY(-50%);
+        
+    }
+}
+
+.scroll-infinito {
+    animation: scrollInfinito 10s linear infinite; /* Ajuste o tempo e outros parâmetros conforme necessário */
+}
+
+.scroll {
+    overflow: hidden;
+    height: 30vh;
+    position: relative;
+    margin-top: 2vh;
+    filter: blur(0); /* Inicialmente sem blur */
+    transition: filter 1s ease-in-out;
+    mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0%, black 15%, black 85%, transparent 100%);
+    filter: blur(0.1px); /* Aumente o valor para mais desfoque */
 }

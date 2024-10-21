@@ -37,7 +37,7 @@
                 <div class="row">
                     <div class="col-md-12">
                         <figure>
-                            <img src="img/dcem.png" alt="">
+                            <img src="{{ asset('vendor/img/celotex/figuras/dcem.png') }}" alt="">
                         </figure>
                         <h3 class="text-center">DIRETORIA DE CONTROLE DE EFETIVOS E MOVIMENTAÇÕES</h3>
                     </div>
@@ -56,91 +56,13 @@
                             </div>
                             <div class="col-md-4">
                                 <Aniversariantes />
-                                {{-- <div class="aniversariante" id="aniversariante">
-                                    <img src="{{ asset('vendor/img/celotex/figuras/aniversariantes.png') }}" class="icone">
-                                    <h4>Aniversariantes da Semana</h4>
-                                    <div class="conteudo-aniversariante" id="conteudo-aniversariante">
-                                        @if ($aniversariantes->isEmpty())
-                                            <p>Não há aniversariantes nesse mês.</p>
-                                        @else
-                                            <ul class="datas">
-                                                @foreach ($aniversariantes as $aniversariante)
-                                                @php
-                                                    $meses = ['Jan' => 'Jan', 'Feb' => 'Fev', 'Mar' => 'Mar', 'Apr' => 'Abr', 'May' => 'Maio', 'Jun' => 'Jun', 'Jul' => 'Jul', 'Aug' => 'Ago', 'Sep' => 'Set', 'Oct' => 'Out', 'Nov' => 'Nov', 'Dec' => 'Dez'];
-                                                    $mesAbreviado = $meses[Carbon\Carbon::parse($aniversariante->dt_nascimento)->format('M')];
-                                                @endphp
-                                                <li id="datas">{{ $aniversariante->status == 'Reserva' ? $aniversariante->pgrad->sigla . ' R1' : $aniversariante->pgrad->sigla }}<strong> {{ $aniversariante->nome_guerra }}</strong> - {{ Carbon\Carbon::createFromFormat('Y-m-d', $aniversariante->dt_nascimento)->format('d') . '/' . $mesAbreviado }}</li>
-                                                @endforeach
-                                            </ul>
-                                        @endif
-                                    </div>
-                                </div> --}}
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="row">
                                     <div class="col-md-4">
-                                        <div class="guarnicao" id="guarnicao">
-                                            <img src="{{ asset('vendor/img/celotex/figuras/guarnicao.png') }}" class="icone">
-                                            <h4>Guarnição de Serviço</h4>
-                                            <div class="conteudo-guarnicao" id="conteudo-guarnicao">
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p class="titulo">
-                                                            Permanência
-                                                        </p>
-                                                        <select id="permanencia" class="militares">
-                                                            <?php
-                                                            $listas = DB::table('pessoas')
-                                                                ->join('pgrads', 'pessoas.pgrad_id', '=', 'pgrads.id')
-                                                                ->select('pessoas.nome_guerra', 'pgrads.sigla')
-                                                                ->where('pessoas.ativo', 'SIM')
-                                                                ->whereIn('pgrad_id', [22, 23, 24]) // Usa whereIn para valores múltiplos
-                                                                ->get();
-
-                                                            $html = '';
-                                                            $html .= '<option value="">Selecione</option>';
-                                                            
-                                                            foreach ($listas as $lista) {
-                                                                $html .= '<option value="'.$lista->nome_guerra.'">'.$lista->sigla.' - '.$lista->nome_guerra.'</option>';
-                                                            }
-
-                                                            echo $html;
-                                                            
-                                                        ?>
-                                                        </select>
-        
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="col-md-12">
-                                                        <p class="titulo">
-                                                            Auxiliar
-                                                        </p>
-                                                        <select id="aux1piso" class="militares">
-                                                            <?php
-                                                            $listas = DB::table('pessoas')
-                                                                ->join('pgrads', 'pessoas.pgrad_id', '=', 'pgrads.id')
-                                                                ->select('pessoas.nome_guerra', 'pgrads.sigla')
-                                                                ->where('pessoas.ativo', 'SIM')
-                                                                ->whereIn('pgrad_id', [42, 44, 49]) // Usa whereIn para valores múltiplos
-                                                                ->get();
-
-                                                            $html = '';
-                                                            $html .= '<option value="">Selecione</option>';
-                                                            
-                                                            foreach ($listas as $lista) {
-                                                                $html .= '<option value="'.$lista->nome_guerra.'">'.$lista->sigla.' - '.$lista->nome_guerra.'</option>';
-                                                            }
-
-                                                            echo $html;
-                                                            ?>
-                                                        </select>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
+                                        <Guarnicao />
                                     </div>
                                     <div class="col-md-4">
                                         <div class="datahora" id="datahora">

@@ -5,11 +5,16 @@ namespace App\Http\Controllers;
 use App\Models\Atividade;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class AtividadesController extends Controller
 {
     public function index()
     {
+        if (Gate::none(['is_admin','is_encpes'], new Atividade())) {
+            abort(403, 'Usuário não autorizado!');
+        } 
+
         $atividades = Atividade::orderBy('data_hora', 'desc')->get();
         return view('celotex/atividades', compact('atividades'));
     }

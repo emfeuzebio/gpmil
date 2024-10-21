@@ -3,8 +3,15 @@
         <h1 class="my-4">Autoridades</h1>
 
         <!-- Exibir mensagens de sucesso ou erro -->
-        <div v-if="message" class="alert" :class="messageClass" role="alert">
-            {{ message }}
+        <div v-if="autoridadesHelper.message" class="alert" :class="autoridadesHelper.messageClass" role="alert">
+            {{ autoridadesHelper.message }}
+        </div>
+
+        <div v-if="autoridadesHelper.loading.value" class="text-center">
+            <p>Carregando slides...</p>
+            <div class="spinner-border" role="status">
+                <span class="sr-only">Loading...</span>
+            </div>
         </div>
 
         <!-- Tabela para listar o Diretor e Sub-Diretor -->
@@ -16,11 +23,11 @@
                     <th>Nome</th>
                     <th>Função</th>
                     <th>Respondendo</th>
-                    <th>Ações</th>
+                    <!-- <th>Ações</th> -->
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="autoridade in autoridades" :key="autoridade.id">
+                <tr v-for="autoridade in autoridadesHelper.autoridades.value" :key="autoridade.id">
                     <td>
                         <img :src="autoridade.foto" alt="Autoridade" width="150">
                     </td>
@@ -28,9 +35,9 @@
                     <td>{{ autoridade.nome_guerra }}</td>
                     <td>{{ autoridade.funcao.descricao }}</td>
                     <td>{{ autoridade.respondendo || 'Nenhum' }}</td>
-                    <td>
-                        <button class="btn btn-primary btn-sm" @click="editAutoridade(autoridade)">Editar</button>
-                    </td>
+                    <!-- <td>
+                        <button class="btn btn-primary btn-sm" @click="autoridadesHelper.edit(autoridade)">Editar</button>
+                    </td> -->
                 </tr>
             </tbody>
         </table>
@@ -40,26 +47,38 @@
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h5 class="modal-title">Editar Autoridade</h5>
-                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <h5 class="modal-title" v-if="autoridadesHelper.isEditing">Editar Autoridade</h5>
+                        <h5 class="modal-title">Editar Diretor e Respondendo</h5>
+                        <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form @submit.prevent="saveAutoridade">
-                            <div class="form-group">
-                                <label for="nome">Nome:</label>
-                                <input type="text" class="form-control" v-model="form.nome" required>
+                        <form @submit.prevent="autoridadesHelper.save">
+                            <div class="modal-body">
+                                <div class="mb-3">
+                                    <label for="diretor_id" class="form-label">Diretor</label>
+                                    <select v-model="autoridadesHelper.form.diretor_id" id="diretor_id" name="diretor_id" class="form-control" required>
+                                        <option v-for="autoridade in autoridadesHelper.autoridades.value" :key="autoridade.id" :value="autoridade.id">
+                                            {{ autoridade.nome_guerra }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="mb-3">
+                                    <label for="respondendo_id" class="form-label">Respondendo</label>
+                                    <select v-model="autoridadesHelper.form.respondendo_id" id="respondendo_id" name="respondendo_id" class="form-control">
+                                        <option :value="null">Nenhum</option>
+                                        <option v-for="autoridade in autoridadesHelper.autoridades.value" :key="autoridade.id" :value="autoridade.id">
+                                            {{ autoridade.nome_guerra }}
+                                        </option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group">
-                                <label for="cargo">Cargo:</label>
-                                <input type="text" class="form-control" v-model="form.cargo" required>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" @click="clearForm">Fechar</button>
+                                <button type="submit" class="btn btn-primary">Salvar</button>
                             </div>
-                            <div class="form-group">
-                                <label for="respondendo">Respondendo por:</label>
-                                <input type="text" class="form-control" v-model="form.respondendo">
-                            </div>
-                            <button type="submit" class="btn btn-primary">Salvar</button>
                         </form>
                     </div>
                 </div>
@@ -68,59 +87,28 @@
     </div>
 </template>
 
-<script>
-export default {
-    data() {
-        return {
-            autoridades: window.diretor || [], // Lista de autoridades
-            form: {
-                id: null,
-                nome: '',
-                cargo: '',
-                respondendo: '',
-                caminho_imagem: null,
-            },
-            message: '',
-            messageClass: '',
-        }
-    },
-    mounted() {
-        this.getAutoridades(); // Carrega as autoridades no componente
-    },
-    methods: {
-        getAutoridades() {
-            axios.get('/autoridades/getAutoridades')
-                .then(response => {
-                    this.autoridades = response.data;
-                });
-        },
-        getImageUrl(path) {
-            return `/${path}`;
-        },
-        editAutoridade(autoridade) {
-            this.form = { ...autoridade }; // Preenche o formulário com os dados da autoridade
-            $('#autoridadeModal').modal('show'); // Exibe o modal de edição
-        },
-        saveAutoridade() {
-            const method = this.form.id ? 'PUT' : 'POST';
-            const url = this.form.id ? `/autoridades/update/${this.form.id}` : '/autoridades/store';
+<script setup>
+import { ref, reactive, onMounted } from 'vue';
+import axios from 'axios';
+import { useAutoridades } from '../composables/useAutoridades';
 
-            axios({
-                method: method,
-                url: url,
-                data: this.form
-            })
-            .then(response => {
-                this.message = 'Autoridade salva com sucesso!';
-                this.messageClass = 'alert-success';
-                this.getAutoridades(); // Atualiza a lista após a edição
-                $('#autoridadeModal').modal('hide'); // Fecha o modal
-            })
-            .catch(error => {
-                this.message = 'Erro ao salvar a autoridade.';
-                this.messageClass = 'alert-danger';
-            });
-        }
-    }
+// Definindo estados reativos
+const autoridadesHelper = useAutoridades(); // Lista de autoridades
+
+const showAddModal = () => {
+    autoridadesHelper.isEditing = true;
+    autoridadesHelper.form.value = { nome: '', cargo: '', respondendo: '' }
+    $('#autoridadeModal').modal('show')
 }
+
+
+
+
+// Carrega autoridades quando o componente é montado
+onMounted(() => {
+    autoridadesHelper.loadAutoridades();
+});
+
+
+
 </script>

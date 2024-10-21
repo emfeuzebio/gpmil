@@ -5,12 +5,16 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\SlideShow;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Gate;
 
 class SlideShowController extends Controller
 {
     // Exibe todos os slides
     public function index()
     {
+        if (Gate::none(['is_admin','is_encpes'], new SlideShow())) {
+            abort(403, 'Usuário não autorizado!');
+        } 
         $slideshow = SlideShow::all();
         return view('celotex/slides', compact('slideshow')); // Assumindo que você tenha uma view chamada 'slides.index'
     }
